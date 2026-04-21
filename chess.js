@@ -3,7 +3,73 @@ const PIECE_UNICODE = {
     bK:'♚', bQ:'♛', bR:'♜', bB:'♝', bN:'♞', bP:'♟'
 };
 
-const PIECE_VALUE = { p:1, n:3, b:3, r:5, q:9, k:0 };
+const PIECE_VALUE = { p:100, n:320, b:330, r:500, q:900, k:20000 };
+
+// Piece-square tables (white's perspective; black reads reversed)
+const PST = {
+    p: [
+        [ 0,  0,  0,  0,  0,  0,  0,  0],
+        [50, 50, 50, 50, 50, 50, 50, 50],
+        [10, 10, 20, 30, 30, 20, 10, 10],
+        [ 5,  5, 10, 25, 25, 10,  5,  5],
+        [ 0,  0,  0, 20, 20,  0,  0,  0],
+        [ 5, -5,-10,  0,  0,-10, -5,  5],
+        [ 5, 10, 10,-20,-20, 10, 10,  5],
+        [ 0,  0,  0,  0,  0,  0,  0,  0]
+    ],
+    n: [
+        [-50,-40,-30,-30,-30,-30,-40,-50],
+        [-40,-20,  0,  0,  0,  0,-20,-40],
+        [-30,  0, 10, 15, 15, 10,  0,-30],
+        [-30,  5, 15, 20, 20, 15,  5,-30],
+        [-30,  0, 15, 20, 20, 15,  0,-30],
+        [-30,  5, 10, 15, 15, 10,  5,-30],
+        [-40,-20,  0,  5,  5,  0,-20,-40],
+        [-50,-40,-30,-30,-30,-30,-40,-50]
+    ],
+    b: [
+        [-20,-10,-10,-10,-10,-10,-10,-20],
+        [-10,  0,  0,  0,  0,  0,  0,-10],
+        [-10,  0,  5, 10, 10,  5,  0,-10],
+        [-10,  5,  5, 10, 10,  5,  5,-10],
+        [-10,  0, 10, 10, 10, 10,  0,-10],
+        [-10, 10, 10, 10, 10, 10, 10,-10],
+        [-10,  5,  0,  0,  0,  0,  5,-10],
+        [-20,-10,-10,-10,-10,-10,-10,-20]
+    ],
+    r: [
+        [ 0,  0,  0,  0,  0,  0,  0,  0],
+        [ 5, 10, 10, 10, 10, 10, 10,  5],
+        [-5,  0,  0,  0,  0,  0,  0, -5],
+        [-5,  0,  0,  0,  0,  0,  0, -5],
+        [-5,  0,  0,  0,  0,  0,  0, -5],
+        [-5,  0,  0,  0,  0,  0,  0, -5],
+        [-5,  0,  0,  0,  0,  0,  0, -5],
+        [ 0,  0,  0,  5,  5,  0,  0,  0]
+    ],
+    q: [
+        [-20,-10,-10, -5, -5,-10,-10,-20],
+        [-10,  0,  0,  0,  0,  0,  0,-10],
+        [-10,  0,  5,  5,  5,  5,  0,-10],
+        [ -5,  0,  5,  5,  5,  5,  0, -5],
+        [  0,  0,  5,  5,  5,  5,  0, -5],
+        [-10,  5,  5,  5,  5,  5,  0,-10],
+        [-10,  0,  5,  0,  0,  0,  0,-10],
+        [-20,-10,-10, -5, -5,-10,-10,-20]
+    ],
+    k: [
+        [-30,-40,-40,-50,-50,-40,-40,-30],
+        [-30,-40,-40,-50,-50,-40,-40,-30],
+        [-30,-40,-40,-50,-50,-40,-40,-30],
+        [-30,-40,-40,-50,-50,-40,-40,-30],
+        [-20,-30,-30,-40,-40,-30,-30,-20],
+        [-10,-20,-20,-20,-20,-20,-20,-10],
+        [ 20, 20,  0,  0,  0,  0, 20, 20],
+        [ 20, 30, 10,  0,  0, 10, 30, 20]
+    ]
+};
+
+const FILE_MAP = { a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7 };
 
 class ChessGame {
     constructor() {
@@ -39,6 +105,9 @@ class ChessGame {
             document.getElementById('chess-step-mode').classList.remove('hidden');
             document.getElementById('chess-step-diff').classList.add('hidden');
         });
+        document.getElementById('chess-home-btn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
 
         document.getElementById('chess-restart-btn').addEventListener('click', () => this.showModeScreen());
         document.getElementById('chess-modal-reset').addEventListener('click', () => {
@@ -54,7 +123,7 @@ class ChessGame {
     }
 
     startGame(mode, difficulty = 'normal') {
-        this.gameMode = mode;
+        this.gameMode   = mode;
         this.difficulty = difficulty;
         this.modeOverlay.classList.add('hidden');
         this.chess.reset();
@@ -88,31 +157,29 @@ class ChessGame {
 
             for (let fileIdx = 0; fileIdx < 8; fileIdx++) {
                 const file = 'abcdefgh'[fileIdx];
-                const sq = file + rank;
+                const sq   = file + rank;
                 const isLight = (rank + fileIdx) % 2 === 1;
 
                 const sqEl = document.createElement('div');
                 sqEl.className = 'chess-sq ' + (isLight ? 'light' : 'dark');
                 sqEl.dataset.sq = sq;
 
-                if (this.lastMove && (sq === this.lastMove.from || sq === this.lastMove.to)) {
+                if (this.lastMove && (sq === this.lastMove.from || sq === this.lastMove.to))
                     sqEl.classList.add('last-move');
-                }
                 if (this.selected === sq) sqEl.classList.add('selected');
                 if (this.legalMoves.includes(sq)) {
                     const piece = this.chess.get(sq);
                     sqEl.classList.add(piece ? 'legal-capture' : 'legal-move');
                 }
                 if (this.chess.in_check()) {
-                    const turn = this.chess.turn();
-                    const kingPos = this.findKing(turn);
+                    const kingPos = this.findKing(this.chess.turn());
                     if (sq === kingPos) sqEl.classList.add('in-check');
                 }
 
                 const piece = this.chess.get(sq);
                 if (piece) {
                     const span = document.createElement('span');
-                    const key = piece.color + piece.type.toUpperCase();
+                    const key  = piece.color + piece.type.toUpperCase();
                     span.className = 'chess-piece' + (piece.color === 'b' ? ' black-piece' : '');
                     span.textContent = PIECE_UNICODE[key] || '';
                     sqEl.appendChild(span);
@@ -136,7 +203,7 @@ class ChessGame {
         for (let r = 1; r <= 8; r++) {
             for (const f of 'abcdefgh') {
                 const sq = f + r;
-                const p = this.chess.get(sq);
+                const p  = this.chess.get(sq);
                 if (p && p.type === 'k' && p.color === color) return sq;
             }
         }
@@ -145,8 +212,7 @@ class ChessGame {
 
     renderCaptured() {
         const whiteCap = [], blackCap = [];
-        const history = this.chess.history({ verbose: true });
-        for (const move of history) {
+        for (const move of this.chess.history({ verbose: true })) {
             if (move.captured) {
                 const key = (move.color === 'w' ? 'b' : 'w') + move.captured.toUpperCase();
                 if (move.color === 'w') whiteCap.push(PIECE_UNICODE[key] || '');
@@ -174,11 +240,8 @@ class ChessGame {
 
         if (this.selected) {
             const moves = this.chess.moves({ square: this.selected, verbose: true });
-            const move = moves.find(m => m.to === sq);
-            if (move) {
-                this.executeMove(this.selected, sq, move);
-                return;
-            }
+            const move  = moves.find(m => m.to === sq);
+            if (move) { this.executeMove(this.selected, sq, move); return; }
         }
 
         this.selected = null;
@@ -198,21 +261,15 @@ class ChessGame {
         this.updateStatus();
         this.updatePlayerHighlight();
 
-        if (this.chess.game_over()) {
-            this.handleGameOver();
-            return;
-        }
-
-        if (this.gameMode === 'ai' && this.chess.turn() === 'b') {
-            this.scheduleAI();
-        }
+        if (this.chess.game_over()) { this.handleGameOver(); return; }
+        if (this.gameMode === 'ai' && this.chess.turn() === 'b') this.scheduleAI();
     }
 
     // ─── AI ──────────────────────────────────────────────────
 
     scheduleAI() {
         this.isThinking = true;
-        const delay = this.difficulty === 'easy' ? 800 : this.difficulty === 'hard' ? 150 : 400;
+        const delay = this.difficulty === 'easy' ? 600 : this.difficulty === 'hard' ? 150 : 400;
         setTimeout(() => {
             if (this.chess.game_over()) { this.isThinking = false; return; }
             const move = this.getBestMove();
@@ -233,13 +290,24 @@ class ChessGame {
         if (!moves.length) return null;
 
         if (this.difficulty === 'easy') {
-            return moves[Math.floor(Math.random() * moves.length)];
+            // Easy: pick from worst 60% moves (random but avoids best plays)
+            const scored = moves.map(m => {
+                this.chess.move(m);
+                const s = this.evalBoard();
+                this.chess.undo();
+                return { m, s };
+            }).sort((a, b) => b.s - a.s);
+            const pool = scored.slice(Math.floor(scored.length * 0.4));
+            return pool[Math.floor(Math.random() * pool.length)].m;
         }
 
-        const depth = this.difficulty === 'hard' ? 2 : 1;
+        const depth = this.difficulty === 'hard' ? 3 : 2;
         let best = null, bestScore = -Infinity;
 
-        for (const move of moves) {
+        // Move ordering: captures first
+        const ordered = [...moves].sort((a, b) => (b.captured ? 1 : 0) - (a.captured ? 1 : 0));
+
+        for (const move of ordered) {
             this.chess.move(move);
             const score = -this.minimax(depth - 1, -Infinity, Infinity, false);
             this.chess.undo();
@@ -252,6 +320,9 @@ class ChessGame {
         if (depth === 0 || this.chess.game_over()) return this.evalBoard();
 
         const moves = this.chess.moves({ verbose: true });
+        // Move ordering: captures first
+        moves.sort((a, b) => (b.captured ? 1 : 0) - (a.captured ? 1 : 0));
+
         if (maximizing) {
             let maxScore = -Infinity;
             for (const move of moves) {
@@ -276,16 +347,22 @@ class ChessGame {
     }
 
     evalBoard() {
+        if (this.chess.in_checkmate()) return this.chess.turn() === 'w' ? -50000 : 50000;
+        if (this.chess.in_stalemate() || this.chess.in_threefold_repetition()) return 0;
+
         let score = 0;
         for (let r = 1; r <= 8; r++) {
             for (const f of 'abcdefgh') {
                 const p = this.chess.get(f + r);
                 if (!p) continue;
-                const val = PIECE_VALUE[p.type] || 0;
-                score += p.color === 'b' ? val : -val;
+                const val      = PIECE_VALUE[p.type] || 0;
+                const fileIdx  = FILE_MAP[f];
+                const rankIdx  = p.color === 'w' ? (8 - r) : (r - 1);
+                const pst      = PST[p.type];
+                const pstVal   = pst ? pst[rankIdx][fileIdx] : 0;
+                score += p.color === 'b' ? (val + pstVal) : -(val + pstVal);
             }
         }
-        if (this.chess.in_checkmate()) score += this.chess.turn() === 'w' ? 1000 : -1000;
         return score;
     }
 
@@ -304,14 +381,11 @@ class ChessGame {
                     desc = `${winner}이 체크메이트! 승리했습니다.`;
                 }
             } else if (this.chess.in_stalemate()) {
-                title = '스테일메이트';
-                desc = '움직일 수 있는 수가 없습니다. 무승부!';
+                title = '스테일메이트'; desc = '움직일 수 있는 수가 없습니다. 무승부!';
             } else if (this.chess.in_threefold_repetition()) {
-                title = '무승부';
-                desc = '같은 국면이 3번 반복되었습니다.';
+                title = '무승부'; desc = '같은 국면이 3번 반복되었습니다.';
             } else {
-                title = '무승부';
-                desc = '게임이 끝났습니다.';
+                title = '무승부'; desc = '게임이 끝났습니다.';
             }
             this.winTitle.textContent = title;
             this.winTitle.style.background = '';
