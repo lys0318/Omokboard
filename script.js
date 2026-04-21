@@ -5,6 +5,7 @@ class OmokGame {
         this.currentTurn = 'black';
         this.isGameOver = false;
         this.gameMode = null; // 'pvp' or 'ai'
+        this.difficulty = 'normal'; // 'easy' | 'normal' | 'hard'
         this.timeLeft = 30;
         this.timerInterval = null;
 
@@ -168,10 +169,13 @@ class OmokGame {
     showModeScreen() {
         clearInterval(this.timerInterval);
         this.modeOverlay.classList.remove('hidden');
+        document.getElementById('step-mode').classList.remove('hidden');
+        document.getElementById('step-difficulty').classList.add('hidden');
     }
 
-    startGame(mode) {
+    startGame(mode, difficulty = 'normal') {
         this.gameMode = mode;
+        this.difficulty = difficulty;
         this.modeOverlay.classList.add('hidden');
 
         // AI 모드일 때 흰돌 라벨 변경
@@ -290,47 +294,47 @@ class OmokGame {
     // ─── AI ──────────────────────────────────────────────────
 
     scheduleAIMove() {
+        const delay = this.difficulty === 'easy' ? 1200 : this.difficulty === 'hard' ? 100 : 500;
         setTimeout(() => {
             if (this.isGameOver) return;
             const move = this.getBestMove();
             if (move) this.placeStone(move.r, move.c);
-        }, 500);
+        }, delay);
     }
 
     getBestMove() {
-        let bestScore = -Infinity;
-        let bestMove = null;
-
-        // 후보 셀: 기존 돌 주변 2칸 이내만 평가 (성능 최적화)
+        const defenseFactor = this.difficulty === 'easy' ? 0.5 : this.difficulty === 'hard' ? 1.0 : 0.95;
         const candidates = this.getCandidateCells();
+        const scored = [];
 
         for (const { r, c } of candidates) {
-            // AI(white) 공격 점수
             this.board[r][c] = 'white';
             const aiScore = this.evaluatePosition(r, c, 'white');
             this.board[r][c] = null;
 
-            // 플레이어(black) 차단 점수
             this.board[r][c] = 'black';
             const playerScore = this.evaluatePosition(r, c, 'black');
             this.board[r][c] = null;
 
-            // 즉시 이길 수 있으면 최우선, 아니면 공격/방어 균형
-            const score = aiScore >= 1000000 ? aiScore : Math.max(aiScore, playerScore * 0.95);
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestMove = { r, c };
-            }
+            const score = aiScore >= 1000000 ? aiScore : Math.max(aiScore, playerScore * defenseFactor);
+            scored.push({ r, c, score });
         }
 
-        // 후보가 없으면 중앙
-        return bestMove || { r: 7, c: 7 };
+        scored.sort((a, b) => b.score - a.score);
+        if (!scored.length) return { r: 7, c: 7 };
+
+        // 쉬움: 즉시 승리 수가 아니면 상위 5개 중 랜덤 선택
+        if (this.difficulty === 'easy' && scored[0].score < 1000000 && scored.length > 1) {
+            const pool = scored.slice(0, Math.min(5, scored.length));
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        return scored[0];
     }
 
     getCandidateCells() {
         const candidates = new Set();
-        const range = 2;
+        const range = this.difficulty === 'easy' ? 1 : this.difficulty === 'hard' ? 3 : 2;
 
         let hasAny = false;
         for (let r = 0; r < this.boardSize; r++) {

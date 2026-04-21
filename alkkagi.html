@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알까기 - MY Games</title>
+    <meta name="description" content="알까기 - 구슬을 튕겨 상대 구슬을 보드 밖으로 밀어내는 한국 전통 게임. 물리 시뮬레이션으로 생생하게 즐기세요.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .alkkagi-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+        }
+        #alkkagi-canvas {
+            border-radius: 0.75rem;
+            cursor: crosshair;
+            touch-action: none;
+            display: block;
+        }
+        .ak-legend {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .ak-legend span { display: flex; align-items: center; gap: 0.4rem; }
+        .ak-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="index.html" class="game-nav-item">오목</a>
+            <a href="connect4.html" class="game-nav-item">사목</a>
+            <a href="chess.html" class="game-nav-item">체스</a>
+            <a href="alkkagi.html" class="game-nav-item active">알까기</a>
+        </nav>
+
+        <header>
+            <h1>알까기</h1>
+            <p class="subtitle">구슬을 튕겨 상대를 밀어내세요</p>
+        </header>
+
+        <main>
+            <div class="game-info">
+                <div class="player black active" id="ak-player-red">
+                    <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ff7070,#b91c1c);border-radius:50%;width:20px;height:20px;"></div>
+                    <span class="player-name">빨강 <span id="ak-red-count">5</span>개</span>
+                </div>
+                <div class="status-center">
+                    <div class="status-message" id="ak-status">빨강의 차례입니다</div>
+                </div>
+                <div class="player white" id="ak-player-blue">
+                    <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);border-radius:50%;width:20px;height:20px;"></div>
+                    <span class="player-name">파랑 <span id="ak-blue-count">5</span>개</span>
+                </div>
+            </div>
+
+            <div class="alkkagi-wrap">
+                <canvas id="alkkagi-canvas"></canvas>
+                <div class="ak-legend">
+                    <span><span class="ak-dot" style="background:#ef4444;"></span> 빨강 플레이어</span>
+                    <span><span class="ak-dot" style="background:#3b82f6;"></span> 파랑 플레이어</span>
+                </div>
+                <p style="font-size:0.8rem;color:var(--text-muted);text-align:center;">구슬 클릭 후 드래그 방향의 반대로 발사됩니다</p>
+            </div>
+
+            <div class="controls" style="margin-top:0.5rem;">
+                <button class="btn primary" id="ak-reset-btn">게임 재시작</button>
+            </div>
+        </main>
+
+        <footer>
+            <nav class="footer-nav">
+                <a href="about.html">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy.html">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy">&copy; 2025 MY Omok. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="ak-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="ak-win-title">승리!</h2>
+            <p id="ak-win-desc"></p>
+            <button class="btn primary large" id="ak-modal-reset">다시 하기</button>
+        </div>
+    </div>
+
+    <script src="alkkagi.js"></script>
+</body>
+</html>

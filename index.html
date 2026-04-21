@@ -13,6 +13,12 @@
 
 <body>
     <div class="app-container">
+        <nav class="game-nav">
+            <a href="index.html" class="game-nav-item active">오목</a>
+            <a href="connect4.html" class="game-nav-item">사목</a>
+            <a href="chess.html" class="game-nav-item">체스</a>
+            <a href="alkkagi.html" class="game-nav-item">알까기</a>
+        </nav>
         <header>
             <h1>OMOK</h1>
             <p class="subtitle">오목 - The Five in a Row</p>
@@ -61,18 +67,45 @@
     <div id="mode-overlay">
         <div id="mode-card">
             <h2 class="mode-title">OMOK</h2>
-            <p class="mode-subtitle">게임 모드를 선택하세요</p>
-            <div class="mode-buttons">
-                <button class="mode-btn" onclick="window.omokGame.startGame('pvp')">
-                    <span class="mode-icon">👤👤</span>
-                    <span class="mode-label">1:1 하기</span>
-                    <span class="mode-desc">친구와 대결</span>
-                </button>
-                <button class="mode-btn" onclick="window.omokGame.startGame('ai')">
-                    <span class="mode-icon">🤖</span>
-                    <span class="mode-label">혼자하기</span>
-                    <span class="mode-desc">AI와 대결</span>
-                </button>
+
+            <!-- Step 1: 모드 선택 -->
+            <div id="step-mode">
+                <p class="mode-subtitle">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" onclick="window.omokGame.startGame('pvp')">
+                        <span class="mode-icon">👤👤</span>
+                        <span class="mode-label">1:1 하기</span>
+                        <span class="mode-desc">친구와 대결</span>
+                    </button>
+                    <button class="mode-btn" onclick="document.getElementById('step-mode').classList.add('hidden');document.getElementById('step-difficulty').classList.remove('hidden')">
+                        <span class="mode-icon">🤖</span>
+                        <span class="mode-label">혼자하기</span>
+                        <span class="mode-desc">AI와 대결</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: 난이도 선택 -->
+            <div id="step-difficulty" class="hidden">
+                <p class="mode-subtitle">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" onclick="window.omokGame.startGame('ai','easy')">
+                        <span class="mode-icon">😊</span>
+                        <span class="mode-label">쉬움</span>
+                        <span class="mode-desc">가볍게 즐기기</span>
+                    </button>
+                    <button class="mode-btn" onclick="window.omokGame.startGame('ai','normal')">
+                        <span class="mode-icon">🎯</span>
+                        <span class="mode-label">보통</span>
+                        <span class="mode-desc">적당한 도전</span>
+                    </button>
+                    <button class="mode-btn" onclick="window.omokGame.startGame('ai','hard')">
+                        <span class="mode-icon">🔥</span>
+                        <span class="mode-label">어려움</span>
+                        <span class="mode-desc">실력 발휘</span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" onclick="document.getElementById('step-mode').classList.remove('hidden');document.getElementById('step-difficulty').classList.add('hidden')">← 뒤로</button>
             </div>
         </div>
     </div>
