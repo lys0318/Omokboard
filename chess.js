@@ -10,7 +10,7 @@ class ChessGame {
         this.chess = new Chess();
         this.gameMode = 'pvp';
         this.difficulty = 'normal';
-        this.selected = null;   // algebraic square e.g. 'e2'
+        this.selected = null;
         this.legalMoves = [];
         this.lastMove = null;
         this.isThinking = false;
@@ -20,34 +20,43 @@ class ChessGame {
         this.winOverlay  = document.getElementById('chess-win-overlay');
         this.winTitle    = document.getElementById('chess-win-title');
         this.winDesc     = document.getElementById('chess-win-desc');
+        this.modeOverlay = document.getElementById('chess-mode-overlay');
 
-        this.init();
-    }
-
-    init() {
         this.renderBoard();
         this.bindEvents();
     }
 
     bindEvents() {
         document.getElementById('chess-pvp-btn').addEventListener('click', () => this.startGame('pvp'));
-        document.getElementById('chess-ai-btn').addEventListener('click',  () => this.startGame('ai'));
-        document.getElementById('chess-reset-btn').addEventListener('click', () => this.startGame(this.gameMode));
+        document.getElementById('chess-ai-select-btn').addEventListener('click', () => {
+            document.getElementById('chess-step-mode').classList.add('hidden');
+            document.getElementById('chess-step-diff').classList.remove('hidden');
+        });
+        document.getElementById('chess-easy-btn').addEventListener('click',   () => this.startGame('ai', 'easy'));
+        document.getElementById('chess-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
+        document.getElementById('chess-hard-btn').addEventListener('click',   () => this.startGame('ai', 'hard'));
+        document.getElementById('chess-diff-back').addEventListener('click', () => {
+            document.getElementById('chess-step-mode').classList.remove('hidden');
+            document.getElementById('chess-step-diff').classList.add('hidden');
+        });
+
+        document.getElementById('chess-restart-btn').addEventListener('click', () => this.showModeScreen());
         document.getElementById('chess-modal-reset').addEventListener('click', () => {
             this.winOverlay.classList.add('hidden');
-            this.startGame(this.gameMode);
-        });
-        document.querySelectorAll('.c4-diff-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.c4-diff-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                this.difficulty = btn.dataset.diff;
-            });
+            this.showModeScreen();
         });
     }
 
-    startGame(mode) {
+    showModeScreen() {
+        this.modeOverlay.classList.remove('hidden');
+        document.getElementById('chess-step-mode').classList.remove('hidden');
+        document.getElementById('chess-step-diff').classList.add('hidden');
+    }
+
+    startGame(mode, difficulty = 'normal') {
         this.gameMode = mode;
+        this.difficulty = difficulty;
+        this.modeOverlay.classList.add('hidden');
         this.chess.reset();
         this.selected = null;
         this.legalMoves = [];
@@ -86,7 +95,6 @@ class ChessGame {
                 sqEl.className = 'chess-sq ' + (isLight ? 'light' : 'dark');
                 sqEl.dataset.sq = sq;
 
-                // Highlights
                 if (this.lastMove && (sq === this.lastMove.from || sq === this.lastMove.to)) {
                     sqEl.classList.add('last-move');
                 }
@@ -95,7 +103,6 @@ class ChessGame {
                     const piece = this.chess.get(sq);
                     sqEl.classList.add(piece ? 'legal-capture' : 'legal-move');
                 }
-                // King in check highlight
                 if (this.chess.in_check()) {
                     const turn = this.chess.turn();
                     const kingPos = this.findKing(turn);
@@ -158,7 +165,6 @@ class ChessGame {
 
         const piece = this.chess.get(sq);
 
-        // Select own piece
         if (piece && piece.color === this.chess.turn()) {
             this.selected = sq;
             this.legalMoves = this.chess.moves({ square: sq, verbose: true }).map(m => m.to);
@@ -166,7 +172,6 @@ class ChessGame {
             return;
         }
 
-        // Attempt move
         if (this.selected) {
             const moves = this.chess.moves({ square: this.selected, verbose: true });
             const move = moves.find(m => m.to === sq);
@@ -176,14 +181,12 @@ class ChessGame {
             }
         }
 
-        // Deselect
         this.selected = null;
         this.legalMoves = [];
         this.renderBoard();
     }
 
     executeMove(from, to, moveObj) {
-        // Pawn promotion → always queen
         const promotion = moveObj.flags.includes('p') ? 'q' : undefined;
         const result = this.chess.move({ from, to, promotion });
         if (!result) return;
@@ -233,7 +236,6 @@ class ChessGame {
             return moves[Math.floor(Math.random() * moves.length)];
         }
 
-        // Score each move by material gain + simple positional bonus
         const depth = this.difficulty === 'hard' ? 2 : 1;
         let best = null, bestScore = -Infinity;
 
