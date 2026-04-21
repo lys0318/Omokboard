@@ -42,12 +42,16 @@
 
             <div class="controls">
                 <button id="reset-btn" class="btn primary">게임 재시작</button>
-                <button class="btn secondary" onclick="document.getElementById('ad-overlay').classList.remove('hidden')">광고 문의</button>
             </div>
         </main>
 
         <footer>
-            <p>광고 게재 문의는 <button class="footer-link" onclick="document.getElementById('ad-overlay').classList.remove('hidden')">여기</button>를 클릭하세요.</p>
+            <nav class="footer-nav">
+                <a href="about.html">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy.html">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy">&copy; 2025 MY Omok. All rights reserved.</p>
         </footer>
     </div>
 
@@ -81,54 +85,6 @@
             <button id="modal-reset-btn" class="btn primary large">다시 하기</button>
         </div>
     </div>
-
-    <!-- Ad Inquiry Overlay -->
-    <div id="ad-overlay" class="overlay hidden">
-        <div class="modal ad-modal">
-            <button class="modal-close" onclick="document.getElementById('ad-overlay').classList.add('hidden')">&times;</button>
-            <h2 class="ad-modal-title">광고 문의</h2>
-            <p class="ad-modal-desc">아래 양식을 작성하시면 빠르게 연락드리겠습니다.</p>
-            <form id="ad-form" action="https://formspree.io/f/mgonplql" method="POST">
-                <div class="form-group">
-                    <label for="ad-name">이름 / 회사명</label>
-                    <input type="text" id="ad-name" name="name" placeholder="홍길동 / (주)회사명" required>
-                </div>
-                <div class="form-group">
-                    <label for="ad-email">이메일</label>
-                    <input type="email" id="ad-email" name="email" placeholder="example@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="ad-budget">광고 예산 (선택)</label>
-                    <select id="ad-budget" name="budget">
-                        <option value="">선택 안 함</option>
-                        <option value="under-10">10만원 미만</option>
-                        <option value="10-50">10만원 ~ 50만원</option>
-                        <option value="50-100">50만원 ~ 100만원</option>
-                        <option value="over-100">100만원 이상</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="ad-message">문의 내용</label>
-                    <textarea id="ad-message" name="message" rows="4" placeholder="광고 형태, 기간, 기타 요청 사항을 자유롭게 작성해 주세요." required></textarea>
-                </div>
-                <button type="submit" class="btn primary btn-full">문의 보내기</button>
-            </form>
-            <p id="ad-success" class="ad-success hidden">문의가 성공적으로 전송되었습니다! 빠른 시일 내에 연락드리겠습니다.</p>
-        </div>
-    </div>
-
-    <script>
-        const adForm = document.getElementById('ad-form');
-        adForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = new FormData(adForm);
-            const res = await fetch(adForm.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-            if (res.ok) {
-                adForm.classList.add('hidden');
-                document.getElementById('ad-success').classList.remove('hidden');
-            }
-        });
-    </script>
 
     <script src="script.js"></script>
 </body>

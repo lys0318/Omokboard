@@ -1,0 +1,170 @@
+/* Subpage layout — overrides game-specific body/container styles */
+
+body {
+    align-items: flex-start;
+    padding: 2rem 1rem 4rem;
+}
+
+.subpage-container {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Header */
+.subpage-header {
+    text-align: center;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.back-link {
+    display: inline-block;
+    color: var(--accent-blue);
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-bottom: 1.2rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--accent-blue-hover);
+}
+
+/* Main content */
+.subpage-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-section {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    padding: 1.75rem 2rem;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.info-section h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.info-section p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+
+.info-section a {
+    color: var(--accent-blue);
+    text-decoration: underline;
+}
+
+.info-section a:hover {
+    color: var(--accent-blue-hover);
+}
+
+/* Feature list (about page) */
+.feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.feature-list li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.feature-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.feature-list strong {
+    display: block;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+
+.feature-list p {
+    margin: 0;
+}
+
+/* Rule/ordered list */
+.rule-list {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.9;
+    padding-left: 1.4rem;
+}
+
+.rule-list li {
+    margin-bottom: 0.2rem;
+}
+
+/* Contact email */
+.contact-email {
+    margin-top: 0.9rem !important;
+    font-size: 0.95rem;
+}
+
+/* Footer */
+.subpage-footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    animation: fadeIn 1.2s ease-out;
+}
+
+/* Shared footer nav (also used in index.html) */
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.footer-nav a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+    color: var(--accent-blue-hover);
+}
+
+.footer-sep {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.footer-copy {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+    body { padding: 1.5rem 1rem 3rem; }
+    .info-section { padding: 1.25rem 1.25rem; }
+}

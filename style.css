@@ -508,114 +508,41 @@ footer {
     font-size: 0.85rem;
     text-align: center;
     animation: fadeIn 1.2s ease-out;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-.footer-link {
-    background: none;
-    border: none;
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.footer-nav a {
     color: var(--accent-blue);
-    font-family: inherit;
-    font-size: inherit;
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-}
-
-.footer-link:hover {
-    color: var(--accent-blue-hover);
-}
-
-/* Ad Inquiry Modal */
-.ad-modal {
-    width: min(480px, 90vw);
-    padding: 2.5rem 2.5rem 2rem;
-    text-align: left;
-    position: relative;
-}
-
-.modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1.25rem;
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.8rem;
-    line-height: 1;
-    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.85rem;
     transition: color 0.2s;
 }
 
-.modal-close:hover {
-    color: var(--text-main);
+.footer-nav a:hover {
+    color: var(--accent-blue-hover);
 }
 
-.ad-modal-title {
-    font-size: 1.8rem;
-    margin-bottom: 0.4rem;
-    background: linear-gradient(135deg, #fff, #94a3b8);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.ad-modal-desc {
-    font-size: 0.95rem;
+.footer-sep {
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    opacity: 0.5;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    font-size: 0.9rem;
-    font-weight: 600;
+.footer-copy {
     color: var(--text-muted);
+    font-size: 0.8rem;
+    opacity: 0.6;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.5rem;
-    color: var(--text-main);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.95rem;
-    padding: 0.65rem 0.9rem;
-    transition: border-color 0.2s;
-    outline: none;
-    resize: vertical;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: #475569;
-}
-
-.form-group select option {
-    background: #1e293b;
-    color: var(--text-main);
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: var(--accent-blue);
-}
-
-.ad-success {
-    text-align: center;
-    color: #34d399;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 1rem 0;
-}
 
 /* Responsive */
 @media (max-width: 600px) {
