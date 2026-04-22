@@ -40,9 +40,9 @@ class AlkkagiGame {
     get bBottom() { return this.H - BM; }
 
     resize() {
-        const maxW = Math.min(window.innerWidth - 32, 560);
+        const maxW = Math.min(window.innerWidth - 32, 520);
         this.W = maxW;
-        this.H = Math.round(maxW * 0.82);
+        this.H = maxW;   // square canvas — same as 오목 board
         this.canvas.width  = this.W;
         this.canvas.height = this.H;
         if (this.marbles.length) this.reset();
@@ -368,43 +368,34 @@ class AlkkagiGame {
         }
         ctx.restore();
 
-        // 바둑판 grid lines (edge-to-edge, like 오목)
-        const gridCols = 10, gridRows = 8;
-        // Grid spans the full inner board
-        const csX = BW / gridCols, csY = BH / gridRows;
+        // 15×15 바둑판 grid (오목과 동일)
+        const LINES = 15;
+        const cs = Math.min(BW, BH) / (LINES - 1);
+        const gL = L + (BW - cs*(LINES-1)) / 2;
+        const gT = T + (BH - cs*(LINES-1)) / 2;
+        const gR = gL + cs*(LINES-1);
+        const gB = gT + cs*(LINES-1);
 
         ctx.save();
         ctx.beginPath(); ctx.roundRect(L, T, BW, BH, 6); ctx.clip();
 
-        // Outer border lines
-        ctx.strokeStyle = 'rgba(80,45,10,0.55)'; ctx.lineWidth = 1.2;
-        ctx.strokeRect(L, T, BW, BH);
-
-        // Inner grid lines
-        ctx.strokeStyle = 'rgba(80,45,10,0.45)'; ctx.lineWidth = 0.9;
-        for (let i = 1; i < gridCols; i++) {
-            const x = L + i * csX;
-            ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, B); ctx.stroke();
-        }
-        for (let i = 1; i < gridRows; i++) {
-            const y = T + i * csY;
-            ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(R, y); ctx.stroke();
+        ctx.strokeStyle = 'rgba(80,45,10,0.55)'; ctx.lineWidth = 1;
+        for (let i = 0; i < LINES; i++) {
+            // Horizontal
+            ctx.beginPath(); ctx.moveTo(gL, gT+i*cs); ctx.lineTo(gR, gT+i*cs); ctx.stroke();
+            // Vertical
+            ctx.beginPath(); ctx.moveTo(gL+i*cs, gT); ctx.lineTo(gL+i*cs, gB); ctx.stroke();
         }
 
-        // Star points (화점)
-        ctx.fillStyle = 'rgba(80,45,10,0.55)';
-        const starCols = [2, 5, 8], starRows = [2, 6];
-        for (const sc of starCols) {
-            for (const sr of starRows) {
+        // 화점 — 오목 표준 위치: 3, 7, 11 (0-indexed on 15×15)
+        ctx.fillStyle = 'rgba(80,45,10,0.65)';
+        for (const i of [3, 7, 11]) {
+            for (const j of [3, 7, 11]) {
                 ctx.beginPath();
-                ctx.arc(L + sc*csX, T + sr*csY, 4, 0, Math.PI*2);
+                ctx.arc(gL+i*cs, gT+j*cs, 4, 0, Math.PI*2);
                 ctx.fill();
             }
         }
-        // Center star
-        ctx.beginPath();
-        ctx.arc(L + 5*csX, T + 4*csY, 4, 0, Math.PI*2);
-        ctx.fill();
 
         ctx.restore();
 

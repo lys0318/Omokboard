@@ -1,9 +1,9 @@
 class Connect4 {
     constructor() {
-        this.ROWS = 7;
-        this.COLS = 9;
+        this.ROWS = 15;
+        this.COLS = 15;
         // Initialize board early — resize() → draw() runs before reset()
-        this.board = Array.from({ length: 7 }, () => Array(9).fill(null));
+        this.board = Array.from({ length: 15 }, () => Array(15).fill(null));
         this.currentTurn = 'red';
         this.gameMode = 'pvp';
         this.difficulty = 'normal';
@@ -37,9 +37,9 @@ class Connect4 {
     get stoneR()    { return Math.floor(this.cellSize * 0.4); }
 
     resize() {
-        const maxW = Math.min(window.innerWidth - 32, 560);
+        const maxW = Math.min(window.innerWidth - 32, 520);
         this.W = maxW;
-        this.H = Math.round(maxW * 0.62);
+        this.H = maxW;   // square canvas — same as 오목 board
         this.canvas.width  = this.W;
         this.canvas.height = this.H;
         this.draw();
@@ -329,17 +329,12 @@ class Connect4 {
             ctx.beginPath(); ctx.moveTo(bl+c*cs, bt); ctx.lineTo(bl+c*cs, bt+(this.ROWS-1)*cs); ctx.stroke();
         }
 
-        // Star points
-        const midR = Math.floor((this.ROWS-1)/2);
-        const midC = Math.floor((this.COLS-1)/2);
-        const stars = [
-            {r:1,c:2},{r:1,c:midC},{r:1,c:this.COLS-3},
-            {r:midR,c:2},{r:midR,c:midC},{r:midR,c:this.COLS-3},
-            {r:this.ROWS-2,c:2},{r:this.ROWS-2,c:midC},{r:this.ROWS-2,c:this.COLS-3}
-        ];
-        ctx.fillStyle = 'rgba(80,45,10,0.6)';
-        for (const { r, c } of stars) {
-            ctx.beginPath(); ctx.arc(bl+c*cs, bt+r*cs, 3.5, 0, Math.PI*2); ctx.fill();
+        // 화점 (star points) — 오목 standard positions: 3, 7, 11 (0-indexed on 15×15)
+        ctx.fillStyle = 'rgba(80,45,10,0.65)';
+        for (const r of [3, 7, 11]) {
+            for (const c of [3, 7, 11]) {
+                ctx.beginPath(); ctx.arc(bl+c*cs, bt+r*cs, 4, 0, Math.PI*2); ctx.fill();
+            }
         }
 
         // Board border
