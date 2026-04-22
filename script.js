@@ -476,12 +476,12 @@ class OmokGame {
             const isBlack = this.currentTurn === 'black';
             let winnerName;
             if (this.gameMode === 'ai') {
-                winnerName = isBlack ? '당신' : 'AI';
+                winnerName = isBlack ? window.i18n.t('omok.you.win') : window.i18n.t('omok.ai.win');
             } else {
-                winnerName = isBlack ? '흑돌' : '백돌';
+                winnerName = isBlack ? window.i18n.t('omok.black.win') : window.i18n.t('omok.white.win');
             }
-            this.winTitle.textContent = isBlack || this.gameMode !== 'ai' ? '승리!' : '패배...';
-            this.winDesc.textContent = `${winnerName}이 승리했습니다.`;
+            this.winTitle.textContent = isBlack || this.gameMode !== 'ai' ? window.i18n.t('game.win') : window.i18n.t('game.lose');
+            this.winDesc.textContent = winnerName;
             this.winTitle.style.background = isBlack
                 ? 'linear-gradient(to right, #444, #111)'
                 : 'linear-gradient(to right, #fff, #d4d4d4)';
@@ -493,10 +493,10 @@ class OmokGame {
         this.isGameOver = true;
         clearInterval(this.timerInterval);
         this.timerDisplayElement.classList.remove('urgent');
-        this.statusMessageElement.textContent = '무승부입니다!';
+        this.statusMessageElement.textContent = window.i18n.t('game.draw.msg');
         setTimeout(() => {
-            this.winTitle.textContent = '무승부';
-            this.winDesc.textContent = '치열한 승부였네요.';
+            this.winTitle.textContent = window.i18n.t('game.draw');
+            this.winDesc.textContent = window.i18n.t('game.close');
             this.winTitle.style.background = 'linear-gradient(to right, #94a3b8, #64748b)';
             this.winOverlay.classList.remove('hidden');
         }, 800);
@@ -510,12 +510,16 @@ class OmokGame {
         if (this.currentTurn === 'black') {
             this.playerBlackElement.classList.add('active');
             this.playerWhiteElement.classList.remove('active');
-            this.statusMessageElement.textContent = '흑의 차례입니다';
+            this.statusMessageElement.textContent = window.i18n.t('omok.black.turn');
         } else {
             this.playerWhiteElement.classList.add('active');
             this.playerBlackElement.classList.remove('active');
-            this.statusMessageElement.textContent = this.gameMode === 'ai' ? 'AI 생각중...' : '백의 차례입니다';
+            this.statusMessageElement.textContent = this.gameMode === 'ai' ? window.i18n.t('game.ai.thinking') : window.i18n.t('omok.white.turn');
         }
+    }
+
+    refreshLang() {
+        if (!this.isGameOver) this.updateUI();
     }
 }
 

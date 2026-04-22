@@ -242,15 +242,15 @@ class Connect4 {
         this.isGameOver = true;
         setTimeout(() => {
             const isRed = this.currentTurn === 'red';
-            const name  = this.gameMode === 'ai' ? (isRed ? '당신' : 'AI') : (isRed ? '빨강' : '노랑');
-            this.winTitle.textContent = (this.gameMode === 'ai' && !isRed) ? '패배...' : '승리!';
+            const name  = this.gameMode === 'ai' ? (isRed ? window.i18n.t('c4.you') : window.i18n.t('c4.ai')) : (isRed ? window.i18n.t('c4.red.n') : window.i18n.t('c4.yellow.n'));
+            this.winTitle.textContent = (this.gameMode === 'ai' && !isRed) ? window.i18n.t('game.lose') : window.i18n.t('game.win');
             this.winTitle.style.background = isRed
                 ? 'linear-gradient(to right,#ef4444,#dc2626)'
                 : 'linear-gradient(to right,#eab308,#ca8a04)';
             this.winTitle.style.webkitBackgroundClip = 'text';
             this.winTitle.style.backgroundClip = 'text';
             this.winTitle.style.webkitTextFillColor = 'transparent';
-            this.winDesc.textContent = `${name}이 4개를 연결했습니다!`;
+            this.winDesc.textContent = window.i18n.getLang() === 'en' ? `${name} connected 4 in a row!` : `${name}이 4개를 연결했습니다!`;
             this.winOverlay.classList.remove('hidden');
         }, 600);
     }
@@ -258,12 +258,12 @@ class Connect4 {
     handleDraw() {
         this.isGameOver = true;
         setTimeout(() => {
-            this.winTitle.textContent = '무승부';
+            this.winTitle.textContent = window.i18n.t('game.draw');
             this.winTitle.style.background = 'linear-gradient(to right,#94a3b8,#64748b)';
             this.winTitle.style.webkitBackgroundClip = 'text';
             this.winTitle.style.backgroundClip = 'text';
             this.winTitle.style.webkitTextFillColor = 'transparent';
-            this.winDesc.textContent = '보드가 가득 찼습니다.';
+            this.winDesc.textContent = window.i18n.t('game.draw.full');
             this.winOverlay.classList.remove('hidden');
         }, 400);
     }
@@ -387,10 +387,14 @@ class Connect4 {
 
     updateStatus() {
         if (this.isAIThinking) {
-            this.statusEl.textContent = 'AI 생각중...';
+            this.statusEl.textContent = window.i18n.t('game.ai.thinking');
         } else {
-            this.statusEl.textContent = this.currentTurn === 'red' ? '빨강의 차례입니다' : '노랑의 차례입니다';
+            this.statusEl.textContent = this.currentTurn === 'red' ? window.i18n.t('c4.red.turn') : window.i18n.t('c4.yellow.turn');
         }
+    }
+
+    refreshLang() {
+        if (!this.isGameOver) this.updateStatus();
     }
 
     updateHighlight() {

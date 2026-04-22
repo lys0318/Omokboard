@@ -128,7 +128,7 @@ class ChessGame {
         this.lastMove = null;
         this.isThinking = false;
         const blackLabel = document.getElementById('chess-black-label');
-        blackLabel.textContent = mode === 'ai' ? 'AI (Black)' : '검정 (Black)';
+        blackLabel.textContent = mode === 'ai' ? window.i18n.t('chess.ai.black') : window.i18n.t('chess.black');
         this.renderBoard();
         this.updateStatus();
         this.updatePlayerHighlight();
@@ -368,20 +368,20 @@ class ChessGame {
         setTimeout(() => {
             let title, desc;
             if (this.chess.in_checkmate()) {
-                const winner = this.chess.turn() === 'w' ? '검정' : '흰색';
-                const isPlayerWin = this.gameMode !== 'ai' || winner === '흰색';
-                title = isPlayerWin ? '승리!' : '패배...';
+                const winnerIsBlack = this.chess.turn() === 'w';
+                const isPlayerWin = this.gameMode !== 'ai' || !winnerIsBlack;
+                title = isPlayerWin ? window.i18n.t('game.win') : window.i18n.t('game.lose');
                 if (this.gameMode === 'ai') {
-                    desc = winner === '흰색' ? '당신이 승리했습니다!' : 'AI가 승리했습니다.';
+                    desc = !winnerIsBlack ? window.i18n.t('chess.you.win') : window.i18n.t('chess.ai.win');
                 } else {
-                    desc = `${winner}이 체크메이트! 승리했습니다.`;
+                    desc = winnerIsBlack ? window.i18n.t('chess.black.win') : window.i18n.t('chess.white.win');
                 }
             } else if (this.chess.in_stalemate()) {
-                title = '스테일메이트'; desc = '움직일 수 있는 수가 없습니다. 무승부!';
+                title = window.i18n.t('chess.stalemate'); desc = window.i18n.t('chess.stalemate.desc');
             } else if (this.chess.in_threefold_repetition()) {
-                title = '무승부'; desc = '같은 국면이 3번 반복되었습니다.';
+                title = window.i18n.t('game.draw'); desc = window.i18n.t('chess.threefold.desc');
             } else {
-                title = '무승부'; desc = '게임이 끝났습니다.';
+                title = window.i18n.t('game.draw'); desc = window.i18n.t('chess.gameover.desc');
             }
             this.winTitle.textContent = title;
             this.winTitle.style.background = '';
@@ -393,14 +393,20 @@ class ChessGame {
 
     updateStatus() {
         if (this.chess.in_checkmate()) {
-            this.statusEl.textContent = '체크메이트!';
+            this.statusEl.textContent = window.i18n.t('chess.checkmate');
         } else if (this.chess.in_check()) {
-            this.statusEl.textContent = (this.chess.turn() === 'w' ? '흰색' : '검정') + ' 체크!';
+            this.statusEl.textContent = this.chess.turn() === 'w' ? window.i18n.t('chess.check.w') : window.i18n.t('chess.check.b');
         } else if (this.gameMode === 'ai' && this.chess.turn() === 'b') {
-            this.statusEl.textContent = 'AI 생각중...';
+            this.statusEl.textContent = window.i18n.t('game.ai.thinking');
         } else {
-            this.statusEl.textContent = (this.chess.turn() === 'w' ? '흰색' : '검정') + '의 차례입니다';
+            this.statusEl.textContent = this.chess.turn() === 'w' ? window.i18n.t('chess.white.turn') : window.i18n.t('chess.black.turn');
         }
+    }
+
+    refreshLang() {
+        const blackLabel = document.getElementById('chess-black-label');
+        if (blackLabel) blackLabel.textContent = this.gameMode === 'ai' ? window.i18n.t('chess.ai.black') : window.i18n.t('chess.black');
+        if (!this.isGameOver) this.updateStatus();
     }
 
     updatePlayerHighlight() {

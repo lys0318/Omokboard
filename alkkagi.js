@@ -156,7 +156,7 @@ class AlkkagiGame {
         this.difficulty = difficulty;
         this.modeOverlay.classList.add('hidden');
         const blueLabel = document.getElementById('ak-blue-label');
-        if (blueLabel) blueLabel.textContent = mode === 'ai' ? 'AI (파랑)' : '파랑';
+        if (blueLabel) blueLabel.textContent = mode === 'ai' ? window.i18n.t('ak.ai.blue') : window.i18n.t('ak.blue');
         this.reset();
     }
 
@@ -451,13 +451,13 @@ class AlkkagiGame {
                 let title, desc;
                 if (this.gameMode === 'ai') {
                     if (winnerColor === 'red') {
-                        title = '승리!'; desc = '당신이 상대 구슬을 모두 밀어냈습니다!';
+                        title = window.i18n.t('game.win'); desc = window.i18n.t('ak.you.win');
                     } else {
-                        title = '패배...'; desc = 'AI가 당신의 구슬을 모두 밀어냈습니다.';
+                        title = window.i18n.t('game.lose'); desc = window.i18n.t('ak.ai.win');
                     }
                 } else {
-                    const name = winnerColor === 'red' ? '빨강' : '파랑';
-                    title = '승리!'; desc = `${name}이 상대 구슬을 모두 밀어냈습니다!`;
+                    title = window.i18n.t('game.win');
+                    desc = winnerColor === 'red' ? window.i18n.t('ak.red.win') : window.i18n.t('ak.blue.win');
                 }
                 this.winTitle.textContent = title;
                 this.winTitle.style.background = winnerColor === 'red'
@@ -481,10 +481,16 @@ class AlkkagiGame {
 
     updateStatus() {
         if (this.isAIThinking) {
-            this.statusEl.textContent = 'AI 생각중...';
+            this.statusEl.textContent = window.i18n.t('game.ai.thinking');
         } else {
-            this.statusEl.textContent = this.currentTurn === 'red' ? '빨강의 차례입니다' : '파랑의 차례입니다';
+            this.statusEl.textContent = this.currentTurn === 'red' ? window.i18n.t('ak.red.turn') : window.i18n.t('ak.blue.turn');
         }
+    }
+
+    refreshLang() {
+        const blueLabel = document.getElementById('ak-blue-label');
+        if (blueLabel) blueLabel.textContent = this.gameMode === 'ai' ? window.i18n.t('ak.ai.blue') : window.i18n.t('ak.blue');
+        if (!this.isGameOver) this.updateStatus();
     }
 
     updateHighlight() {
