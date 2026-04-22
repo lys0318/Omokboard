@@ -40,9 +40,9 @@ class AlkkagiGame {
     get bBottom() { return this.H - BM; }
 
     resize() {
-        const maxW = Math.min(window.innerWidth - 32, 580);
+        const maxW = Math.min(window.innerWidth - 32, 560);
         this.W = maxW;
-        this.H = Math.round(maxW * 0.55);
+        this.H = Math.round(maxW * 0.82);
         this.canvas.width  = this.W;
         this.canvas.height = this.H;
         if (this.marbles.length) this.reset();
@@ -135,10 +135,6 @@ class AlkkagiGame {
         document.getElementById('ak-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
         document.getElementById('ak-hard-btn').addEventListener('click',   () => this.startGame('ai', 'hard'));
         document.getElementById('ak-diff-back').addEventListener('click', () => {
-            document.getElementById('ak-step-mode').classList.remove('hidden');
-            document.getElementById('ak-step-diff').classList.add('hidden');
-        });
-        document.getElementById('ak-home-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
 
@@ -372,38 +368,45 @@ class AlkkagiGame {
         }
         ctx.restore();
 
-        // 바둑판 grid lines
-        const gridCols = 8, gridRows = 6;
-        const cellW = BW / gridCols, cellH = BH / gridRows;
+        // 바둑판 grid lines (edge-to-edge, like 오목)
+        const gridCols = 10, gridRows = 8;
+        // Grid spans the full inner board
+        const csX = BW / gridCols, csY = BH / gridRows;
+
         ctx.save();
         ctx.beginPath(); ctx.roundRect(L, T, BW, BH, 6); ctx.clip();
-        ctx.strokeStyle = 'rgba(80,45,10,0.22)'; ctx.lineWidth = 0.8;
+
+        // Outer border lines
+        ctx.strokeStyle = 'rgba(80,45,10,0.55)'; ctx.lineWidth = 1.2;
+        ctx.strokeRect(L, T, BW, BH);
+
+        // Inner grid lines
+        ctx.strokeStyle = 'rgba(80,45,10,0.45)'; ctx.lineWidth = 0.9;
         for (let i = 1; i < gridCols; i++) {
-            const x = L + i * cellW;
-            ctx.beginPath(); ctx.moveTo(x, T+4); ctx.lineTo(x, B-4); ctx.stroke();
+            const x = L + i * csX;
+            ctx.beginPath(); ctx.moveTo(x, T); ctx.lineTo(x, B); ctx.stroke();
         }
         for (let i = 1; i < gridRows; i++) {
-            const y = T + i * cellH;
-            ctx.beginPath(); ctx.moveTo(L+4, y); ctx.lineTo(R-4, y); ctx.stroke();
+            const y = T + i * csY;
+            ctx.beginPath(); ctx.moveTo(L, y); ctx.lineTo(R, y); ctx.stroke();
         }
-        // Star points
-        ctx.fillStyle = 'rgba(80,45,10,0.35)';
-        for (const sc of [2, 4, 6]) {
-            for (const sr of [2, 4]) {
+
+        // Star points (화점)
+        ctx.fillStyle = 'rgba(80,45,10,0.55)';
+        const starCols = [2, 5, 8], starRows = [2, 6];
+        for (const sc of starCols) {
+            for (const sr of starRows) {
                 ctx.beginPath();
-                ctx.arc(L + sc*cellW, T + sr*cellH, 3, 0, Math.PI*2);
+                ctx.arc(L + sc*csX, T + sr*csY, 4, 0, Math.PI*2);
                 ctx.fill();
             }
         }
-        ctx.restore();
+        // Center star
+        ctx.beginPath();
+        ctx.arc(L + 5*csX, T + 4*csY, 4, 0, Math.PI*2);
+        ctx.fill();
 
-        // Center divider line
-        const cx = (L + R) / 2;
-        ctx.strokeStyle = 'rgba(90,55,20,0.30)';
-        ctx.lineWidth   = 1.5;
-        ctx.setLineDash([8, 6]);
-        ctx.beginPath(); ctx.moveTo(cx, T+8); ctx.lineTo(cx, B-8); ctx.stroke();
-        ctx.setLineDash([]);
+        ctx.restore();
 
         // Inner border shadow
         ctx.strokeStyle = 'rgba(0,0,0,0.18)'; ctx.lineWidth = 2;

@@ -102,10 +102,6 @@ class ChessGame {
         document.getElementById('chess-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
         document.getElementById('chess-hard-btn').addEventListener('click',   () => this.startGame('ai', 'hard'));
         document.getElementById('chess-diff-back').addEventListener('click', () => {
-            document.getElementById('chess-step-mode').classList.remove('hidden');
-            document.getElementById('chess-step-diff').classList.add('hidden');
-        });
-        document.getElementById('chess-home-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
 

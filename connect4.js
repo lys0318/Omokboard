@@ -2,7 +2,8 @@ class Connect4 {
     constructor() {
         this.ROWS = 7;
         this.COLS = 9;
-        this.board = [];
+        // Initialize board early — resize() → draw() runs before reset()
+        this.board = Array.from({ length: 7 }, () => Array(9).fill(null));
         this.currentTurn = 'red';
         this.gameMode = 'pvp';
         this.difficulty = 'normal';
@@ -108,10 +109,6 @@ class Connect4 {
         document.getElementById('c4-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
         document.getElementById('c4-hard-btn').addEventListener('click',   () => this.startGame('ai', 'hard'));
         document.getElementById('c4-diff-back').addEventListener('click', () => {
-            document.getElementById('c4-step-mode').classList.remove('hidden');
-            document.getElementById('c4-step-diff').classList.add('hidden');
-        });
-        document.getElementById('c4-home-btn').addEventListener('click', () => {
             window.location.href = 'index.html';
         });
         document.getElementById('c4-restart-btn').addEventListener('click', () => this.showModeScreen());
