@@ -11,16 +11,16 @@
       gtag('js', new Date());
       gtag('config', 'G-CSJW29VD6X');
     </script>
-    <title>오목보드 - 무료 온라인 보드게임 | 오목 사목 체스 알까기</title>
-    <meta name="description" content="오목, 사목, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임 사이트. AI 대전과 2인 대전 지원.">
+    <title>오목보드 - 무료 온라인 보드게임 | 오목 사목 리버시 체스 알까기</title>
+    <meta name="description" content="오목, 사목, 리버시, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임 사이트. AI 대전과 2인 대전 지원.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
     <meta property="og:title" content="오목보드 - 무료 온라인 보드게임">
-    <meta property="og:description" content="오목, 사목, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임.">
+    <meta property="og:description" content="오목, 사목, 리버시, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임.">
     <meta property="og:url" content="https://omokboard.lys03.workers.dev/">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="오목보드 - 무료 온라인 보드게임">
-    <meta name="twitter:description" content="오목, 사목, 체스, 알까기를 브라우저에서 무료로 즐기세요.">
+    <meta name="twitter:description" content="오목, 사목, 리버시, 체스, 알까기를 브라우저에서 무료로 즐기세요.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
     <style>
         .hub-container {
             width: 100%;
-            max-width: 820px;
+            max-width: 980px;
             padding: 2.5rem 1.5rem 3rem;
             margin: 0 auto;
             display: flex;
@@ -51,7 +51,7 @@
 
         .game-cards {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 1.25rem;
             width: 100%;
         }
@@ -155,6 +155,32 @@
         }
         .mini-marble.r { background: radial-gradient(circle at 35% 35%,#ff7070,#b91c1c); }
         .mini-marble.b2 { background: radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8); }
+        /* 리버시 미니 */
+        .mini-reversi {
+            background: linear-gradient(135deg,#17804a,#0f5132);
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-template-rows: repeat(4,1fr);
+            gap: 3px;
+            padding: 12px;
+            width: 100%;
+            height: 100%;
+        }
+        .mini-rev-cell {
+            border: 1px solid rgba(0,0,0,0.25);
+            border-radius: 4px;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.05);
+        }
+        .mini-rev-disc {
+            width: 58%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+        }
+        .mini-rev-disc.b { background: radial-gradient(circle at 35% 35%,#555,#111); }
+        .mini-rev-disc.w { background: radial-gradient(circle at 35% 35%,#fff,#d4d4d4); }
 
         .game-card-info { text-align: center; }
         .game-card-name {
@@ -231,6 +257,23 @@
                 <div class="game-card-info">
                     <div class="game-card-name" data-i18n="nav.c4">사목</div>
                     <div class="game-card-desc"><span data-i18n="index.c4.desc">4개를 먼저 연속으로 놓으면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                </div>
+            </a>
+
+            <!-- 리버시 -->
+            <a href="reversi.html" class="game-card">
+                <div class="game-card-visual">
+                    <div class="mini-reversi">
+                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div>
+                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc w"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"></div>
+                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div>
+                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc w"></div></div><div class="mini-rev-cell"></div>
+                    </div>
+                </div>
+                <div class="game-card-info">
+                    <div class="game-card-name" data-i18n="nav.reversi">리버시</div>
+                    <div class="game-card-desc"><span data-i18n="index.reversi.desc">상대 돌을 뒤집어 더 많이 차지하세요</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
                     <span class="play-badge" data-i18n="index.play">플레이 →</span>
                 </div>
             </a>

@@ -11,69 +11,73 @@
       gtag('js', new Date());
       gtag('config', 'G-CSJW29VD6X');
     </script>
-    <title>오목 게임 - 오목보드 | 무료 온라인 오목</title>
-    <meta name="description" content="무료 온라인 오목 게임. 5개를 먼저 연속으로 놓으면 승리. AI 대전(쉬움·보통·어려움)과 2인 대전 지원. 설치 없이 브라우저에서 바로 즐기는 오목.">
+    <title>리버시 게임 - 오목보드 | 무료 온라인 리버시</title>
+    <meta name="description" content="무료 온라인 리버시 게임. 상대 돌을 뒤집어 보드를 더 많이 차지하면 승리. AI 대전(쉬움·보통·어려움)과 2인 대전 지원. 설치 없이 브라우저에서 바로 즐기세요.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
-    <meta property="og:title" content="오목 게임 - 오목보드">
-    <meta property="og:description" content="무료 온라인 오목 게임. AI 대전과 2인 대전 지원. 설치 없이 브라우저에서 바로 즐기세요.">
-    <meta property="og:url" content="https://omokboard.lys03.workers.dev/omok.html">
+    <meta property="og:title" content="리버시 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 리버시 게임. 상대 돌을 뒤집어 더 많은 칸을 차지하세요. AI 대전과 2인 대전 지원.">
+    <meta property="og:url" content="https://omokboard.lys03.workers.dev/reversi.html">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="오목 게임 - 오목보드">
-    <meta name="twitter:description" content="무료 온라인 오목 게임. AI 대전과 2인 대전 지원.">
+    <meta name="twitter:title" content="리버시 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 리버시 게임. AI 대전과 2인 대전 지원.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .reversi-game-area { display:flex; flex-direction:column; align-items:center; gap:0.3rem; }
+        #reversi-canvas { border-radius:0.75rem; cursor:pointer; display:block; touch-action:none; box-shadow:0 16px 40px rgba(0,0,0,0.45); }
+    </style>
 </head>
 <body>
     <div class="app-container">
         <nav class="game-nav">
-            <a href="omok.html" class="game-nav-item active" data-i18n="nav.omok">오목</a>
+            <a href="omok.html" class="game-nav-item" data-i18n="nav.omok">오목</a>
             <a href="connect4.html" class="game-nav-item" data-i18n="nav.c4">사목</a>
-            <a href="reversi.html" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="reversi.html" class="game-nav-item active" data-i18n="nav.reversi">리버시</a>
             <a href="chess.html" class="game-nav-item" data-i18n="nav.chess">체스</a>
             <a href="alkkagi.html" class="game-nav-item" data-i18n="nav.ak">알까기</a>
             <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
         </nav>
 
         <header>
-            <h1>OMOK</h1>
-            <p class="subtitle">오목 - The Five in a Row</p>
+            <h1>REVERSI</h1>
+            <p class="subtitle" data-i18n="reversi.subtitle">리버시 - 돌을 뒤집어 보드를 차지하세요</p>
         </header>
 
         <main>
             <div class="game-info">
-                <div class="player black active" id="player-black">
+                <div class="player black active" id="rev-player-black">
                     <div class="stone-preview black-stone"></div>
-                    <span class="player-name" data-i18n="omok.black">흑돌 (Black)</span>
+                    <span class="player-name"><span data-i18n="rev.black">흑돌</span> <span id="rev-black-count">2</span></span>
                 </div>
                 <div class="status-center">
-                    <div class="status-message" id="status-message" data-i18n="omok.black.turn">흑의 차례입니다</div>
-                    <div class="timer-display" id="timer-display">30</div>
+                    <div class="status-message" id="rev-status" data-i18n="rev.black.turn">흑돌의 차례입니다</div>
                 </div>
-                <div class="player white" id="player-white">
+                <div class="player white" id="rev-player-white">
                     <div class="stone-preview white-stone"></div>
-                    <span class="player-name" id="white-player-name" data-i18n="omok.white">백돌 (White)</span>
+                    <span class="player-name"><span id="rev-white-label" data-i18n="rev.white">백돌</span> <span id="rev-white-count">2</span></span>
                 </div>
             </div>
 
-            <div class="board-container">
-                <div id="board" class="board"></div>
+            <div class="reversi-game-area">
+                <canvas id="reversi-canvas"></canvas>
             </div>
 
             <div class="controls">
-                <button id="reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+                <button class="btn primary" id="rev-restart-btn" data-i18n="btn.restart">게임 재시작</button>
             </div>
         </main>
 
         <section class="game-how-to">
             <h3 data-i18n="howto.title">게임 방법</h3>
             <ul>
-                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.omok.goal.before">가로·세로·대각선 중 한 방향으로 같은 색 돌</span> <strong data-i18n="howto.omok.goal.count">5개</strong><span data-i18n="howto.omok.goal.after">를 먼저 연속으로 놓으면 승리</span></li>
-                <li><strong data-i18n="howto.flow">진행:</strong> <span data-i18n="howto.omok.flow.before">흑이 먼저 시작하고 번갈아 착수. 각 턴은</span> <strong data-i18n="howto.omok.flow.time">30초</strong> <span data-i18n="howto.omok.flow.after">제한</span></li>
-                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.omok.controls">보드의 빈 교차점을 클릭해 돌을 놓으세요</span></li>
-                <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.omok.tip">3·4연속을 만들며 공격하고, 상대의 4연속은 반드시 막으세요</span></li>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.rev.goal">게임이 끝났을 때 더 많은 돌을 가진 플레이어가 승리합니다</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.rev.controls">표시된 착수 가능 칸을 클릭해 돌을 놓으세요</span></li>
+                <li><strong data-i18n="howto.flip">뒤집기:</strong> <span data-i18n="howto.rev.flip">내 돌로 상대 돌을 직선으로 감싸면 그 사이의 돌이 모두 뒤집힙니다</span></li>
+                <li><strong data-i18n="howto.pass">패스:</strong> <span data-i18n="howto.rev.pass">둘 수 있는 곳이 없으면 자동으로 차례를 넘깁니다</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.rev.tip">모서리 칸은 뒤집히지 않으므로 가능하면 먼저 차지하세요</span></li>
             </ul>
         </section>
 
@@ -89,59 +93,57 @@
         </footer>
     </div>
 
-    <!-- Mode Selection -->
-    <div id="mode-overlay">
-        <div id="mode-card">
-            <h2 class="mode-title">OMOK</h2>
-            <div id="step-mode">
+    <div id="rev-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title">REVERSI</h2>
+            <div id="rev-step-mode">
                 <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
                 <div class="mode-buttons">
-                    <button class="mode-btn" onclick="window.omokGame.startGame('pvp')">
+                    <button class="mode-btn" id="rev-pvp-btn">
                         <span class="mode-icon">👤👤</span>
                         <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
                         <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
                     </button>
-                    <button class="mode-btn" onclick="document.getElementById('step-mode').classList.add('hidden');document.getElementById('step-difficulty').classList.remove('hidden')">
+                    <button class="mode-btn" id="rev-ai-select-btn">
                         <span class="mode-icon">🤖</span>
                         <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
                         <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
                     </button>
                 </div>
             </div>
-            <div id="step-difficulty" class="hidden">
+            <div id="rev-step-diff" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
                 <div class="mode-buttons difficulty-buttons">
-                    <button class="mode-btn" onclick="window.omokGame.startGame('ai','easy')">
+                    <button class="mode-btn" id="rev-easy-btn">
                         <span class="mode-icon">😊</span>
                         <span class="mode-label" data-i18n="mode.easy">쉬움</span>
                         <span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span>
                     </button>
-                    <button class="mode-btn" onclick="window.omokGame.startGame('ai','normal')">
+                    <button class="mode-btn" id="rev-normal-btn">
                         <span class="mode-icon">🎯</span>
                         <span class="mode-label" data-i18n="mode.normal">보통</span>
                         <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
                     </button>
-                    <button class="mode-btn" onclick="window.omokGame.startGame('ai','hard')">
+                    <button class="mode-btn" id="rev-hard-btn">
                         <span class="mode-icon">🔥</span>
                         <span class="mode-label" data-i18n="mode.hard">어려움</span>
                         <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
                     </button>
                 </div>
-                <button class="mode-back-btn" onclick="window.location.href='index.html'" data-i18n="btn.back">← 뒤로</button>
+                <button class="mode-back-btn" id="rev-diff-back" data-i18n="btn.back">← 뒤로</button>
             </div>
         </div>
     </div>
 
-    <!-- Win Overlay -->
-    <div id="win-overlay" class="overlay hidden">
+    <div id="rev-win-overlay" class="overlay hidden">
         <div class="modal">
-            <h2 id="win-title">승리!</h2>
-            <p id="win-desc">흑돌이 승리했습니다.</p>
-            <button id="modal-reset-btn" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+            <h2 id="rev-win-title">승리!</h2>
+            <p id="rev-win-desc"></p>
+            <button class="btn primary large" id="rev-modal-reset" data-i18n="btn.replay">다시 하기</button>
         </div>
     </div>
 
     <script src="lang.js"></script>
-    <script src="script.js"></script>
+    <script src="reversi.js"></script>
 </body>
 </html>

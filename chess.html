@@ -101,6 +101,7 @@
         <nav class="game-nav">
             <a href="omok.html" class="game-nav-item" data-i18n="nav.omok">오목</a>
             <a href="connect4.html" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi.html" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
             <a href="chess.html" class="game-nav-item active" data-i18n="nav.chess">체스</a>
             <a href="alkkagi.html" class="game-nav-item" data-i18n="nav.ak">알까기</a>
             <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
@@ -152,11 +153,11 @@
         <section class="game-how-to">
             <h3 data-i18n="howto.title">게임 방법</h3>
             <ul>
-                <li><strong>목표:</strong> 상대방의 킹을 <strong>체크메이트</strong>로 몰면 승리합니다</li>
-                <li><strong>조작:</strong> 기물을 클릭하면 이동 가능한 칸이 표시되고, 이동할 칸을 클릭해 이동합니다</li>
-                <li><strong>기물 가치:</strong> 폰(1) · 나이트/비숍(3) · 룩(5) · 퀸(9) · 킹(무한)</li>
-                <li><strong>특수 이동:</strong> 폰 승격은 자동으로 퀸으로 변환됩니다</li>
-                <li><strong>AI 모드:</strong> 흰색(당신)이 먼저 두고, 검정(AI)이 응수합니다</li>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.chess.goal.before">상대방의 킹을</span> <strong data-i18n="howto.chess.goal.key">체크메이트</strong><span data-i18n="howto.chess.goal.after">로 몰면 승리합니다</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.chess.controls">기물을 클릭하면 이동 가능한 칸이 표시되고, 이동할 칸을 클릭해 이동합니다</span></li>
+                <li><strong data-i18n="howto.pieceValue">기물 가치:</strong> <span data-i18n="howto.chess.pieceValue">폰(1) · 나이트/비숍(3) · 룩(5) · 퀸(9) · 킹(무한)</span></li>
+                <li><strong data-i18n="howto.specialMove">특수 이동:</strong> <span data-i18n="howto.chess.specialMove">폰 승격은 자동으로 퀸으로 변환됩니다</span></li>
+                <li><strong data-i18n="howto.aiMode">AI 모드:</strong> <span data-i18n="howto.chess.aiMode">흰색(당신)이 먼저 두고, 검정(AI)이 응수합니다</span></li>
             </ul>
         </section>
 

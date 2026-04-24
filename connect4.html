@@ -35,6 +35,7 @@
         <nav class="game-nav">
             <a href="omok.html" class="game-nav-item" data-i18n="nav.omok">오목</a>
             <a href="connect4.html" class="game-nav-item active" data-i18n="nav.c4">사목</a>
+            <a href="reversi.html" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
             <a href="chess.html" class="game-nav-item" data-i18n="nav.chess">체스</a>
             <a href="alkkagi.html" class="game-nav-item" data-i18n="nav.ak">알까기</a>
             <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
@@ -72,10 +73,10 @@
         <section class="game-how-to">
             <h3 data-i18n="howto.title">게임 방법</h3>
             <ul>
-                <li><strong>목표:</strong> 가로·세로·대각선으로 같은 색 돌 <strong>4개</strong>를 먼저 연속으로 놓으면 승리</li>
-                <li><strong>조작:</strong> 나무 바둑판 위의 원하는 교차점을 클릭해 돌을 놓으세요</li>
-                <li><strong>자유 배치:</strong> 중력 없이 어느 교차점이든 자유롭게 착수할 수 있습니다</li>
-                <li><strong>팁:</strong> 가로·세로·대각선 4개 연속을 동시에 노리면 상대가 막기 어렵습니다</li>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.c4.goal.before">가로·세로·대각선으로 같은 색 돌</span> <strong data-i18n="howto.c4.goal.count">4개</strong><span data-i18n="howto.c4.goal.after">를 먼저 연속으로 놓으면 승리</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.c4.controls">나무 바둑판 위의 원하는 교차점을 클릭해 돌을 놓으세요</span></li>
+                <li><strong data-i18n="howto.free">자유 배치:</strong> <span data-i18n="howto.c4.free">중력 없이 어느 교차점이든 자유롭게 착수할 수 있습니다</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.c4.tip">가로·세로·대각선 4개 연속을 동시에 노리면 상대가 막기 어렵습니다</span></li>
             </ul>
         </section>
 

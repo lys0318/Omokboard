@@ -54,6 +54,7 @@
         <nav class="game-nav">
             <a href="omok.html" class="game-nav-item" data-i18n="nav.omok">오목</a>
             <a href="connect4.html" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi.html" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
             <a href="chess.html" class="game-nav-item" data-i18n="nav.chess">체스</a>
             <a href="alkkagi.html" class="game-nav-item active" data-i18n="nav.ak">알까기</a>
             <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
@@ -96,11 +97,11 @@
         <section class="game-how-to">
             <h3 data-i18n="howto.title">게임 방법</h3>
             <ul>
-                <li><strong>목표:</strong> 상대방의 구슬 5개를 모두 보드 밖으로 밀어내면 승리합니다</li>
-                <li><strong>조작:</strong> 자신의 구슬을 클릭한 뒤 <strong>드래그</strong>하면 반대 방향으로 발사됩니다</li>
-                <li><strong>탈락:</strong> 구슬의 중심이 보드 테두리를 벗어나면 즉시 탈락합니다</li>
-                <li><strong>AI 모드:</strong> 빨강(당신)이 먼저 발사하고 파랑(AI)이 응수합니다</li>
-                <li><strong>팁:</strong> 드래그 거리가 길수록 파워가 강해지며, 같은 팀 구슬도 밀 수 있습니다</li>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.ak.goal">상대방의 구슬 5개를 모두 보드 밖으로 밀어내면 승리합니다</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.ak.controls.before">자신의 구슬을 클릭한 뒤</span> <strong data-i18n="howto.ak.controls.drag">드래그</strong><span data-i18n="howto.ak.controls.after">하면 반대 방향으로 발사됩니다</span></li>
+                <li><strong data-i18n="howto.elimination">탈락:</strong> <span data-i18n="howto.ak.elimination">구슬의 중심이 보드 테두리를 벗어나면 즉시 탈락합니다</span></li>
+                <li><strong data-i18n="howto.aiMode">AI 모드:</strong> <span data-i18n="howto.ak.aiMode">빨강(당신)이 먼저 발사하고 파랑(AI)이 응수합니다</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.ak.tip">드래그 거리가 길수록 파워가 강해지며, 같은 팀 구슬도 밀 수 있습니다</span></li>
             </ul>
         </section>
 

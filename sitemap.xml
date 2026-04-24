@@ -16,6 +16,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://omokboard.lys03.workers.dev/reversi.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://omokboard.lys03.workers.dev/chess.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
