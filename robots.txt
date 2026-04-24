@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://my-omok.pages.dev/sitemap.xml
+Sitemap: https://omokboard.lys03.workers.dev/sitemap.xml
