@@ -1,0 +1,7 @@
+﻿# Cloudflare deploy artifacts
+public/
+.wrangler/
+.wranglerignore
+
+# Editor
+.vscode/
