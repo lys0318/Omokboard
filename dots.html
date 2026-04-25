@@ -11,73 +11,75 @@
       gtag('js', new Date());
       gtag('config', 'G-CSJW29VD6X');
     </script>
-    <title>사목 게임 - 오목보드 | 무료 온라인 사목</title>
-    <meta name="description" content="무료 온라인 사목 게임. 바둑판에서 4개를 먼저 연속으로 놓으면 승리. AI 대전(쉬움·보통·어려움)과 2인 대전 지원. 설치 없이 브라우저에서 바로 즐기세요.">
+    <title>점잇기 게임 - 오목보드 | 무료 온라인 Dots and Boxes</title>
+    <meta name="description" content="무료 온라인 점잇기 게임. 선을 이어 네모를 완성하고 더 많은 박스를 차지하세요. AI 대전과 2인 대전 지원. 설치 없이 브라우저에서 바로 즐기세요.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
-    <meta property="og:title" content="사목 게임 - 오목보드">
-    <meta property="og:description" content="무료 온라인 사목 게임. 바둑판에서 4개 연속으로 놓으면 승리. AI 대전과 2인 대전 지원.">
-    <meta property="og:url" content="https://omokboard.lys03.workers.dev/connect4.html">
+    <meta property="og:title" content="점잇기 게임 - 오목보드">
+    <meta property="og:description" content="선을 이어 네모를 완성하는 무료 온라인 Dots and Boxes 게임. AI 대전과 2인 대전 지원.">
+    <meta property="og:url" content="https://omokboard.lys03.workers.dev/dots.html">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="사목 게임 - 오목보드">
-    <meta name="twitter:description" content="무료 온라인 사목 게임. AI 대전과 2인 대전 지원.">
+    <meta name="twitter:title" content="점잇기 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 점잇기 게임. AI 대전과 2인 대전 지원.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="data:,">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        .c4-game-area { display:flex; flex-direction:column; align-items:center; gap:0.3rem; }
-        #c4-canvas { border-radius:0.75rem; cursor:crosshair; display:block; touch-action:none; }
+        .dots-game-area { display:flex; flex-direction:column; align-items:center; gap:0.3rem; }
+        #dots-canvas { border-radius:0.75rem; cursor:pointer; display:block; touch-action:none; box-shadow:0 16px 40px rgba(0,0,0,0.45); }
     </style>
 </head>
 <body>
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok.html" class="game-nav-item" data-i18n="nav.omok">오목</a>
-            <a href="connect4.html" class="game-nav-item active" data-i18n="nav.c4">사목</a>
+            <a href="connect4.html" class="game-nav-item" data-i18n="nav.c4">사목</a>
             <a href="reversi.html" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
-            <a href="dots.html" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="dots.html" class="game-nav-item active" data-i18n="nav.dots">점잇기</a>
             <a href="chess.html" class="game-nav-item" data-i18n="nav.chess">체스</a>
             <a href="alkkagi.html" class="game-nav-item" data-i18n="nav.ak">알까기</a>
             <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
         </nav>
 
         <header>
-            <h1>사목</h1>
-            <p class="subtitle">Connect Four - 4개를 먼저 연결하세요</p>
+            <h1>DOTS</h1>
+            <p class="subtitle" data-i18n="dots.subtitle">점잇기 - 선을 이어 네모를 차지하세요</p>
         </header>
 
         <main>
             <div class="game-info">
-                <div class="player black active" id="c4-player-red">
+                <div class="player black active" id="dots-player-red">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ffa0a0,#b91c1c);border-radius:50%;width:20px;height:20px;"></div>
-                    <span class="player-name" id="c4-red-label" data-i18n="c4.red">빨강 (Red)</span>
+                    <span class="player-name"><span data-i18n="dots.red">빨강</span> <span id="dots-red-score">0</span></span>
                 </div>
                 <div class="status-center">
-                    <div class="status-message" id="c4-status" data-i18n="c4.red.turn">빨강의 차례입니다</div>
+                    <div class="status-message" id="dots-status" data-i18n="dots.red.turn">빨강의 차례입니다</div>
                 </div>
-                <div class="player white" id="c4-player-yellow">
-                    <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#fff07a,#ca8a04);border-radius:50%;width:20px;height:20px;"></div>
-                    <span class="player-name" id="c4-yellow-label" data-i18n="c4.yellow">노랑 (Yellow)</span>
+                <div class="player white" id="dots-player-blue">
+                    <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);border-radius:50%;width:20px;height:20px;"></div>
+                    <span class="player-name"><span id="dots-blue-label" data-i18n="dots.blue">파랑</span> <span id="dots-blue-score">0</span></span>
                 </div>
             </div>
 
-            <div class="c4-game-area">
-                <canvas id="c4-canvas"></canvas>
+            <div class="dots-game-area">
+                <canvas id="dots-canvas"></canvas>
             </div>
 
             <div class="controls">
-                <button class="btn primary" id="c4-restart-btn" data-i18n="btn.restart">게임 재시작</button>
+                <button class="btn primary" id="dots-restart-btn" data-i18n="btn.restart">게임 재시작</button>
             </div>
         </main>
 
         <section class="game-how-to">
             <h3 data-i18n="howto.title">게임 방법</h3>
             <ul>
-                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.c4.goal.before">가로·세로·대각선으로 같은 색 돌</span> <strong data-i18n="howto.c4.goal.count">4개</strong><span data-i18n="howto.c4.goal.after">를 먼저 연속으로 놓으면 승리</span></li>
-                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.c4.controls">나무 바둑판 위의 원하는 교차점을 클릭해 돌을 놓으세요</span></li>
-                <li><strong data-i18n="howto.free">자유 배치:</strong> <span data-i18n="howto.c4.free">중력 없이 어느 교차점이든 자유롭게 착수할 수 있습니다</span></li>
-                <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.c4.tip">가로·세로·대각선 4개 연속을 동시에 노리면 상대가 막기 어렵습니다</span></li>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span data-i18n="howto.dots.goal">선을 이어 더 많은 네모를 완성하면 승리합니다</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.dots.controls">점과 점 사이의 빈 선을 클릭하거나 터치하세요</span></li>
+                <li><strong data-i18n="howto.extraTurn">추가 턴:</strong> <span data-i18n="howto.dots.extraTurn">네모를 완성하면 점수를 얻고 한 번 더 둡니다</span></li>
+                <li><strong data-i18n="howto.aiMode">AI 모드:</strong> <span data-i18n="howto.dots.aiMode">빨강(당신)이 먼저 선을 긋고 파랑(AI)이 응수합니다</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.dots.tip">세 번째 선을 함부로 만들면 상대에게 네모를 내줄 수 있습니다</span></li>
             </ul>
         </section>
 
@@ -97,59 +99,57 @@
         </footer>
     </div>
 
-    <!-- Mode Overlay -->
-    <div id="c4-mode-overlay" class="game-mode-overlay">
+    <div id="dots-mode-overlay" class="game-mode-overlay">
         <div class="game-mode-card">
-            <h2 class="mode-title">사목</h2>
-            <div id="c4-step-mode">
+            <h2 class="mode-title">DOTS</h2>
+            <div id="dots-step-mode">
                 <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
                 <div class="mode-buttons">
-                    <button class="mode-btn" id="c4-pvp-btn">
+                    <button class="mode-btn" id="dots-pvp-btn">
                         <span class="mode-icon">👤👤</span>
                         <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
                         <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
                     </button>
-                    <button class="mode-btn" id="c4-ai-select-btn">
+                    <button class="mode-btn" id="dots-ai-select-btn">
                         <span class="mode-icon">🤖</span>
                         <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
                         <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
                     </button>
                 </div>
             </div>
-            <div id="c4-step-diff" class="hidden">
+            <div id="dots-step-diff" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
                 <div class="mode-buttons difficulty-buttons">
-                    <button class="mode-btn" id="c4-easy-btn">
+                    <button class="mode-btn" id="dots-easy-btn">
                         <span class="mode-icon">😊</span>
                         <span class="mode-label" data-i18n="mode.easy">쉬움</span>
                         <span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span>
                     </button>
-                    <button class="mode-btn" id="c4-normal-btn">
+                    <button class="mode-btn" id="dots-normal-btn">
                         <span class="mode-icon">🎯</span>
                         <span class="mode-label" data-i18n="mode.normal">보통</span>
                         <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
                     </button>
-                    <button class="mode-btn" id="c4-hard-btn">
+                    <button class="mode-btn" id="dots-hard-btn">
                         <span class="mode-icon">🔥</span>
                         <span class="mode-label" data-i18n="mode.hard">어려움</span>
                         <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
                     </button>
                 </div>
-                <button class="mode-back-btn" id="c4-diff-back" data-i18n="btn.back">← 뒤로</button>
+                <button class="mode-back-btn" id="dots-diff-back" data-i18n="btn.back">← 뒤로</button>
             </div>
         </div>
     </div>
 
-    <!-- Win Overlay -->
-    <div id="c4-win-overlay" class="overlay hidden">
+    <div id="dots-win-overlay" class="overlay hidden">
         <div class="modal">
-            <h2 id="c4-win-title">승리!</h2>
-            <p id="c4-win-desc"></p>
-            <button class="btn primary large" id="c4-modal-reset" data-i18n="btn.replay">다시 하기</button>
+            <h2 id="dots-win-title">승리!</h2>
+            <p id="dots-win-desc"></p>
+            <button class="btn primary large" id="dots-modal-reset" data-i18n="btn.replay">다시 하기</button>
         </div>
     </div>
 
     <script src="lang.js"></script>
-    <script src="connect4.js"></script>
+    <script src="dots.js"></script>
 </body>
 </html>

@@ -26,6 +26,10 @@
     box-sizing: border-box;
 }
 
+.hidden {
+    display: none !important;
+}
+
 body {
     font-family: 'Outfit', sans-serif;
     background: radial-gradient(circle at center, var(--bg-dark), var(--bg-darker));

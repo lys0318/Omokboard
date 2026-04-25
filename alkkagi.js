@@ -2,7 +2,7 @@ const FRICTION    = 0.984;
 const RESTITUTION = 0.90;
 const MIN_SPEED   = 0.12;
 const MAX_LAUNCH  = 20;
-const BM          = 28; // board margin (wooden frame width)
+const BM          = 18; // board margin (wooden frame width)
 
 class AlkkagiGame {
     constructor() {
@@ -31,7 +31,7 @@ class AlkkagiGame {
     }
 
     get R() {
-        return Math.max(16, Math.min(Math.floor(Math.min(this.W, this.H) / 11), 26));
+        return Math.max(12, Math.min(Math.floor(Math.min(this.W, this.H) / 14), 22));
     }
 
     get bLeft()   { return BM; }
@@ -40,7 +40,7 @@ class AlkkagiGame {
     get bBottom() { return this.H - BM; }
 
     resize() {
-        const maxW = Math.min(window.innerWidth - 32, 520);
+        const maxW = Math.min(window.innerWidth - 32, 560);
         this.W = maxW;
         this.H = maxW;   // square canvas — same as 오목 board
         this.canvas.width  = this.W;
@@ -91,7 +91,7 @@ class AlkkagiGame {
             const { x, y } = getPos(e);
             const m = this.marbles.find(m =>
                 m.alive && m.color === this.currentTurn &&
-                Math.hypot(m.x - x, m.y - y) <= m.r * 1.4
+                Math.hypot(m.x - x, m.y - y) <= m.r * 1.8
             );
             if (m) { this.dragging = { marble:m, sx:x, sy:y, cx:x, cy:y }; e.preventDefault(); }
         };

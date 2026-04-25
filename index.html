@@ -11,16 +11,16 @@
       gtag('js', new Date());
       gtag('config', 'G-CSJW29VD6X');
     </script>
-    <title>오목보드 - 무료 온라인 보드게임 | 오목 사목 리버시 체스 알까기</title>
-    <meta name="description" content="오목, 사목, 리버시, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임 사이트. AI 대전과 2인 대전 지원.">
+    <title>오목보드 - 무료 온라인 보드게임 | 오목 사목 리버시 점잇기 체스 알까기</title>
+    <meta name="description" content="오목, 사목, 리버시, 점잇기, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임 사이트. AI 대전과 2인 대전 지원.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
     <meta property="og:title" content="오목보드 - 무료 온라인 보드게임">
-    <meta property="og:description" content="오목, 사목, 리버시, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임.">
+    <meta property="og:description" content="오목, 사목, 리버시, 점잇기, 체스, 알까기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임.">
     <meta property="og:url" content="https://omokboard.lys03.workers.dev/">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="오목보드 - 무료 온라인 보드게임">
-    <meta name="twitter:description" content="오목, 사목, 리버시, 체스, 알까기를 브라우저에서 무료로 즐기세요.">
+    <meta name="twitter:description" content="오목, 사목, 리버시, 점잇기, 체스, 알까기를 브라우저에서 무료로 즐기세요.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -181,6 +181,39 @@
         }
         .mini-rev-disc.b { background: radial-gradient(circle at 35% 35%,#555,#111); }
         .mini-rev-disc.w { background: radial-gradient(circle at 35% 35%,#fff,#d4d4d4); }
+        /* 점잇기 미니 */
+        .mini-dots {
+            background: linear-gradient(135deg,#f0bd75,#b97938);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 0;
+            padding: 18px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .mini-dots-cell { position: relative; }
+        .mini-dots-cell::before {
+            content: '';
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #2f2117;
+            left: -4px;
+            top: -4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+        }
+        .mini-dots-cell.h::after,
+        .mini-dots-cell.v span {
+            content: '';
+            position: absolute;
+            background: #dc2626;
+            border-radius: 999px;
+        }
+        .mini-dots-cell.h::after { left: 6px; right: 6px; top: -2px; height: 5px; }
+        .mini-dots-cell.v span { top: 6px; bottom: 6px; left: -2px; width: 5px; background: #2563eb; }
 
         .game-card-info { text-align: center; }
         .game-card-name {
@@ -305,6 +338,23 @@
                 </div>
             </a>
 
+            <!-- 점잇기 -->
+            <a href="dots.html" class="game-card">
+                <div class="game-card-visual">
+                    <div class="mini-dots">
+                        <div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
+                        <div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell"></div>
+                        <div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell"></div>
+                        <div class="mini-dots-cell"></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
+                    </div>
+                </div>
+                <div class="game-card-info">
+                    <div class="game-card-name" data-i18n="nav.dots">점잇기</div>
+                    <div class="game-card-desc"><span data-i18n="index.dots.desc">선을 이어 네모를 차지하세요</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                </div>
+            </a>
+
             <!-- 체스 -->
             <a href="chess.html" class="game-card">
                 <div class="game-card-visual">
@@ -350,7 +400,7 @@
 
         <section class="guide-strip">
             <h2><span class="ko-only">처음이라면 공략부터 확인해보세요</span><span class="en-only" style="display:none;">New here? Start with the guides</span></h2>
-            <p><span class="ko-only">오목, 사목, 리버시, 체스, 알까기 규칙과 초보 전략을 정리했습니다. 기본 패턴을 알면 AI 대전과 2인 대전이 더 재미있어집니다.</span><span class="en-only" style="display:none;">Read simple rules and beginner strategy for Omok, Connect 4, Reversi, Chess, and Alkkagi before you play.</span></p>
+            <p><span class="ko-only">오목, 사목, 리버시, 점잇기, 체스, 알까기 규칙과 초보 전략을 정리했습니다. 기본 패턴을 알면 AI 대전과 2인 대전이 더 재미있어집니다.</span><span class="en-only" style="display:none;">Read simple rules and beginner strategy for Omok, Connect 4, Reversi, Dots & Boxes, Chess, and Alkkagi before you play.</span></p>
             <a href="guides.html" data-i18n="footer.guides">공략 모음</a>
         </section>
 

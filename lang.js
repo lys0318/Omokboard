@@ -1,8 +1,8 @@
-// 오목보드 Language Support (KO / EN)
+// Omokboard Language Support (KO / EN)
 (function () {
     var T = {
         ko: {
-            'nav.omok': '오목', 'nav.c4': '사목', 'nav.reversi': '리버시', 'nav.chess': '체스', 'nav.ak': '알까기',
+            'nav.omok': '오목', 'nav.c4': '사목', 'nav.reversi': '리버시', 'nav.dots': '점잇기', 'nav.chess': '체스', 'nav.ak': '알까기',
             'lang.btn': 'EN',
             'btn.restart': '게임 재시작', 'btn.back': '← 뒤로', 'btn.replay': '다시 하기',
             'mode.select': '게임 모드를 선택하세요',
@@ -30,6 +30,13 @@
             'rev.black.win': '흑돌이 승리했습니다!',
             'rev.white.win': '백돌이 승리했습니다!',
             'rev.ai.win': 'AI가 승리했습니다.',
+            'dots.subtitle': '점잇기 - 선을 이어 네모를 차지하세요',
+            'dots.red': '빨강', 'dots.blue': '파랑', 'dots.ai.blue': 'AI (파랑)',
+            'dots.red.turn': '빨강의 차례입니다', 'dots.blue.turn': '파랑의 차례입니다',
+            'dots.red.win': '빨강이 더 많은 네모를 차지했습니다!',
+            'dots.blue.win': '파랑이 더 많은 네모를 차지했습니다!',
+            'dots.you.win': '당신이 더 많은 네모를 차지했습니다!',
+            'dots.ai.win': 'AI가 더 많은 네모를 차지했습니다.',
             'chess.white': '흰색 (White)', 'chess.black': '검정 (Black)',
             'chess.ai.black': 'AI (Black)',
             'chess.white.turn': '흰색의 차례입니다', 'chess.black.turn': '검정의 차례입니다',
@@ -53,7 +60,7 @@
             'howto.title': '게임 방법',
             'howto.goal': '목표:', 'howto.flow': '진행:', 'howto.controls': '조작:', 'howto.tip': '팁:',
             'howto.free': '자유 배치:', 'howto.flip': '뒤집기:', 'howto.pass': '패스:', 'howto.pieceValue': '기물 가치:', 'howto.specialMove': '특수 이동:',
-            'howto.aiMode': 'AI 모드:', 'howto.elimination': '탈락:',
+            'howto.aiMode': 'AI 모드:', 'howto.elimination': '탈락:', 'howto.extraTurn': '추가 턴:',
             'howto.omok.goal.before': '가로·세로·대각선 중 한 방향으로 같은 색 돌',
             'howto.omok.goal.count': '5개',
             'howto.omok.goal.after': '를 먼저 연속으로 놓으면 승리',
@@ -73,6 +80,11 @@
             'howto.rev.flip': '내 돌로 상대 돌을 직선으로 감싸면 그 사이의 돌이 모두 뒤집힙니다',
             'howto.rev.pass': '둘 수 있는 곳이 없으면 자동으로 차례를 넘깁니다',
             'howto.rev.tip': '모서리 칸은 뒤집히지 않으므로 가능하면 먼저 차지하세요',
+            'howto.dots.goal': '선을 이어 더 많은 네모를 완성하면 승리합니다',
+            'howto.dots.controls': '점과 점 사이의 빈 선을 클릭하거나 터치하세요',
+            'howto.dots.extraTurn': '네모를 완성하면 점수를 얻고 한 번 더 둡니다',
+            'howto.dots.aiMode': '빨강(당신)이 먼저 선을 긋고 파랑(AI)이 응수합니다',
+            'howto.dots.tip': '세 번째 선을 함부로 만들면 상대에게 네모를 내줄 수 있습니다',
             'howto.chess.goal.before': '상대방의 킹을',
             'howto.chess.goal.key': '체크메이트',
             'howto.chess.goal.after': '로 몰면 승리합니다',
@@ -91,12 +103,13 @@
             'index.omok.desc': '5개를 먼저 연속으로 놓으면 승리',
             'index.c4.desc': '4개를 먼저 연속으로 놓으면 승리',
             'index.reversi.desc': '상대 돌을 뒤집어 더 많이 차지하세요',
+            'index.dots.desc': '선을 이어 네모를 차지하세요',
             'index.chess.desc': '킹을 체크메이트로 몰면 승리',
             'index.ak.desc': '구슬을 튕겨 상대를 보드 밖으로',
             'index.pvp': 'AI 대전 · 2인 대전', 'index.play': '플레이 →',
         },
         en: {
-            'nav.omok': 'Omok', 'nav.c4': 'Connect 4', 'nav.reversi': 'Reversi', 'nav.chess': 'Chess', 'nav.ak': 'Alkkagi',
+            'nav.omok': 'Omok', 'nav.c4': 'Connect 4', 'nav.reversi': 'Reversi', 'nav.dots': 'Dots & Boxes', 'nav.chess': 'Chess', 'nav.ak': 'Alkkagi',
             'lang.btn': '한국어',
             'btn.restart': 'Restart', 'btn.back': '← Back', 'btn.replay': 'Play Again',
             'mode.select': 'Select Game Mode',
@@ -124,6 +137,13 @@
             'rev.black.win': 'Black wins!',
             'rev.white.win': 'White wins!',
             'rev.ai.win': 'AI wins.',
+            'dots.subtitle': 'Dots & Boxes - draw lines and claim boxes',
+            'dots.red': 'Red', 'dots.blue': 'Blue', 'dots.ai.blue': 'AI (Blue)',
+            'dots.red.turn': "It's Red's turn", 'dots.blue.turn': "It's Blue's turn",
+            'dots.red.win': 'Red claimed more boxes!',
+            'dots.blue.win': 'Blue claimed more boxes!',
+            'dots.you.win': 'You claimed more boxes!',
+            'dots.ai.win': 'AI claimed more boxes.',
             'chess.white': 'White', 'chess.black': 'Black',
             'chess.ai.black': 'AI (Black)',
             'chess.white.turn': "It's White's turn", 'chess.black.turn': "It's Black's turn",
@@ -147,7 +167,7 @@
             'howto.title': 'How to Play',
             'howto.goal': 'Goal:', 'howto.flow': 'Flow:', 'howto.controls': 'Controls:', 'howto.tip': 'Tip:',
             'howto.free': 'Free Placement:', 'howto.flip': 'Flipping:', 'howto.pass': 'Pass:', 'howto.pieceValue': 'Piece Values:', 'howto.specialMove': 'Special Move:',
-            'howto.aiMode': 'AI Mode:', 'howto.elimination': 'Elimination:',
+            'howto.aiMode': 'AI Mode:', 'howto.elimination': 'Elimination:', 'howto.extraTurn': 'Extra Turn:',
             'howto.omok.goal.before': 'Place',
             'howto.omok.goal.count': '5 stones',
             'howto.omok.goal.after': ' of the same color in a row horizontally, vertically, or diagonally to win',
@@ -155,7 +175,7 @@
             'howto.omok.flow.time': '30-second',
             'howto.omok.flow.after': 'limit',
             'howto.omok.controls': 'Click an empty intersection on the board to place a stone',
-            'howto.omok.tip': 'Build 3- and 4-stone lines to attack, and always block your opponent’s 4-stone line',
+            'howto.omok.tip': "Build 3- and 4-stone lines to attack, and always block your opponent's 4-stone line",
             'howto.c4.goal.before': 'Place',
             'howto.c4.goal.count': '4 stones',
             'howto.c4.goal.after': ' of the same color in a row horizontally, vertically, or diagonally to win',
@@ -167,6 +187,11 @@
             'howto.rev.flip': 'Trap opponent discs in a straight line between your discs to flip them',
             'howto.rev.pass': 'If a player has no legal moves, their turn passes automatically',
             'howto.rev.tip': 'Corners cannot be flipped, so take them whenever you can',
+            'howto.dots.goal': 'Draw lines and complete more boxes to win',
+            'howto.dots.controls': 'Click or tap an empty edge between two dots',
+            'howto.dots.extraTurn': 'Complete a box to score and take another turn',
+            'howto.dots.aiMode': 'Red (you) draws first, and Blue (AI) responds',
+            'howto.dots.tip': 'Careless third sides can give boxes to your opponent',
             'howto.chess.goal.before': 'Put the opponent’s king in',
             'howto.chess.goal.key': 'checkmate',
             'howto.chess.goal.after': ' to win',
@@ -181,10 +206,11 @@
             'howto.ak.elimination': 'A marble is eliminated as soon as its center leaves the board edge',
             'howto.ak.aiMode': 'Red (you) shoots first, and Blue (AI) responds',
             'howto.ak.tip': 'Longer drags create more power, and you can also push your own marbles',
-            'index.subtitle': 'Free online board games — play instantly in your browser',
+            'index.subtitle': 'Free online board games - play instantly in your browser',
             'index.omok.desc': 'Place 5 in a row to win',
             'index.c4.desc': 'Place 4 in a row to win',
             'index.reversi.desc': 'Flip opponent discs and control the board',
+            'index.dots.desc': 'Draw lines and claim boxes',
             'index.chess.desc': 'Checkmate the King to win',
             'index.ak.desc': 'Flick marbles off the board',
             'index.pvp': 'vs AI · 2 Players', 'index.play': 'Play →',
@@ -214,8 +240,7 @@
         var btn = document.getElementById('lang-toggle');
         if (btn) btn.textContent = t('lang.btn');
         document.documentElement.lang = lang === 'en' ? 'en' : 'ko';
-        // Notify running games to re-render text
-        var games = ['omokGame', 'c4Game', 'reversiGame', 'chessGame', 'alkkagiGame'];
+        var games = ['omokGame', 'c4Game', 'reversiGame', 'dotsGame', 'chessGame', 'alkkagiGame'];
         games.forEach(function (g) {
             if (window[g] && typeof window[g].refreshLang === 'function') window[g].refreshLang();
         });
