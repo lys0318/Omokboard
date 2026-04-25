@@ -67,7 +67,9 @@ class ReversiGame {
     bindEvents() {
         const getPos = (e) => {
             const rect = this.canvas.getBoundingClientRect();
-            const src = e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : e);
+            const src = e.touches && e.touches.length
+                ? e.touches[0]
+                : (e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : e);
             return {
                 x: (src.clientX - rect.left) * (this.canvas.width / rect.width),
                 y: (src.clientY - rect.top) * (this.canvas.height / rect.height)

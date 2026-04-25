@@ -65,7 +65,9 @@ class Connect4 {
             const rect = this.canvas.getBoundingClientRect();
             const sx = this.canvas.width / rect.width;
             const sy = this.canvas.height / rect.height;
-            const src = e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : e);
+            const src = e.touches && e.touches.length
+                ? e.touches[0]
+                : (e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : e);
             return { x: (src.clientX - rect.left)*sx, y: (src.clientY - rect.top)*sy };
         };
 

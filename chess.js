@@ -298,32 +298,31 @@ class ChessGame {
         }
 
         const depth = this.difficulty === 'hard' ? 3 : 2;
-        let best = null, bestScore = -Infinity;
+        let best = null, bestScore = -Infinity, alpha = -Infinity;
 
-        // Move ordering: captures first
-        const ordered = [...moves].sort((a, b) => (b.captured ? 1 : 0) - (a.captured ? 1 : 0));
+        const ordered = this.orderMoves(moves);
 
         for (const move of ordered) {
             this.chess.move(move);
-            const score = -this.minimax(depth - 1, -Infinity, Infinity, false);
+            const score = this.minimax(depth - 1, alpha, Infinity, 1);
             this.chess.undo();
             if (score > bestScore) { bestScore = score; best = move; }
+            alpha = Math.max(alpha, bestScore);
         }
         return best;
     }
 
-    minimax(depth, alpha, beta, maximizing) {
-        if (depth === 0 || this.chess.game_over()) return this.evalBoard();
+    minimax(depth, alpha, beta, ply) {
+        if (depth === 0 || this.chess.game_over()) return this.evalBoard(ply);
 
-        const moves = this.chess.moves({ verbose: true });
-        // Move ordering: captures first
-        moves.sort((a, b) => (b.captured ? 1 : 0) - (a.captured ? 1 : 0));
+        const moves = this.orderMoves(this.chess.moves({ verbose: true }));
+        const maximizing = this.chess.turn() === 'b';
 
         if (maximizing) {
             let maxScore = -Infinity;
             for (const move of moves) {
                 this.chess.move(move);
-                maxScore = Math.max(maxScore, this.minimax(depth-1, alpha, beta, false));
+                maxScore = Math.max(maxScore, this.minimax(depth - 1, alpha, beta, ply + 1));
                 this.chess.undo();
                 alpha = Math.max(alpha, maxScore);
                 if (beta <= alpha) break;
@@ -333,7 +332,7 @@ class ChessGame {
             let minScore = Infinity;
             for (const move of moves) {
                 this.chess.move(move);
-                minScore = Math.min(minScore, this.minimax(depth-1, alpha, beta, true));
+                minScore = Math.min(minScore, this.minimax(depth - 1, alpha, beta, ply + 1));
                 this.chess.undo();
                 beta = Math.min(beta, minScore);
                 if (beta <= alpha) break;
@@ -342,8 +341,24 @@ class ChessGame {
         }
     }
 
-    evalBoard() {
-        if (this.chess.in_checkmate()) return this.chess.turn() === 'w' ? -50000 : 50000;
+    orderMoves(moves) {
+        return [...moves].sort((a, b) => this.moveOrderScore(b) - this.moveOrderScore(a));
+    }
+
+    moveOrderScore(move) {
+        let score = 0;
+        if (move.captured) {
+            score += 10000 + (PIECE_VALUE[move.captured] || 0) * 10 - (PIECE_VALUE[move.piece] || 0);
+        }
+        if (move.flags && move.flags.includes('p')) score += 9000;
+        if (move.san && move.san.includes('#')) score += 20000;
+        else if (move.san && move.san.includes('+')) score += 2500;
+        if (move.to === 'd4' || move.to === 'e4' || move.to === 'd5' || move.to === 'e5') score += 40;
+        return score;
+    }
+
+    evalBoard(ply = 0) {
+        if (this.chess.in_checkmate()) return this.chess.turn() === 'w' ? 100000 - ply : -100000 + ply;
         if (this.chess.in_stalemate() || this.chess.in_threefold_repetition()) return 0;
 
         let score = 0;
@@ -359,6 +374,9 @@ class ChessGame {
                 score += p.color === 'b' ? (val + pstVal) : -(val + pstVal);
             }
         }
+        if (this.chess.in_check()) score += this.chess.turn() === 'w' ? 35 : -35;
+        const mobility = this.chess.moves().length;
+        score += this.chess.turn() === 'b' ? mobility * 2 : -mobility * 2;
         return score;
     }
 
