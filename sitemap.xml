@@ -31,9 +31,44 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://omokboard.lys03.workers.dev/guides.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.lys03.workers.dev/omok-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.lys03.workers.dev/connect4-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.lys03.workers.dev/reversi-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.lys03.workers.dev/chess-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.lys03.workers.dev/alkkagi-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://omokboard.lys03.workers.dev/about.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.lys03.workers.dev/contact.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
   <url>
     <loc>https://omokboard.lys03.workers.dev/privacy.html</loc>

@@ -202,6 +202,33 @@
             transition: background 0.2s;
         }
         .game-card:hover .play-badge { background: var(--accent-blue-hover); }
+        .guide-strip {
+            width: 100%;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1rem;
+            padding: 1.25rem 1.5rem;
+            animation: fadeIn 1s ease-out;
+        }
+        .guide-strip h2 {
+            font-size: 1rem;
+            color: var(--text-main);
+            margin-bottom: 0.45rem;
+            letter-spacing: 0;
+        }
+        .guide-strip p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 0.8rem;
+        }
+        .guide-strip a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .guide-strip a:hover { color: var(--accent-blue-hover); }
 
         @media (max-width: 500px) {
             .game-cards { grid-template-columns: 1fr; }
@@ -321,9 +348,19 @@
 
         </div>
 
+        <section class="guide-strip">
+            <h2><span class="ko-only">처음이라면 공략부터 확인해보세요</span><span class="en-only" style="display:none;">New here? Start with the guides</span></h2>
+            <p><span class="ko-only">오목, 사목, 리버시, 체스, 알까기 규칙과 초보 전략을 정리했습니다. 기본 패턴을 알면 AI 대전과 2인 대전이 더 재미있어집니다.</span><span class="en-only" style="display:none;">Read simple rules and beginner strategy for Omok, Connect 4, Reversi, Chess, and Alkkagi before you play.</span></p>
+            <a href="guides.html" data-i18n="footer.guides">공략 모음</a>
+        </section>
+
         <footer>
             <nav class="footer-nav">
                 <a href="about.html" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides.html" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact.html" data-i18n="footer.contact">문의</a>
                 <span class="footer-sep">·</span>
                 <a href="privacy.html" data-i18n="footer.privacy">개인정보처리방침</a>
             </nav>

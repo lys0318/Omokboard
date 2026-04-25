@@ -103,6 +103,34 @@ body {
     margin: 0;
 }
 
+.guide-card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.guide-card {
+    display: block;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-decoration: none !important;
+}
+
+.guide-card strong {
+    display: block;
+    color: var(--text-main);
+    margin-bottom: 0.35rem;
+}
+
+.guide-card span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
 /* Rule/ordered list */
 .rule-list {
     color: var(--text-muted);
