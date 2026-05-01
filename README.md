@@ -2,5 +2,4 @@
 
 
 
-
-https://omokboard.lys03.workers.dev
+https://omokboard.pages.dev
