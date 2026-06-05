@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.pages.dev/">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
     <script>
@@ -271,6 +273,34 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
+    <!-- 구조화 데이터 (SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://omokboard.pages.dev/#website",
+          "url": "https://omokboard.pages.dev/",
+          "name": "오목보드",
+          "description": "오목, 사목, 리버시, 점잇기, 체스, 알까기를 무료로 즐기는 온라인 보드게임 사이트",
+          "inLanguage": "ko"
+        },
+        {
+          "@type": "ItemList",
+          "name": "오목보드 게임 목록",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "오목", "url": "https://omokboard.pages.dev/omok" },
+            { "@type": "ListItem", "position": 2, "name": "사목", "url": "https://omokboard.pages.dev/connect4" },
+            { "@type": "ListItem", "position": 3, "name": "리버시", "url": "https://omokboard.pages.dev/reversi" },
+            { "@type": "ListItem", "position": 4, "name": "점잇기", "url": "https://omokboard.pages.dev/dots" },
+            { "@type": "ListItem", "position": 5, "name": "체스", "url": "https://omokboard.pages.dev/chess" },
+            { "@type": "ListItem", "position": 6, "name": "알까기", "url": "https://omokboard.pages.dev/alkkagi" }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div class="hub-container">
@@ -283,7 +313,7 @@
         <div class="game-cards">
 
             <!-- 오목 -->
-            <a href="omok.html" class="game-card">
+            <a href="omok" class="game-card">
                 <div class="game-card-visual">
                     <div class="mini-omok">
                         <div class="mini-omok-grid">
@@ -303,7 +333,7 @@
             </a>
 
             <!-- 사목 -->
-            <a href="connect4.html" class="game-card">
+            <a href="connect4" class="game-card">
                 <div class="game-card-visual">
                     <div class="mini-c4">
                         <div class="mini-c4-row">
@@ -325,7 +355,7 @@
             </a>
 
             <!-- 리버시 -->
-            <a href="reversi.html" class="game-card">
+            <a href="reversi" class="game-card">
                 <div class="game-card-visual">
                     <div class="mini-reversi">
                         <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div>
@@ -342,7 +372,7 @@
             </a>
 
             <!-- 점잇기 -->
-            <a href="dots.html" class="game-card">
+            <a href="dots" class="game-card">
                 <div class="game-card-visual">
                     <div class="mini-dots">
                         <div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
@@ -359,7 +389,7 @@
             </a>
 
             <!-- 체스 -->
-            <a href="chess.html" class="game-card">
+            <a href="chess" class="game-card">
                 <div class="game-card-visual">
                     <div class="mini-chess">
                         <div class="mini-chess-sq dark">♜</div><div class="mini-chess-sq light">♞</div><div class="mini-chess-sq dark">♝</div><div class="mini-chess-sq light">♛</div><div class="mini-chess-sq dark">♚</div>
@@ -376,7 +406,7 @@
             </a>
 
             <!-- 알까기 -->
-            <a href="alkkagi.html" class="game-card">
+            <a href="alkkagi" class="game-card">
                 <div class="game-card-visual">
                     <div class="mini-alkkagi">
                         <div class="mini-marble-group">
@@ -404,18 +434,18 @@
         <section class="guide-strip">
             <h2><span class="ko-only">처음이라면 공략부터 확인해보세요</span><span class="en-only" style="display:none;">New here? Start with the guides</span></h2>
             <p><span class="ko-only">오목, 사목, 리버시, 점잇기, 체스, 알까기 규칙과 초보 전략을 정리했습니다. 기본 패턴을 알면 AI 대전과 2인 대전이 더 재미있어집니다.</span><span class="en-only" style="display:none;">Read simple rules and beginner strategy for Omok, Connect 4, Reversi, Dots & Boxes, Chess, and Alkkagi before you play.</span></p>
-            <a href="guides.html" data-i18n="footer.guides">공략 모음</a>
+            <a href="guides" data-i18n="footer.guides">공략 모음</a>
         </section>
 
         <footer>
             <nav class="footer-nav">
-                <a href="about.html" data-i18n="footer.about">게임 소개</a>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
                 <span class="footer-sep">·</span>
-                <a href="guides.html" data-i18n="footer.guides">공략 모음</a>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
                 <span class="footer-sep">·</span>
-                <a href="contact.html" data-i18n="footer.contact">문의</a>
+                <a href="contact" data-i18n="footer.contact">문의</a>
                 <span class="footer-sep">·</span>
-                <a href="privacy.html" data-i18n="footer.privacy">개인정보처리방침</a>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
             </nav>
             <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
         </footer>

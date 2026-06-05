@@ -1,7 +1,12 @@
-﻿# Cloudflare deploy artifacts
+# Cloudflare deploy artifacts
 public/
 .wrangler/
 .wranglerignore
 
 # Editor
 .vscode/
+
+# OS junk
+desktop.ini
+Thumbs.db
+.DS_Store
