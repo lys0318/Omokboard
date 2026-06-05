@@ -2,4 +2,4 @@
 
 
 
-https://omokboard.pages.dev
+https://omokboard.com
