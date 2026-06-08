@@ -303,33 +303,171 @@ class OmokGame {
     }
 
     getBestMove() {
-        const defenseFactor = this.difficulty === 'easy' ? 0.5 : this.difficulty === 'hard' ? 1.0 : 0.95;
+        if (this.difficulty === 'easy') return this.getGreedyMove(0.5, true);
+        const depth = this.difficulty === 'hard' ? 4 : 2;
+        return this.getSearchMove(depth);
+    }
+
+    // 1수 앞만 보는 탐욕적 수 (쉬움용)
+    getGreedyMove(defenseFactor, randomize) {
         const candidates = this.getCandidateCells();
         const scored = [];
-
         for (const { r, c } of candidates) {
             this.board[r][c] = 'white';
             const aiScore = this.evaluatePosition(r, c, 'white');
             this.board[r][c] = null;
-
             this.board[r][c] = 'black';
             const playerScore = this.evaluatePosition(r, c, 'black');
             this.board[r][c] = null;
-
             const score = aiScore >= 1000000 ? aiScore : Math.max(aiScore, playerScore * defenseFactor);
             scored.push({ r, c, score });
         }
-
         scored.sort((a, b) => b.score - a.score);
         if (!scored.length) return { r: 7, c: 7 };
-
-        // 쉬움: 즉시 승리 수가 아니면 상위 5개 중 랜덤 선택
-        if (this.difficulty === 'easy' && scored[0].score < 1000000 && scored.length > 1) {
+        if (randomize && scored[0].score < 1000000 && scored.length > 1) {
             const pool = scored.slice(0, Math.min(5, scored.length));
             return pool[Math.floor(Math.random() * pool.length)];
         }
-
         return scored[0];
+    }
+
+    // 알파베타 탐색 (보통 2수 / 어려움 4수) — 열린 3·4와 포크(이중위협) 인식
+    getSearchMove(maxDepth) {
+        const cand = this.searchCandidates(1);
+        if (!cand.length) return { r: 7, c: 7 };
+
+        // 1) 즉시 승리 (5목)
+        for (const { r, c } of cand) {
+            this.board[r][c] = 'white';
+            const win = this.evaluatePosition(r, c, 'white') >= 1000000;
+            this.board[r][c] = null;
+            if (win) return { r, c };
+        }
+        // 2) 상대 즉시 승리 차단
+        const blocks = [];
+        for (const { r, c } of cand) {
+            this.board[r][c] = 'black';
+            const win = this.evaluatePosition(r, c, 'black') >= 1000000;
+            this.board[r][c] = null;
+            if (win) blocks.push({ r, c });
+        }
+        if (blocks.length) return this.bestOffenseFrom(blocks);
+
+        // 3) 알파베타
+        const ordered = this.orderMoves(cand, 'white');
+        let best = ordered[0], bestScore = -Infinity;
+        let alpha = -Infinity;
+        const beta = Infinity;
+        for (const { r, c } of ordered) {
+            this.board[r][c] = 'white';
+            const score = this.search(maxDepth - 1, alpha, beta, false);
+            this.board[r][c] = null;
+            if (score > bestScore) { bestScore = score; best = { r, c }; }
+            if (bestScore > alpha) alpha = bestScore;
+        }
+        return best;
+    }
+
+    bestOffenseFrom(list) {
+        let best = list[0], bestScore = -Infinity;
+        for (const { r, c } of list) {
+            this.board[r][c] = 'white';
+            const s = this.evaluatePosition(r, c, 'white');
+            this.board[r][c] = null;
+            if (s > bestScore) { bestScore = s; best = { r, c }; }
+        }
+        return best;
+    }
+
+    search(depth, alpha, beta, whiteToMove) {
+        const base = this.evaluateBoard();
+        if (Math.abs(base) >= 900000 || depth === 0) return base;
+        const cand = this.orderMoves(this.searchCandidates(1), whiteToMove ? 'white' : 'black');
+        if (!cand.length) return base;
+        const CAP = 12;
+        let n = 0;
+        if (whiteToMove) {
+            let best = -Infinity;
+            for (const { r, c } of cand) {
+                if (n++ >= CAP) break;
+                this.board[r][c] = 'white';
+                best = Math.max(best, this.search(depth - 1, alpha, beta, false));
+                this.board[r][c] = null;
+                if (best > alpha) alpha = best;
+                if (alpha >= beta) break;
+            }
+            return best;
+        } else {
+            let best = Infinity;
+            for (const { r, c } of cand) {
+                if (n++ >= CAP) break;
+                this.board[r][c] = 'black';
+                best = Math.min(best, this.search(depth - 1, alpha, beta, true));
+                this.board[r][c] = null;
+                if (best < beta) beta = best;
+                if (alpha >= beta) break;
+            }
+            return best;
+        }
+    }
+
+    // 돌 주변 빈 칸만 후보로
+    searchCandidates(radius) {
+        const set = new Set();
+        let has = false;
+        for (let r = 0; r < this.boardSize; r++) {
+            for (let c = 0; c < this.boardSize; c++) {
+                if (!this.board[r][c]) continue;
+                has = true;
+                for (let dr = -radius; dr <= radius; dr++) {
+                    for (let dc = -radius; dc <= radius; dc++) {
+                        const nr = r + dr, nc = c + dc;
+                        if (nr >= 0 && nr < this.boardSize && nc >= 0 && nc < this.boardSize && !this.board[nr][nc]) {
+                            set.add(nr * this.boardSize + nc);
+                        }
+                    }
+                }
+            }
+        }
+        if (!has) return [{ r: 7, c: 7 }];
+        return Array.from(set).map(k => ({ r: Math.floor(k / this.boardSize), c: k % this.boardSize }));
+    }
+
+    orderMoves(cand, player) {
+        const opp = player === 'white' ? 'black' : 'white';
+        return cand.map(({ r, c }) => {
+            this.board[r][c] = player;
+            const a = this.evaluatePosition(r, c, player);
+            this.board[r][c] = null;
+            this.board[r][c] = opp;
+            const d = this.evaluatePosition(r, c, opp);
+            this.board[r][c] = null;
+            return { r, c, h: Math.max(a, d * 0.9) };
+        }).sort((x, y) => y.h - x.h);
+    }
+
+    // 보드 전체 평가 (길이 5 윈도우; white 양수, black 음수)
+    evaluateBoard() {
+        const W = [0, 2, 12, 120, 1500, 1000000];
+        const dirs = [[0, 1], [1, 0], [1, 1], [1, -1]];
+        const n = this.boardSize;
+        let score = 0;
+        for (let r = 0; r < n; r++) {
+            for (let c = 0; c < n; c++) {
+                for (const [dr, dc] of dirs) {
+                    const er = r + dr * 4, ec = c + dc * 4;
+                    if (er < 0 || er >= n || ec < 0 || ec >= n) continue;
+                    let w = 0, b = 0;
+                    for (let k = 0; k < 5; k++) {
+                        const v = this.board[r + dr * k][c + dc * k];
+                        if (v === 'white') w++; else if (v === 'black') b++;
+                    }
+                    if (w && b) continue;
+                    if (w) score += W[w]; else if (b) score -= W[b];
+                }
+            }
+        }
+        return score;
     }
 
     getCandidateCells() {

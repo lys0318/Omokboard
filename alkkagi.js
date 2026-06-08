@@ -1,6 +1,6 @@
-const FRICTION    = 0.984;
+const FRICTION    = 0.960;
 const RESTITUTION = 0.90;
-const MIN_SPEED   = 0.12;
+const MIN_SPEED   = 0.20;
 const MAX_LAUNCH  = 20;
 const BM          = 18; // board margin (wooden frame width)
 

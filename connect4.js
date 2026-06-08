@@ -176,28 +176,171 @@ class Connect4 {
     }
 
     getBestMove() {
-        const defenseFactor = this.difficulty === 'easy' ? 0.5 : this.difficulty === 'hard' ? 1.0 : 0.9;
+        if (this.difficulty === 'easy') return this.getGreedyMove(0.5, true);
+        const depth = this.difficulty === 'hard' ? 4 : 2;
+        return this.getSearchMove(depth);
+    }
+
+    // 1수 앞만 보는 탐욕적 수 (쉬움용)
+    getGreedyMove(defenseFactor, randomize) {
+        const cand = this.candidates(1);
         const scored = [];
-        for (let r = 0; r < this.ROWS; r++) {
-            for (let c = 0; c < this.COLS; c++) {
-                if (this.board[r][c]) continue;
-                this.board[r][c] = 'yellow';
-                const aiScore = this.scorePos(r, c, 'yellow');
-                this.board[r][c] = null;
-                this.board[r][c] = 'red';
-                const oppScore = this.scorePos(r, c, 'red');
-                this.board[r][c] = null;
-                const score = aiScore >= 100000 ? aiScore : Math.max(aiScore, oppScore * defenseFactor);
-                scored.push({ r, c, score });
-            }
+        for (const { r, c } of cand) {
+            this.board[r][c] = 'yellow';
+            const aiScore = this.scorePos(r, c, 'yellow');
+            this.board[r][c] = null;
+            this.board[r][c] = 'red';
+            const oppScore = this.scorePos(r, c, 'red');
+            this.board[r][c] = null;
+            const score = aiScore >= 100000 ? aiScore : Math.max(aiScore, oppScore * defenseFactor);
+            scored.push({ r, c, score });
         }
         scored.sort((a, b) => b.score - a.score);
-        if (!scored.length) return null;
-        if (this.difficulty === 'easy' && scored[0].score < 100000 && scored.length > 1) {
+        if (!scored.length) return { r: 7, c: 7 };
+        if (randomize && scored[0].score < 100000 && scored.length > 1) {
             const pool = scored.slice(0, Math.min(5, scored.length));
             return pool[Math.floor(Math.random() * pool.length)];
         }
         return scored[0];
+    }
+
+    // 알파베타 탐색 (보통 2수 / 어려움 4수) — 포크(이중위협) 인식
+    getSearchMove(maxDepth) {
+        const cand = this.candidates(1);
+        if (!cand.length) return { r: 7, c: 7 };
+
+        // 1) 즉시 승리
+        for (const { r, c } of cand) {
+            this.board[r][c] = 'yellow';
+            const win = this.scorePos(r, c, 'yellow') >= 100000;
+            this.board[r][c] = null;
+            if (win) return { r, c };
+        }
+        // 2) 상대 즉시 승리 차단
+        const blocks = [];
+        for (const { r, c } of cand) {
+            this.board[r][c] = 'red';
+            const win = this.scorePos(r, c, 'red') >= 100000;
+            this.board[r][c] = null;
+            if (win) blocks.push({ r, c });
+        }
+        if (blocks.length) return this.bestOffenseFrom(blocks);
+
+        // 3) 알파베타
+        const ordered = this.orderMoves(cand, 'yellow');
+        let best = ordered[0], bestScore = -Infinity;
+        let alpha = -Infinity;
+        const beta = Infinity;
+        for (const { r, c } of ordered) {
+            this.board[r][c] = 'yellow';
+            const score = this.search(maxDepth - 1, alpha, beta, false);
+            this.board[r][c] = null;
+            if (score > bestScore) { bestScore = score; best = { r, c }; }
+            if (bestScore > alpha) alpha = bestScore;
+        }
+        return best;
+    }
+
+    bestOffenseFrom(list) {
+        let best = list[0], bestScore = -Infinity;
+        for (const { r, c } of list) {
+            this.board[r][c] = 'yellow';
+            const s = this.scorePos(r, c, 'yellow');
+            this.board[r][c] = null;
+            if (s > bestScore) { bestScore = s; best = { r, c }; }
+        }
+        return best;
+    }
+
+    search(depth, alpha, beta, yellowToMove) {
+        const base = this.evaluateBoard();
+        if (Math.abs(base) >= 90000 || depth === 0) return base;
+        const cand = this.orderMoves(this.candidates(1), yellowToMove ? 'yellow' : 'red');
+        if (!cand.length) return base;
+        const CAP = 12;
+        let n = 0;
+        if (yellowToMove) {
+            let best = -Infinity;
+            for (const { r, c } of cand) {
+                if (n++ >= CAP) break;
+                this.board[r][c] = 'yellow';
+                best = Math.max(best, this.search(depth - 1, alpha, beta, false));
+                this.board[r][c] = null;
+                if (best > alpha) alpha = best;
+                if (alpha >= beta) break;
+            }
+            return best;
+        } else {
+            let best = Infinity;
+            for (const { r, c } of cand) {
+                if (n++ >= CAP) break;
+                this.board[r][c] = 'red';
+                best = Math.min(best, this.search(depth - 1, alpha, beta, true));
+                this.board[r][c] = null;
+                if (best < beta) beta = best;
+                if (alpha >= beta) break;
+            }
+            return best;
+        }
+    }
+
+    // 돌 주변 빈 칸만 후보로 (radius 칸 이내)
+    candidates(radius) {
+        const set = new Set();
+        let has = false;
+        for (let r = 0; r < this.ROWS; r++) {
+            for (let c = 0; c < this.COLS; c++) {
+                if (!this.board[r][c]) continue;
+                has = true;
+                for (let dr = -radius; dr <= radius; dr++) {
+                    for (let dc = -radius; dc <= radius; dc++) {
+                        const nr = r + dr, nc = c + dc;
+                        if (nr >= 0 && nr < this.ROWS && nc >= 0 && nc < this.COLS && !this.board[nr][nc]) {
+                            set.add(nr * this.COLS + nc);
+                        }
+                    }
+                }
+            }
+        }
+        if (!has) return [{ r: 7, c: 7 }];
+        return Array.from(set).map(k => ({ r: Math.floor(k / this.COLS), c: k % this.COLS }));
+    }
+
+    // 공격/방어 휴리스틱으로 후보 정렬 (알파베타 가지치기 향상)
+    orderMoves(cand, player) {
+        const opp = player === 'yellow' ? 'red' : 'yellow';
+        return cand.map(({ r, c }) => {
+            this.board[r][c] = player;
+            const a = this.scorePos(r, c, player);
+            this.board[r][c] = null;
+            this.board[r][c] = opp;
+            const d = this.scorePos(r, c, opp);
+            this.board[r][c] = null;
+            return { r, c, h: Math.max(a, d * 0.9) };
+        }).sort((x, y) => y.h - x.h);
+    }
+
+    // 보드 전체 평가 (길이 4 윈도우; yellow 양수, red 음수)
+    evaluateBoard() {
+        const W = [0, 1, 12, 150, 100000];
+        const dirs = [[0, 1], [1, 0], [1, 1], [1, -1]];
+        let score = 0;
+        for (let r = 0; r < this.ROWS; r++) {
+            for (let c = 0; c < this.COLS; c++) {
+                for (const [dr, dc] of dirs) {
+                    const er = r + dr * 3, ec = c + dc * 3;
+                    if (er < 0 || er >= this.ROWS || ec < 0 || ec >= this.COLS) continue;
+                    let y = 0, rd = 0;
+                    for (let k = 0; k < 4; k++) {
+                        const v = this.board[r + dr * k][c + dc * k];
+                        if (v === 'yellow') y++; else if (v === 'red') rd++;
+                    }
+                    if (y && rd) continue;
+                    if (y) score += W[y]; else if (rd) score -= W[rd];
+                }
+            }
+        }
+        return score;
     }
 
     scorePos(row, col, player) {
