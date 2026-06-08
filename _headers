@@ -1,0 +1,6 @@
+# JS/CSS는 매 요청마다 재검증 (ETag로 변경 없으면 304 → 가벼움)
+# 게임 로직 업데이트가 즉시 반영되도록
+/*.js
+  Cache-Control: public, max-age=0, must-revalidate
+/*.css
+  Cache-Control: public, max-age=0, must-revalidate
