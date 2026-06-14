@@ -81,7 +81,9 @@ class AlkkagiGame {
             const rect = canvas.getBoundingClientRect();
             const sx   = canvas.width  / rect.width;
             const sy   = canvas.height / rect.height;
-            const src  = e.touches ? e.touches[0] : e;
+            const src  = (e.touches && e.touches.length)
+                ? e.touches[0]
+                : (e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : e);
             return { x: (src.clientX - rect.left)*sx, y: (src.clientY - rect.top)*sy };
         };
 
@@ -118,12 +120,14 @@ class AlkkagiGame {
             this.dragging = null; e.preventDefault();
         };
 
+        // 시작(누르기)은 캔버스에서만, 이동·놓기는 window에서 감지해
+        // 커서가 보드를 벗어나도 조준이 끊기지 않게 함
         canvas.addEventListener('mousedown',  onDown);
-        canvas.addEventListener('mousemove',  onMove);
-        canvas.addEventListener('mouseup',    onUp);
+        window.addEventListener('mousemove',  onMove);
+        window.addEventListener('mouseup',    onUp);
         canvas.addEventListener('touchstart', onDown, { passive:false });
-        canvas.addEventListener('touchmove',  onMove, { passive:false });
-        canvas.addEventListener('touchend',   onUp,   { passive:false });
+        window.addEventListener('touchmove',  onMove, { passive:false });
+        window.addEventListener('touchend',   onUp,   { passive:false });
 
         // Mode overlay
         document.getElementById('ak-pvp-btn').addEventListener('click', () => this.startGame('pvp'));
