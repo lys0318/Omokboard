@@ -208,8 +208,11 @@ class YutGame {
     }
 
     tokenScreenPos(idx) {
+        if (idx == null) return { x: -100, y: -100 };
         const pos = this.players[this.current].tokens[idx];
-        return pos === YUT_WAIT ? this.waitPos(this.current, this._waitOrder(this.current, idx)) : this.nodePos(pos);
+        if (pos === YUT_WAIT) return this.waitPos(this.current, this._waitOrder(this.current, idx));
+        if (pos === YUT_FINISH || this.coords[pos] === undefined) return { x: -100, y: -100 };
+        return this.nodePos(pos);
     }
     _waitOrder(player, idx) {
         // idx가 대기 말 중 몇 번째인지
@@ -550,7 +553,7 @@ class YutGame {
         }
 
         // 선택된 말 + 목적지 표시
-        if (human && !this.isGameOver && this.phase === 'selectDest') {
+        if (human && !this.isGameOver && this.phase === 'selectDest' && this.selectedToken != null) {
             const sxy = this.tokenScreenPos(this.selectedToken);
             ctx.beginPath(); ctx.arc(sxy.x, sxy.y, this.W*0.05, 0, Math.PI*2);
             ctx.strokeStyle = '#facc15'; ctx.lineWidth = 3.5; ctx.stroke();
