@@ -46,40 +46,132 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>점잇기의 기본 규칙</h2>
-                    <p>점잇기는 점과 점 사이에 번갈아 선을 긋는 게임입니다. 선 네 개로 네모 하나를 완성하면 그 네모를 차지하고 1점을 얻습니다. 네모를 완성한 플레이어는 한 번 더 선을 그을 수 있으며, 모든 네모가 채워졌을 때 더 많은 네모를 가진 쪽이 승리합니다.</p>
+                    <h2>점잇기란?</h2>
+                    <p>점잇기(Dots and Boxes)는 격자로 찍힌 점들 사이에 번갈아 선을 하나씩 긋는 게임입니다. 네 변을 모두 채워 네모 한 칸을 완성하면 그 칸을 차지해 1점을 얻습니다. 종이와 펜만 있으면 어디서든 즐길 수 있어 오래전부터 사랑받아 온 두뇌 게임이죠.</p>
+                    <p>규칙은 아주 단순하지만, 사실은 <strong>"언제 칸을 포기하느냐"를 계산하는 깊은 전략 게임</strong>입니다. 초보는 눈앞의 칸을 먹다가 후반에 무너지고, 고수는 일부러 칸을 내주며 판 전체를 지배합니다.</p>
+                    <p style="margin-top:0.8rem;"><a href="dots" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">점잇기 게임 바로 플레이하기 →</a></p>
                 </section>
+
                 <section class="info-section">
-                    <h2>추가 턴이 중요한 이유</h2>
-                    <p>네모를 완성하면 차례가 유지되기 때문에, 후반에는 여러 네모를 연달아 가져가는 상황이 자주 나옵니다. 단순히 지금 한 칸을 먹는 것보다, 다음에 이어서 먹을 수 있는 구조인지 함께 보는 것이 중요합니다.</p>
-                </section>
-                <section class="info-section">
-                    <h2>초보 전략 체크리스트</h2>
+                    <h2>게임의 목표와 규칙</h2>
                     <ul class="rule-list">
-                        <li>상대가 바로 네모를 완성할 수 있는 세 번째 선을 쉽게 만들지 마세요.</li>
-                        <li>완성 가능한 네모가 있으면 먼저 차지해서 추가 턴을 이어가세요.</li>
-                        <li>어쩔 수 없이 세 번째 선을 만들어야 한다면, 상대에게 주는 네모 수가 가장 적은 곳을 고르세요.</li>
-                        <li>후반에는 긴 연결 구간을 누가 먼저 넘겨받는지가 승부를 크게 좌우합니다.</li>
+                        <li><strong>착수:</strong> 자기 차례에 인접한 두 점 사이 빈 변을 하나 긋습니다.</li>
+                        <li><strong>득점:</strong> 어떤 네모의 네 번째 변을 그어 완성하면 그 칸을 차지하고 <strong>1점</strong>을 얻습니다.</li>
+                        <li><strong>추가 턴:</strong> 칸을 완성하면 <strong>한 번 더</strong> 둘 수 있습니다. 연달아 완성하면 계속 이어집니다.</li>
+                        <li><strong>승리:</strong> 모든 칸이 채워지면 끝. 더 많은 칸을 가진 쪽이 승리합니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>가장 중요한 원칙 — "세 번째 변"을 주지 마라</h2>
+                    <p>어떤 네모에 변이 이미 2개 있을 때, 거기에 <strong>세 번째 변</strong>을 그으면 상대가 그 칸을 공짜로 완성합니다. 그래서 점잇기의 기본은 "세 변짜리 칸을 상대에게 넘기지 않는, <strong>안전한 수</strong>"를 최대한 오래 두는 것입니다. 안전한 수가 다 떨어지면 어쩔 수 없이 누군가는 칸을 내주게 되는데, 이 타이밍이 승부의 핵심입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>체인(연결 구간) 이해하기</h2>
+                    <p>후반이 되면 칸들이 길게 이어진 <strong>체인</strong> 형태로 묶입니다. 한 칸을 내주면 상대가 그 체인을 따라 칸을 연속으로 먹게 되죠. 그래서 "지금 몇 점을 먹느냐"보다 "이 체인을 누가 열게 만드느냐"가 훨씬 중요합니다. 짧은 체인을 먼저 내주고 긴 체인을 상대가 열도록 유도하는 것이 기본 운영입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>고급 전략 — 더블 크로스(두 칸 희생)</h2>
+                    <p>고수의 핵심 기술입니다. 상대가 연 긴 체인을 끝까지 다 먹지 않고, <strong>마지막 두 칸을 일부러 남겨 상대에게 넘깁니다.</strong> 상대는 그 두 칸을 먹지만, 그다음 또 다른 체인을 먼저 열 수밖에 없게 됩니다. 즉 두 칸을 희생해 "체인을 여는 불리한 차례"를 계속 상대에게 떠넘기는 전략이죠. 이 한 가지만 익혀도 실력이 크게 올라갑니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>패리티 — 누가 먼저 여느냐</h2>
+                    <p>점잇기는 "안전한 수가 떨어졌을 때 누가 먼저 체인을 열어야 하는가"가 승부를 가릅니다. 이를 패리티(parity)라고 합니다. 정확한 계산은 복잡하지만, 실전에서는 <strong>긴 체인은 되도록 상대가 먼저 열게 만들고, 더블 크로스로 차례를 떠넘기는</strong> 감각만 익혀도 충분히 강해집니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 하는 실수</h2>
+                    <ul class="rule-list">
+                        <li>눈앞의 한 칸을 먹으려다 세 번째 변을 만들어 더 큰 체인을 상대에게 헌납하는 경우</li>
+                        <li>긴 체인을 끝까지 다 먹어서, 그다음 차례에 내가 또 체인을 열게 되는 경우 (더블 크로스를 안 한 실수)</li>
+                        <li>안전한 수가 남아 있는데 먼저 칸을 내주는 경우</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>실전 팁</h2>
+                    <ul class="rule-list">
+                        <li>변이 2개인 칸 옆은 가급적 건드리지 말고, 변이 0~1개인 곳부터 안전하게 채우세요.</li>
+                        <li>어쩔 수 없이 내줘야 한다면 <strong>가장 짧은 체인</strong>부터 내주세요.</li>
+                        <li>긴 체인을 먹을 땐 마지막 두 칸을 남기는 더블 크로스를 기억하세요.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>칸을 완성하면 무조건 한 번 더 두나요?</strong> 네. 연속 완성되면 계속 추가 턴을 얻습니다.</li>
+                        <li><strong>꼭 칸을 먹어야 하나요?</strong> 의무는 아닙니다. 더블 크로스처럼 일부러 안 먹는 것이 더 유리할 때가 많습니다.</li>
+                        <li><strong>비기기도 하나요?</strong> 전체 칸 수가 짝수라면 동점이 나올 수 있습니다.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>Basic Rules</h2>
-                    <p>Dots & Boxes is played by drawing one empty edge between two dots on each turn. When your line completes the fourth side of a box, you claim that box and score 1 point. Completing a box also gives you another turn. When every box is claimed, the player with more boxes wins.</p>
+                    <h2>What Is Dots and Boxes?</h2>
+                    <p>Dots and Boxes is played on a grid of dots where players take turns drawing one edge between adjacent dots. Complete the fourth side of a box to claim it and score a point. It needs only paper and pen, which is why it has been a beloved pencil game for generations.</p>
+                    <p>The rules are simple, but it is secretly a deep strategy game about <strong>when to give boxes away</strong>. Beginners grab boxes and collapse late; experts sacrifice boxes to control the whole board.</p>
+                    <p style="margin-top:0.8rem;"><a href="dots" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Dots and Boxes now →</a></p>
                 </section>
+
                 <section class="info-section">
-                    <h2>Why Extra Turns Matter</h2>
-                    <p>Because scoring keeps your turn alive, the endgame can quickly become a chain of boxes. Look beyond the single box in front of you and ask whether the next line lets you continue scoring or gives the chain back to your opponent.</p>
-                </section>
-                <section class="info-section">
-                    <h2>Beginner Checklist</h2>
+                    <h2>Objective &amp; Rules</h2>
                     <ul class="rule-list">
-                        <li>Avoid making a third side when your opponent can finish the box immediately.</li>
-                        <li>If a box is already available, claim it first and use the extra turn.</li>
-                        <li>When you must give something away, choose the move that gives the fewest boxes.</li>
-                        <li>In the late game, long chains decide many matches, so count the boxes before opening one.</li>
+                        <li><strong>Move:</strong> On your turn, draw one empty edge between two adjacent dots.</li>
+                        <li><strong>Score:</strong> Drawing a box's fourth side claims it for <strong>1 point</strong>.</li>
+                        <li><strong>Extra turn:</strong> Completing a box lets you go <strong>again</strong> — chains of boxes keep your turn alive.</li>
+                        <li><strong>Win:</strong> When all boxes are claimed, the player with more boxes wins.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>The Golden Rule — Don't Give the Third Side</h2>
+                    <p>If a box already has two sides, adding a <strong>third</strong> lets your opponent complete it for free. The basic skill is making <strong>safe moves</strong> (never creating a three-sided box) for as long as possible. When safe moves run out, someone must give boxes away — and that timing decides the game.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Understanding Chains</h2>
+                    <p>Late game, boxes link into <strong>chains</strong>. Open one box and the opponent runs down the whole chain. So "who is forced to open a chain" matters far more than the current score. Give away short chains first and make the opponent open the long ones.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Advanced — The Double-Cross</h2>
+                    <p>The key expert move: when running a long chain, don't take it all — <strong>leave the last two boxes</strong> for your opponent. They take those two but are then forced to open the next chain. Sacrificing two boxes keeps handing the bad "must-open" turn back to your opponent. Learning just this dramatically raises your level.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Parity — Who Opens First</h2>
+                    <p>Dots and Boxes hinges on who must open a chain once safe moves run out — this is "parity." The exact math is complex, but in practice just making the opponent open long chains and using the double-cross is enough to play strongly.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Common Mistakes</h2>
+                    <ul class="rule-list">
+                        <li>Grabbing one box but creating a third side that hands over a bigger chain.</li>
+                        <li>Taking a whole chain, then being forced to open the next (forgetting the double-cross).</li>
+                        <li>Giving boxes away while safe moves still remain.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Tips</h2>
+                    <ul class="rule-list">
+                        <li>Fill edges around boxes with 0–1 sides first; avoid two-sided boxes.</li>
+                        <li>When you must give away, give the <strong>shortest chain</strong> first.</li>
+                        <li>On long chains, remember to leave the last two boxes (double-cross).</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>Does completing a box always grant another turn?</strong> Yes, and consecutive completions keep going.</li>
+                        <li><strong>Must I take an available box?</strong> No — declining (the double-cross) is often better.</li>
+                        <li><strong>Can it tie?</strong> If the total number of boxes is even, a draw is possible.</li>
                     </ul>
                 </section>
             </div>

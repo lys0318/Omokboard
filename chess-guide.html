@@ -46,41 +46,165 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>체스의 목표</h2>
-                    <p>체스는 상대의 킹을 체크메이트로 몰아 승리하는 게임입니다. 체크는 킹이 공격받는 상태이고, 체크메이트는 킹이 공격을 피할 수 없는 상태입니다. 단순히 많은 기물을 잡는 것보다 킹의 안전과 공격 루트를 함께 보는 것이 중요합니다.</p>
+                    <h2>체스란?</h2>
+                    <p>체스는 8×8 판에서 두 사람이 16개씩의 기물로 싸워 상대의 킹을 잡는 세계에서 가장 인기 있는 보드게임입니다. 6세기 인도의 '차투랑가'에서 유래해 페르시아·유럽을 거치며 오늘날의 형태로 발전했고, 지금은 전 세계에서 즐기는 두뇌 스포츠가 되었습니다.</p>
+                    <p>경우의 수가 사실상 무한해 평생 공부해도 끝이 없지만, 기본 원칙 몇 가지만 알아도 훨씬 재미있게 둘 수 있습니다.</p>
+                    <p style="margin-top:0.8rem;"><a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">체스 게임 바로 플레이하기 →</a></p>
                 </section>
+
+                <section class="info-section">
+                    <h2>게임의 목표 — 체크메이트</h2>
+                    <p>승리 조건은 상대 <strong>킹을 체크메이트</strong>하는 것입니다. <strong>체크</strong>는 킹이 다음 수에 잡히도록 공격받는 상태이고, <strong>체크메이트</strong>는 그 공격을 어떤 수로도 피할 수 없는 상태입니다. 킹은 실제로 잡히지 않으며, 체크메이트가 곧 게임의 끝입니다. 어느 쪽도 체크메이트가 안 되는 특정 상황에서는 무승부(스테일메이트 등)가 됩니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>기물의 이동법</h2>
+                    <ul class="rule-list">
+                        <li><strong>폰:</strong> 앞으로 한 칸(첫 수는 두 칸 가능), 잡을 때만 대각선 앞으로. 끝 줄에 도달하면 퀸 등으로 승격.</li>
+                        <li><strong>나이트(♞):</strong> L자(2+1)로 이동하며, 유일하게 다른 기물을 뛰어넘습니다.</li>
+                        <li><strong>비숍(♝):</strong> 대각선으로 원하는 만큼. 한 가지 색 칸만 다닙니다.</li>
+                        <li><strong>룩(♜):</strong> 가로·세로로 원하는 만큼.</li>
+                        <li><strong>퀸(♛):</strong> 가로·세로·대각선 모두. 가장 강력합니다.</li>
+                        <li><strong>킹(♚):</strong> 모든 방향으로 한 칸. 가장 소중한 기물.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>꼭 알아야 할 특수 규칙</h2>
+                    <ul class="rule-list">
+                        <li><strong>캐슬링:</strong> 킹과 룩이 한 번에 움직여 킹을 안전하게 피신시키는 수. 둘 다 안 움직였고 사이가 비어 있어야 합니다.</li>
+                        <li><strong>앙파상:</strong> 상대 폰이 두 칸 전진해 내 폰 옆을 지나칠 때, 한 칸 지나간 것처럼 잡는 특수 규칙.</li>
+                        <li><strong>프로모션(승격):</strong> 폰이 맨 끝 줄에 도달하면 퀸·룩·비숍·나이트 중 하나로 변신합니다(보통 퀸).</li>
+                    </ul>
+                    <p style="margin-top:0.6rem;">오목보드의 체스는 이 규칙들을 모두 지원합니다.</p>
+                </section>
+
                 <section class="info-section">
                     <h2>기물 가치</h2>
                     <ul class="rule-list">
-                        <li>폰은 1점으로 작지만, 끝까지 전진하면 퀸으로 승격할 수 있습니다.</li>
-                        <li>나이트와 비숍은 보통 3점 정도로 평가하며, 위치에 따라 가치가 달라집니다.</li>
-                        <li>룩은 5점, 퀸은 9점 정도로 강력한 장거리 기물입니다.</li>
-                        <li>킹은 잡히는 기물이 아니며, 체크메이트를 피하는 것이 최우선입니다.</li>
+                        <li>폰 ≈ 1점 — 작지만 승격하면 퀸이 됩니다.</li>
+                        <li>나이트·비숍 ≈ 3점 — 위치에 따라 가치가 달라집니다.</li>
+                        <li>룩 ≈ 5점, 퀸 ≈ 9점 — 강력한 장거리 기물.</li>
+                        <li>교환할 때 이 가치를 비교하면 손해 보는 거래를 피할 수 있습니다.</li>
                     </ul>
                 </section>
+
                 <section class="info-section">
-                    <h2>초반 운영 팁</h2>
-                    <p>초반에는 중앙 칸을 차지하고, 나이트와 비숍을 빠르게 전개하며, 킹이 위험해지지 않도록 주의하세요. 같은 기물을 여러 번 움직이기보다 아직 움직이지 않은 기물을 전개하면 전체 기물이 함께 공격과 방어에 참여할 수 있습니다.</p>
+                    <h2>초반 3원칙</h2>
+                    <ul class="rule-list">
+                        <li><strong>중앙 장악:</strong> e4·d4 같은 중앙 폰으로 가운데를 차지하면 기물이 활발해집니다.</li>
+                        <li><strong>빠른 전개:</strong> 나이트·비숍을 먼저 꺼내고, 같은 기물을 반복해서 움직이지 마세요.</li>
+                        <li><strong>킹 안전:</strong> 초반에 캐슬링으로 킹을 구석으로 피신시키세요.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>기본 전술 — 한 수로 둘을 노린다</h2>
+                    <ul class="rule-list">
+                        <li><strong>포크:</strong> 한 기물(특히 나이트)로 동시에 두 기물을 공격. 상대는 하나만 구합니다.</li>
+                        <li><strong>핀:</strong> 뒤에 더 중요한 기물(킹·퀸)이 있어 앞 기물이 움직이지 못하게 묶는 수.</li>
+                        <li><strong>스큐어:</strong> 핀의 반대 — 앞의 큰 기물을 비키게 해 뒤의 기물을 잡습니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 하는 실수</h2>
+                    <ul class="rule-list">
+                        <li>초반에 퀸을 너무 일찍 꺼내 쫓겨다니며 시간을 낭비하는 경우</li>
+                        <li>캐슬링을 미루다 중앙에서 킹이 공격받는 경우</li>
+                        <li>공짜로 보이는 기물을 잡았다가 포크·핀에 걸리는 경우</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>스테일메이트가 뭔가요?</strong> 둘 수는 있어야 하는데 합법적인 수가 전혀 없고 킹도 체크가 아닌 상태로, 무승부입니다.</li>
+                        <li><strong>폰은 항상 퀸이 되나요?</strong> 보통 퀸을 고르지만 룩·비숍·나이트로도 승격할 수 있습니다.</li>
+                        <li><strong>킹을 잡으면 이기나요?</strong> 킹은 실제로 잡지 않습니다. 피할 수 없게 만드는 체크메이트가 승리입니다.</li>
+                    </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>The Goal of Chess</h2>
-                    <p>The goal of chess is to checkmate the opponent's king. Check means the king is under attack. Checkmate means the king cannot escape that attack. Capturing material matters, but king safety and active threats matter even more.</p>
+                    <h2>What Is Chess?</h2>
+                    <p>Chess is the world's most popular board game, played on an 8×8 board where each side commands 16 pieces aiming to trap the enemy king. It descends from 6th-century Indian "chaturanga" and evolved through Persia and Europe into today's game, now a global mind sport.</p>
+                    <p>Its possibilities are effectively endless, but a few core principles make it far more enjoyable right away.</p>
+                    <p style="margin-top:0.8rem;"><a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Chess now →</a></p>
                 </section>
+
+                <section class="info-section">
+                    <h2>The Goal — Checkmate</h2>
+                    <p>You win by <strong>checkmating</strong> the king. <strong>Check</strong> means the king is under attack; <strong>checkmate</strong> means that attack cannot be escaped by any move. The king is never actually captured — checkmate ends the game. Certain positions with no legal move (stalemate) are draws.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How the Pieces Move</h2>
+                    <ul class="rule-list">
+                        <li><strong>Pawn:</strong> Forward one (two on its first move), captures diagonally; promotes on the last rank.</li>
+                        <li><strong>Knight (♞):</strong> Moves in an L (2+1) and is the only piece that jumps over others.</li>
+                        <li><strong>Bishop (♝):</strong> Any distance diagonally, staying on one color.</li>
+                        <li><strong>Rook (♜):</strong> Any distance horizontally or vertically.</li>
+                        <li><strong>Queen (♛):</strong> Any direction — the strongest piece.</li>
+                        <li><strong>King (♚):</strong> One square any direction — the most valuable piece.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Special Rules to Know</h2>
+                    <ul class="rule-list">
+                        <li><strong>Castling:</strong> King and rook move together to tuck the king to safety (neither may have moved; squares between empty).</li>
+                        <li><strong>En passant:</strong> Capture a pawn that just advanced two squares past yours, as if it moved one.</li>
+                        <li><strong>Promotion:</strong> A pawn reaching the far rank becomes a queen, rook, bishop, or knight (usually a queen).</li>
+                    </ul>
+                    <p style="margin-top:0.6rem;">Omokboard's chess supports all of these rules.</p>
+                </section>
+
                 <section class="info-section">
                     <h2>Piece Values</h2>
                     <ul class="rule-list">
-                        <li>Pawns are worth about 1 point, but can promote if they reach the last rank.</li>
-                        <li>Knights and bishops are usually worth about 3 points, depending on position.</li>
-                        <li>Rooks are worth about 5 points, and queens are powerful long-range pieces worth about 9.</li>
-                        <li>The king is never captured; avoiding checkmate is always the top priority.</li>
+                        <li>Pawn ≈ 1 — small, but can promote to a queen.</li>
+                        <li>Knight/Bishop ≈ 3 — value depends on position.</li>
+                        <li>Rook ≈ 5, Queen ≈ 9 — powerful long-range pieces.</li>
+                        <li>Compare values on every trade to avoid bad exchanges.</li>
                     </ul>
                 </section>
+
                 <section class="info-section">
-                    <h2>Opening Tips</h2>
-                    <p>In the opening, fight for the center, develop knights and bishops, and keep your king safe. Try not to move the same piece repeatedly while other pieces are still undeveloped. A coordinated army attacks and defends better.</p>
+                    <h2>Three Opening Principles</h2>
+                    <ul class="rule-list">
+                        <li><strong>Control the center:</strong> Central pawns (e4/d4) make your pieces active.</li>
+                        <li><strong>Develop quickly:</strong> Bring out knights and bishops; don't move one piece repeatedly.</li>
+                        <li><strong>King safety:</strong> Castle early to tuck the king into the corner.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Basic Tactics — Hit Two at Once</h2>
+                    <ul class="rule-list">
+                        <li><strong>Fork:</strong> One piece (often a knight) attacks two at once — only one can be saved.</li>
+                        <li><strong>Pin:</strong> A piece can't move because a more valuable piece sits behind it.</li>
+                        <li><strong>Skewer:</strong> The reverse of a pin — force the big piece to move and win the one behind.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Common Mistakes</h2>
+                    <ul class="rule-list">
+                        <li>Bringing the queen out too early and losing time as it's chased.</li>
+                        <li>Delaying castling and getting the king attacked in the center.</li>
+                        <li>Grabbing a "free" piece and walking into a fork or pin.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>What is stalemate?</strong> You have no legal move but your king is not in check — it's a draw.</li>
+                        <li><strong>Must a pawn become a queen?</strong> Usually, but you may also choose rook, bishop, or knight.</li>
+                        <li><strong>Do I win by capturing the king?</strong> The king is never captured — making it inescapable (checkmate) wins.</li>
+                    </ul>
                 </section>
             </div>
         </main>
