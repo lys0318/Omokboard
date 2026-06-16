@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/sudoku">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>스도쿠 게임 - 오목보드 | 무료 온라인 스도쿠 (1인·대결)</title>
+    <meta name="description" content="무료 온라인 스도쿠. 난이도별 1인 모드와, 같은 퍼즐을 두고 겨루는 1:1·AI 대결 모드 지원. 유일해가 보장된 퍼즐을 설치 없이 브라우저에서 바로 풀어보세요.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="스도쿠 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 스도쿠. 1인 모드 + 1:1·AI 대결 모드.">
+    <meta property="og:url" content="https://omokboard.com/sudoku">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="스도쿠 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 스도쿠. 1인 + 대결 모드.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        .sudoku-board {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            width: min(92vw, 460px);
+            aspect-ratio: 1;
+            background: #deae6c;
+            border: 3px solid #5a3c1e;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .sudoku-cell {
+            background: #f3e2c0;
+            border: 1px solid rgba(90,60,30,0.35);
+            font-family: inherit;
+            font-size: clamp(1rem, 4.4vw, 1.6rem);
+            font-weight: 600;
+            color: #1e3a8a;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0; aspect-ratio: 1;
+            transition: background 0.12s;
+        }
+        .sudoku-cell.br { border-right: 2.5px solid #5a3c1e; }
+        .sudoku-cell.bb { border-bottom: 2.5px solid #5a3c1e; }
+        .sudoku-cell.given { color: #2f2117; font-weight: 800; background: #e6cfa0; cursor: default; }
+        .sudoku-cell.selected { background: #ffe9a8; box-shadow: inset 0 0 0 2px var(--accent-blue); }
+        .sudoku-cell.same { background: #f0d68a; }
+        .sudoku-cell.wrong { color: #dc2626; }
+        .sudoku-cell.wrong-flash { background: #f8a5a5 !important; }
+        .sudoku-cell.p1 { color: #fff; background: #ef4444; font-weight: 800; }
+        .sudoku-cell.p2 { color: #fff; background: #3b82f6; font-weight: 800; }
+        .sudoku-pad {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            width: min(92vw, 460px);
+            margin-top: 0.25rem;
+        }
+        .sudoku-num {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 0.7rem 0;
+            border-radius: 0.6rem;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .sudoku-num:hover { background: rgba(59,130,246,0.25); transform: translateY(-2px); }
+        .sudoku-num.erase { color: var(--text-muted); }
+        #sudoku-info { font-weight: 800; font-size: 1.1rem; }
+        #sudoku-info .sc-p1 { color: #ef4444; }
+        #sudoku-info .sc-p2 { color: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item active" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1>스도쿠</h1>
+            <p class="subtitle">Sudoku — <span class="ko-only">숫자로 채우는 논리 퍼즐</span><span class="en-only" style="display:none;">The logic number puzzle</span></p>
+        </header>
+
+        <main>
+            <div class="game-info">
+                <div class="status-center" style="flex-direction:row;justify-content:space-between;width:100%;">
+                    <div class="status-message" id="sudoku-status">시간 0:00</div>
+                    <div id="sudoku-info"></div>
+                </div>
+            </div>
+
+            <div id="sudoku-board" class="sudoku-board"></div>
+            <div id="sudoku-pad" class="sudoku-pad"></div>
+
+            <div class="controls">
+                <button id="sudoku-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+            </div>
+        </main>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">가로·세로 각 줄과 3×3 칸마다 1~9를 한 번씩만 넣어 모든 칸을 채우면 완성</span><span class="en-only" style="display:none;">Fill every row, column, and 3×3 box with 1–9 used exactly once</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">빈 칸을 클릭한 뒤 아래 숫자판(또는 키보드 1~9)을 누르세요. ⌫로 지웁니다</span><span class="en-only" style="display:none;">Click a cell, then tap a number (or press 1–9). Use ⌫ to erase</span></li>
+                <li><strong>1인:</strong> <span class="ko-only">난이도를 골라 혼자 풀고 기록에 도전</span><span class="en-only" style="display:none;">Solve solo against the clock</span></li>
+                <li><strong>대결:</strong> <span class="ko-only">같은 퍼즐을 두고 번갈아 정답 칸을 채워, 더 많이 맞힌 쪽이 승리 (1:1·AI)</span><span class="en-only" style="display:none;">Take turns claiming correct cells on the same puzzle; most cells wins (1:1 / AI)</span></li>
+            </ul>
+        </section>
+
+    <script src="adfit.js?v=1"></script>
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Mode Overlay -->
+    <div id="sudoku-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title">스도쿠</h2>
+            <div id="sudoku-step-mode">
+                <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="sudoku-solo-btn">
+                        <span class="mode-icon">🧩</span>
+                        <span class="mode-label"><span class="ko-only">1인 플레이</span><span class="en-only" style="display:none;">Solo</span></span>
+                        <span class="mode-desc"><span class="ko-only">혼자 풀기</span><span class="en-only" style="display:none;">Solve alone</span></span>
+                    </button>
+                    <button class="mode-btn" id="sudoku-pvp-btn">
+                        <span class="mode-icon">👤👤</span>
+                        <span class="mode-label"><span class="ko-only">1:1 대결</span><span class="en-only" style="display:none;">1v1</span></span>
+                        <span class="mode-desc"><span class="ko-only">친구와 대결</span><span class="en-only" style="display:none;">vs friend</span></span>
+                    </button>
+                    <button class="mode-btn" id="sudoku-ai-btn">
+                        <span class="mode-icon">🤖</span>
+                        <span class="mode-label"><span class="ko-only">AI 대결</span><span class="en-only" style="display:none;">vs AI</span></span>
+                        <span class="mode-desc"><span class="ko-only">AI와 대결</span><span class="en-only" style="display:none;">vs computer</span></span>
+                    </button>
+                </div>
+            </div>
+            <div id="sudoku-step-diff" class="hidden">
+                <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" id="sudoku-easy-btn">
+                        <span class="mode-icon">😊</span>
+                        <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                        <span class="mode-desc"><span class="ko-only">힌트 많음</span><span class="en-only" style="display:none;">More clues</span></span>
+                    </button>
+                    <button class="mode-btn" id="sudoku-normal-btn">
+                        <span class="mode-icon">🎯</span>
+                        <span class="mode-label" data-i18n="mode.normal">보통</span>
+                        <span class="mode-desc"><span class="ko-only">적당함</span><span class="en-only" style="display:none;">Balanced</span></span>
+                    </button>
+                    <button class="mode-btn" id="sudoku-hard-btn">
+                        <span class="mode-icon">🔥</span>
+                        <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                        <span class="mode-desc"><span class="ko-only">힌트 적음</span><span class="en-only" style="display:none;">Fewer clues</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" id="sudoku-diff-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Overlay -->
+    <div id="sudoku-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="sudoku-win-title">완성!</h2>
+            <p id="sudoku-win-desc"></p>
+            <button id="sudoku-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+        </div>
+    </div>
+
+    <script src="lang.js?v=3"></script>
+    <script src="sudoku.js?v=1"></script>
+</body>
+</html>

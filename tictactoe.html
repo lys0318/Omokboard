@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/tictactoe">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>틱택토 게임 - 오목보드 | 무료 온라인 틱택토 (3목)</title>
+    <meta name="description" content="무료 온라인 틱택토(3목, Tic-Tac-Toe) 게임. 3×3 칸에 같은 표시 3개를 먼저 이으면 승리. AI 대전(쉬움·보통·어려움)과 2인 대전 지원. 설치 없이 브라우저에서 바로.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="틱택토 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 틱택토 게임. AI 대전과 2인 대전 지원.">
+    <meta property="og:url" content="https://omokboard.com/tictactoe">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="틱택토 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 틱택토. AI 대전과 2인 대전 지원.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        .ttt-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: min(86vw, 360px);
+            aspect-ratio: 1;
+            padding: 1rem;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .ttt-cell {
+            background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.18));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 0.9rem;
+            font-size: clamp(2.5rem, 14vw, 4rem);
+            font-weight: 800;
+            font-family: inherit;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, transform 0.1s, box-shadow 0.2s;
+            line-height: 1;
+        }
+        .ttt-cell:hover:not(:disabled) { background: rgba(59,130,246,0.14); transform: translateY(-2px); }
+        .ttt-cell:disabled { cursor: default; }
+        .ttt-cell.x { color: #ef4444; }
+        .ttt-cell.o { color: #3b82f6; }
+        .ttt-cell.win { background: rgba(251,191,36,0.18); border-color: rgba(251,191,36,0.6); box-shadow: 0 0 18px rgba(251,191,36,0.45); }
+        .ttt-mark { width: 16px; height: 16px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="tictactoe" class="game-nav-item active" data-i18n="nav.ttt">틱택토</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1>틱택토</h1>
+            <p class="subtitle">Tic-Tac-Toe — <span class="ko-only">3개를 먼저 이으세요</span><span class="en-only" style="display:none;">Get three in a row</span></p>
+        </header>
+
+        <main>
+            <div class="game-info">
+                <div class="player active" id="ttt-player-x">
+                    <div class="ttt-mark" style="background:#ef4444;"></div>
+                    <span class="player-name" id="ttt-x-label">X</span>
+                </div>
+                <div class="status-center">
+                    <div class="status-message" id="ttt-status">X 차례</div>
+                </div>
+                <div class="player" id="ttt-player-o">
+                    <div class="ttt-mark" style="background:#3b82f6;"></div>
+                    <span class="player-name" id="ttt-o-label">O</span>
+                </div>
+            </div>
+
+            <div id="ttt-board" class="ttt-board"></div>
+
+            <div class="controls">
+                <button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+            </div>
+        </main>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">3×3 칸에서 가로·세로·대각선 한 줄에 같은 표시 3개를 먼저 만들면 승리</span><span class="en-only" style="display:none;">Be first to line up three of your marks in a row, column, or diagonal</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">빈 칸을 클릭해 표시를 놓습니다. X가 먼저 시작합니다</span><span class="en-only" style="display:none;">Click an empty square to place your mark. X moves first</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">중앙과 모서리를 먼저 차지하고, 상대의 두 줄 위협을 항상 막으세요</span><span class="en-only" style="display:none;">Take the center and corners, and always block the opponent's two-in-a-row</span></li>
+            </ul>
+        </section>
+
+    <script src="adfit.js?v=1"></script>
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Mode Overlay -->
+    <div id="ttt-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title">틱택토</h2>
+            <div id="ttt-step-mode">
+                <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="ttt-pvp-btn">
+                        <span class="mode-icon">👤👤</span>
+                        <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
+                        <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
+                    </button>
+                    <button class="mode-btn" id="ttt-ai-select-btn">
+                        <span class="mode-icon">🤖</span>
+                        <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
+                        <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
+                    </button>
+                </div>
+            </div>
+            <div id="ttt-step-diff" class="hidden">
+                <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" id="ttt-easy-btn">
+                        <span class="mode-icon">😊</span>
+                        <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                        <span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span>
+                    </button>
+                    <button class="mode-btn" id="ttt-normal-btn">
+                        <span class="mode-icon">🎯</span>
+                        <span class="mode-label" data-i18n="mode.normal">보통</span>
+                        <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
+                    </button>
+                    <button class="mode-btn" id="ttt-hard-btn">
+                        <span class="mode-icon">🔥</span>
+                        <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                        <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" id="ttt-diff-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Overlay -->
+    <div id="ttt-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="ttt-win-title">승리!</h2>
+            <p id="ttt-win-desc"></p>
+            <button id="ttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+        </div>
+    </div>
+
+    <script src="lang.js?v=3"></script>
+    <script src="tictactoe.js?v=1"></script>
+</body>
+</html>

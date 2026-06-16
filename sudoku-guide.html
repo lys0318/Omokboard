@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/sudoku-guide">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>스도쿠 규칙과 푸는 법 - 오목보드</title>
+    <meta name="description" content="스도쿠 규칙과 초보자를 위한 풀이법을 정리했습니다. 스캐닝, 단일 후보, 숨은 단일, 연필 표시 등 차근차근 푸는 방법과 대결 모드 팁까지.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="스도쿠 규칙과 푸는 법 - 오목보드">
+    <meta property="og:description" content="스도쿠 규칙과 초보 풀이법 가이드.">
+    <meta property="og:url" content="https://omokboard.com/sudoku-guide">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="스도쿠 규칙과 푸는 법 - 오목보드">
+    <meta name="twitter:description" content="스캐닝·단일 후보·숨은 단일 풀이법.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="subpage.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="subpage-container">
+        <header class="subpage-header">
+            <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
+            <h1><span class="ko-only">스도쿠 공략</span><span class="en-only" style="display:none;">Sudoku Guide</span></h1>
+            <p class="subtitle"><span class="ko-only">차근차근 푸는 논리 퍼즐</span><span class="en-only" style="display:none;">Solve the logic puzzle step by step</span></p>
+        </header>
+
+        <main class="subpage-main">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>스도쿠란?</h2>
+                    <p>스도쿠(Sudoku)는 9×9 칸을 1~9 숫자로 채우는 논리 퍼즐입니다. 운이나 계산이 아니라 <strong>오직 논리적 추론</strong>만으로 풀 수 있어 전 세계에서 사랑받습니다. 이름은 일본어이지만, 현대적 형태는 1979년 미국에서 'Number Place'로 처음 등장했습니다.</p>
+                    <p>오목보드의 스도쿠는 <strong>항상 정답이 하나뿐인(유일해) 퍼즐</strong>만 출제하므로, 찍지 않고 논리로 끝까지 풀 수 있습니다.</p>
+                    <p style="margin-top:0.8rem;"><a href="sudoku" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">스도쿠 게임 바로 플레이하기 →</a></p>
+                </section>
+
+                <section class="info-section">
+                    <h2>규칙 — 단 하나의 원칙</h2>
+                    <ul class="rule-list">
+                        <li><strong>가로줄(행):</strong> 9칸에 1~9가 각각 한 번씩.</li>
+                        <li><strong>세로줄(열):</strong> 9칸에 1~9가 각각 한 번씩.</li>
+                        <li><strong>3×3 박스:</strong> 9칸에 1~9가 각각 한 번씩.</li>
+                        <li>이 세 조건을 모두 만족하도록 빈칸을 채우면 완성입니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>기본 풀이법 ① 스캐닝</h2>
+                    <p>가장 기본은 한 숫자에 집중해 판 전체를 훑는 것입니다. 예를 들어 '5'를 보면, 5가 이미 있는 가로줄·세로줄·박스에는 5를 더 넣을 수 없습니다. 이렇게 후보를 지워 가다 보면 어떤 박스에서 5가 들어갈 칸이 <strong>딱 하나만</strong> 남는 곳이 보입니다. 거기에 확정합니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>기본 풀이법 ② 단일 후보</h2>
+                    <p>한 빈칸을 기준으로, 그 칸이 속한 행·열·박스에 이미 있는 숫자를 모두 제외하면 들어갈 수 있는 숫자가 <strong>하나만</strong> 남는 경우가 있습니다. 그 숫자를 바로 확정하세요. 스캐닝이 "숫자 기준"이라면 이건 "칸 기준" 접근입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>고급 풀이법 — 연필 표시와 숨은 단일</h2>
+                    <ul class="rule-list">
+                        <li><strong>연필 표시(후보 메모):</strong> 각 빈칸에 가능한 후보 숫자를 작게 적어 두면 복잡한 퍼즐에서 길이 보입니다.</li>
+                        <li><strong>숨은 단일:</strong> 한 칸에 후보가 여럿이라도, 그 행·열·박스 전체에서 어떤 숫자가 들어갈 칸이 그 칸 하나뿐이면 확정할 수 있습니다.</li>
+                        <li><strong>짝(Pair):</strong> 같은 두 후보만 가진 칸이 한 줄에 두 개면, 그 줄의 다른 칸에서는 두 숫자를 후보에서 지울 수 있습니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>대결 모드 팁</h2>
+                    <p>오목보드의 스도쿠 <strong>대결 모드</strong>는 같은 퍼즐을 두고 번갈아 정답 칸을 채워 더 많이 맞힌 쪽이 이깁니다. 오답을 두면 차례만 넘어가니, <strong>확실한 칸부터</strong> 빠르게 차지하는 것이 유리합니다. 애매한 칸에 모험하기보다 단일 후보가 분명한 칸을 선점하세요.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 하는 실수</h2>
+                    <ul class="rule-list">
+                        <li>확신 없이 숫자를 넣어 연쇄적으로 어긋나는 경우 (스도쿠는 추측 금물)</li>
+                        <li>박스만 보고 행·열 조건을 빠뜨리는 경우</li>
+                        <li>후보 메모 없이 어려운 퍼즐을 암산으로 풀려다 막히는 경우</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>찍어야 풀리는 퍼즐도 있나요?</strong> 오목보드는 유일해 퍼즐만 내므로 논리만으로 풀립니다.</li>
+                        <li><strong>난이도 차이는?</strong> 처음 주어지는 힌트(숫자) 개수가 적을수록 어렵습니다.</li>
+                        <li><strong>대결에서 오답을 내면?</strong> 그 칸은 비어 있고 차례가 상대에게 넘어갑니다. 나중에 다시 도전할 수 있습니다.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>What Is Sudoku?</h2>
+                    <p>Sudoku is a logic puzzle where you fill a 9×9 grid with the digits 1–9. It is solved by <strong>pure reasoning</strong> — no luck or arithmetic — which is why it is loved worldwide. The name is Japanese, but the modern form first appeared in the U.S. in 1979 as "Number Place."</p>
+                    <p>Omokboard always serves puzzles with a <strong>single unique solution</strong>, so you can solve fully by logic without guessing.</p>
+                    <p style="margin-top:0.8rem;"><a href="sudoku" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Sudoku now →</a></p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Rules — One Principle</h2>
+                    <ul class="rule-list">
+                        <li><strong>Each row:</strong> contains 1–9 exactly once.</li>
+                        <li><strong>Each column:</strong> contains 1–9 exactly once.</li>
+                        <li><strong>Each 3×3 box:</strong> contains 1–9 exactly once.</li>
+                        <li>Fill the blanks to satisfy all three and the puzzle is solved.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Basic Technique 1 — Scanning</h2>
+                    <p>Focus on one digit and scan the grid. A digit can't repeat in its row, column, or box, so by eliminating you'll find a box where that digit fits in only <strong>one</strong> cell. Place it there.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Basic Technique 2 — Naked Single</h2>
+                    <p>For an empty cell, remove every digit already in its row, column, and box. If only <strong>one</strong> digit remains, it's confirmed. Scanning is "digit-first"; this is "cell-first."</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Advanced — Pencil Marks &amp; Hidden Singles</h2>
+                    <ul class="rule-list">
+                        <li><strong>Pencil marks:</strong> note candidate digits in each cell to see the path on harder puzzles.</li>
+                        <li><strong>Hidden single:</strong> even with several candidates, if a digit can go in only one cell of a row/column/box, it's confirmed there.</li>
+                        <li><strong>Pairs:</strong> two cells in a unit sharing the same two candidates let you remove those digits from other cells in that unit.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Duel Mode Tips</h2>
+                    <p>In Omokboard's <strong>duel mode</strong>, players take turns claiming correct cells on the same puzzle, and most cells wins. A wrong answer just passes the turn, so grab the <strong>certain</strong> cells fast. Claim naked singles rather than gambling on ambiguous cells.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Common Mistakes</h2>
+                    <ul class="rule-list">
+                        <li>Placing digits without certainty and cascading errors (never guess).</li>
+                        <li>Checking the box but forgetting the row/column constraint.</li>
+                        <li>Trying hard puzzles in your head without pencil marks.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>Do any puzzles require guessing?</strong> No — Omokboard only serves unique-solution puzzles.</li>
+                        <li><strong>What changes with difficulty?</strong> Fewer starting clues means harder.</li>
+                        <li><strong>What if I answer wrong in a duel?</strong> The cell stays empty and your turn passes; you can retry later.</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+    <script src="adfit.js?v=1"></script>
+        <footer class="subpage-footer">
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="sudoku" data-i18n="nav.sudoku">스도쿠</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="lang.js?v=3"></script>
+</body>
+
+</html>

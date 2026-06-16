@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/tictactoe-guide">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>틱택토 규칙과 필승 전략 - 오목보드</title>
+    <meta name="description" content="틱택토(3목) 규칙과 지지 않는 전략을 정리했습니다. 첫 수 위치, 포크(이중 위협) 만들기, 무승부로 버티는 법까지 초보를 위한 가이드.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="틱택토 규칙과 필승 전략 - 오목보드">
+    <meta property="og:description" content="틱택토 규칙과 지지 않는 전략 가이드.">
+    <meta property="og:url" content="https://omokboard.com/tictactoe-guide">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="틱택토 규칙과 필승 전략 - 오목보드">
+    <meta name="twitter:description" content="틱택토 포크 전략과 무승부 버티기.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="subpage.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="subpage-container">
+        <header class="subpage-header">
+            <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
+            <h1><span class="ko-only">틱택토 공략</span><span class="en-only" style="display:none;">Tic-Tac-Toe Guide</span></h1>
+            <p class="subtitle"><span class="ko-only">지지 않는 3목의 원리</span><span class="en-only" style="display:none;">How to never lose at three in a row</span></p>
+        </header>
+
+        <main class="subpage-main">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>틱택토란?</h2>
+                    <p>틱택토(Tic-Tac-Toe), 우리말로 '3목'은 3×3 칸에 X와 O를 번갈아 놓아 가로·세로·대각선 한 줄에 같은 표시 3개를 먼저 잇는 사람이 이기는 게임입니다. 종이 한 장이면 충분해 전 세계에서 가장 널리 알려진 게임 중 하나죠.</p>
+                    <p>규칙이 매우 단순해서, 양쪽이 최선을 다하면 <strong>반드시 무승부</strong>가 나는 '풀이된 게임'입니다. 그래서 핵심은 "어떻게 이기느냐"보다 "어떻게 실수하지 않고, 상대의 실수를 파고드느냐"에 있습니다.</p>
+                    <p style="margin-top:0.8rem;"><a href="tictactoe" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">틱택토 게임 바로 플레이하기 →</a></p>
+                </section>
+
+                <section class="info-section">
+                    <h2>게임의 목표와 규칙</h2>
+                    <ul class="rule-list">
+                        <li><strong>목표:</strong> 가로·세로·대각선 중 한 줄에 내 표시 3개를 먼저 만들면 승리.</li>
+                        <li><strong>선·후공:</strong> X가 먼저, 이후 번갈아 한 칸씩 놓습니다.</li>
+                        <li><strong>무승부:</strong> 9칸이 다 차도록 세 줄이 안 나오면 비깁니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>첫 수 — 어디에 둘까?</h2>
+                    <ul class="rule-list">
+                        <li><strong>중앙:</strong> 네 줄(가로·세로·두 대각선)에 모두 관여하는 가장 강한 자리입니다.</li>
+                        <li><strong>모서리:</strong> 세 줄에 관여해 두 번째로 좋습니다. 포크를 만들기 쉬운 자리.</li>
+                        <li><strong>변(가장자리 가운데):</strong> 두 줄에만 관여해 가장 약합니다. 첫 수로는 피하세요.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>이기는 핵심 — 포크(이중 위협)</h2>
+                    <p>틱택토에서 이기는 유일한 방법은 상대의 실수를 틈타 <strong>한 수로 "다음에 이길 줄"을 두 개 동시에 만드는 것</strong>입니다. 이걸 포크라고 합니다. 상대는 한 줄만 막을 수 있으니, 나머지 한 줄로 이기게 되죠. 모서리를 활용하면 포크 자리를 만들기 쉽습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>지지 않는 방어 순서</h2>
+                    <p>매 수, 아래 순서대로 확인하면 절대 지지 않습니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>1. 이길 수 있으면 이긴다:</strong> 내 표시 2개가 있는 줄의 빈칸을 채워 바로 승리.</li>
+                        <li><strong>2. 상대의 승리를 막는다:</strong> 상대 2개가 있는 줄의 빈칸을 막습니다.</li>
+                        <li><strong>3. 내 포크를 만든다:</strong> 두 줄을 동시에 노리는 자리.</li>
+                        <li><strong>4. 상대의 포크를 막는다:</strong> 상대가 포크를 만들 자리를 미리 차단.</li>
+                        <li><strong>5. 중앙 → 빈 모서리 → 빈 변</strong> 순으로 둡니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 하는 실수</h2>
+                    <ul class="rule-list">
+                        <li>첫 수를 변(가장자리 가운데)에 둬서 주도권을 내주는 경우</li>
+                        <li>내 줄 만들기에 빠져 상대의 2개 줄을 못 막는 경우</li>
+                        <li>상대가 포크를 만들 자리를 못 보고 한쪽만 막는 경우</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>먼저 두면 무조건 유리한가요?</strong> 네, X(선공)가 약간 유리합니다. 그래도 상대가 정확히 두면 무승부입니다.</li>
+                        <li><strong>AI 어려움은 이길 수 있나요?</strong> 어려움 AI는 완벽하게 두기 때문에 이길 수 없고 최선은 무승부입니다. 쉬움·보통에서 포크 연습을 해보세요.</li>
+                        <li><strong>항상 비기는데 재미가 있나요?</strong> 사람끼리 두면 실수가 나오기 마련이라, 포크로 그 실수를 응징하는 재미가 있습니다.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>What Is Tic-Tac-Toe?</h2>
+                    <p>Tic-Tac-Toe is played on a 3×3 grid where players alternate placing X and O, racing to line up three of their marks in a row, column, or diagonal. It needs only a scrap of paper and is one of the best-known games in the world.</p>
+                    <p>Because the rules are so simple, perfect play always ends in a <strong>draw</strong> — it is a "solved" game. So the real skill is not making mistakes while punishing your opponent's.</p>
+                    <p style="margin-top:0.8rem;"><a href="tictactoe" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Tic-Tac-Toe now →</a></p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Objective &amp; Rules</h2>
+                    <ul class="rule-list">
+                        <li><strong>Goal:</strong> Be first to get three of your marks in a line.</li>
+                        <li><strong>Turn order:</strong> X moves first, then players alternate.</li>
+                        <li><strong>Draw:</strong> If all nine squares fill with no line, it's a tie.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>First Move — Where to Play</h2>
+                    <ul class="rule-list">
+                        <li><strong>Center:</strong> Part of four lines — the strongest square.</li>
+                        <li><strong>Corner:</strong> Part of three lines — great for setting up forks.</li>
+                        <li><strong>Edge (side middle):</strong> Only two lines — weakest; avoid it as a first move.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Winning Key — The Fork</h2>
+                    <p>The only way to win is to exploit a mistake by creating a <strong>fork</strong>: one move that makes two separate winning threats. The opponent can block only one, so the other wins. Corners make forks easy to set up.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The Never-Lose Order</h2>
+                    <p>Check these in order every move and you will never lose.</p>
+                    <ul class="rule-list">
+                        <li><strong>1. Win if you can.</strong></li>
+                        <li><strong>2. Block the opponent's win.</strong></li>
+                        <li><strong>3. Create your own fork.</strong></li>
+                        <li><strong>4. Block the opponent's fork.</strong></li>
+                        <li><strong>5. Play center → empty corner → empty edge.</strong></li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Common Mistakes</h2>
+                    <ul class="rule-list">
+                        <li>Opening on an edge and giving up the initiative.</li>
+                        <li>Building your own line while missing the opponent's two-in-a-row.</li>
+                        <li>Failing to spot and block a fork.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>Does going first help?</strong> Yes, X has a small edge, but perfect play still draws.</li>
+                        <li><strong>Can I beat the Hard AI?</strong> No — it plays perfectly, so the best you can do is draw. Practice forks on Easy/Normal.</li>
+                        <li><strong>Is it fun if it always draws?</strong> Against humans, mistakes happen — and punishing them with a fork is the fun part.</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+    <script src="adfit.js?v=1"></script>
+        <footer class="subpage-footer">
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="tictactoe" data-i18n="nav.ttt">틱택토</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="lang.js?v=3"></script>
+</body>
+
+</html>

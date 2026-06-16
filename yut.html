@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/yut">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>윷놀이 게임 - 오목보드 | 무료 온라인 윷놀이</title>
+    <meta name="description" content="무료 온라인 윷놀이. 도·개·걸·윷·모를 던져 말 4개를 먼저 완주시키세요. 지름길·잡기·업기 구현, AI 대전과 2인 대전 지원. 설치 없이 브라우저에서 바로.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="윷놀이 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 윷놀이. AI 대전과 2인 대전 지원.">
+    <meta property="og:url" content="https://omokboard.com/yut">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="윷놀이 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 윷놀이. 도개걸윷모로 말 4개 완주.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        #yut-canvas { border-radius: 0.75rem; touch-action: manipulation; display: block; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .yut-throw-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        #yut-throw-result { font-weight: 800; font-size: 1.2rem; color: #facc15; min-height: 1.4em; text-align: center; }
+        #yut-results { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; min-height: 2.2rem; }
+        .yut-chip {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.18);
+            color: var(--text-main);
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .yut-chip:hover { background: rgba(59,130,246,0.2); }
+        .yut-chip.sel { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
+        .yut-scores { display: flex; gap: 1.2rem; font-weight: 700; font-size: 0.95rem; }
+        #yut-p1-info { color: #ef4444; }
+        #yut-p2-info { color: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="yut" class="game-nav-item active" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1>윷놀이</h1>
+            <p class="subtitle">Yut Nori — <span class="ko-only">말 4개를 먼저 완주시키세요</span><span class="en-only" style="display:none;">Finish all four mal first</span></p>
+        </header>
+
+        <main>
+            <div class="game-info">
+                <div class="status-center" style="flex-direction:row;justify-content:space-between;width:100%;">
+                    <div class="yut-scores"><span id="yut-p1-info">나 0/4</span><span id="yut-p2-info">상대 0/4</span></div>
+                    <div class="status-message" id="yut-status">윷을 던지세요</div>
+                </div>
+            </div>
+
+            <canvas id="yut-canvas"></canvas>
+
+            <div class="yut-throw-row">
+                <button id="yut-throw-btn" class="btn primary"><span class="ko-only">윷 던지기 🎲</span><span class="en-only" style="display:none;">Throw Yut 🎲</span></button>
+                <div id="yut-throw-result"></div>
+            </div>
+            <div id="yut-results"></div>
+
+            <div class="controls" style="margin-top:0.25rem;">
+                <button id="yut-reset-btn" class="btn secondary" data-i18n="btn.restart">게임 재시작</button>
+            </div>
+        </main>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">윷을 던져 나온 만큼 말을 옮겨, 내 말 4개를 먼저 한 바퀴 돌려 완주시키면 승리</span><span class="en-only" style="display:none;">Move mal by your throws and finish all four around the board first</span></li>
+                <li><strong class="ko-only">던지기:</strong><strong class="en-only" style="display:none;">Throw:</strong> <span class="ko-only">도(1)·개(2)·걸(3)·윷(4, 한번더)·모(5, 한번더)</span><span class="en-only" style="display:none;">Do(1)·Gae(2)·Geol(3)·Yut(4, again)·Mo(5, again)</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">윷을 던진 뒤 결과 칩을 누르고, 움직일 말을 클릭하세요</span><span class="en-only" style="display:none;">Throw, tap a result chip, then click a mal to move</span></li>
+                <li><strong class="ko-only">잡기·업기:</strong><strong class="en-only" style="display:none;">Capture/Stack:</strong> <span class="ko-only">상대 말을 잡으면 한 번 더, 모서리에 멈추면 지름길로 질러갑니다</span><span class="en-only" style="display:none;">Capture for an extra throw; land on a corner to take a shortcut</span></li>
+            </ul>
+        </section>
+
+    <script src="adfit.js?v=1"></script>
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Mode Overlay -->
+    <div id="yut-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title">윷놀이</h2>
+            <div id="yut-step-mode">
+                <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="yut-pvp-btn">
+                        <span class="mode-icon">👤👤</span>
+                        <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
+                        <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
+                    </button>
+                    <button class="mode-btn" id="yut-ai-select-btn">
+                        <span class="mode-icon">🤖</span>
+                        <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
+                        <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
+                    </button>
+                </div>
+            </div>
+            <div id="yut-step-diff" class="hidden">
+                <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" id="yut-easy-btn">
+                        <span class="mode-icon">😊</span>
+                        <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                        <span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span>
+                    </button>
+                    <button class="mode-btn" id="yut-normal-btn">
+                        <span class="mode-icon">🎯</span>
+                        <span class="mode-label" data-i18n="mode.normal">보통</span>
+                        <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
+                    </button>
+                    <button class="mode-btn" id="yut-hard-btn">
+                        <span class="mode-icon">🔥</span>
+                        <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                        <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" id="yut-diff-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Overlay -->
+    <div id="yut-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="yut-win-title">승리!</h2>
+            <p id="yut-win-desc"></p>
+            <button id="yut-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+        </div>
+    </div>
+
+    <script src="lang.js?v=3"></script>
+    <script src="yut.js?v=1"></script>
+</body>
+</html>
