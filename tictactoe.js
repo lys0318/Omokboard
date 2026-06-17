@@ -54,11 +54,14 @@ class TicTacToe {
         document.getElementById('ttt-easy-btn').addEventListener('click',   () => this.startGame('ai', 'easy'));
         document.getElementById('ttt-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
         document.getElementById('ttt-hard-btn').addEventListener('click',   () => this.startGame('ai', 'hard'));
-        document.getElementById('ttt-diff-back').addEventListener('click', () => { window.location.href = 'index.html'; });
-        document.getElementById('ttt-reset-btn').addEventListener('click', () => this.showModeScreen());
+        document.getElementById('ttt-diff-back').addEventListener('click', () => {
+            document.getElementById('ttt-step-diff').classList.add('hidden');
+            document.getElementById('ttt-step-mode').classList.remove('hidden');
+        });
+        document.getElementById('ttt-reset-btn').addEventListener('click', () => window.tttHub.showVariant());
         document.getElementById('ttt-modal-reset').addEventListener('click', () => {
             this.winOverlay.classList.add('hidden');
-            this.showModeScreen();
+            window.tttHub.showVariant();
         });
     }
 

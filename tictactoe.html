@@ -13,16 +13,16 @@
       gtag('js', new Date());
       gtag('config', 'G-CSJW29VD6X');
     </script>
-    <title>틱택토 게임 - 오목보드 | 무료 온라인 틱택토 (3목)</title>
-    <meta name="description" content="무료 온라인 틱택토(3목, Tic-Tac-Toe) 게임. 3×3 칸에 같은 표시 3개를 먼저 이으면 승리. AI 대전(쉬움·보통·어려움)과 2인 대전 지원. 설치 없이 브라우저에서 바로.">
+    <title>틱택토 게임 - 오목보드 | 3×3 · 얼티메이트 틱택토</title>
+    <meta name="description" content="무료 온라인 틱택토. 기본 3×3 틱택토와 9개 보드로 즐기는 얼티메이트 틱택토(Ultimate Tic-Tac-Toe)를 선택해 플레이. AI 대전과 2인 대전 지원, 설치 없이 바로.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
-    <meta property="og:title" content="틱택토 게임 - 오목보드">
-    <meta property="og:description" content="무료 온라인 틱택토 게임. AI 대전과 2인 대전 지원.">
+    <meta property="og:title" content="틱택토 게임 - 오목보드 (3×3 · 얼티메이트)">
+    <meta property="og:description" content="기본 틱택토와 얼티메이트 틱택토를 무료로. AI 대전과 2인 대전 지원.">
     <meta property="og:url" content="https://omokboard.com/tictactoe">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="틱택토 게임 - 오목보드">
-    <meta name="twitter:description" content="무료 온라인 틱택토. AI 대전과 2인 대전 지원.">
+    <meta name="twitter:description" content="3×3 틱택토와 얼티메이트 틱택토. AI·2인 대전.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -31,39 +31,48 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
     <style>
+        /* 클래식 3×3 */
         .ttt-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: min(86vw, 360px);
-            aspect-ratio: 1;
-            padding: 1rem;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            width: min(86vw, 360px); aspect-ratio: 1; padding: 1rem;
             background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
-            border-radius: 1.25rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: 1.25rem; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.05);
         }
         .ttt-cell {
             background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.18));
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 0.9rem;
-            font-size: clamp(2.5rem, 14vw, 4rem);
-            font-weight: 800;
-            font-family: inherit;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s, transform 0.1s, box-shadow 0.2s;
-            line-height: 1;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 0.9rem;
+            font-size: clamp(2.5rem, 14vw, 4rem); font-weight: 800; font-family: inherit;
+            color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s, transform 0.1s, box-shadow 0.2s; line-height: 1;
         }
         .ttt-cell:hover:not(:disabled) { background: rgba(59,130,246,0.14); transform: translateY(-2px); }
         .ttt-cell:disabled { cursor: default; }
-        .ttt-cell.x { color: #ef4444; }
-        .ttt-cell.o { color: #3b82f6; }
+        .ttt-cell.x { color: #ef4444; } .ttt-cell.o { color: #3b82f6; }
         .ttt-cell.win { background: rgba(251,191,36,0.18); border-color: rgba(251,191,36,0.6); box-shadow: 0 0 18px rgba(251,191,36,0.45); }
         .ttt-mark { width: 16px; height: 16px; border-radius: 4px; }
+        /* 얼티메이트 */
+        .uttt-board {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+            width: min(94vw, 470px); aspect-ratio: 1; background: #5a3c1e; padding: 6px; border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .uttt-sb { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+            background: rgba(255,255,255,0.04); border-radius: 4px; padding: 3px; }
+        .uttt-sb.active-board { box-shadow: 0 0 0 2px #facc15, 0 0 14px rgba(250,204,21,0.55); background: rgba(250,204,21,0.10); }
+        .uttt-cell { aspect-ratio: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 3px; font-family: inherit; font-weight: 800; font-size: clamp(0.6rem, 2.8vw, 1.05rem);
+            color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .uttt-cell:hover:not(:disabled) { background: rgba(59,130,246,0.18); }
+        .uttt-cell:disabled { cursor: default; }
+        .uttt-cell.x { color: #ef4444; } .uttt-cell.o { color: #3b82f6; }
+        .uttt-cell.last { outline: 2px solid #facc15; outline-offset: -2px; }
+        .uttt-sb-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            font-size: clamp(2rem, 9vw, 3.2rem); font-weight: 800; pointer-events: none; border-radius: 4px; }
+        .uttt-sb.won-x .uttt-sb-overlay { color: #ef4444; background: rgba(239,68,68,0.16); }
+        .uttt-sb.won-o .uttt-sb-overlay { color: #3b82f6; background: rgba(59,130,246,0.16); }
+        .uttt-sb.won-draw .uttt-sb-overlay { background: rgba(148,163,184,0.16); }
+        .uttt-sb.won-x .uttt-cell, .uttt-sb.won-o .uttt-cell, .uttt-sb.won-draw .uttt-cell { opacity: 0.22; }
     </style>
 </head>
 <body>
@@ -83,39 +92,61 @@
 
         <header>
             <h1>틱택토</h1>
-            <p class="subtitle">Tic-Tac-Toe — <span class="ko-only">3개를 먼저 이으세요</span><span class="en-only" style="display:none;">Get three in a row</span></p>
+            <p class="subtitle">Tic-Tac-Toe — <span class="ko-only">3×3 · 얼티메이트</span><span class="en-only" style="display:none;">Classic &amp; Ultimate</span></p>
         </header>
 
-        <main>
-            <div class="game-info">
-                <div class="player active" id="ttt-player-x">
-                    <div class="ttt-mark" style="background:#ef4444;"></div>
-                    <span class="player-name" id="ttt-x-label">X</span>
+        <!-- 클래식 3×3 -->
+        <div id="ttt-classic">
+            <main>
+                <div class="game-info">
+                    <div class="player active" id="ttt-player-x">
+                        <div class="ttt-mark" style="background:#ef4444;"></div>
+                        <span class="player-name" id="ttt-x-label">X</span>
+                    </div>
+                    <div class="status-center"><div class="status-message" id="ttt-status">X 차례</div></div>
+                    <div class="player" id="ttt-player-o">
+                        <div class="ttt-mark" style="background:#3b82f6;"></div>
+                        <span class="player-name" id="ttt-o-label">O</span>
+                    </div>
                 </div>
-                <div class="status-center">
-                    <div class="status-message" id="ttt-status">X 차례</div>
+                <div id="ttt-board" class="ttt-board"></div>
+                <div class="controls"><button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button></div>
+            </main>
+            <section class="game-how-to">
+                <h3 data-i18n="howto.title">게임 방법</h3>
+                <ul>
+                    <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">3×3 칸에서 한 줄에 같은 표시 3개를 먼저 만들면 승리</span><span class="en-only" style="display:none;">Be first to line up three of your marks in a row</span></li>
+                    <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">중앙·모서리를 먼저 잡고, 상대의 두 줄 위협을 막으세요</span><span class="en-only" style="display:none;">Take the center and corners, and block the opponent's two-in-a-row</span></li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- 얼티메이트 -->
+        <div id="ttt-ultimate" class="hidden">
+            <main>
+                <div class="game-info">
+                    <div class="player active" id="uttt-player-x">
+                        <div class="ttt-mark" style="background:#ef4444;"></div>
+                        <span class="player-name" id="uttt-x-label">X</span>
+                    </div>
+                    <div class="status-center"><div class="status-message" id="uttt-status">X 차례</div></div>
+                    <div class="player" id="uttt-player-o">
+                        <div class="ttt-mark" style="background:#3b82f6;"></div>
+                        <span class="player-name" id="uttt-o-label">O</span>
+                    </div>
                 </div>
-                <div class="player" id="ttt-player-o">
-                    <div class="ttt-mark" style="background:#3b82f6;"></div>
-                    <span class="player-name" id="ttt-o-label">O</span>
-                </div>
-            </div>
-
-            <div id="ttt-board" class="ttt-board"></div>
-
-            <div class="controls">
-                <button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
-            </div>
-        </main>
-
-        <section class="game-how-to">
-            <h3 data-i18n="howto.title">게임 방법</h3>
-            <ul>
-                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">3×3 칸에서 가로·세로·대각선 한 줄에 같은 표시 3개를 먼저 만들면 승리</span><span class="en-only" style="display:none;">Be first to line up three of your marks in a row, column, or diagonal</span></li>
-                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">빈 칸을 클릭해 표시를 놓습니다. X가 먼저 시작합니다</span><span class="en-only" style="display:none;">Click an empty square to place your mark. X moves first</span></li>
-                <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">중앙과 모서리를 먼저 차지하고, 상대의 두 줄 위협을 항상 막으세요</span><span class="en-only" style="display:none;">Take the center and corners, and always block the opponent's two-in-a-row</span></li>
-            </ul>
-        </section>
+                <div id="uttt-board" class="uttt-board"></div>
+                <div class="controls"><button id="uttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button></div>
+            </main>
+            <section class="game-how-to">
+                <h3 data-i18n="howto.title">게임 방법</h3>
+                <ul>
+                    <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">작은 보드 3목으로 그 보드를 차지하고, 큰 보드에서 3개 보드를 한 줄로 차지하면 승리</span><span class="en-only" style="display:none;">Win small boards (3-in-a-row), then line up three won boards on the big grid</span></li>
+                    <li><strong class="ko-only">핵심 규칙:</strong><strong class="en-only" style="display:none;">Key rule:</strong> <span class="ko-only">내가 둔 <b>칸의 위치</b>가 상대가 둬야 할 다음 보드를 정합니다 (노란 보드)</span><span class="en-only" style="display:none;">The cell you play sends your opponent to the matching board (the glowing one)</span></li>
+                    <li><strong class="ko-only">자유 이동:</strong><strong class="en-only" style="display:none;">Free move:</strong> <span class="ko-only">보낸 보드가 이미 끝났으면 상대는 아무 보드나 둘 수 있습니다</span><span class="en-only" style="display:none;">If that board is finished, your opponent may play anywhere</span></li>
+                </ul>
+            </section>
+        </div>
 
     <script src="adfit.js?v=1"></script>
         <footer>
@@ -134,59 +165,112 @@
         </footer>
     </div>
 
-    <!-- Mode Overlay -->
-    <div id="ttt-mode-overlay" class="game-mode-overlay">
+    <!-- 변형 선택 -->
+    <div id="variant-overlay" class="game-mode-overlay">
         <div class="game-mode-card">
             <h2 class="mode-title">틱택토</h2>
+            <p class="mode-subtitle"><span class="ko-only">어떤 틱택토를 즐길까요?</span><span class="en-only" style="display:none;">Which Tic-Tac-Toe?</span></p>
+            <div class="mode-buttons">
+                <button class="mode-btn" id="variant-classic">
+                    <span class="mode-icon">⭕</span>
+                    <span class="mode-label"><span class="ko-only">3×3 클래식</span><span class="en-only" style="display:none;">Classic 3×3</span></span>
+                    <span class="mode-desc"><span class="ko-only">기본 틱택토</span><span class="en-only" style="display:none;">The classic game</span></span>
+                </button>
+                <button class="mode-btn" id="variant-ultimate">
+                    <span class="mode-icon">🎯</span>
+                    <span class="mode-label"><span class="ko-only">얼티메이트</span><span class="en-only" style="display:none;">Ultimate</span></span>
+                    <span class="mode-desc"><span class="ko-only">9개 보드 전략</span><span class="en-only" style="display:none;">9-board strategy</span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 클래식 모드 선택 -->
+    <div id="ttt-mode-overlay" class="game-mode-overlay hidden">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">3×3 틱택토</span><span class="en-only" style="display:none;">Classic 3×3</span></h2>
             <div id="ttt-step-mode">
                 <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
                 <div class="mode-buttons">
-                    <button class="mode-btn" id="ttt-pvp-btn">
-                        <span class="mode-icon">👤👤</span>
-                        <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
-                        <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
-                    </button>
-                    <button class="mode-btn" id="ttt-ai-select-btn">
-                        <span class="mode-icon">🤖</span>
-                        <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
-                        <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
-                    </button>
+                    <button class="mode-btn" id="ttt-pvp-btn"><span class="mode-icon">👤👤</span><span class="mode-label" data-i18n="mode.pvp">1:1 하기</span><span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span></button>
+                    <button class="mode-btn" id="ttt-ai-select-btn"><span class="mode-icon">🤖</span><span class="mode-label" data-i18n="mode.ai">AI 대전</span><span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span></button>
                 </div>
+                <button class="mode-back-btn to-variant">← <span class="ko-only">다른 틱택토</span><span class="en-only" style="display:none;">Other mode</span></button>
             </div>
             <div id="ttt-step-diff" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
                 <div class="mode-buttons difficulty-buttons">
-                    <button class="mode-btn" id="ttt-easy-btn">
-                        <span class="mode-icon">😊</span>
-                        <span class="mode-label" data-i18n="mode.easy">쉬움</span>
-                        <span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span>
-                    </button>
-                    <button class="mode-btn" id="ttt-normal-btn">
-                        <span class="mode-icon">🎯</span>
-                        <span class="mode-label" data-i18n="mode.normal">보통</span>
-                        <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
-                    </button>
-                    <button class="mode-btn" id="ttt-hard-btn">
-                        <span class="mode-icon">🔥</span>
-                        <span class="mode-label" data-i18n="mode.hard">어려움</span>
-                        <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
-                    </button>
+                    <button class="mode-btn" id="ttt-easy-btn"><span class="mode-icon">😊</span><span class="mode-label" data-i18n="mode.easy">쉬움</span><span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span></button>
+                    <button class="mode-btn" id="ttt-normal-btn"><span class="mode-icon">🎯</span><span class="mode-label" data-i18n="mode.normal">보통</span><span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span></button>
+                    <button class="mode-btn" id="ttt-hard-btn"><span class="mode-icon">🔥</span><span class="mode-label" data-i18n="mode.hard">어려움</span><span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span></button>
                 </div>
                 <button class="mode-back-btn" id="ttt-diff-back" data-i18n="btn.back">← 뒤로</button>
             </div>
         </div>
     </div>
 
-    <!-- Win Overlay -->
-    <div id="ttt-win-overlay" class="overlay hidden">
-        <div class="modal">
-            <h2 id="ttt-win-title">승리!</h2>
-            <p id="ttt-win-desc"></p>
-            <button id="ttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+    <!-- 얼티메이트 모드 선택 -->
+    <div id="uttt-mode-overlay" class="game-mode-overlay hidden">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">얼티메이트</span><span class="en-only" style="display:none;">Ultimate</span></h2>
+            <div id="uttt-step-mode">
+                <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="uttt-pvp-btn"><span class="mode-icon">👤👤</span><span class="mode-label" data-i18n="mode.pvp">1:1 하기</span><span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span></button>
+                    <button class="mode-btn" id="uttt-ai-select-btn"><span class="mode-icon">🤖</span><span class="mode-label" data-i18n="mode.ai">AI 대전</span><span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span></button>
+                </div>
+                <button class="mode-back-btn to-variant">← <span class="ko-only">다른 틱택토</span><span class="en-only" style="display:none;">Other mode</span></button>
+            </div>
+            <div id="uttt-step-diff" class="hidden">
+                <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" id="uttt-easy-btn"><span class="mode-icon">😊</span><span class="mode-label" data-i18n="mode.easy">쉬움</span><span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span></button>
+                    <button class="mode-btn" id="uttt-normal-btn"><span class="mode-icon">🎯</span><span class="mode-label" data-i18n="mode.normal">보통</span><span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span></button>
+                    <button class="mode-btn" id="uttt-hard-btn"><span class="mode-icon">🔥</span><span class="mode-label" data-i18n="mode.hard">어려움</span><span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span></button>
+                </div>
+                <button class="mode-back-btn" id="uttt-diff-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
         </div>
     </div>
 
+    <!-- 승리 오버레이 -->
+    <div id="ttt-win-overlay" class="overlay hidden">
+        <div class="modal"><h2 id="ttt-win-title">승리!</h2><p id="ttt-win-desc"></p>
+            <button id="ttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button></div>
+    </div>
+    <div id="uttt-win-overlay" class="overlay hidden">
+        <div class="modal"><h2 id="uttt-win-title">승리!</h2><p id="uttt-win-desc"></p>
+            <button id="uttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button></div>
+    </div>
+
     <script src="lang.js?v=3"></script>
-    <script src="tictactoe.js?v=1"></script>
+    <script src="tictactoe.js?v=2"></script>
+    <script src="ultimate.js?v=1"></script>
+    <script>
+        window.tttHub = {
+            showVariant() {
+                document.getElementById('variant-overlay').classList.remove('hidden');
+                document.getElementById('ttt-mode-overlay').classList.add('hidden');
+                document.getElementById('uttt-mode-overlay').classList.add('hidden');
+                document.getElementById('ttt-win-overlay').classList.add('hidden');
+                document.getElementById('uttt-win-overlay').classList.add('hidden');
+            },
+            pickVariant(v) {
+                document.getElementById('variant-overlay').classList.add('hidden');
+                const classic = document.getElementById('ttt-classic');
+                const ultimate = document.getElementById('ttt-ultimate');
+                if (v === 'classic') {
+                    classic.classList.remove('hidden'); ultimate.classList.add('hidden');
+                    window.tttGame.showModeScreen();
+                } else {
+                    ultimate.classList.remove('hidden'); classic.classList.add('hidden');
+                    window.uttGame.showModeScreen();
+                }
+            }
+        };
+        document.getElementById('variant-classic').addEventListener('click', () => window.tttHub.pickVariant('classic'));
+        document.getElementById('variant-ultimate').addEventListener('click', () => window.tttHub.pickVariant('ultimate'));
+        document.querySelectorAll('.to-variant').forEach(b => b.addEventListener('click', () => window.tttHub.showVariant()));
+    </script>
 </body>
 </html>
