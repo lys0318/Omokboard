@@ -53,22 +53,22 @@
         .ttt-mark { width: 16px; height: 16px; border-radius: 4px; }
         /* 얼티메이트 */
         .uttt-board {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
-            width: min(94vw, 470px); aspect-ratio: 1; background: #5a3c1e; padding: 6px; border-radius: 8px;
+            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 6px;
+            width: min(94vw, 468px); aspect-ratio: 1; background: #5a3c1e; padding: 6px; border-radius: 8px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .uttt-sb { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
-            background: rgba(255,255,255,0.04); border-radius: 4px; padding: 3px; }
-        .uttt-sb.active-board { box-shadow: 0 0 0 2px #facc15, 0 0 14px rgba(250,204,21,0.55); background: rgba(250,204,21,0.10); }
-        .uttt-cell { aspect-ratio: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 3px; font-family: inherit; font-weight: 800; font-size: clamp(0.6rem, 2.8vw, 1.05rem);
+        .uttt-sb { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 3px;
+            background: rgba(255,255,255,0.04); border-radius: 5px; padding: 3px; }
+        .uttt-sb.active-board { box-shadow: inset 0 0 0 2px #facc15, 0 0 14px rgba(250,204,21,0.6); background: rgba(250,204,21,0.12); }
+        .uttt-cell { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 4px; font-family: inherit; font-weight: 800; font-size: clamp(1.1rem, 6vw, 1.75rem); line-height: 1;
             color: var(--text-main); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
-        .uttt-cell:hover:not(:disabled) { background: rgba(59,130,246,0.18); }
+        .uttt-cell:hover:not(:disabled) { background: rgba(59,130,246,0.22); }
         .uttt-cell:disabled { cursor: default; }
         .uttt-cell.x { color: #ef4444; } .uttt-cell.o { color: #3b82f6; }
         .uttt-cell.last { outline: 2px solid #facc15; outline-offset: -2px; }
         .uttt-sb-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            font-size: clamp(2rem, 9vw, 3.2rem); font-weight: 800; pointer-events: none; border-radius: 4px; }
+            font-size: clamp(2.2rem, 14vw, 4rem); font-weight: 800; pointer-events: none; border-radius: 5px; }
         .uttt-sb.won-x .uttt-sb-overlay { color: #ef4444; background: rgba(239,68,68,0.16); }
         .uttt-sb.won-o .uttt-sb-overlay { color: #3b82f6; background: rgba(59,130,246,0.16); }
         .uttt-sb.won-draw .uttt-sb-overlay { background: rgba(148,163,184,0.16); }
