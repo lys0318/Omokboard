@@ -43,6 +43,8 @@ class YutGame {
         this.winDesc = document.getElementById('yut-win-desc');
         this.p1infoEl = document.getElementById('yut-p1-info');
         this.p2infoEl = document.getElementById('yut-p2-info');
+        this.p1playerEl = document.getElementById('yut-player-p1');
+        this.p2playerEl = document.getElementById('yut-player-p2');
 
         this.resize();
         window.addEventListener('resize', () => this.resize());
@@ -433,13 +435,8 @@ class YutGame {
 
     // ─── 결과 칩 (표시 전용) ──────────────────────────────────
     renderResults() {
-        this.resultsEl.innerHTML = '';
-        this.results.forEach((r) => {
-            const chip = document.createElement('span');
-            chip.className = 'yut-chip';
-            chip.textContent = (this.en ? this.engName(r.name) : r.name) + ' ' + r.v;
-            this.resultsEl.appendChild(chip);
-        });
+        // 결과 칩은 표시하지 않음 (목적지 마커로 안내)
+        if (this.resultsEl) this.resultsEl.innerHTML = '';
     }
 
     updateThrowBtn() {
@@ -451,13 +448,18 @@ class YutGame {
     updateStatus() {
         const p1n = this.gameMode === 'ai' ? (this.en?'You':'나') : (this.en?'Red':'빨강');
         const p2n = this.gameMode === 'ai' ? 'AI' : (this.en?'Blue':'파랑');
-        if (this.p1infoEl) this.p1infoEl.textContent = p1n + ' ' + (this.en?'done ':'완주 ') + this.players.p1.done + '/4';
-        if (this.p2infoEl) this.p2infoEl.textContent = p2n + ' ' + (this.en?'done ':'완주 ') + this.players.p2.done + '/4';
+        if (this.p1infoEl) this.p1infoEl.textContent = p1n + ' ' + this.players.p1.done + '/4';
+        if (this.p2infoEl) this.p2infoEl.textContent = p2n + ' ' + this.players.p2.done + '/4';
+        // 현재 차례 플레이어 강조 (다른 게임과 동일)
+        if (this.p1playerEl) this.p1playerEl.classList.toggle('active', this.current === 'p1' && !this.isGameOver);
+        if (this.p2playerEl) this.p2playerEl.classList.toggle('active', this.current === 'p2' && !this.isGameOver);
+        const turnColor = this.current === 'p1' ? '#fca5a5' : '#93c5fd';
+        this.statusEl.style.color = this.isGameOver ? '' : turnColor;
         if (this.isGameOver) return;
         if (this.busy) { this.statusEl.textContent = (this.en?'AI is playing…':'AI 진행 중…'); return; }
         const who = this.current === 'p1' ? p1n : p2n;
-        if (this.phase === 'selectDest') this.statusEl.textContent = this.en ? 'Pick a highlighted cell' : '이동할 칸(표시)을 누르세요';
-        else if (this.phase === 'selectToken') this.statusEl.textContent = this.en ? 'Pick a glowing mal' : '움직일 말을 선택하세요';
+        if (this.phase === 'selectDest') this.statusEl.textContent = (this.en ? 'Pick a highlighted cell' : '이동할 칸(표시)을 누르세요');
+        else if (this.phase === 'selectToken') this.statusEl.textContent = who + (this.en ? ': pick a glowing mal' : ' 차례 — 움직일 말 선택');
         else if (this.canThrow) this.statusEl.textContent = who + (this.en?': throw the yut' : ' 차례 — 윷을 던지세요');
         else this.statusEl.textContent = who + (this.en?"'s turn" : ' 차례');
     }

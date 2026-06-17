@@ -76,9 +76,16 @@
 
         <main>
             <div class="game-info">
-                <div class="status-center" style="flex-direction:row;justify-content:space-between;width:100%;">
-                    <div class="yut-scores"><span id="yut-p1-info">나 0/4</span><span id="yut-p2-info">상대 0/4</span></div>
+                <div class="player active" id="yut-player-p1">
+                    <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ff7070,#b91c1c);"></div>
+                    <span class="player-name" id="yut-p1-info">나 0/4</span>
+                </div>
+                <div class="status-center">
                     <div class="status-message" id="yut-status">윷을 던지세요</div>
+                </div>
+                <div class="player" id="yut-player-p2">
+                    <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);"></div>
+                    <span class="player-name" id="yut-p2-info">상대 0/4</span>
                 </div>
             </div>
 
@@ -88,7 +95,6 @@
                 <button id="yut-throw-btn" class="btn primary"><span class="ko-only">윷 던지기 🎲</span><span class="en-only" style="display:none;">Throw Yut 🎲</span></button>
                 <div id="yut-throw-result"></div>
             </div>
-            <div id="yut-results"></div>
 
             <div class="controls" style="margin-top:0.25rem;">
                 <button id="yut-reset-btn" class="btn secondary" data-i18n="btn.restart">게임 재시작</button>
@@ -100,7 +106,7 @@
             <ul>
                 <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">윷을 던져 나온 만큼 말을 옮겨, 내 말 4개를 먼저 한 바퀴 돌려 완주시키면 승리</span><span class="en-only" style="display:none;">Move mal by your throws and finish all four around the board first</span></li>
                 <li><strong class="ko-only">던지기:</strong><strong class="en-only" style="display:none;">Throw:</strong> <span class="ko-only">도(1)·개(2)·걸(3)·윷(4, 한번더)·모(5, 한번더)</span><span class="en-only" style="display:none;">Do(1)·Gae(2)·Geol(3)·Yut(4, again)·Mo(5, again)</span></li>
-                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">윷을 던진 뒤 결과 칩을 누르고, 움직일 말을 클릭하세요</span><span class="en-only" style="display:none;">Throw, tap a result chip, then click a mal to move</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">윷을 던지면 움직일 말이 반짝입니다. 말을 클릭하고, 표시된 칸을 눌러 이동하세요</span><span class="en-only" style="display:none;">After a throw, movable mal glow. Click a mal, then click a highlighted cell to move</span></li>
                 <li><strong class="ko-only">잡기·업기:</strong><strong class="en-only" style="display:none;">Capture/Stack:</strong> <span class="ko-only">상대 말을 잡으면 한 번 더, 모서리에 멈추면 지름길로 질러갑니다</span><span class="en-only" style="display:none;">Capture for an extra throw; land on a corner to take a shortcut</span></li>
             </ul>
         </section>
@@ -175,6 +181,6 @@
     </div>
 
     <script src="lang.js?v=3"></script>
-    <script src="yut.js?v=3"></script>
+    <script src="yut.js?v=4"></script>
 </body>
 </html>
