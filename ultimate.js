@@ -170,81 +170,144 @@ class UltimateTTT {
         }, delay);
     }
 
-    // ─── AI ──────────────────────────────────────────────────
+    // ─── AI (미니맥스 + 알파베타) ────────────────────────────
     getAIMove() {
         const moves = this.legalMoves();
         if (!moves.length) return null;
         if (this.difficulty === 'easy') return moves[Math.floor(Math.random()*moves.length)];
-        let best = [], bestScore = -Infinity;
-        for (const m of moves) {
-            const s = this.scoreMove(m.sb, m.c);
-            if (s > bestScore) { bestScore = s; best = [m]; }
-            else if (s === bestScore) best.push(m);
+        if (this.difficulty === 'normal' && Math.random() < 0.25) return moves[Math.floor(Math.random()*moves.length)];
+
+        const depth = this.difficulty === 'hard' ? 6 : 3;
+        const state = {
+            boards: this.boards.map(b => b.slice()),
+            boardWinner: this.boardWinner.slice(),
+            activeBoard: this.activeBoard
+        };
+        const ordered = this.orderMovesState(state, moves, this.ai);
+        const inActive = state.activeBoard != null && this.boardPlayableS(state, state.activeBoard);
+        const cap = inActive ? ordered.length : Math.min(ordered.length, 12);
+        let best = ordered[0], bestScore = -Infinity, alpha = -Infinity;
+        for (let i = 0; i < cap; i++) {
+            const m = ordered[i];
+            const ns = this.applyState(state, m.sb, m.c, this.ai);
+            const sc = this.minimax(ns, depth - 1, alpha, Infinity, this.human);
+            if (sc > bestScore) { bestScore = sc; best = m; }
+            if (sc > alpha) alpha = sc;
         }
-        if (this.difficulty === 'normal' && Math.random() < 0.35) return moves[Math.floor(Math.random()*moves.length)];
-        return best[Math.floor(Math.random()*best.length)];
+        return best;
     }
 
-    scoreMove(sb, c) {
+    BOARD_W = [3,2,3, 2,4,2, 3,2,3];
+
+    bigWinnerOf(bw) { return this.winnerOf(bw.map(w => (w==='X'||w==='O') ? w : null)); }
+
+    boardPlayableS(state, sb) {
+        return !state.boardWinner[sb] && !state.boards[sb].every(v => v);
+    }
+
+    legalMovesS(state) {
+        const moves = [];
+        const inActive = state.activeBoard != null && this.boardPlayableS(state, state.activeBoard);
+        for (let sb = 0; sb < 9; sb++) {
+            if (inActive && sb !== state.activeBoard) continue;
+            if (!this.boardPlayableS(state, sb)) continue;
+            for (let c = 0; c < 9; c++) if (!state.boards[sb][c]) moves.push({ sb, c });
+        }
+        return moves;
+    }
+
+    applyState(state, sb, c, player) {
+        const ns = {
+            boards: state.boards.map(b => b.slice()),
+            boardWinner: state.boardWinner.slice(),
+            activeBoard: null
+        };
+        ns.boards[sb][c] = player;
+        if (!ns.boardWinner[sb]) {
+            const w = this.winnerOf(ns.boards[sb]);
+            if (w) ns.boardWinner[sb] = w;
+            else if (ns.boards[sb].every(v => v)) ns.boardWinner[sb] = 'draw';
+        }
+        ns.activeBoard = this.boardPlayableS(ns, c) ? c : null;
+        return ns;
+    }
+
+    minimax(state, depth, alpha, beta, player) {
+        const big = this.bigWinnerOf(state.boardWinner);
+        if (big === this.ai) return 100000 + depth;
+        if (big === this.human) return -100000 - depth;
+        const moves = this.legalMovesS(state);
+        if (!moves.length) return this.evalState(state);
+        if (depth === 0) return this.evalState(state);
+
+        const ordered = this.orderMovesState(state, moves, player);
+        const cap = (state.activeBoard != null && this.boardPlayableS(state, state.activeBoard)) ? ordered.length : Math.min(ordered.length, 10);
+        if (player === this.ai) {
+            let best = -Infinity;
+            for (let i = 0; i < cap; i++) {
+                const m = ordered[i];
+                const v = this.minimax(this.applyState(state, m.sb, m.c, this.ai), depth-1, alpha, beta, this.human);
+                if (v > best) best = v;
+                if (best > alpha) alpha = best;
+                if (alpha >= beta) break;
+            }
+            return best;
+        } else {
+            let best = Infinity;
+            for (let i = 0; i < cap; i++) {
+                const m = ordered[i];
+                const v = this.minimax(this.applyState(state, m.sb, m.c, this.human), depth-1, alpha, beta, this.ai);
+                if (v < best) best = v;
+                if (best < beta) beta = best;
+                if (alpha >= beta) break;
+            }
+            return best;
+        }
+    }
+
+    orderMovesState(state, moves, player) {
+        const opp = player === 'X' ? 'O' : 'X';
+        return moves.map(m => {
+            let h = 0;
+            // 이 수로 작은 보드를 따내는가
+            const cells = state.boards[m.sb].slice(); cells[m.c] = player;
+            if (!state.boardWinner[m.sb] && this.winnerOf(cells) === player) {
+                h += 50 + this.BOARD_W[m.sb] * 4;
+                const bw = state.boardWinner.slice(); bw[m.sb] = player;
+                if (this.bigWinnerOf(bw) === player) h += 100000;
+            }
+            h += this.BOARD_W[m.sb] + (m.c === 4 ? 2 : (m.c%2===0 ? 1 : 0));
+            // 상대를 끝난 보드로 보내면(자유 이동) 감점
+            const target = m.c;
+            const targetDone = (target === m.sb)
+                ? !!(this.winnerOf(cells) || cells.every(v=>v))
+                : (!!state.boardWinner[target] || state.boards[target].every(v=>v));
+            if (targetDone) h -= 4;
+            return { ...m, h };
+        }).sort((a,b) => b.h - a.h);
+    }
+
+    evalState(state) {
         const me = this.ai, opp = this.human;
         let score = 0;
-        // 가상 배치
-        this.boards[sb][c] = me;
-        const smallW = this.boardWinner[sb] ? this.boardWinner[sb] : this.winnerOf(this.boards[sb]);
-        // 작은 보드 따냄
-        if (smallW === me && this.boardWinner[sb] !== me) {
-            score += 30;
-            // 이걸로 큰 보드 승리?
-            const bw = this.boardWinner.slice(); bw[sb] = me;
-            if (this.winnerOf(bw.map(w=>(w==='X'||w==='O')?w:null)) === me) score += 10000;
-            // 큰 보드 두 줄 위협
-            score += this.bigLineThreat(bw, me) * 12;
-        }
-        // 위치 가중치
-        if (c === 4) score += 3; else if (c===0||c===2||c===6||c===8) score += 1;
-        if (sb === 4) score += 2;
-        // 작은 보드 안에서 내 줄 만들기 / 상대 줄 막기
-        score += this.lineScore(this.boards[sb], me) * 2;
-        this.boards[sb][c] = null;
-
-        // 상대를 어디로 보내는가
-        const target = c;
-        const sendFree = !this.boardPlayableHyp(target, sb, c);
-        if (sendFree) {
-            score -= 6; // 아무 곳이나 두게 하면 불리
-        } else {
-            // 상대가 그 보드에서 작은 보드를 따낼 수 있나?
-            if (this.canWinBoard(target, opp)) {
-                score -= 25;
-                const bw = this.boardWinner.slice(); bw[target] = opp;
-                if (this.winnerOf(bw.map(w=>(w==='X'||w==='O')?w:null)) === opp) score -= 10000;
+        for (let sb = 0; sb < 9; sb++) {
+            const w = state.boardWinner[sb];
+            if (w === me) score += 10 * this.BOARD_W[sb];
+            else if (w === opp) score -= 10 * this.BOARD_W[sb];
+            else if (w !== 'draw') {
+                score += this.lineScore(state.boards[sb], me) - this.lineScore(state.boards[sb], opp);
             }
         }
+        // 큰 보드 줄 잠재력
+        const bw = state.boardWinner;
+        for (const [a,b,c] of UTTT_LINES) {
+            const line = [bw[a],bw[b],bw[c]].map(w => (w==='X'||w==='O') ? w : null);
+            const mine = line.filter(v=>v===me).length;
+            const them = line.filter(v=>v===opp).length;
+            if (them === 0) { if (mine === 2) score += 50; else if (mine === 1) score += 8; }
+            else if (mine === 0) { if (them === 2) score -= 50; else if (them === 1) score -= 8; }
+        }
         return score;
-    }
-
-    // c에 둔 뒤 target 보드가 둘 수 있는 상태인지(가상). sb,c는 방금 둔 수.
-    boardPlayableHyp(target, sb, c) {
-        if (target === sb) {
-            // 방금 둔 보드로 다시 보내는 경우: 그 칸은 찼고, 승패 여부 반영
-            const cells = this.boards[sb].slice(); cells[c] = this.ai;
-            const w = this.boardWinner[sb] || this.winnerOf(cells);
-            if (w) return false;
-            return !cells.every(v=>v);
-        }
-        return !this.boardWinner[target] && !this.isFull(this.boards[target]);
-    }
-
-    canWinBoard(sb, player) {
-        if (this.boardWinner[sb]) return false;
-        for (let i = 0; i < 9; i++) {
-            if (this.boards[sb][i]) continue;
-            this.boards[sb][i] = player;
-            const w = this.winnerOf(this.boards[sb]);
-            this.boards[sb][i] = null;
-            if (w === player) return true;
-        }
-        return false;
     }
 
     lineScore(cells, player) {
@@ -256,20 +319,8 @@ class UltimateTTT {
             const them = line.filter(v=>v===opp).length;
             if (them===0 && mine===2) s += 3;
             else if (them===0 && mine===1) s += 1;
-            if (mine===0 && them===2) s += 2; // 상대 줄 견제 가치
         }
         return s;
-    }
-
-    bigLineThreat(bw, player) {
-        let t = 0;
-        for (const [a,b,c] of UTTT_LINES) {
-            const line = [bw[a],bw[b],bw[c]];
-            const mine = line.filter(v=>v===player).length;
-            const blocked = line.some(v => v && v!==player);
-            if (!blocked && mine===2) t += 1;
-        }
-        return t;
     }
 
     // ─── 승패 처리 ───────────────────────────────────────────
