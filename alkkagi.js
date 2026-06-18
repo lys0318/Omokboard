@@ -2,6 +2,7 @@ const FRICTION    = 0.960;
 const RESTITUTION = 0.90;
 const MIN_SPEED   = 0.20;
 const MAX_LAUNCH  = 20;
+const BOARD_SIZE   = 560;
 const BM          = 18; // board margin (wooden frame width)
 
 class AlkkagiGame {
@@ -40,13 +41,15 @@ class AlkkagiGame {
     get bBottom() { return this.H - BM; }
 
     resize() {
-        const maxW = Math.min(window.innerWidth - 32, 560);
-        this.W = maxW;
-        this.H = maxW;   // square canvas — same as 오목 board
+        this.W = BOARD_SIZE;
+        this.H = BOARD_SIZE;   // fixed game coordinates so mobile and desktop play identically
         this.canvas.width  = this.W;
         this.canvas.height = this.H;
-        if (this.marbles.length) this.reset();
-        else this.draw();
+        const displaySize = Math.max(280, Math.min(window.innerWidth - 32, BOARD_SIZE));
+        this.canvas.style.width = displaySize + 'px';
+        this.canvas.style.height = displaySize + 'px';
+
+        this.draw();
     }
 
     reset() {
