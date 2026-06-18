@@ -2,6 +2,7 @@
 public/
 .wrangler/
 .wranglerignore
+.playwright-mcp/
 
 # Editor
 .vscode/

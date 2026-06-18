@@ -227,6 +227,20 @@
 
     function getLang() { return lang; }
 
+    function renderContactEmails() {
+        document.querySelectorAll('[data-contact-email]').forEach(function (el) {
+            var user = el.getAttribute('data-user');
+            var domain = el.getAttribute('data-domain');
+            if (!user || !domain) return;
+            var address = user + '@' + domain;
+            var link = document.createElement('a');
+            link.href = 'mailto:' + address;
+            link.textContent = address;
+            el.textContent = '';
+            el.appendChild(link);
+        });
+    }
+
     function applyLang() {
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
             var key = el.getAttribute('data-i18n');
@@ -246,6 +260,7 @@
         games.forEach(function (g) {
             if (window[g] && typeof window[g].refreshLang === 'function') window[g].refreshLang();
         });
+        renderContactEmails();
     }
 
     function toggleLang() {
