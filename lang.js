@@ -219,7 +219,9 @@
         }
     };
 
-    var lang = localStorage.getItem('omokboard-lang') || 'ko';
+    // 저장된 선호가 없으면 <html lang>으로 기본값 결정 (/en/ 페이지는 영어로 시작)
+    var lang = localStorage.getItem('omokboard-lang') ||
+        (document.documentElement.lang === 'en' ? 'en' : 'ko');
 
     function t(key) {
         return (T[lang] && T[lang][key]) || (T.ko && T.ko[key]) || key;
