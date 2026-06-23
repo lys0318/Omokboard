@@ -219,9 +219,8 @@
         }
     };
 
-    // 저장된 선호가 없으면 <html lang>으로 기본값 결정 (/en/ 페이지는 영어로 시작)
-    var lang = localStorage.getItem('omokboard-lang') ||
-        (document.documentElement.lang === 'en' ? 'en' : 'ko');
+    // 언어는 URL/페이지 기준 (/en/* = 영어). <html lang>은 페이지마다 올바르게 박혀 있음.
+    var lang = document.documentElement.lang === 'en' ? 'en' : 'ko';
 
     function t(key) {
         return (T[lang] && T[lang][key]) || (T.ko && T.ko[key]) || key;
@@ -265,10 +264,16 @@
         renderContactEmails();
     }
 
+    // EN/한국어 버튼 → 같은 페이지의 다른 언어 URL로 이동 (/omok ↔ /en/omok)
     function toggleLang() {
-        lang = lang === 'ko' ? 'en' : 'ko';
-        localStorage.setItem('omokboard-lang', lang);
-        applyLang();
+        var p = location.pathname;
+        var target;
+        if (p === '/en' || p.indexOf('/en/') === 0) {
+            target = p.replace(/^\/en(?=\/|$)/, '') || '/';
+        } else {
+            target = '/en' + (p === '/' ? '/' : p);
+        }
+        location.href = target;
     }
 
     if (document.readyState === 'loading') {
