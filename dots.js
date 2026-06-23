@@ -146,10 +146,6 @@ class DotsGame {
         };
     }
 
-    sameLine(a, b) {
-        return !!a && !!b && a.type === b.type && a.r === b.r && a.c === b.c;
-    }
-
     isLineTaken(line, hLines = this.hLines, vLines = this.vLines) {
         return line.type === 'h' ? !!hLines[line.r][line.c] : !!vLines[line.r][line.c];
     }
@@ -157,10 +153,6 @@ class DotsGame {
     setLine(line, player, hLines = this.hLines, vLines = this.vLines) {
         if (line.type === 'h') hLines[line.r][line.c] = player;
         else vLines[line.r][line.c] = player;
-    }
-
-    getLineOwner(line) {
-        return line.type === 'h' ? this.hLines[line.r][line.c] : this.vLines[line.r][line.c];
     }
 
     getLineAt(pos) {
