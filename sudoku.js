@@ -66,6 +66,8 @@ class Sudoku {
         document.getElementById('sudoku-solo-btn').addEventListener('click', () => this.chooseMode('solo', false));
         document.getElementById('sudoku-pvp-btn').addEventListener('click', () => this.chooseMode('duel', false));
         document.getElementById('sudoku-ai-btn').addEventListener('click', () => this.chooseMode('duel', true));
+        var dailyBtn = document.getElementById('sudoku-daily-btn');
+        if (dailyBtn) dailyBtn.addEventListener('click', () => this.startDaily());
         document.getElementById('sudoku-easy-btn').addEventListener('click',   () => this.startGame('easy'));
         document.getElementById('sudoku-normal-btn').addEventListener('click', () => this.startGame('normal'));
         document.getElementById('sudoku-hard-btn').addEventListener('click',   () => this.startGame('hard'));
@@ -99,7 +101,27 @@ class Sudoku {
         document.getElementById('sudoku-step-diff').classList.remove('hidden');
     }
 
-    startGame(difficulty) {
+    // 오늘 날짜 시드 PRNG (모두 같은 "오늘의 퍼즐")
+    mulberry32(a) {
+        return function () {
+            a |= 0; a = a + 0x6D2B79F5 | 0;
+            let t = Math.imul(a ^ a >>> 15, 1 | a);
+            t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+            return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+    }
+    todaySeed() {
+        const d = new Date();
+        return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    }
+    startDaily() {
+        this.mode = 'solo'; this.vsAI = false; this.daily = true;
+        this.rand = this.mulberry32(this.todaySeed());
+        this.startGame('normal', true);
+    }
+
+    startGame(difficulty, keepDaily) {
+        if (!keepDaily) { this.daily = false; this.rand = Math.random; }
         this.difficulty = difficulty;
         this.modeOverlay.classList.add('hidden');
         this.newPuzzle(difficulty);
@@ -197,7 +219,7 @@ class Sudoku {
 
     shuffle(a) {
         for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
+            const j = Math.floor((this.rand || Math.random)() * (i + 1));
             [a[i], a[j]] = [a[j], a[i]];
         }
         return a;
@@ -343,7 +365,8 @@ class Sudoku {
     updateStatus() {
         if (this.mode === 'solo') {
             this.infoEl.textContent = '';
-            this.statusEl.textContent = (this.en ? 'Time ' : '시간 ') + this.fmtTime(this.timer);
+            const tag = this.daily ? (this.en ? '🗓️ Daily · ' : '🗓️ 오늘의 퍼즐 · ') : '';
+            this.statusEl.textContent = tag + (this.en ? 'Time ' : '시간 ') + this.fmtTime(this.timer);
             return;
         }
         // duel

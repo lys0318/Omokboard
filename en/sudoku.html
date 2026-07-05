@@ -24,7 +24,11 @@
     <meta property="og:title" content="Sudoku - Free Online (Solo & Duel) | Omokboard">
     <meta property="og:description" content="Play free online Sudoku with unique-solution puzzles. Solo mode plus a 1v1 / AI duel mode. No install.">
     <meta property="og:url" content="https://omokboard.com/en/sudoku">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://omokboard.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/en/og-image.png">
     <meta name="twitter:title" content="Sudoku - Free Online (Solo & Duel) | Omokboard">
     <meta name="twitter:description" content="Play free online Sudoku with unique-solution puzzles. Solo mode plus a 1v1 / AI duel mode. No install.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -178,6 +182,11 @@
                         <span class="mode-label"><span class="ko-only">AI 대결</span><span class="en-only" style="display:none;">vs AI</span></span>
                         <span class="mode-desc"><span class="ko-only">AI와 대결</span><span class="en-only" style="display:none;">vs computer</span></span>
                     </button>
+                    <button class="mode-btn" id="sudoku-daily-btn">
+                        <span class="mode-icon">🗓️</span>
+                        <span class="mode-label"><span class="ko-only">오늘의 퍼즐</span><span class="en-only" style="display:none;">Daily</span></span>
+                        <span class="mode-desc"><span class="ko-only">매일 새 문제</span><span class="en-only" style="display:none;">New each day</span></span>
+                    </button>
                 </div>
             </div>
             <div id="sudoku-step-diff" class="hidden">
@@ -214,6 +223,6 @@
     </div>
 
     <script src="/lang.js?v=5"></script>
-    <script src="/sudoku.js?v=1"></script>
+    <script src="/sudoku.js?v=2"></script>
 </body>
 </html>

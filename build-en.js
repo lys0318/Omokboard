@@ -45,6 +45,35 @@ function hreflang(slug) {
          `    <link rel="alternate" hreflang="x-default" href="${url(slug,false)}">`;
 }
 
+// 가이드 FAQ 섹션 → FAQPage JSON-LD (해당 언어 영역만 파싱)
+const strip = s => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+function faqLd(region) {
+  const qa = [];
+  const secRe = /<h2>[^<]*(?:자주 묻는 질문|FAQ)[^<]*<\/h2>\s*<ul class="rule-list">([\s\S]*?)<\/ul>/g;
+  let s;
+  while ((s = secRe.exec(region))) {
+    const itemRe = /<li><strong>([\s\S]*?)<\/strong>\s*([\s\S]*?)<\/li>/g;
+    let it;
+    while ((it = itemRe.exec(s[1]))) {
+      const q = strip(it[1]), a = strip(it[2]);
+      if (q && a) qa.push({ q, a });
+    }
+  }
+  if (!qa.length) return '';
+  const data = {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: qa.map(x => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } }))
+  };
+  return `    <script type="application/ld+json">\n${JSON.stringify(data, null, 2)}\n    </script>\n`;
+}
+// FAQPage 블록 제거(재실행 대비) + 주입
+const stripFaqLd = html => html.replace(/\s*<script type="application\/ld\+json">\s*\{\s*"@context"[^]*?"@type": "FAQPage"[^]*?<\/script>/g, '');
+function injectFaq(html, region) {
+  html = stripFaqLd(html);
+  const ld = faqLd(region);
+  return ld ? html.replace('</head>', ld + '</head>') : html;
+}
+
 const slugs = Object.keys(META);
 const enDir = path.join(DIR, 'en');
 if (!fs.existsSync(enDir)) fs.mkdirSync(enDir);
@@ -52,15 +81,23 @@ if (!fs.existsSync(enDir)) fs.mkdirSync(enDir);
 for (const slug of slugs) {
   let ko = fs.readFileSync(path.join(DIR, slug + '.html'), 'utf8');
 
-  // 1) 한국어 페이지에 hreflang 주입 (없을 때만)
+  // 한/영 영역 분리 (en-only div 기준)
+  const splitAt = ko.indexOf('<div class="en-only"');
+  const koRegion = splitAt >= 0 ? ko.slice(0, splitAt) : ko;
+  const enRegion = splitAt >= 0 ? ko.slice(splitAt) : ko;
+
+  // 1) 한국어 페이지: hreflang(없을 때만) + FAQPage(ko) 주입
   if (!/hreflang=/.test(ko)) {
     ko = ko.replace(/(<link rel="canonical"[^>]*>)/, `$1\n${hreflang(slug)}`);
-    fs.writeFileSync(path.join(DIR, slug + '.html'), ko);
   }
+  ko = injectFaq(ko, koRegion);
+  fs.writeFileSync(path.join(DIR, slug + '.html'), ko);
 
   // 2) 영어판 생성
   let en = ko;
+  en = injectFaq(en, enRegion); // 영어 FAQPage로 교체
   en = en.replace(/https:\/\/omokboard\.com\//g, 'https://omokboard.com/en/'); // 자기 URL·JSON-LD → /en/
+  en = en.replace('https://omokboard.com/en/og-image.png', 'https://omokboard.com/og-image.png'); // og-image는 루트 유지
   en = en.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');     // 기존 hreflang 제거
   en = en.replace(/(<link rel="canonical"[^>]*>)/, `$1\n${hreflang(slug)}`);   // 올바른 hreflang 재주입
   en = en.replace('<html lang="ko">', '<html lang="en">');
