@@ -31,6 +31,9 @@ const META = {
   minesweeper:      { t:'Minesweeper - Free Online Game | Omokboard', d:'Play free online Minesweeper. Three difficulty levels, safe first click guaranteed. Right-click or Flag Mode to mark mines. No install.' },
   '2048':           { t:'2048 - Free Online Number Puzzle | Omokboard', d:'Play free online 2048. Merge matching tiles with arrow keys or swipe to reach the 2048 tile. Best score saved automatically. No install.' },
   ladder:           { t:'Ladder Game (Amidakuji) - Free Online | Omokboard', d:'Play a free online ladder game (Amidakuji). 2–6 players, type your own results, and let a random ladder decide. No install.' },
+  'minesweeper-guide': { t:'Minesweeper Guide - Reading Numbers | Omokboard', d:'Learn Minesweeper number logic, flag tips, and how to solve without guessing.' },
+  '2048-guide':        { t:'2048 Strategy Guide | Omokboard', d:'Learn the 2048 corner strategy and tile-ordering tricks for a high score.' },
+  'ladder-guide':      { t:'Ladder Game Guide (Amidakuji) | Omokboard', d:'Learn how the ladder game works, why it is always fair, and when to use it.' },
   about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games — play vs AI or 2-player, no install required.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard for bug reports, suggestions, or privacy and advertising inquiries.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy — what we collect, how it is used, and third-party services.' }

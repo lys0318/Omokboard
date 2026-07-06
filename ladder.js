@@ -2,11 +2,15 @@
 class Ladder {
     constructor() {
         this.ROWS = 9; // 내부 사다리 단(段) 수
+        this.STEP_MS = 90; // 레벨 하나 내려가는 데 걸리는 시간
         this.PALETTE = ['#ef4444', '#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#06b6d4'];
         this.n = 4;
         this.rungs = [];
         this.results = [];
         this.xs = [];
+        this.animating = new Map();  // col -> { step, pts, destCol, color }
+        this.revealedPaths = [];     // { col, destCol, color, pts } (다 내려간 것들, 계속 화면에 유지)
+        this.tickerId = null;
 
         this.stageEl = document.querySelector('.ladder-stage');
         this.topsEl = document.getElementById('ladder-tops');
@@ -45,12 +49,19 @@ class Ladder {
         this.buildTops();
         this.buildResults();
         this.rungs = this.generateRungs(n);
-        this.usedCols = new Set();
+        this.stopAnimation();
         this.statusEl.innerHTML = this.en
             ? '<span>Tap a number to reveal its result</span>'
             : '<span>번호를 눌러 결과를 확인하세요</span>';
         this.summaryEl.textContent = '';
         this.draw();
+    }
+
+    stopAnimation() {
+        clearInterval(this.tickerId);
+        this.tickerId = null;
+        this.animating.clear();
+        this.revealedPaths = [];
     }
 
     computeXs(n, width, margin) {
@@ -113,7 +124,17 @@ class Ladder {
         return { col, pts };
     }
 
-    draw(highlights) {
+    // pts 중 y <= maxY인 부분까지만 잘라낸 부분 경로 (레벨 경계값과 정확히 일치하는 y만 넘어오므로 보간 불필요)
+    clipPts(pts, maxY) {
+        const out = [];
+        for (const p of pts) {
+            if (p.y > maxY) break;
+            out.push(p);
+        }
+        return out;
+    }
+
+    draw(layers) {
         const { ctx, canvas, xs, n } = this;
         const h = canvas.height;
         ctx.clearRect(0, 0, canvas.width, h);
@@ -138,9 +159,8 @@ class Ladder {
             }
         }
 
-        if (!highlights) return;
-        for (const { col, color } of highlights) {
-            const { pts } = this.trace(col);
+        for (const { pts, color } of layers || []) {
+            if (pts.length < 2) continue;
             ctx.strokeStyle = color;
             ctx.lineWidth = 3;
             ctx.beginPath();
@@ -153,37 +173,74 @@ class Ladder {
         }
     }
 
-    reveal(startCol) {
-        this.resultsEl.querySelectorAll('.ladder-result-input').forEach(el => { el.classList.remove('landed'); el.style.borderColor = ''; });
-        this.topsEl.querySelectorAll('.ladder-top-btn').forEach(el => el.classList.remove('done'));
+    renderFrame() {
+        const layers = this.revealedPaths.map(p => ({ pts: p.pts, color: p.color }));
+        const h = this.canvas.height;
+        for (const anim of this.animating.values()) {
+            const y = anim.step >= this.ROWS + 1 ? h : (anim.step * h) / (this.ROWS + 1);
+            layers.push({ pts: this.clipPts(anim.pts, y), color: anim.color });
+        }
+        this.draw(layers);
+    }
 
-        const { col } = this.trace(startCol);
-        this.draw([{ col: startCol, color: '#facc15' }]);
+    reveal(startCol) {
+        this.revealedPaths = this.revealedPaths.filter(p => p.col !== startCol);
+        const { col, pts } = this.trace(startCol);
+        const color = this.PALETTE[startCol % this.PALETTE.length];
+        this.animating.set(startCol, { step: 0, pts, destCol: col, color });
         this.topsEl.children[startCol].classList.add('done');
-        this.resultsEl.children[col].classList.add('landed');
-        this.usedCols.add(startCol);
-        const label = this.en ? `#${startCol + 1} → ` : `${startCol + 1}번 → `;
-        this.statusEl.textContent = label + this.results[col];
         this.summaryEl.textContent = '';
+        this.startTicker();
+    }
+
+    startTicker() {
+        if (this.tickerId) return;
+        this.tickerId = setInterval(() => {
+            for (const [startCol, anim] of [...this.animating]) {
+                anim.step++;
+                if (anim.step >= this.ROWS + 1) {
+                    this.animating.delete(startCol);
+                    this.revealedPaths.push({ col: startCol, destCol: anim.destCol, color: anim.color, pts: anim.pts });
+                    this.onRevealDone(startCol, anim.destCol, anim.color);
+                }
+            }
+            this.renderFrame();
+            if (this.animating.size === 0) { clearInterval(this.tickerId); this.tickerId = null; }
+        }, this.STEP_MS);
+    }
+
+    onRevealDone(startCol, destCol, color) {
+        const input = this.resultsEl.children[destCol];
+        input.classList.add('landed');
+        input.style.borderColor = color;
+        const label = this.en ? `#${startCol + 1} → ` : `${startCol + 1}번 → `;
+        this.statusEl.textContent = label + this.results[destCol];
     }
 
     revealAll() {
-        const highlights = [];
+        this.animating.clear();
+        clearInterval(this.tickerId);
+        this.tickerId = null;
+        this.revealedPaths = [];
         const mapping = [];
         for (let i = 0; i < this.n; i++) {
-            const { col } = this.trace(i);
-            highlights.push({ col: i, color: this.PALETTE[i % this.PALETTE.length] });
+            const { col, pts } = this.trace(i);
+            const color = this.PALETTE[i % this.PALETTE.length];
+            this.revealedPaths.push({ col: i, destCol: col, color, pts });
             mapping.push(`${i + 1} → ${this.results[col]}`);
             this.topsEl.children[i].classList.add('done');
+            const input = this.resultsEl.children[col];
+            input.classList.add('landed');
+            input.style.borderColor = color;
         }
-        this.draw(highlights);
+        this.renderFrame();
         this.statusEl.textContent = this.en ? 'All paths revealed' : '전체 경로 공개됨';
         this.summaryEl.textContent = mapping.join('   ·   ');
     }
 
     shuffle() {
         this.rungs = this.generateRungs(this.n);
-        this.usedCols = new Set();
+        this.stopAnimation();
         this.topsEl.querySelectorAll('.ladder-top-btn').forEach(el => el.classList.remove('done'));
         this.resultsEl.querySelectorAll('.ladder-result-input').forEach(el => { el.classList.remove('landed'); el.style.borderColor = ''; });
         this.statusEl.textContent = this.en ? 'Ladder reshuffled' : '사다리를 다시 섞었습니다';
