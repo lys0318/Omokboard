@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/ladder">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/ladder">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/ladder">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/ladder">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>사다리타기 - 오목보드 | 무료 온라인 사다리타기 (Amidakuji)</title>
+    <meta name="description" content="무료 온라인 사다리타기. 인원 2~6명, 결과 내용을 직접 입력해 당첨자·순서·역할을 무작위로 정해보세요. 설치 없이 브라우저에서 바로.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="사다리타기 - 오목보드">
+    <meta property="og:description" content="무료 온라인 사다리타기. 인원 2~6명, 결과 직접 입력.">
+    <meta property="og:url" content="https://omokboard.com/ladder">
+    <meta property="og:image" content="https://omokboard.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og-image.png">
+    <meta name="twitter:title" content="사다리타기 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 사다리타기. 무작위로 결과를 정하세요.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        .ladder-stage { position: relative; width: min(92vw, 460px); }
+        .ladder-tops, .ladder-results { position: relative; height: 42px; }
+        .ladder-top-btn {
+            position: absolute; top: 0; transform: translateX(-50%);
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-main); font-weight: 800; font-family: inherit; cursor: pointer;
+            transition: background 0.15s, transform 0.15s;
+        }
+        .ladder-top-btn:hover { background: var(--accent-blue); }
+        .ladder-top-btn.done { background: rgba(255,255,255,0.03); color: var(--text-muted); }
+        .ladder-result-input {
+            position: absolute; top: 0; transform: translateX(-50%);
+            width: 64px; text-align: center; font-size: 0.72rem; font-family: inherit;
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 6px; padding: 0.4rem 0.2rem; color: var(--text-main);
+        }
+        .ladder-result-input.landed { border-color: #facc15; box-shadow: 0 0 0 2px rgba(250,204,21,0.4); }
+        #ladder-canvas { display: block; width: 100%; height: 280px; border-radius: 0.5rem; background: rgba(255,255,255,0.03); }
+        #ladder-status { font-weight: 700; min-height: 1.4em; text-align: center; }
+        #ladder-summary { font-size: 0.85rem; color: var(--text-muted); text-align: center; line-height: 1.7; }
+        .ladder-count-buttons { gap: 0.7rem; }
+        .ladder-count-buttons .mode-btn { width: 88px; padding: 1rem 0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>
+            <a href="minesweeper" class="game-nav-item" data-i18n="nav.mine">지뢰찾기</a>
+            <a href="2048" class="game-nav-item" data-i18n="nav.2048">2048</a>
+            <a href="ladder" class="game-nav-item active" data-i18n="nav.ladder">사다리타기</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1><span class="ko-only">사다리타기</span><span class="en-only" style="display:none;">Ladder Game</span></h1>
+            <p class="subtitle">Amidakuji — <span class="ko-only">무작위로 결과를 정해보세요</span><span class="en-only" style="display:none;">Randomly decide who gets what</span></p>
+        </header>
+
+        <main>
+            <div class="status-message" id="ladder-status"><span class="ko-only">번호를 눌러 결과를 확인하세요</span><span class="en-only" style="display:none;">Tap a number to reveal its result</span></div>
+
+            <div class="ladder-stage">
+                <div class="ladder-tops" id="ladder-tops"></div>
+                <canvas id="ladder-canvas"></canvas>
+                <div class="ladder-results" id="ladder-results"></div>
+            </div>
+
+            <div id="ladder-summary"></div>
+
+            <div class="controls">
+                <button id="ladder-shuffle-btn" class="btn secondary"><span class="ko-only">다시 섞기</span><span class="en-only" style="display:none;">Reshuffle</span></button>
+                <button id="ladder-revealall-btn" class="btn secondary"><span class="ko-only">전체 공개</span><span class="en-only" style="display:none;">Reveal All</span></button>
+                <button id="ladder-reset-btn" class="btn primary"><span class="ko-only">처음부터</span><span class="en-only" style="display:none;">Start Over</span></button>
+            </div>
+        </main>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">위쪽 번호와 아래쪽 결과를 무작위 사다리 경로로 이어, 공평하게 역할이나 순서를 정합니다</span><span class="en-only" style="display:none;">Connect each top number to a bottom result through a random ladder path — a fair way to assign roles or order</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">아래쪽 칸에 결과 내용을 입력한 뒤, 위쪽 번호를 눌러 경로를 확인하세요</span><span class="en-only" style="display:none;">Type your results in the boxes below, then tap a top number to trace its path</span></li>
+                <li><strong class="ko-only">전체 공개:</strong><strong class="en-only" style="display:none;">Reveal All:</strong> <span class="ko-only">모든 번호의 경로를 한 번에 색으로 구분해 보여주고 목록으로 정리합니다</span><span class="en-only" style="display:none;">Shows every path at once in different colors and lists the full mapping</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">사다리는 위아래 순서만 바뀌지 않을 뿐, 어떤 번호가 어디로 갈지는 완전히 무작위입니다</span><span class="en-only" style="display:none;">The vertical order never crosses over, but which number lands where is completely random</span></li>
+            </ul>
+        </section>
+
+    <script src="adfit.js?v=1"></script>
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Count Overlay -->
+    <div id="ladder-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">사다리타기</span><span class="en-only" style="display:none;">Ladder Game</span></h2>
+            <p class="mode-subtitle"><span class="ko-only">인원을 선택하세요</span><span class="en-only" style="display:none;">Choose the number of players</span></p>
+            <div class="mode-buttons difficulty-buttons ladder-count-buttons">
+                <button class="mode-btn" data-n="2"><span class="mode-label">2<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="3"><span class="mode-label">3<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="4"><span class="mode-label">4<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="5"><span class="mode-label">5<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="6"><span class="mode-label">6<span class="ko-only">명</span></span></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="lang.js?v=6"></script>
+    <script src="ladder.js?v=1"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@
         ko: {
             'nav.omok': '오목', 'nav.c4': '사목', 'nav.reversi': '리버시', 'nav.dots': '점잇기', 'nav.chess': '체스', 'nav.ak': '알까기',
             'nav.yut': '윷놀이', 'nav.sudoku': '스도쿠', 'nav.ttt': '틱택토',
+            'nav.mine': '지뢰찾기', 'nav.2048': '2048', 'nav.ladder': '사다리타기',
             'lang.btn': 'EN',
             'btn.restart': '게임 재시작', 'btn.back': '← 뒤로', 'btn.replay': '다시 하기',
             'mode.select': '게임 모드를 선택하세요',
@@ -112,6 +113,7 @@
         en: {
             'nav.omok': 'Omok', 'nav.c4': 'Connect 4', 'nav.reversi': 'Reversi', 'nav.dots': 'Dots & Boxes', 'nav.chess': 'Chess', 'nav.ak': 'Alkkagi',
             'nav.yut': 'Yut Nori', 'nav.sudoku': 'Sudoku', 'nav.ttt': 'Tic-Tac-Toe',
+            'nav.mine': 'Minesweeper', 'nav.2048': '2048', 'nav.ladder': 'Ladder Game',
             'lang.btn': '한국어',
             'btn.restart': 'Restart', 'btn.back': '← Back', 'btn.replay': 'Play Again',
             'mode.select': 'Select Game Mode',
@@ -257,7 +259,7 @@
         var btn = document.getElementById('lang-toggle');
         if (btn) btn.textContent = t('lang.btn');
         document.documentElement.lang = lang === 'en' ? 'en' : 'ko';
-        var games = ['omokGame', 'c4Game', 'reversiGame', 'dotsGame', 'chessGame', 'alkkagiGame', 'tttGame', 'sudokuGame', 'yutGame'];
+        var games = ['omokGame', 'c4Game', 'reversiGame', 'dotsGame', 'chessGame', 'alkkagiGame', 'tttGame', 'sudokuGame', 'yutGame', 'mineGame', 'g2048Game', 'ladderGame'];
         games.forEach(function (g) {
             if (window[g] && typeof window[g].refreshLang === 'function') window[g].refreshLang();
         });

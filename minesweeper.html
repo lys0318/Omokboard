@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/minesweeper">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/minesweeper">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/minesweeper">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/minesweeper">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>지뢰찾기 게임 - 오목보드 | 무료 온라인 지뢰찾기 (Minesweeper)</title>
+    <meta name="description" content="무료 온라인 지뢰찾기. 쉬움·보통·어려움 3단계 난이도, 첫 클릭 안전 보장. 우클릭(또는 깃발 모드)으로 깃발 표시. 설치 없이 브라우저에서 바로 플레이하세요.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="지뢰찾기 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 지뢰찾기. 3단계 난이도, 첫 클릭 안전 보장.">
+    <meta property="og:url" content="https://omokboard.com/minesweeper">
+    <meta property="og:image" content="https://omokboard.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og-image.png">
+    <meta name="twitter:title" content="지뢰찾기 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 지뢰찾기. 3단계 난이도 지원.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        .mine-board {
+            display: grid;
+            grid-template-columns: repeat(var(--n), 1fr);
+            width: min(92vw, 460px);
+            aspect-ratio: 1;
+            background: #1e293b;
+            border: 3px solid #334155;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .mine-cell {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.06);
+            font-family: inherit;
+            font-weight: 800;
+            font-size: var(--fs, 1.2rem);
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0; aspect-ratio: 1;
+            user-select: none;
+            transition: background 0.1s;
+        }
+        .mine-cell:hover { background: rgba(255,255,255,0.16); }
+        .mine-cell.open { background: rgba(255,255,255,0.03); cursor: default; }
+        .mine-cell.mine { background: #7f1d1d; }
+        .mine-cell.boom { background: #dc2626; }
+        .mine-cell.n1 { color: #60a5fa; } .mine-cell.n2 { color: #4ade80; } .mine-cell.n3 { color: #f87171; }
+        .mine-cell.n4 { color: #a78bfa; } .mine-cell.n5 { color: #fb923c; } .mine-cell.n6 { color: #2dd4bf; }
+        .mine-cell.n7 { color: #e5e7eb; } .mine-cell.n8 { color: #94a3b8; }
+        .mine-toolbar { display: flex; gap: 0.6rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .flag-toggle.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+        #mine-status { font-weight: 800; font-size: 1.05rem; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>
+            <a href="minesweeper" class="game-nav-item active" data-i18n="nav.mine">지뢰찾기</a>
+            <a href="2048" class="game-nav-item" data-i18n="nav.2048">2048</a>
+            <a href="ladder" class="game-nav-item" data-i18n="nav.ladder">사다리타기</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1><span class="ko-only">지뢰찾기</span><span class="en-only" style="display:none;">Minesweeper</span></h1>
+            <p class="subtitle">Minesweeper — <span class="ko-only">지뢰를 피해 모든 칸을 여세요</span><span class="en-only" style="display:none;">Clear every safe cell without hitting a mine</span></p>
+        </header>
+
+        <main>
+            <div class="game-info">
+                <div class="status-center" style="flex-direction:row;justify-content:space-between;width:100%;">
+                    <div class="status-message" id="mine-status">⏱ 0:00</div>
+                    <div id="mine-count">💣 10</div>
+                </div>
+            </div>
+
+            <div id="mine-board" class="mine-board"></div>
+
+            <div class="mine-toolbar">
+                <button id="mine-flag-toggle" class="btn secondary flag-toggle">🚩 <span class="ko-only">깃발 모드</span><span class="en-only" style="display:none;">Flag Mode</span></button>
+                <button id="mine-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+            </div>
+        </main>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">지뢰가 없는 칸을 모두 열면 승리, 지뢰를 클릭하면 패배</span><span class="en-only" style="display:none;">Open every safe cell to win — clicking a mine ends the game</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">칸을 클릭해 열고, 숫자는 주변 8칸의 지뢰 개수를 뜻합니다. 우클릭(또는 깃발 모드 켜고 클릭)으로 지뢰로 의심되는 칸에 깃발을 꽂으세요</span><span class="en-only" style="display:none;">Click to open a cell; numbers show how many mines are in the 8 surrounding cells. Right-click (or turn on Flag Mode and tap) to flag a suspected mine</span></li>
+                <li><strong class="ko-only">첫 클릭:</strong><strong class="en-only" style="display:none;">First click:</strong> <span class="ko-only">첫 클릭은 항상 안전하며, 주변까지 지뢰가 배치되지 않습니다</span><span class="en-only" style="display:none;">Your first click is always safe — mines are placed after it, away from that spot</span></li>
+                <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">숫자와 열린 칸 주변의 깃발 개수를 비교하며 안전한 칸을 논리적으로 찾아내세요</span><span class="en-only" style="display:none;">Compare each number to the flags already placed around it to deduce which cells are safe</span></li>
+            </ul>
+        </section>
+
+    <script src="adfit.js?v=1"></script>
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Mode Overlay -->
+    <div id="mine-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">지뢰찾기</span><span class="en-only" style="display:none;">Minesweeper</span></h2>
+            <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+            <div class="mode-buttons difficulty-buttons">
+                <button class="mode-btn" id="mine-easy-btn">
+                    <span class="mode-icon">😊</span>
+                    <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                    <span class="mode-desc">9×9 · <span class="ko-only">지뢰 10개</span><span class="en-only" style="display:none;">10 mines</span></span>
+                </button>
+                <button class="mode-btn" id="mine-normal-btn">
+                    <span class="mode-icon">🎯</span>
+                    <span class="mode-label" data-i18n="mode.normal">보통</span>
+                    <span class="mode-desc">12×12 · <span class="ko-only">지뢰 20개</span><span class="en-only" style="display:none;">20 mines</span></span>
+                </button>
+                <button class="mode-btn" id="mine-hard-btn">
+                    <span class="mode-icon">🔥</span>
+                    <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                    <span class="mode-desc">16×16 · <span class="ko-only">지뢰 40개</span><span class="en-only" style="display:none;">40 mines</span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win/Lose Overlay -->
+    <div id="mine-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="mine-win-title">승리!</h2>
+            <p id="mine-win-desc"></p>
+            <button id="mine-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+        </div>
+    </div>
+
+    <script src="lang.js?v=6"></script>
+    <script src="minesweeper.js?v=1"></script>
+</body>
+</html>

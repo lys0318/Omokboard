@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const DIR = __dirname;
 const BASE = 'https://omokboard.com/';
-const DATE = '2026-06-17';
+const DATE = '2026-07-06';
 
 // 영어 제목/설명 (페이지별)
 const META = {
-  index:            { t:'Omokboard - Free Online Board Games | Omok, Chess, Sudoku & More', d:'Play 9 free online board games — Omok (Gomoku), Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, and Tic-Tac-Toe. No install. Play vs AI or 2-player.' },
+  index:            { t:'Omokboard - Free Online Board Games | Omok, Chess, Sudoku & More', d:'Play 12 free online board games — Omok (Gomoku), Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, Tic-Tac-Toe, Minesweeper, 2048, and a Ladder Game. No install. Play vs AI or 2-player.' },
   omok:             { t:'Omok (Gomoku) - Free Online Five in a Row | Omokboard', d:'Play free online Omok (Gomoku). Connect five stones in a row to win. Play vs AI (easy/normal/hard) or 2-player, no install.' },
   connect4:         { t:'Connect 4 - Free Online Four in a Row | Omokboard', d:'Play free online Connect 4 (four in a row), a free-placement variant. Play vs AI or 2-player, no install.' },
   reversi:          { t:'Reversi (Othello) - Free Online | Omokboard', d:'Play free online Reversi / Othello. Flip discs to own the most squares. Play vs AI or 2-player, no install.' },
@@ -28,7 +28,10 @@ const META = {
   'yut-guide':      { t:'Yut Nori Rules & Strategy Guide | Omokboard', d:'Learn Yut Nori: Do/Gae/Geol/Yut/Mo, shortcuts, capturing, stacking, and winning strategy.' },
   'sudoku-guide':   { t:'How to Solve Sudoku - Guide | Omokboard', d:'Learn Sudoku techniques: scanning, naked singles, hidden singles, and pencil marks.' },
   'tictactoe-guide':{ t:'Tic-Tac-Toe Strategy (Classic & Ultimate) | Omokboard', d:'Learn Tic-Tac-Toe strategy: forks, the never-lose order, and Ultimate Tic-Tac-Toe rules and tactics.' },
-  about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 9 games — play vs AI or 2-player, no install required.' },
+  minesweeper:      { t:'Minesweeper - Free Online Game | Omokboard', d:'Play free online Minesweeper. Three difficulty levels, safe first click guaranteed. Right-click or Flag Mode to mark mines. No install.' },
+  '2048':           { t:'2048 - Free Online Number Puzzle | Omokboard', d:'Play free online 2048. Merge matching tiles with arrow keys or swipe to reach the 2048 tile. Best score saved automatically. No install.' },
+  ladder:           { t:'Ladder Game (Amidakuji) - Free Online | Omokboard', d:'Play a free online ladder game (Amidakuji). 2–6 players, type your own results, and let a random ladder decide. No install.' },
+  about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games — play vs AI or 2-player, no install required.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard for bug reports, suggestions, or privacy and advertising inquiries.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy — what we collect, how it is used, and third-party services.' }
 };
@@ -97,7 +100,7 @@ for (const slug of slugs) {
   let en = ko;
   en = injectFaq(en, enRegion); // 영어 FAQPage로 교체
   en = en.replace(/https:\/\/omokboard\.com\//g, 'https://omokboard.com/en/'); // 자기 URL·JSON-LD → /en/
-  en = en.replace('https://omokboard.com/en/og-image.png', 'https://omokboard.com/og-image.png'); // og-image는 루트 유지
+  en = en.replace(/https:\/\/omokboard\.com\/en\/og-image\.png/g, 'https://omokboard.com/og-image.png'); // og-image는 루트 유지 (og:image·twitter:image 둘 다)
   en = en.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');     // 기존 hreflang 제거
   en = en.replace(/(<link rel="canonical"[^>]*>)/, `$1\n${hreflang(slug)}`);   // 올바른 hreflang 재주입
   en = en.replace('<html lang="ko">', '<html lang="en">');
