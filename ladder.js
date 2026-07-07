@@ -43,7 +43,7 @@ class Ladder {
 
     setup(n) {
         this.n = n;
-        this.tops = Array.from({ length: n }, (_, i) => String(i + 1));
+        this.tops = Array.from({ length: n }, () => '');
         this.results = Array.from({ length: n }, (_, i) => (this.en ? 'Result ' : '결과') + (i + 1));
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
@@ -78,6 +78,7 @@ class Ladder {
             const inp = document.createElement('input');
             inp.className = 'ladder-top-btn';
             inp.value = this.tops[i];
+            inp.placeholder = String(i + 1);
             inp.maxLength = 4;
             inp.style.left = this.xs[i] + 'px';
             inp.addEventListener('input', (e) => { this.tops[i] = e.target.value; });
@@ -213,11 +214,14 @@ class Ladder {
         }, this.STEP_MS);
     }
 
+    // 이름을 안 적었으면 안내로 보여주던 번호(placeholder)를 그대로 표시에 사용
+    topLabel(i) { return this.tops[i] || String(i + 1); }
+
     onRevealDone(startCol, destCol, color) {
         const input = this.resultsEl.children[destCol];
         input.classList.add('landed');
         input.style.borderColor = color;
-        this.statusEl.textContent = `${this.tops[startCol]} → ${this.results[destCol]}`;
+        this.statusEl.textContent = `${this.topLabel(startCol)} → ${this.results[destCol]}`;
     }
 
     revealAll() {
@@ -230,7 +234,7 @@ class Ladder {
             const { col, pts } = this.trace(i);
             const color = this.PALETTE[i % this.PALETTE.length];
             this.revealedPaths.push({ col: i, destCol: col, color, pts });
-            mapping.push(`${this.tops[i]} → ${this.results[col]}`);
+            mapping.push(`${this.topLabel(i)} → ${this.results[col]}`);
             this.topsEl.children[i].classList.add('done');
             const input = this.resultsEl.children[col];
             input.classList.add('landed');
