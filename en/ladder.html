@@ -59,7 +59,7 @@
         }
         .ladder-result-input.landed { border-color: #facc15; box-shadow: 0 0 0 2px rgba(250,204,21,0.4); }
         #ladder-canvas { display: block; width: 100%; height: 280px; border-radius: 0.5rem; background: rgba(255,255,255,0.03); }
-        #ladder-status { font-weight: 700; min-height: 1.4em; text-align: center; }
+        #ladder-status { font-weight: 700; min-height: 1.4em; text-align: center; margin-bottom: 1.4rem; }
         #ladder-summary { font-size: 0.85rem; color: var(--text-muted); text-align: center; line-height: 1.7; }
         .ladder-count-buttons { gap: 0.7rem; }
         .ladder-count-buttons .mode-btn { width: 88px; padding: 1rem 0.5rem; }
@@ -89,7 +89,7 @@
         </header>
 
         <main>
-            <div class="status-message" id="ladder-status"><span class="ko-only">위·아래 칸에 이름이나 숫자를 입력한 뒤, 위쪽 칸을 눌러 결과를 확인하세요</span><span class="en-only" style="display:none;">Type a name or number in the boxes, then tap a top box to reveal its result</span></div>
+            <div class="status-message" id="ladder-status"><span class="ko-only">빈칸에 입력 후 눌러 결과를 확인하세요</span><span class="en-only" style="display:none;">Fill in a box, then tap it to reveal the result</span></div>
 
             <div class="ladder-stage">
                 <div class="ladder-tops" id="ladder-tops"></div>
@@ -151,6 +151,6 @@
     </div>
 
     <script src="/lang.js?v=6"></script>
-    <script src="/ladder.js?v=5"></script>
+    <script src="/ladder.js?v=6"></script>
 </body>
 </html>

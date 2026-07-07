@@ -53,8 +53,8 @@ class Ladder {
         this.rungs = this.generateRungs(n);
         this.stopAnimation();
         this.statusEl.innerHTML = this.en
-            ? '<span>Tap a number to reveal its result</span>'
-            : '<span>번호를 눌러 결과를 확인하세요</span>';
+            ? '<span>Fill in a box, then tap it to reveal the result</span>'
+            : '<span>빈칸에 입력 후 눌러 결과를 확인하세요</span>';
         this.summaryEl.textContent = '';
         this.draw();
     }
@@ -213,9 +213,6 @@ class Ladder {
         }, this.STEP_MS);
     }
 
-    // "전체 공개"에서만 씀 — 입력 안 한 칸은 번호로 대신 표시
-    topLabel(i) { return this.tops[i] || String(i + 1); }
-
     onRevealDone(startCol, destCol, color) {
         const input = this.resultsEl.children[destCol];
         input.classList.add('landed');
@@ -224,6 +221,10 @@ class Ladder {
     }
 
     revealAll() {
+        if (this.tops.some(t => !t.trim())) {
+            this.statusEl.textContent = this.en ? 'Please fill in every box' : '빈칸을 채워주세요';
+            return;
+        }
         this.animating.clear();
         clearInterval(this.tickerId);
         this.tickerId = null;
@@ -233,7 +234,7 @@ class Ladder {
             const { col, pts } = this.trace(i);
             const color = this.PALETTE[i % this.PALETTE.length];
             this.revealedPaths.push({ col: i, destCol: col, color, pts });
-            mapping.push(`${this.topLabel(i)} → ${this.results[col]}`);
+            mapping.push(`${this.tops[i]} → ${this.results[col]}`);
             this.topsEl.children[i].classList.add('done');
             const input = this.resultsEl.children[col];
             input.classList.add('landed');
