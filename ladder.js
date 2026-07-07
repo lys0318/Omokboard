@@ -6,6 +6,7 @@ class Ladder {
         this.PALETTE = ['#ef4444', '#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#06b6d4'];
         this.n = 4;
         this.rungs = [];
+        this.tops = [];
         this.results = [];
         this.xs = [];
         this.animating = new Map();  // col -> { step, pts, destCol, color }
@@ -42,6 +43,7 @@ class Ladder {
 
     setup(n) {
         this.n = n;
+        this.tops = Array.from({ length: n }, (_, i) => String(i + 1));
         this.results = Array.from({ length: n }, (_, i) => (this.en ? 'Result ' : '결과') + (i + 1));
         this.canvas.width = this.canvas.clientWidth;
         this.canvas.height = this.canvas.clientHeight;
@@ -73,12 +75,14 @@ class Ladder {
     buildTops() {
         this.topsEl.innerHTML = '';
         for (let i = 0; i < this.n; i++) {
-            const b = document.createElement('button');
-            b.className = 'ladder-top-btn';
-            b.textContent = i + 1;
-            b.style.left = this.xs[i] + 'px';
-            b.addEventListener('click', () => this.reveal(i));
-            this.topsEl.appendChild(b);
+            const inp = document.createElement('input');
+            inp.className = 'ladder-top-btn';
+            inp.value = this.tops[i];
+            inp.maxLength = 4;
+            inp.style.left = this.xs[i] + 'px';
+            inp.addEventListener('input', (e) => { this.tops[i] = e.target.value; });
+            inp.addEventListener('click', () => this.reveal(i));
+            this.topsEl.appendChild(inp);
         }
     }
 
@@ -213,8 +217,7 @@ class Ladder {
         const input = this.resultsEl.children[destCol];
         input.classList.add('landed');
         input.style.borderColor = color;
-        const label = this.en ? `#${startCol + 1} → ` : `${startCol + 1}번 → `;
-        this.statusEl.textContent = label + this.results[destCol];
+        this.statusEl.textContent = `${this.tops[startCol]} → ${this.results[destCol]}`;
     }
 
     revealAll() {
@@ -227,7 +230,7 @@ class Ladder {
             const { col, pts } = this.trace(i);
             const color = this.PALETTE[i % this.PALETTE.length];
             this.revealedPaths.push({ col: i, destCol: col, color, pts });
-            mapping.push(`${i + 1} → ${this.results[col]}`);
+            mapping.push(`${this.tops[i]} → ${this.results[col]}`);
             this.topsEl.children[i].classList.add('done');
             const input = this.resultsEl.children[col];
             input.classList.add('landed');

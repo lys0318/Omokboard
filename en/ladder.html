@@ -46,6 +46,7 @@
             width: 34px; height: 34px; border-radius: 50%;
             background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
             color: var(--text-main); font-weight: 800; font-family: inherit; cursor: pointer;
+            text-align: center; font-size: 0.75rem; padding: 0;
             transition: background 0.15s, transform 0.15s;
         }
         .ladder-top-btn:hover { background: var(--accent-blue); }
@@ -88,7 +89,7 @@
         </header>
 
         <main>
-            <div class="status-message" id="ladder-status"><span class="ko-only">번호를 눌러 결과를 확인하세요</span><span class="en-only" style="display:none;">Tap a number to reveal its result</span></div>
+            <div class="status-message" id="ladder-status"><span class="ko-only">위쪽 칸을 눌러 결과를 확인하세요</span><span class="en-only" style="display:none;">Tap a top box to reveal its result</span></div>
 
             <div class="ladder-stage">
                 <div class="ladder-tops" id="ladder-tops"></div>
@@ -110,9 +111,9 @@
         <section class="game-how-to">
             <h3 data-i18n="howto.title">게임 방법</h3>
             <ul>
-                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">위쪽 번호와 아래쪽 결과를 무작위 사다리 경로로 이어, 공평하게 역할이나 순서를 정합니다</span><span class="en-only" style="display:none;">Connect each top number to a bottom result through a random ladder path — a fair way to assign roles or order</span></li>
-                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">아래쪽 칸에 결과 내용을 입력한 뒤, 위쪽 번호를 눌러 경로를 확인하세요</span><span class="en-only" style="display:none;">Type your results in the boxes below, then tap a top number to trace its path</span></li>
-                <li><strong class="ko-only">전체 공개:</strong><strong class="en-only" style="display:none;">Reveal All:</strong> <span class="ko-only">모든 번호의 경로를 한 번에 색으로 구분해 보여주고 목록으로 정리합니다</span><span class="en-only" style="display:none;">Shows every path at once in different colors and lists the full mapping</span></li>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">위쪽 칸과 아래쪽 결과를 무작위 사다리 경로로 이어, 공평하게 역할이나 순서를 정합니다</span><span class="en-only" style="display:none;">Connect each top box to a bottom result through a random ladder path — a fair way to assign roles or order</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">위·아래 칸 모두 이름이나 숫자를 직접 입력할 수 있습니다. 입력 후 위쪽 칸을 눌러 경로를 확인하세요</span><span class="en-only" style="display:none;">Both top and bottom boxes accept custom names or numbers. Type them in, then tap a top box to trace its path</span></li>
+                <li><strong class="ko-only">전체 공개:</strong><strong class="en-only" style="display:none;">Reveal All:</strong> <span class="ko-only">모든 경로를 한 번에 색으로 구분해 보여주고 목록으로 정리합니다</span><span class="en-only" style="display:none;">Shows every path at once in different colors and lists the full mapping</span></li>
                 <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">사다리는 위아래 순서만 바뀌지 않을 뿐, 어떤 번호가 어디로 갈지는 완전히 무작위입니다</span><span class="en-only" style="display:none;">The vertical order never crosses over, but which number lands where is completely random</span></li>
             </ul>
         </section>
@@ -150,6 +151,6 @@
     </div>
 
     <script src="/lang.js?v=6"></script>
-    <script src="/ladder.js?v=2"></script>
+    <script src="/ladder.js?v=3"></script>
 </body>
 </html>
