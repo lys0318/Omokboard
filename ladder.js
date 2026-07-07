@@ -78,11 +78,10 @@ class Ladder {
             const inp = document.createElement('input');
             inp.className = 'ladder-top-btn';
             inp.value = this.tops[i];
-            inp.placeholder = String(i + 1);
             inp.maxLength = 4;
             inp.style.left = this.xs[i] + 'px';
             inp.addEventListener('input', (e) => { this.tops[i] = e.target.value; });
-            inp.addEventListener('click', () => this.reveal(i));
+            inp.addEventListener('click', () => { if (inp.value.trim()) this.reveal(i); });
             this.topsEl.appendChild(inp);
         }
     }
@@ -214,14 +213,14 @@ class Ladder {
         }, this.STEP_MS);
     }
 
-    // 이름을 안 적었으면 안내로 보여주던 번호(placeholder)를 그대로 표시에 사용
+    // "전체 공개"에서만 씀 — 입력 안 한 칸은 번호로 대신 표시
     topLabel(i) { return this.tops[i] || String(i + 1); }
 
     onRevealDone(startCol, destCol, color) {
         const input = this.resultsEl.children[destCol];
         input.classList.add('landed');
         input.style.borderColor = color;
-        this.statusEl.textContent = `${this.topLabel(startCol)} → ${this.results[destCol]}`;
+        this.statusEl.textContent = `${this.tops[startCol]} → ${this.results[destCol]}`;
     }
 
     revealAll() {
