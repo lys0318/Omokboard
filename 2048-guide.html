@@ -76,6 +76,22 @@
         "@type": "Answer",
         "text": "되돌리기 기능은 없습니다. 신중하게 방향을 고르는 것도 실력의 일부입니다."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "스네이크 패턴이 뭔가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "타일을 구석부터 지그재그(S자)로 큰 순서대로 배열하는 고급 정리법입니다. 코너 전략보다 한 단계 더 체계적으로 판을 정리할 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "작은 타일을 빨리 합치는 게 항상 좋나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아닙니다. 급하게 합치면 큰 타일의 정렬이 흐트러질 수 있어, 안정적인 줄을 유지하는 것이 당장의 병합보다 중요할 때가 많습니다."
+      }
     }
   ]
 }
@@ -126,11 +142,23 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>고급 전략 — 스네이크 패턴</h2>
+                    <p>코너 전략에 익숙해졌다면 <strong>스네이크(뱀) 패턴</strong>으로 한 단계 발전시켜보세요. 맨 위 줄은 오른쪽에서 왼쪽으로 큰 순서대로, 그다음 줄은 왼쪽에서 오른쪽으로, 그다음은 다시 오른쪽에서 왼쪽으로 — 이렇게 지그재그(S자)로 타일을 배열하는 방식입니다. 한 줄만 정리하는 코너 전략보다 <strong>판 전체를 체계적으로</strong> 관리할 수 있어, 후반부까지 안정적으로 버틸 수 있습니다.</p>
+                    <p style="margin-top:0.6rem;">스네이크를 유지하려면 <strong>한 방향(보통 아래)은 거의 누르지 않는다</strong>는 규칙을 스스로 정해두는 것이 좋습니다. 지그재그 순서가 한 번 끊기면 다시 만들기 어려우므로, 급하게 합치기보다 순서를 지키는 이동을 우선하세요.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>점수의 원리 — 왜 큰 타일을 늦게 합쳐야 유리할까</h2>
+                    <p>2048은 두 타일을 합칠 때마다 <strong>합쳐진 값만큼 점수</strong>가 오릅니다(예: 1024+1024를 합치면 2048점 획득). 즉 작은 타일 여러 개를 그때그때 합치는 것보다, 큰 타일 두 개를 한 번에 합치는 한 방이 훨씬 큰 점수를 줍니다. 그래서 고수는 작은 타일을 성급하게 없애기보다, <strong>같은 값의 큰 타일 두 개가 만들어질 때까지 참고 모으는</strong> 쪽을 택합니다. 조급하게 합치기보다 큰 그림에서 어떤 타일을 언제 합칠지 계획하는 것이 점수를 극대화하는 핵심입니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
                         <li>당장 눈앞의 합치기에만 집중하다 큰 타일이 중앙으로 흩어지는 경우</li>
                         <li>네 방향을 골고루 다 쓰다가 정리 기준이 사라져 판이 뒤엉키는 경우</li>
                         <li>빈 칸이 많다고 방심하다 갑자기 막힌 자리에서 합칠 곳이 없어지는 경우</li>
+                        <li>스네이크 순서를 무시하고 눈앞의 작은 합치기를 먼저 해서 줄이 끊기는 경우</li>
                     </ul>
                 </section>
 
@@ -141,6 +169,8 @@
                         <li><strong>최고 기록은 어떻게 저장되나요?</strong> 브라우저에 자동으로 저장되어 다음 방문 때도 유지됩니다.</li>
                         <li><strong>게임 오버는 언제 되나요?</strong> 판이 가득 차고, 인접한 칸끼리 합칠 수 있는 숫자도 전혀 없을 때 종료됩니다.</li>
                         <li><strong>이동을 되돌릴 수 있나요?</strong> 되돌리기 기능은 없습니다. 신중하게 방향을 고르는 것도 실력의 일부입니다.</li>
+                        <li><strong>스네이크 패턴이 뭔가요?</strong> 타일을 구석부터 지그재그(S자)로 큰 순서대로 배열하는 고급 정리법입니다. 코너 전략보다 한 단계 더 체계적으로 판을 정리할 수 있습니다.</li>
+                        <li><strong>작은 타일을 빨리 합치는 게 항상 좋나요?</strong> 아닙니다. 급하게 합치면 큰 타일의 정렬이 흐트러질 수 있어, 안정적인 줄을 유지하는 것이 당장의 병합보다 중요할 때가 많습니다.</li>
                     </ul>
                 </section>
             </div>
@@ -180,11 +210,23 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>Advanced Strategy — The Snake Pattern</h2>
+                    <p>Once the corner method feels natural, level up to the <strong>snake pattern</strong>. Arrange the top row in descending order from right to left, the next row left to right, the next right to left again — a zigzag that winds through the whole board like a snake. Unlike the corner method, which only organizes one line, the snake keeps <strong>the entire board</strong> structured, letting you hold together much longer into the late game.</p>
+                    <p style="margin-top:0.6rem;">To protect the snake, set yourself a rule to <strong>barely ever press one direction</strong> (usually down). Once the zigzag order breaks, it's hard to rebuild — prioritize moves that preserve the order over chasing a quick merge.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The Scoring Math — Why Waiting to Merge Big Tiles Pays Off</h2>
+                    <p>Every merge adds <strong>the value of the resulting tile</strong> to your score (merge two 1024s and you gain 2048 points). That means one merge of two large tiles is worth far more than merging small tiles one at a time. Strong players resist clearing small tiles too eagerly and instead <strong>wait until two equal large tiles line up</strong> before merging. Planning which tiles to combine and when — rather than merging on impulse — is what actually maximizes your score.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
                         <li>Chasing the nearest merge and letting your biggest tile drift toward the center.</li>
                         <li>Using all four directions evenly until there's no organizing structure left.</li>
                         <li>Getting comfortable with empty space, then suddenly running out of merges.</li>
+                        <li>Breaking the snake order to grab a small merge that was right in front of you.</li>
                     </ul>
                 </section>
 
@@ -195,6 +237,8 @@
                         <li><strong>How is my best score saved?</strong> It's saved automatically in your browser and stays there on your next visit.</li>
                         <li><strong>When is it game over?</strong> When the board is full and no two adjacent tiles can merge.</li>
                         <li><strong>Can I undo a move?</strong> There's no undo — choosing carefully is part of the challenge.</li>
+                        <li><strong>What's the snake pattern?</strong> An advanced organizing method that arranges tiles in a descending zigzag from a corner — a step up from the basic corner method.</li>
+                        <li><strong>Is merging small tiles quickly always good?</strong> No. Rushing merges can break up your big-tile order — holding a stable line is often more valuable than an immediate merge.</li>
                     </ul>
                 </section>
             </div>
