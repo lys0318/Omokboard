@@ -707,3 +707,30 @@ footer {
     .lang-toggle-btn { margin-left: 0; }
     .game-mode-card { padding: 2rem 1.25rem; }
 }
+
+/* 접근성: 키보드 포커스 링 (다크 테마 대비 확보) */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.game-card:focus-visible,
+.mode-btn:focus-visible,
+.mode-card:focus-visible,
+.guide-card:focus-visible,
+.lang-toggle-btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid #7cb0ff;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* 접근성: 모션 최소화 선호 존중 (CSS 전환·애니메이션 억제) */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
