@@ -17,7 +17,7 @@
       gtag('config', 'G-CSJW29VD6X');
     </script>
     <title>2048 게임 - 오목보드 | 무료 온라인 2048 숫자 타일 퍼즐</title>
-    <meta name="description" content="무료 온라인 2048. 같은 숫자 타일을 합쳐 2048을 만들어보세요. 방향키 또는 스와이프로 조작, 최고 기록 자동 저장. 설치 없이 브라우저에서 바로 플레이하세요.">
+    <meta name="description" content="무료 온라인 2048. 같은 숫자 타일을 합쳐 2048을 만들어보세요. 방향키·스와이프 조작, 최고 기록 자동 저장, 설치 없이 바로 플레이.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
     <meta property="og:title" content="2048 게임 - 오목보드">
@@ -86,6 +86,33 @@
         .g2048-cell[data-value="2048"] { background: #edc22e; color: #fff; }
         .g2048-cell.super { background: #3c3a32; color: #fff; }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "VideoGame",
+          "name": "2048 게임",
+          "description": "무료 온라인 2048. 같은 숫자 타일을 합쳐 2048을 만들어보세요. 방향키 또는 스와이프로 조작, 최고 기록 자동 저장. 설치 없이 브라우저에서 바로 플레이하세요.",
+          "url": "https://omokboard.com/2048",
+          "image": "https://omokboard.com/og-image.png",
+          "inLanguage": "ko",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Web Browser",
+          "gamePlatform": "Web Browser",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+          "publisher": { "@type": "Organization", "name": "오목보드", "url": "https://omokboard.com/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "오목보드", "item": "https://omokboard.com/" },
+            { "@type": "ListItem", "position": 2, "name": "2048 게임", "item": "https://omokboard.com/2048" }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div class="app-container">

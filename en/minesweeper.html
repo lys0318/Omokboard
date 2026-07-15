@@ -74,6 +74,33 @@
         .flag-toggle.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
         #mine-status { font-weight: 800; font-size: 1.05rem; }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "VideoGame",
+          "name": "Minesweeper",
+          "description": "Play free online Minesweeper. Three difficulty levels, safe first click guaranteed. Right-click or Flag Mode to mark mines. No install.",
+          "url": "https://omokboard.com/en/minesweeper",
+          "image": "https://omokboard.com/og-image.png",
+          "inLanguage": "en",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Web Browser",
+          "gamePlatform": "Web Browser",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "publisher": { "@type": "Organization", "name": "오목보드", "url": "https://omokboard.com/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Omokboard", "item": "https://omokboard.com/en/" },
+            { "@type": "ListItem", "position": 2, "name": "Minesweeper", "item": "https://omokboard.com/en/minesweeper" }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div class="app-container">
