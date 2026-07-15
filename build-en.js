@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const DIR = __dirname;
 const BASE = 'https://omokboard.com/';
-const DATE = '2026-07-06';
+const DATE = '2026-07-16';
 
 // 영어 제목/설명 (페이지별)
 const META = {
@@ -34,6 +34,9 @@ const META = {
   'minesweeper-guide': { t:'Minesweeper Guide - Reading Numbers | Omokboard', d:'Learn Minesweeper number logic, flag tips, and how to solve without guessing.' },
   '2048-guide':        { t:'2048 Strategy Guide | Omokboard', d:'Learn the 2048 corner strategy and tile-ordering tricks for a high score.' },
   'ladder-guide':      { t:'Ladder Game Guide (Amidakuji) | Omokboard', d:'Learn how the ladder game works, why it is always fair, and when to use it.' },
+  'ladder-uses':       { t:'Ladder Game Uses — Penalties, Teams & Order | Omokboard', d:'Use a ladder game (Amidakuji) to fairly decide penalties, team splits, who pays, and cleanup or presentation order. Free, no install.' },
+  'korean-games':      { t:'Korean Traditional Games — Yut Nori & Alkkagi | Omokboard', d:'The history, culture, and rules of Korean traditional games Yut Nori and Alkkagi. Play them free online, no install.' },
+  'free-board-games':  { t:'Free Online Board Games — 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser — no install, no sign-up. Compare and pick one to play.' },
   about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games — play vs AI or 2-player, no install required.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard for bug reports, suggestions, or privacy and advertising inquiries.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy — what we collect, how it is used, and third-party services.' }
@@ -104,6 +107,7 @@ for (const slug of slugs) {
   en = injectFaq(en, enRegion); // 영어 FAQPage로 교체
   en = en.replace(/https:\/\/omokboard\.com\//g, 'https://omokboard.com/en/'); // 자기 URL·JSON-LD → /en/
   en = en.replace(/https:\/\/omokboard\.com\/en\/og-image\.png/g, 'https://omokboard.com/og-image.png'); // og-image는 루트 유지 (og:image·twitter:image 둘 다)
+  en = en.replace(/https:\/\/omokboard\.com\/en\/og\//g, 'https://omokboard.com/og/'); // 게임별 og 이미지(/og/*.png)도 루트 유지 (og:image·twitter:image·JSON-LD image)
   en = en.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');     // 기존 hreflang 제거
   en = en.replace(/(<link rel="canonical"[^>]*>)/, `$1\n${hreflang(slug)}`);   // 올바른 hreflang 재주입
   en = en.replace('<html lang="ko">', '<html lang="en">');

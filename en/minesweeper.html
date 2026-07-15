@@ -80,22 +80,22 @@
       "@graph": [
         {
           "@type": "VideoGame",
-          "name": "Minesweeper",
-          "description": "Play free online Minesweeper. Three difficulty levels, safe first click guaranteed. Right-click or Flag Mode to mark mines. No install.",
+          "name": "지뢰찾기 게임",
+          "description": "무료 온라인 지뢰찾기. 쉬움·보통·어려움 3단계 난이도, 첫 클릭 안전 보장. 우클릭(또는 깃발 모드)으로 깃발 표시. 설치 없이 브라우저에서 바로 플레이하세요.",
           "url": "https://omokboard.com/en/minesweeper",
           "image": "https://omokboard.com/og/minesweeper.png",
-          "inLanguage": "en",
+          "inLanguage": "ko",
           "applicationCategory": "GameApplication",
           "operatingSystem": "Web Browser",
           "gamePlatform": "Web Browser",
-          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-          "publisher": { "@type": "Organization", "name": "오목보드", "url": "https://omokboard.com/" }
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+          "publisher": { "@type": "Organization", "name": "오목보드", "url": "https://omokboard.com/en/" }
         },
         {
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Omokboard", "item": "https://omokboard.com/en/" },
-            { "@type": "ListItem", "position": 2, "name": "Minesweeper", "item": "https://omokboard.com/en/minesweeper" }
+            { "@type": "ListItem", "position": 1, "name": "오목보드", "item": "https://omokboard.com/en/" },
+            { "@type": "ListItem", "position": 2, "name": "지뢰찾기 게임", "item": "https://omokboard.com/en/minesweeper" }
           ]
         }
       ]
@@ -151,6 +151,21 @@
                 <li><strong class="ko-only">첫 클릭:</strong><strong class="en-only" style="display:none;">First click:</strong> <span class="ko-only">첫 클릭은 항상 안전하며, 주변까지 지뢰가 배치되지 않습니다</span><span class="en-only" style="display:none;">Your first click is always safe — mines are placed after it, away from that spot</span></li>
                 <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">숫자와 열린 칸 주변의 깃발 개수를 비교하며 안전한 칸을 논리적으로 찾아내세요</span><span class="en-only" style="display:none;">Compare each number to the flags already placed around it to deduce which cells are safe</span></li>
             </ul>
+        </section>
+
+        <section style="width:100%;max-width:var(--board-size);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:1rem;padding:1.25rem 1.5rem;color:var(--text-muted);line-height:1.7;font-size:0.9rem;animation:fadeIn 1s ease-out;">
+            <div class="ko-only">
+                <h2 style="font-size:1.1rem;color:var(--text-main);margin-bottom:0.6rem;letter-spacing:0;">지뢰찾기, 이렇게 즐기세요</h2>
+                <p>지뢰찾기는 열린 칸의 숫자가 <strong style="color:var(--text-main);">주변 8칸 중 지뢰 개수</strong>를 알려주는 논리 퍼즐입니다. 대부분의 상황은 추측 없이 숫자만으로 확정할 수 있습니다.</p>
+                <p style="margin-top:0.6rem;">숫자 주변의 미개봉 칸 개수가 그 숫자와 같으면 <strong style="color:var(--text-main);">전부 지뢰</strong>이고, 이미 그만큼 깃발이 꽂혀 있으면 나머지는 <strong style="color:var(--text-main);">전부 안전</strong>합니다. 이 두 규칙만 반복해도 찍는 횟수가 크게 줄어듭니다.</p>
+                <p style="margin-top:0.7rem;"><a href="minesweeper-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">지뢰찾기 전체 공략 보기 →</a></p>
+            </div>
+            <div class="en-only" style="display:none;">
+                <h2 style="font-size:1.1rem;color:var(--text-main);margin-bottom:0.6rem;letter-spacing:0;">How to Enjoy Minesweeper</h2>
+                <p>Minesweeper is a logic puzzle where each opened number tells you <strong style="color:var(--text-main);">how many of its 8 neighbors are mines</strong>. Most positions can be solved by pure deduction, no guessing required.</p>
+                <p style="margin-top:0.6rem;">If a number's unopened neighbor count matches the number, <strong style="color:var(--text-main);">they're all mines</strong>. If it already has that many flags, the rest are <strong style="color:var(--text-main);">all safe</strong>. Just these two rules cut most of your guesses.</p>
+                <p style="margin-top:0.7rem;"><a href="minesweeper-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Read the full Minesweeper guide →</a></p>
+            </div>
         </section>
 
         <footer>

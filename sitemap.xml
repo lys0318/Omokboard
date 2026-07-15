@@ -8,7 +8,7 @@
   </url>
   <url>
     <loc>https://omokboard.com/</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -68,61 +68,61 @@
   </url>
   <url>
     <loc>https://omokboard.com/guides</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://omokboard.com/omok-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/connect4-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/reversi-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/dots-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/chess-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/alkkagi-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/yut-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/sudoku-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/tictactoe-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -140,37 +140,55 @@
   </url>
   <url>
     <loc>https://omokboard.com/minesweeper-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/2048-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/ladder-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://omokboard.com/ladder-uses</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.com/korean-games</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.com/free-board-games</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://omokboard.com/about</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omokboard.com/contact</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://omokboard.com/privacy</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -182,7 +200,7 @@
   </url>
   <url>
     <loc>https://omokboard.com/en/</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -242,61 +260,61 @@
   </url>
   <url>
     <loc>https://omokboard.com/en/guides</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/omok-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/connect4-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/reversi-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/dots-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/chess-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/alkkagi-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/yut-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/sudoku-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/tictactoe-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -314,37 +332,55 @@
   </url>
   <url>
     <loc>https://omokboard.com/en/minesweeper-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/2048-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/ladder-guide</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://omokboard.com/en/ladder-uses</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.com/en/korean-games</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://omokboard.com/en/free-board-games</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://omokboard.com/en/about</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/contact</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://omokboard.com/en/privacy</loc>
-    <lastmod>2026-07-06</lastmod>
+    <lastmod>2026-07-16</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
