@@ -1,0 +1,55 @@
+# 오목보드 (Omokboard)
+
+> 설치 없이 브라우저에서 바로 즐기는 무료 온라인 보드게임 모음. 오목·체스·리버시 등 12종을 AI 대전 또는 2인 대전으로 플레이. 한국어와 영어 지원. Free online board games playable instantly in the browser — no install, no login. 12 games with AI and 2-player modes.
+
+## 게임 (한국어)
+
+- [오목](https://omokboard.com/omok): 가로·세로·대각선으로 돌 5개를 먼저 연속으로 놓으면 승리
+- [사목 (Connect 4)](https://omokboard.com/connect4): 판에 4개를 먼저 연속으로 놓으면 승리
+- [리버시 (오델로)](https://omokboard.com/reversi): 상대 돌을 뒤집어 보드를 더 많이 차지하면 승리
+- [점잇기](https://omokboard.com/dots): 선을 이어 네모를 완성하고 더 많은 박스를 차지
+- [체스](https://omokboard.com/chess): 상대 킹을 체크메이트로 몰면 승리
+- [알까기](https://omokboard.com/alkkagi): 구슬을 튕겨 상대 구슬을 보드 밖으로 밀어내는 한국 전통 게임
+- [윷놀이](https://omokboard.com/yut): 도·개·걸·윷·모를 던져 말 4개를 먼저 완주
+- [스도쿠](https://omokboard.com/sudoku): 유일해가 보장된 9×9 숫자 퍼즐, 난이도별 및 1:1·AI 대결 모드
+- [틱택토](https://omokboard.com/tictactoe): 기본 3×3과 9개 보드의 얼티메이트 틱택토
+- [지뢰찾기](https://omokboard.com/minesweeper): 지뢰를 피해 칸을 여는 퍼즐, 쉬움·보통·어려움 3단계
+- [2048](https://omokboard.com/2048): 같은 숫자 타일을 합쳐 2048을 만드는 퍼즐
+- [사다리타기](https://omokboard.com/ladder): 2~6명, 무작위 사다리로 당첨자·순서·역할 정하기
+
+## 공략 가이드 (한국어)
+
+- [오목 공략](https://omokboard.com/omok-guide)
+- [사목 공략](https://omokboard.com/connect4-guide)
+- [리버시 공략](https://omokboard.com/reversi-guide)
+- [점잇기 공략](https://omokboard.com/dots-guide)
+- [체스 공략](https://omokboard.com/chess-guide)
+- [알까기 공략](https://omokboard.com/alkkagi-guide)
+- [윷놀이 공략](https://omokboard.com/yut-guide)
+- [스도쿠 공략](https://omokboard.com/sudoku-guide)
+- [틱택토 공략](https://omokboard.com/tictactoe-guide)
+- [지뢰찾기 공략](https://omokboard.com/minesweeper-guide)
+- [2048 공략](https://omokboard.com/2048-guide)
+- [사다리타기 공략](https://omokboard.com/ladder-guide)
+
+## Games (English)
+
+- [Omok (Gomoku)](https://omokboard.com/en/omok): connect five stones in a row to win
+- [Connect 4](https://omokboard.com/en/connect4): connect four in a row to win
+- [Reversi (Othello)](https://omokboard.com/en/reversi): flip opponent discs to control the board
+- [Dots and Boxes](https://omokboard.com/en/dots): draw lines to complete and claim boxes
+- [Chess](https://omokboard.com/en/chess): checkmate the opponent's king
+- [Alkkagi](https://omokboard.com/en/alkkagi): flick stones to knock opponents off the board (Korean traditional game)
+- [Yut Nori](https://omokboard.com/en/yut): throw yut sticks to race four tokens home (Korean traditional game)
+- [Sudoku](https://omokboard.com/en/sudoku): fill the 9×9 grid, unique-solution puzzles
+- [Tic-Tac-Toe](https://omokboard.com/en/tictactoe): classic 3×3 and Ultimate Tic-Tac-Toe
+- [Minesweeper](https://omokboard.com/en/minesweeper): clear the grid without hitting mines
+- [2048](https://omokboard.com/en/2048): merge tiles to reach 2048
+- [Ladder Game (Amidakuji)](https://omokboard.com/en/ladder): random ladder to assign results
+
+## 사이트 정보
+
+- [게임 가이드 모음](https://omokboard.com/guides)
+- [소개](https://omokboard.com/about)
+- [문의](https://omokboard.com/contact)
+- [개인정보처리방침](https://omokboard.com/privacy)
