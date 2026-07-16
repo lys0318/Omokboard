@@ -5,13 +5,17 @@
     var cur = document.currentScript;
     if (!cur || !cur.parentNode) return;
 
-    // 광고를 가운데 정렬할 래퍼 (광고 없을 땐 높이 0 → 빈 공간 없음)
+    // 광고를 가운데 정렬할 래퍼
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex;justify-content:center;width:100%;';
+    wrap.style.cssText = 'display:flex;justify-content:center;align-items:center;width:100%;';
     cur.parentNode.insertBefore(wrap, cur);
 
     var avail = wrap.clientWidth || window.innerWidth || 320;
     var pc = avail >= 728;
+    var adH = pc ? 90 : 100;
+
+    // 광고 자리를 미리 예약해 로드 시 레이아웃 밀림(CLS) 방지. 광고는 이 슬롯에 그대로 노출.
+    wrap.style.minHeight = (adH + 24) + 'px'; // 광고 높이 + margin(16+8)
 
     var ins = document.createElement('ins');
     ins.className = 'kakao_ad_area';

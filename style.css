@@ -734,3 +734,22 @@ select:focus-visible,
         scroll-behavior: auto !important;
     }
 }
+
+/* 모바일 터치 정교화 */
+/* 캔버스 게임(알까기·사다리·리버시 등)은 브라우저 제스처(스크롤·줌)를 게임이 소유 */
+canvas {
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+/* 탭 기반 보드는 빠른 탭 허용 + 더블탭 줌 지연 제거 (스크롤은 유지) */
+[id*="board"], [class*="board"], .mini-omok, .mini-c4, .mini-reversi, .mini-dots {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+}
+/* 탭 시 회색 하이라이트 플래시 제거 */
+a, button, .btn, .game-card, .mode-btn, .mode-card, .guide-card,
+[role="button"], canvas, [id*="board"], [class*="board"] {
+    -webkit-tap-highlight-color: transparent;
+}
