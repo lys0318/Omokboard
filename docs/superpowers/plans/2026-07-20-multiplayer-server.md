@@ -28,7 +28,7 @@
 **Files:**
 - Create: `worker/code.js`
 - Create: `test/code.spec.js`
-- Create: `vitest.config.js`
+- Create: `vitest.config.mjs`
 - Modify: `package.json`
 
 **Interfaces:**
@@ -37,22 +37,23 @@
 - [ ] **Step 1: 테스트 도구 설치**
 
 ```bash
-npm install --save-dev vitest@^3 @cloudflare/vitest-pool-workers
+npm install --save-dev vitest@^4.1.0 @cloudflare/vitest-pool-workers
 ```
 
-- [ ] **Step 2: `vitest.config.js` 작성**
+- [ ] **Step 2: `vitest.config.mjs` 작성**
+
+`@cloudflare/vitest-pool-workers` 0.18 + vitest 4에서는 `./config` 서브패스와 `defineWorkersConfig`가 없어졌다. pool 옵션이 아니라 **Vite 플러그인**으로 붙인다. 또 `package.json`이 `"type": "commonjs"`이므로 확장자는 `.mjs`여야 한다.
 
 ```js
-import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+import { defineConfig } from 'vitest/config';
+import { cloudflareTest } from '@cloudflare/vitest-pool-workers';
 
-export default defineWorkersConfig({
-  test: {
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: './wrangler.jsonc' },
-      },
-    },
-  },
+export default defineConfig({
+  plugins: [
+    cloudflareTest({
+      wrangler: { configPath: './wrangler.jsonc' },
+    }),
+  ],
 });
 ```
 
@@ -123,7 +124,7 @@ Expected: PASS, 4개 테스트 전부 통과.
 - [ ] **Step 8: 커밋**
 
 ```bash
-git add package.json package-lock.json vitest.config.js worker/code.js test/code.spec.js
+git add package.json package-lock.json vitest.config.mjs worker/code.js test/code.spec.js
 git commit -m "test: vitest 하네스 + 방 코드 생성기"
 ```
 
