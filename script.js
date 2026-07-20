@@ -149,6 +149,8 @@ class OmokGame {
         this.boardElement.addEventListener('click', (e) => {
             const cell = e.target.closest('.cell');
             if (cell) {
+                // 온라인 대전에서 내 차례가 아니면 입력 차단
+                if (this.inputLocked) return;
                 // AI 모드에서 AI 차례엔 클릭 무시
                 if (this.gameMode === 'ai' && this.currentTurn === 'white') return;
                 const row = parseInt(cell.dataset.row);
@@ -259,7 +261,7 @@ class OmokGame {
 
     // ─── 돌 놓기 ─────────────────────────────────────────────
 
-    placeStone(row, col) {
+    placeStone(row, col, opts = {}) {
         if (this.isGameOver || this.board[row][col] !== null) return;
         this.playStoneSound();
 
@@ -270,6 +272,9 @@ class OmokGame {
         const stone = document.createElement('div');
         stone.className = `stone ${this.currentTurn}`;
         cell.appendChild(stone);
+
+        // 승패 판정 전에 호출한다. 승리 시 아래에서 return 하므로 마지막 수도 전송돼야 한다.
+        if (this.onMoveApplied) this.onMoveApplied(row, col, opts);
 
         const winningCells = this.checkWin(row, col);
         if (winningCells) {
