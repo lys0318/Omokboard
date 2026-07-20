@@ -4,7 +4,10 @@
 
 **Goal:** 기존 정적 사이트를 Cloudflare Pages에서 Workers(static assets)로 이전해, 이후 Durable Object를 같은 프로젝트에 추가할 수 있는 기반을 만든다. 이 계획서 범위에서는 사이트 동작이 **전혀 바뀌지 않아야** 한다.
 
-**Architecture:** 저장소 루트를 그대로 자산 디렉터리로 쓰고, 개발용 파일은 `.assetsignore`로 배포에서 제외한다. 이 단계에서는 Worker 스크립트(`main`)를 두지 않는 assets-only 구성이다. Worker 스크립트는 다음 계획서(오목 온라인 대전)에서 추가한다.
+**Architecture:** 빌드 스크립트가 사이트 파일만 `dist/`로 복사하고, Workers는 `dist/`를 자산 디렉터리로 쓴다. 이 단계에서는 Worker 스크립트(`main`)를 두지 않는 assets-only 구성이다. Worker 스크립트는 다음 계획서(오목 온라인 대전)에서 추가한다.
+
+> **왜 루트를 자산 디렉터리로 쓰지 않는가 (실측 결과)**
+> 최초 설계는 `directory: "./"`(저장소 루트)였으나 실행해 보니 `wrangler dev`가 무한 리로드 루프에 빠져 서버가 뜨지 않았다. wrangler가 자산 디렉터리를 감시하는데 자기 임시 파일을 루트의 `.wrangler/`에 쓰기 때문이다. `.assetsignore`에 `.wrangler`를 추가해도 동일했다(25초에 리로드 18회, HTTP 응답 없음). `.assetsignore`는 **업로드 대상**만 거르고 **파일 감시**에는 관여하지 않는다. 따라서 전용 자산 디렉터리가 필수다.
 
 **Tech Stack:** Cloudflare Workers (static assets), Wrangler v4, Node.js
 
@@ -25,12 +28,12 @@
 **Files:**
 - Create: `package.json` (npm init 산출물)
 - Create: `wrangler.jsonc`
-- Create: `.assetsignore`
+- Create: `scripts/build-dist.mjs`
 - Modify: `.gitignore`
 
 **Interfaces:**
 - Consumes: 없음 (최초 작업)
-- Produces: `wrangler.jsonc`의 프로젝트 이름 `omokboard`, 자산 디렉터리 `./`. 다음 계획서에서 여기에 `main`과 `durable_objects` 키를 추가한다.
+- Produces: `wrangler.jsonc`의 프로젝트 이름 `omokboard`, 자산 디렉터리 `./dist`, 빌드 명령 `npm run build`. 다음 계획서에서 여기에 `main`과 `durable_objects` 키를 추가한다.
 
 - [ ] **Step 1: npm 프로젝트 초기화 및 wrangler 설치**
 
@@ -55,7 +58,7 @@ Expected: `4.` 로 시작하는 버전 문자열이 출력된다. 3.x가 나오�
   "name": "omokboard",
   "compatibility_date": "2026-07-20",
   "assets": {
-    "directory": "./",
+    "directory": "./dist",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }
@@ -69,35 +72,63 @@ Expected: `4.` 로 시작하는 버전 문자열이 출력된다. 3.x가 나오�
 - `html_handling: "auto-trailing-slash"` — 현재 사이트 URL은 `/omok`처럼 확장자가 없고 Pages가 `omok.html`로 매핑해 왔다. 이 값이 같은 매핑을 담당한다. (기본값이지만 파리티가 걸린 설정이라 명시한다)
 - `not_found_handling: "404-page"` — 저장소에 `404.html`이 있고 Pages는 이를 자동으로 서빙했다. Workers는 이 옵션이 없으면 밋밋한 404를 반환하므로 명시해야 파리티가 유지된다.
 
-- [ ] **Step 4: `.assetsignore` 작성**
+- [ ] **Step 4: 빌드 스크립트 작성**
 
-저장소 루트를 자산 디렉터리로 쓰므로, 배포되면 안 되는 파일을 제외한다. `.assetsignore` 파일을 아래 내용으로 생성한다. (gitignore와 같은 패턴 문법)
+사이트 파일만 `dist/`로 복사한다. **허용 목록 방식**을 쓴다. 제외 목록 방식은 새 파일이 생겼을 때 의도치 않게 배포될 수 있다.
 
+`scripts/build-dist.mjs`:
+
+```js
+// 사이트 자산만 dist/로 복사한다. 허용 목록 방식이라 docs·node_modules 등이 섞일 수 없다.
+import { readdir, mkdir, copyFile, rm, stat } from 'node:fs/promises';
+import { join, extname } from 'node:path';
+
+const ROOT = process.cwd();
+const OUT = join(ROOT, 'dist');
+
+const COPY_DIRS = ['en', 'og'];
+const COPY_EXT = ['.html', '.css', '.js', '.svg', '.png', '.xml', '.txt'];
+const COPY_EXACT = ['_headers'];
+const EXCLUDE_FILES = ['build-en.js'];
+
+async function copyDir(src, dest) {
+  await mkdir(dest, { recursive: true });
+  for (const name of await readdir(src)) {
+    const s = join(src, name), d = join(dest, name);
+    if ((await stat(s)).isDirectory()) await copyDir(s, d);
+    else await copyFile(s, d);
+  }
+}
+
+await rm(OUT, { recursive: true, force: true });
+await mkdir(OUT, { recursive: true });
+
+let count = 0;
+for (const name of await readdir(ROOT)) {
+  if (EXCLUDE_FILES.includes(name)) continue;
+  const src = join(ROOT, name);
+  if ((await stat(src)).isDirectory()) {
+    if (!COPY_DIRS.includes(name)) continue;
+    await copyDir(src, join(OUT, name));
+    count++;
+  } else if (COPY_EXT.includes(extname(name)) || COPY_EXACT.includes(name)) {
+    await copyFile(src, join(OUT, name));
+    count++;
+  }
+}
+console.log(`dist/ 생성 완료 (최상위 항목 ${count}개)`);
 ```
-.git
-.github
-.claude
-.agents
-node_modules
-docs
-scripts
-package.json
-package-lock.json
-wrangler.jsonc
-.assetsignore
-build-en.js
-skills-lock.json
-README.md
-.gitignore
-```
 
-- [ ] **Step 5: `.gitignore`에 node_modules 추가**
+`.assetsignore`는 만들지 않는다. `dist/`에는 사이트 파일만 들어가므로 제외할 것이 없다.
 
-`.gitignore` 파일 맨 아래에 다음 두 줄을 추가한다.
+- [ ] **Step 5: `.gitignore`에 node_modules와 dist 추가**
+
+`.gitignore` 파일 맨 아래에 다음을 추가한다.
 
 ```
 # Node
 node_modules/
+dist/
 ```
 
 - [ ] **Step 6: 설정 유효성 검증**
@@ -110,7 +141,7 @@ Expected: 오류 없이 완료되고, 업로드 예정 자산 개수가 출력�
 - [ ] **Step 7: 커밋**
 
 ```bash
-git add package.json package-lock.json wrangler.jsonc .assetsignore .gitignore
+git add package.json package-lock.json wrangler.jsonc scripts/build-dist.mjs .gitignore
 git commit -m "build: Workers static assets 구성 추가 (배포 전환 없음)"
 ```
 
@@ -251,7 +282,7 @@ Expected: 모든 줄이 `ok` 로 출력되고 마지막에 `전부 통과`. 종�
 실패 유형별 대응:
 
 - `/omok`, `/chess` 등 **확장자 없는 경로가 404** — 이 이전 작업에서 가장 위험한 실패다. 사이트 전 URL이 깨진다는 뜻이므로 여기서 반드시 잡아야 한다. `wrangler.jsonc`의 `html_handling`이 `"auto-trailing-slash"`인지 확인한다. 그래도 안 되면 자산 디렉터리 설정(`directory: "./"`)이 루트를 제대로 가리키는지 확인한다. **이 항목이 통과하지 못하면 이전을 진행하지 않는다.**
-- `/wrangler.jsonc` 등이 200으로 서빙됨 — `.assetsignore`가 적용되지 않은 것이므로 Task 1 Step 4를 다시 확인한다.
+- `/wrangler.jsonc` 등이 200으로 서빙됨 — 빌드 스크립트의 허용 목록에 잘못 걸린 것이므로 Task 1 Step 4를 다시 확인한다.
 - `/없는경로`가 커스텀 404를 반환하지 않음 — `not_found_handling: "404-page"` 설정을 확인한다.
 
 - [ ] **Step 6: 브라우저로 육안 확인**
