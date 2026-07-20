@@ -5,7 +5,7 @@ import { join, extname } from 'node:path';
 const ROOT = process.cwd();
 const OUT = join(ROOT, 'dist');
 
-const COPY_DIRS = ['en', 'og'];                                   // 통째로 복사할 디렉터리
+const COPY_DIRS = ['en', 'og', 'adapters'];                       // 통째로 복사할 디렉터리
 const COPY_EXT = ['.html', '.css', '.js', '.svg', '.png', '.xml', '.txt'];
 const COPY_EXACT = ['_headers'];                                  // 확장자 없는 파일
 const EXCLUDE_FILES = ['build-en.js'];                            // 빌드 도구는 배포 대상 아님
