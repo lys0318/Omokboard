@@ -11,6 +11,14 @@ export default {
     if (url.pathname === '/api/room' && request.method === 'POST') {
       return createRoom(request, env);
     }
+
+    // 방 코드 하나가 DO 인스턴스 하나에 대응한다.
+    const m = url.pathname.match(/^\/api\/room\/([A-Z0-9]{6})$/);
+    if (m) {
+      const stub = env.ROOM.get(env.ROOM.idFromName(m[1]));
+      return stub.fetch(request);
+    }
+
     return new Response('not found', { status: 404 });
   },
 };
