@@ -1,0 +1,20 @@
+{
+  "name": "omokboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "오목보드 - 무료 온라인 보드게임 (Cloudflare Workers static assets)",
+  "scripts": {
+    "build": "node scripts/build-dist.mjs",
+    "dev": "npm run build && wrangler dev",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lys0318/Omokboard.git"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "wrangler": "^4.112.0"
+  }
+}
