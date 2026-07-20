@@ -19,8 +19,12 @@ async function copyDir(src, dest) {
   }
 }
 
-await rm(OUT, { recursive: true, force: true });
+// dist 자체를 지우면 wrangler dev가 잡고 있을 때 Windows에서 EBUSY가 난다.
+// 디렉터리는 두고 안의 내용만 비운다.
 await mkdir(OUT, { recursive: true });
+for (const name of await readdir(OUT)) {
+  await rm(join(OUT, name), { recursive: true, force: true });
+}
 
 let count = 0;
 for (const name of await readdir(ROOT)) {
