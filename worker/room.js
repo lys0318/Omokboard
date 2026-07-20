@@ -22,6 +22,51 @@ export class RoomDO {
     ws.send(JSON.stringify(obj));
   }
 
+  broadcast(obj) {
+    for (const s of this.ctx.getWebSockets()) this.send(s, obj);
+  }
+
+  // Hibernation API: 소켓이 깨어나면 런타임이 이 메서드를 부른다.
+  async webSocketMessage(ws, raw) {
+    let msg;
+    try {
+      msg = JSON.parse(raw);
+    } catch {
+      return;
+    }
+    if (msg.type === 'move') return this.onMove(ws, msg);
+  }
+
+  async onMove(ws, msg) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'occupied']);
+    const seq = room.get('seq') ?? 0;
+    const turn = room.get('turn');
+    const occupied = new Set(room.get('occupied') ?? []);
+
+    const reject = (reason) =>
+      this.send(ws, { type: 'rejected', reason, state: room.get('state'), seq });
+
+    // 경량 검증: seq -> 턴 -> 칸 점유. 게임 규칙 자체는 검증하지 않는다.
+    if (msg.seq !== seq + 1) return reject('SEQ_MISMATCH');
+    if (color !== turn) return reject('NOT_YOUR_TURN');
+    if (msg.move?.cell && occupied.has(msg.move.cell)) return reject('CELL_TAKEN');
+
+    if (msg.move?.cell) occupied.add(msg.move.cell);
+    const nextTurn = turn === 'black' ? 'white' : 'black';
+    const nextSeq = seq + 1;
+
+    await this.ctx.storage.put({
+      seq: nextSeq,
+      turn: nextTurn,
+      occupied: [...occupied],
+      state: msg.move?.state ?? room.get('state'),
+      lastActivityAt: Date.now(),
+    });
+
+    this.broadcast({ type: 'move', move: msg.move, seq: nextSeq, turn: nextTurn });
+  }
+
   async onJoin(ws, token) {
     const room = await this.ctx.storage.get([
       'initialized', 'status', 'turn', 'seq', 'state', 'players',
