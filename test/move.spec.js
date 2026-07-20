@@ -30,6 +30,8 @@ async function setup() {
   const { code, token } = await res.json();
   const a = await connect(code, token);
   const b = await connect(code);
+  // 정원이 차면 서버가 먼저 있던 A에게 status:playing 을 보낸다. 소비해 둔다.
+  await a.next();
   return { code, a, b };
 }
 

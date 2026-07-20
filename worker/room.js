@@ -22,7 +22,13 @@ export class RoomDO {
   }
 
   send(ws, obj) {
-    ws.send(JSON.stringify(obj));
+    // 방금 닫힌 소켓이 getWebSockets()에 잠시 남아 있을 수 있다.
+    // 여기서 던지면 onJoin 전체가 500이 되어 업그레이드가 실패한다.
+    try {
+      ws.send(JSON.stringify(obj));
+    } catch {
+      /* 닫힌 소켓은 무시 */
+    }
   }
 
   broadcast(obj) {
@@ -48,7 +54,7 @@ export class RoomDO {
     const occupied = new Set(room.get('occupied') ?? []);
 
     const reject = (reason) =>
-      this.send(ws, { type: 'rejected', reason, state: room.get('state'), seq });
+      this.send(ws, { type: 'rejected', reason, state: room.get('state'), seq, turn });
 
     // 경량 검증: seq -> 턴 -> 칸 점유. 게임 규칙 자체는 검증하지 않는다.
     if (msg.seq !== seq + 1) return reject('SEQ_MISMATCH');
@@ -108,6 +114,15 @@ export class RoomDO {
   async webSocketClose(ws) {
     const { color } = ws.deserializeAttachment() ?? {};
     if (!color) return;
+
+    // 같은 좌석에 살아 있는 다른 소켓이 있으면 이 close는 교체된 옛 소켓의 것이다.
+    // 좌석을 끊김 처리하면 안 된다(나중 연결이 이김).
+    for (const other of this.ctx.getWebSockets()) {
+      if (other === ws) continue;
+      const att = other.deserializeAttachment();
+      if (att && att.color === color) return;
+    }
+
     const players = await this.ctx.storage.get('players');
     if (!players?.[color]) return;
     players[color].connected = false;
@@ -152,6 +167,15 @@ export class RoomDO {
     }
 
     const seatToken = players[color]?.token ?? crypto.randomUUID();
+
+    // 같은 좌석에 이미 붙어 있는 소켓은 닫는다. 나중 연결이 이긴다.
+    // (모바일에서 새로고침을 반복하면 유령 소켓이 남는다)
+    for (const other of this.ctx.getWebSockets()) {
+      if (other === ws) continue;
+      const att = other.deserializeAttachment();
+      if (att && att.color === color) other.close(1000, 'REPLACED');
+    }
+
     players[color] = { token: seatToken, connected: true };
     ws.serializeAttachment({ color });
 
@@ -174,7 +198,17 @@ export class RoomDO {
       status,
       state: room.get('state'),
       seq: room.get('seq'),
+      turn: room.get('turn'), // 턴은 서버가 권위를 갖는다 (state.turn은 착수 시점 값이라 밀림)
     });
+
+    // 정원이 찼으면 먼저 와서 기다리던 쪽에도 시작을 알린다.
+    // (joined는 접속한 소켓에만 가므로 이게 없으면 방장 화면이 "대기 중"에 멈춘다)
+    if (status === 'playing') {
+      for (const other of this.ctx.getWebSockets()) {
+        if (other === ws) continue;
+        this.send(other, { type: 'status', status: 'playing' });
+      }
+    }
   }
 
   // 방을 처음 만든다. 이미 초기화됐으면 409를 준다(코드 충돌).

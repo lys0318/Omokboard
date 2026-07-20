@@ -7,6 +7,11 @@
     return `omokboard.room.${code}`;
   }
 
+  // 좌석 소유권은 "탭" 단위다. localStorage를 쓰면 같은 브라우저의 두 탭이
+  // 토큰 하나를 공유해 서로 좌석을 뺏는다. sessionStorage는 새로고침엔 유지되고
+  // 탭마다 분리되므로 재접속 요건을 만족하면서 충돌이 없다.
+  const store = window.sessionStorage;
+
   window.Multiplayer = {
     start({ gameId, game, adapter, ui }) {
       const session = {
@@ -34,7 +39,7 @@
     if (!res.ok) return session.ui.onError('CREATE_FAILED');
     const data = await res.json();
     session.code = data.code;
-    localStorage.setItem(tokenKey(data.code), data.token);
+    store.setItem(tokenKey(data.code), data.token);
     session.ui.onCode(data.code, shareUrl(data.code));
     connect(session);
   }
@@ -44,7 +49,7 @@
   }
 
   function connect(session) {
-    const token = localStorage.getItem(tokenKey(session.code)) || '';
+    const token = store.getItem(tokenKey(session.code)) || '';
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
     const url = `${proto}://${location.host}/api/room/${session.code}${token ? `?token=${token}` : ''}`;
     const ws = new WebSocket(url);
@@ -57,8 +62,15 @@
 
     ws.addEventListener('message', (e) => handle(session, JSON.parse(e.data)));
 
-    ws.addEventListener('close', () => {
+    ws.addEventListener('close', (e) => {
       if (session.closedByUs) return;
+      // 서버가 "더 새 연결로 교체됨"이라 알려준 경우엔 재접속하면 안 된다.
+      // 재접속하면 서로 밀어내는 무한 루프가 된다.
+      if (e && e.reason === 'REPLACED') {
+        session.closedByUs = true;
+        session.ui.onError('REPLACED');
+        return;
+      }
       scheduleReconnect(session);
     });
   }
@@ -82,8 +94,9 @@
         session.color = msg.color;
         session.seq = msg.seq;
         session.graceUntil = 0;
-        if (msg.token) localStorage.setItem(tokenKey(session.code), msg.token);
-        if (msg.state) adapter.restore(game, msg.state);
+        if (msg.token) store.setItem(tokenKey(session.code), msg.token);
+        // state.turn은 착수 시점(턴 전환 전) 값이라 한 수 밀린다. 서버 turn으로 덮어쓴다.
+        if (msg.state) adapter.restore(game, { ...msg.state, turn: msg.turn || msg.state.turn });
         bindLocalMoves(session);
         ui.onCode(session.code, shareUrl(session.code));
         ui.onStatus(msg.status, { color: msg.color });
@@ -102,7 +115,7 @@
       case 'rejected':
         // 서버가 권위. 받은 상태로 되돌린다.
         session.seq = msg.seq;
-        adapter.restore(game, msg.state);
+        if (msg.state) adapter.restore(game, { ...msg.state, turn: msg.turn || msg.state.turn });
         updateInput(session);
         ui.onError(msg.reason);
         break;
@@ -133,7 +146,9 @@
       move.by = session.color;
       session.seq += 1;
       session.ws.send(JSON.stringify({ type: 'move', move, seq: session.seq }));
-      updateInput(session);
+      // 여기서 updateInput을 부르면 안 된다. 이 훅은 placeStone이 턴을 넘기기 "전"에
+      // 실행되므로 잠금 계산이 한 수 밀린다. 서버가 move를 되돌려줄 때 갱신한다.
+      session.adapter.setInputEnabled(session.game, false);
     });
   }
 })();
