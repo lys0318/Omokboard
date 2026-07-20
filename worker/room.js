@@ -1,3 +1,6 @@
+const GRACE_MS = 120_000; // 재접속 유예 2분
+const ROOM_TTL_MS = 1_800_000; // 방 유지 30분
+
 export class RoomDO {
   constructor(ctx, env) {
     this.ctx = ctx;
@@ -67,6 +70,56 @@ export class RoomDO {
     this.broadcast({ type: 'move', move: msg.move, seq: nextSeq, turn: nextTurn });
   }
 
+  // 알람은 DO당 하나뿐이다. 유예와 만료 중 이른 시각을 쓴다.
+  nextAlarmAt({ graceDeadline, roomExpiresAt }) {
+    return Math.min(graceDeadline ?? Infinity, roomExpiresAt);
+  }
+
+  async rescheduleAlarm() {
+    const r = await this.ctx.storage.get(['graceDeadline', 'roomExpiresAt']);
+    const at = this.nextAlarmAt({
+      graceDeadline: r.get('graceDeadline') ?? null,
+      roomExpiresAt: r.get('roomExpiresAt') ?? Date.now() + ROOM_TTL_MS,
+    });
+    await this.ctx.storage.setAlarm(at);
+  }
+
+  async alarm() {
+    const r = await this.ctx.storage.get(['status', 'graceDeadline', 'roomExpiresAt']);
+    const now = Date.now();
+    const grace = r.get('graceDeadline');
+
+    // 유예 마감이 먼저 도래한 경우
+    if (r.get('status') === 'paused' && grace != null && now >= grace) {
+      await this.ctx.storage.put({ status: 'finished', graceDeadline: null });
+      this.broadcast({ type: 'status', status: 'finished', reason: 'OPPONENT_LEFT' });
+      await this.rescheduleAlarm();
+      return;
+    }
+    // 방 만료
+    if (now >= (r.get('roomExpiresAt') ?? 0)) {
+      this.broadcast({ type: 'status', status: 'finished', reason: 'ROOM_EXPIRED' });
+      await this.ctx.storage.deleteAll();
+      return;
+    }
+    await this.rescheduleAlarm();
+  }
+
+  async webSocketClose(ws) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    if (!color) return;
+    const players = await this.ctx.storage.get('players');
+    if (!players?.[color]) return;
+    players[color].connected = false;
+
+    const graceDeadline = Date.now() + GRACE_MS;
+    await this.ctx.storage.put({ players, status: 'paused', graceDeadline });
+    await this.rescheduleAlarm();
+
+    this.broadcast({ type: 'opponent', event: 'left' });
+    this.broadcast({ type: 'status', status: 'paused', endsAt: graceDeadline });
+  }
+
   async onJoin(ws, token) {
     const room = await this.ctx.storage.get([
       'initialized', 'status', 'turn', 'seq', 'state', 'players',
@@ -103,7 +156,16 @@ export class RoomDO {
     ws.serializeAttachment({ color });
 
     const status = players.black && players.white ? 'playing' : 'waiting';
-    await this.ctx.storage.put({ players, status, lastActivityAt: Date.now() });
+    const wasPaused = room.get('status') === 'paused';
+    await this.ctx.storage.put({
+      players,
+      status,
+      graceDeadline: null, // 돌아왔으니 유예 해제
+      roomExpiresAt: Date.now() + ROOM_TTL_MS,
+      lastActivityAt: Date.now(),
+    });
+    await this.rescheduleAlarm();
+    if (wasPaused) this.broadcast({ type: 'opponent', event: 'reconnected' });
 
     this.send(ws, {
       type: 'joined',
@@ -131,7 +193,11 @@ export class RoomDO {
       state: null,
       players: { black: { token, connected: false }, white: null },
       lastActivityAt: Date.now(),
+      roomExpiresAt: Date.now() + ROOM_TTL_MS,
+      graceDeadline: null,
     });
+    // 아무도 입장하지 않은 방도 반드시 정리되도록 생성 시점에 알람을 건다.
+    await this.rescheduleAlarm();
     return new Response(JSON.stringify({ token, color: 'black' }), { status: 201 });
   }
 }
