@@ -112,6 +112,20 @@
             </div>
         </main>
 
+        <div id="room-panel" class="hidden" style="max-width:520px;margin:1rem auto 0;padding:1rem 1.25rem;border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;background:rgba(255,255,255,0.04);">
+            <div id="room-status" style="color:var(--text-muted);font-size:0.95rem;"></div>
+            <div id="room-code-row" class="hidden" style="margin-top:0.6rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+                <span style="font-size:0.85rem;color:var(--text-muted);">방 코드</span>
+                <strong id="room-code" style="font-size:1.4rem;letter-spacing:0.15em;"></strong>
+                <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">링크 복사</button>
+            </div>
+            <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+                <input id="room-input" placeholder="코드 입력 (예: K7RM92)" maxlength="6"
+                       style="flex:1;min-width:160px;min-height:44px;padding:0 0.75rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;">
+                <button id="room-join" class="btn primary" style="min-height:44px;">입장</button>
+            </div>
+        </div>
+
         <script src="adfit.js?v=1"></script>
 
         <section class="game-how-to">
@@ -167,6 +181,11 @@
                         <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
                         <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
                     </button>
+                    <button class="mode-btn" onclick="window.startOnlineOmok()">
+                        <span class="mode-icon">🌐</span>
+                        <span class="mode-label"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></span>
+                        <span class="mode-desc"><span class="ko-only">방 코드로 초대</span><span class="en-only" style="display:none;">Invite by room code</span></span>
+                    </button>
                     <button class="mode-btn" onclick="document.getElementById('step-mode').classList.add('hidden');document.getElementById('step-difficulty').classList.remove('hidden')">
                         <span class="mode-icon">🤖</span>
                         <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
@@ -210,6 +229,82 @@
 
     <script src="lang.js?v=6"></script>
     <script src="script.js?v=2"></script>
+    <script src="/adapters/omok.js?v=1"></script>
+    <script src="/multiplayer.js?v=1"></script>
+    <script>
+    // 온라인 대전 진입점. 기존 AI·2인 모드는 건드리지 않는다.
+    (function () {
+      const panel = document.getElementById('room-panel');
+      const statusEl = document.getElementById('room-status');
+      const codeRow = document.getElementById('room-code-row');
+      const codeEl = document.getElementById('room-code');
+
+      const TEXT = {
+        waiting: '상대를 기다리는 중입니다. 코드나 링크를 공유하세요.',
+        playing: '대국 중입니다.',
+        paused: '상대의 연결이 끊겼습니다. 잠시 기다립니다.',
+        finished: '대국이 종료되었습니다.',
+        connected: '서버에 연결되었습니다.',
+        reconnecting: '연결이 끊겨 재접속 중입니다.',
+        opponent_left: '상대의 연결이 끊겼습니다.',
+        opponent_back: '상대가 돌아왔습니다.',
+      };
+      const ERR = {
+        ROOM_FULL: '이미 두 명이 대전 중인 방입니다.',
+        ROOM_NOT_FOUND: '존재하지 않는 방 코드입니다.',
+        NOT_YOUR_TURN: '상대 차례입니다.',
+        CELL_TAKEN: '이미 돌이 놓인 자리입니다.',
+        SEQ_MISMATCH: '판을 서버 기준으로 맞췄습니다.',
+        CREATE_FAILED: '방 생성에 실패했습니다.',
+      };
+
+      let shareLink = '';
+
+      const ui = {
+        onStatus(status, info) {
+          statusEl.textContent = TEXT[status] || status;
+          if (status === 'playing' && info && info.color) {
+            statusEl.textContent += ` (내 돌: ${info.color === 'black' ? '흑' : '백'})`;
+          }
+        },
+        onCode(code, url) {
+          shareLink = url;
+          codeEl.textContent = code;
+          codeRow.classList.remove('hidden');
+        },
+        onError(code) {
+          statusEl.textContent = ERR[code] || code;
+        },
+      };
+
+      function begin() {
+        panel.classList.remove('hidden');
+        window.omokGame.startGame('online');
+        window.omokGame.inputLocked = true;
+        window.Multiplayer.start({
+          gameId: 'omok',
+          game: window.omokGame,
+          adapter: window.OmokboardAdapters.omok,
+          ui,
+        });
+      }
+
+      window.startOnlineOmok = begin;
+
+      document.getElementById('room-copy').addEventListener('click', () => {
+        if (shareLink) navigator.clipboard.writeText(shareLink);
+      });
+
+      document.getElementById('room-join').addEventListener('click', () => {
+        const code = document.getElementById('room-input').value.trim().toUpperCase();
+        if (code.length !== 6) return ui.onError('ROOM_NOT_FOUND');
+        location.search = `?room=${code}`;
+      });
+
+      // 링크로 들어온 경우 자동 입장
+      if (new URLSearchParams(location.search).get('room')) begin();
+    })();
+    </script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>
