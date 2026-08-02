@@ -15,3 +15,6 @@ Thumbs.db
 # Node
 node_modules/
 dist/
+
+# 에이전트 도구 로컬 상태 (세션 ID·스로틀 등, 공유 대상 아님)
+.omc/
