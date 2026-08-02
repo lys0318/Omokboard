@@ -121,9 +121,17 @@ class YutGame {
     }
 
     // ─── 윷 던지기 ────────────────────────────────────────────
+    // 윷가락 4개 중 하나를 "표식 막대"로 두고, 평면이 딱 1개(도) 나왔는데
+    // 그게 표식 막대일 때만 빽도로 갈린다 (실제 윷 도구의 뒷도 막대와 같은 원리).
+    // 도(4/16) 전체를 도(3/16)·빽도(1/16)로 쪼갤 뿐, 개·걸·윷·모 확률은 그대로다.
     rollYut() {
-        let flats = 0;
-        for (let i = 0; i < 4; i++) if (Math.random() < 0.5) flats++;
+        let flats = 0, markedFlat = false;
+        for (let i = 0; i < 4; i++) {
+            const up = Math.random() < 0.5;
+            if (up) flats++;
+            if (i === 0 && up) markedFlat = true;
+        }
+        if (flats === 1 && markedFlat) return { v: -1, name: '빽도' };
         const map = { 1:{v:1,name:'도'}, 2:{v:2,name:'개'}, 3:{v:3,name:'걸'}, 4:{v:4,name:'윷'}, 0:{v:5,name:'모'} };
         return map[flats];
     }
@@ -156,11 +164,17 @@ class YutGame {
         this.updateThrowBtn();
     }
 
-    engName(n){ return ({'도':'Do','개':'Gae','걸':'Geol','윷':'Yut','모':'Mo'})[n]; }
+    engName(n){ return ({'도':'Do','개':'Gae','걸':'Geol','윷':'Yut','모':'Mo','빽도':'Backdo'})[n]; }
 
     hasAnyMove() {
         if (!this.results.length) return false;
-        return this.players[this.current].tokens.some(t => t !== YUT_FINISH);
+        const p = this.players[this.current];
+        // 대기 말만 있는데 결과가 빽도뿐인 경우처럼, 토큰은 있어도 실제로 쓸 수
+        // 없는 결과일 수 있으므로 (토큰, 결과) 조합의 실제 합법성까지 확인한다.
+        return p.tokens.some(pos => {
+            if (pos === YUT_FINISH) return false;
+            return this.results.some(r => this.travel(pos, r.v).legal !== false);
+        });
     }
     setStatusNoMove() { this.statusEl.textContent = this.en ? 'No moves — turn passes' : '움직일 말이 없어 턴 넘김'; }
 
@@ -178,8 +192,32 @@ class YutGame {
         return { pos: pos + 1, prev: pos };
     }
 
-    // start 노드에서 steps 칸 이동. 도=1..모=5 만큼 정확히 전진.
+    // nextNode()의 역방향(빽도용). 지름길 합류점(22)은 어느 대각선에서 왔는지
+    // 말의 위치에 저장돼 있지 않아 구분할 수 없으므로, 5-대각선(20) 쪽을 되돌아가는
+    // 경로로 간주한다. 22에 멈춘 말이 드물고, 어느 쪽으로 되돌리든 판 위의 유효한
+    // 칸으로만 이동하므로 실사용에 문제되지 않는다.
+    prevNode(pos) {
+        if (pos === 0)  return { pos: YUT_WAIT };
+        if (pos === 20) return { pos: 5 };
+        if (pos === 21) return { pos: 10 };
+        if (pos === 22) return { pos: 20 };
+        if (pos === 23) return { pos: 22 };
+        if (pos === 24) return { pos: 22 };
+        return { pos: pos - 1 };
+    }
+
+    // start 노드에서 steps 칸 이동. 도=1..모=5 만큼 정확히 전진, 빽도(steps=-1)는 후진.
     travel(startPos, steps) {
+        if (steps < 0) {
+            // 빽도는 이미 판에 나온 말만 물릴 수 있다 (대기 말을 낼 수는 없음).
+            if (startPos === YUT_WAIT) return { pos: YUT_WAIT, prev: YUT_WAIT, legal: false };
+            let pos = startPos;
+            for (let s = 0; s < -steps; s++) {
+                pos = this.prevNode(pos).pos;
+                if (pos === YUT_WAIT) break; // 출발점 이전으로는 더 물러나지 않는다
+            }
+            return { pos, prev: -2, legal: true };
+        }
         // 대기 말은 출발점(노드0)에서 시작해 steps칸 전진 → 도:1, 개:2, 걸:3, 윷:4, 모:5
         let pos, prev, first;
         if (startPos === YUT_WAIT) { pos = 0; prev = YUT_WAIT; first = false; }
@@ -187,9 +225,9 @@ class YutGame {
         for (let s = 0; s < steps; s++) {
             const nx = this.nextNode(pos, prev, first && s === 0 && startPos !== YUT_WAIT);
             pos = nx.pos; prev = nx.prev;
-            if (pos === YUT_FINISH) return { pos, prev };
+            if (pos === YUT_FINISH) return { pos, prev, legal: true };
         }
-        return { pos, prev };
+        return { pos, prev, legal: true };
     }
 
     tokensAt(player, node) {
@@ -229,7 +267,9 @@ class YutGame {
         const opts = []; const seenV = new Set();
         for (const r of this.results) {
             if (seenV.has(r.v)) continue; seenV.add(r.v);
-            const dest = this.travel(pos, r.v).pos;
+            const t = this.travel(pos, r.v);
+            if (t.legal === false) continue; // 대기 말은 빽도를 쓸 수 없음
+            const dest = t.pos;
             const xy = dest === YUT_FINISH ? this.finishPos() : this.nodePos(dest);
             opts.push({ v: r.v, name: r.name, dest, x: xy.x, y: xy.y });
         }
@@ -400,7 +440,9 @@ class YutGame {
             p.tokens.forEach((pos, i) => {
                 if (pos === YUT_FINISH) return;
                 if (pos !== YUT_WAIT) { if (seen.has(res.v + ':' + pos)) return; seen.add(res.v + ':' + pos); }
-                const dest = this.travel(pos, res.v).pos;
+                const t = this.travel(pos, res.v);
+                if (t.legal === false) return; // 대기 말은 빽도를 쓸 수 없음
+                const dest = t.pos;
                 let score = 0;
                 if (dest === YUT_FINISH) score += 100;
                 const hit = this.tokensAt('p1', dest);

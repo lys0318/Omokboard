@@ -59,6 +59,13 @@
         .ttt-cell.win { background: rgba(251,191,36,0.18); border-color: rgba(251,191,36,0.6); box-shadow: 0 0 18px rgba(251,191,36,0.45); }
         .ttt-mark { width: 16px; height: 16px; border-radius: 4px; }
         /* 얼티메이트 */
+        /* main이 flex(align-items:center) 자식이라 자식 폭 기준 shrink-to-fit으로 계산되며,
+           .game-info(너비 100%)의 콘텐츠 폭이 board(468px)보다 좁게 잡혀 보드가 왼쪽으로 치우쳐 보인다.
+           main 자체 폭을 board와 동일한 값으로 고정해 중앙 정렬을 강제한다. */
+        #ttt-ultimate main {
+            width: min(94vw, 468px);
+            margin: 0 auto;
+        }
         .uttt-board {
             display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 6px;
             width: min(94vw, 468px); aspect-ratio: 1; background: #5a3c1e; padding: 6px; border-radius: 8px;
