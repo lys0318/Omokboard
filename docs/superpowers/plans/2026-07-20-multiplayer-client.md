@@ -1,6 +1,8 @@
 # 온라인 방 대전 — 클라이언트(오목) Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **실행 방법:** 체크박스(`- [ ]`) 단위로 위에서부터 순서대로 진행한다. 각 태스크 끝의 검증 단계(`Run:` / `Expected:`)를 건너뛰지 않는다. 계획서와 실제가 어긋나면 계획서를 고치고 이유를 기록한 뒤 진행한다.
+>
+> **완료 판정 주의:** 테스트 통과는 완료가 아니다. UI·실시간 동기화처럼 사람이 봐야 아는 동작은 브라우저에서 직접 확인한다 — 이 프로젝트에서 실제로 유닛 21개가 전부 통과한 상태에서 E2E로 버그 4개(잠금 밀림·턴 밀림·재접속 루프·타이머 턴 전환)가 나왔다. 마무리는 `oh-my-claudecode:verify`로 하고, `ralph`/`autopilot` 같은 무인 루프는 이 계획서에 쓰지 않는다.
 
 **Goal:** 오목 페이지에서 방을 만들고 코드·링크로 상대를 초대해 실제로 온라인 대국을 완주한다. 서버(계획서 2)는 이미 완성돼 있다.
 
