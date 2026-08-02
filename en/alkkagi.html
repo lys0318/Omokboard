@@ -108,7 +108,7 @@
 
         <header>
             <h1>알까기</h1>
-            <p class="subtitle">구슬을 튕겨 상대를 밀어내세요</p>
+            <p class="subtitle" id="ak-subtitle" data-i18n="ak.subtitle.classic">구슬을 튕겨 상대를 밀어내세요</p>
         </header>
 
         <main>
@@ -149,6 +149,7 @@
                 <li><strong data-i18n="howto.controls">조작:</strong> <span data-i18n="howto.ak.controls.before">자신의 구슬을 클릭한 뒤</span> <strong data-i18n="howto.ak.controls.drag">드래그</strong><span data-i18n="howto.ak.controls.after">하면 반대 방향으로 발사됩니다</span></li>
                 <li><strong data-i18n="howto.elimination">탈락:</strong> <span data-i18n="howto.ak.elimination">구슬의 중심이 보드 테두리를 벗어나면 즉시 탈락합니다</span></li>
                 <li><strong data-i18n="howto.aiMode">AI 모드:</strong> <span data-i18n="howto.ak.aiMode">빨강(당신)이 먼저 발사하고 파랑(AI)이 응수합니다</span></li>
+                <li><strong class="ko-only">익스트림:</strong><strong class="en-only" style="display:none;">Extreme:</strong> <span class="ko-only">시작 전 방식 선택에서 고르면 보드 중앙에 고정 장애물 3개가 추가됩니다</span><span class="en-only" style="display:none;">Pick it on the game-style screen to add 3 fixed obstacles at the center</span></li>
                 <li><strong data-i18n="howto.tip">팁:</strong> <span data-i18n="howto.ak.tip">드래그 거리가 길수록 파워가 강해지며, 같은 팀 구슬도 밀 수 있습니다</span></li>
             </ul>
         </section>
@@ -188,7 +189,23 @@
     <div id="ak-mode-overlay" class="game-mode-overlay">
         <div class="game-mode-card">
             <h2 class="mode-title">알까기</h2>
-            <div id="ak-step-mode">
+            <div id="ak-step-variant">
+                <p class="mode-subtitle" data-i18n="ak.variant.select">게임 방식을 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="ak-classic-btn">
+                        <span class="mode-icon">⚪</span>
+                        <span class="mode-label" data-i18n="ak.classic">클래식</span>
+                        <span class="mode-desc" data-i18n="ak.classic.desc">기본 알까기</span>
+                    </button>
+                    <button class="mode-btn" id="ak-extreme-btn">
+                        <span class="mode-icon">🧱</span>
+                        <span class="mode-label" data-i18n="ak.extreme">익스트림</span>
+                        <span class="mode-desc" data-i18n="ak.extreme.desc">중앙 장애물 3개 추가</span>
+                    </button>
+                </div>
+                <a href="/en/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+            </div>
+            <div id="ak-step-mode" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
                 <div class="mode-buttons">
                     <button class="mode-btn" id="ak-pvp-btn">
@@ -202,7 +219,7 @@
                         <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
                     </button>
                 </div>
-                <a href="/en/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+                <button class="mode-back-btn" id="ak-mode-back" data-i18n="btn.back">← 뒤로</button>
             </div>
             <div id="ak-step-diff" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
@@ -237,8 +254,8 @@
         </div>
     </div>
 
-    <script src="/lang.js?v=6"></script>
-    <script src="/alkkagi.js?v=4"></script>
+    <script src="/lang.js?v=7"></script>
+    <script src="/alkkagi.js?v=5"></script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>

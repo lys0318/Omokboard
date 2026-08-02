@@ -11,6 +11,8 @@ class AlkkagiGame {
         this.ctx    = this.canvas.getContext('2d');
 
         this.marbles = [];
+        this.obstacles   = [];       // 익스트림 모드 고정 장애물
+        this.variant     = 'classic'; // 'classic' | 'extreme'
         this.currentTurn  = 'red';
         this.isGameOver   = false;
         this.isSimulating = false;
@@ -21,14 +23,86 @@ class AlkkagiGame {
         this.dragging = null;
 
         this.statusEl    = document.getElementById('ak-status');
+        this.subtitleEl  = document.getElementById('ak-subtitle');
         this.winOverlay  = document.getElementById('ak-win-overlay');
         this.winTitle    = document.getElementById('ak-win-title');
         this.winDesc     = document.getElementById('ak-win-desc');
         this.modeOverlay = document.getElementById('ak-mode-overlay');
 
+        this.initAudio();
         this.resize();
         window.addEventListener('resize', () => this.resize());
         this.bindEvents();
+    }
+
+    // ─── 효과음 ──────────────────────────────────────────────
+
+    initAudio() {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            this.audioCtx = new AudioCtx();
+        } catch (e) {
+            this.audioCtx = null;
+        }
+    }
+
+    resumeAudio() {
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
+    }
+
+    // 구슬 충돌음. intensity(충돌 속도)에 따라 세기가 달라지고,
+    // isStone이면 익스트림 모드 장애물에 부딪힌 더 둔탁한 소리를 낸다.
+    playHitSound(intensity, isStone = false) {
+        if (!this.audioCtx) return;
+        const ctx = this.audioCtx;
+        const now = ctx.currentTime;
+        const vol = Math.min(0.55, 0.15 + intensity * 0.035);
+
+        const bufSize = Math.floor(ctx.sampleRate * (isStone ? 0.05 : 0.035));
+        const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < bufSize; i++) {
+            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufSize, 3);
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buf;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = isStone ? 900 : 2200;
+        filter.Q.value = 1.2;
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(vol, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + (isStone ? 0.09 : 0.06));
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(now);
+    }
+
+    // 구슬이 보드 밖으로 떨어질 때 나는 낮게 꺼지는 소리
+    playOutSound() {
+        if (!this.audioCtx) return;
+        const ctx = this.audioCtx;
+        const now = ctx.currentTime;
+
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.exponentialRampToValueAtTime(70, now + 0.28);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.28);
     }
 
     get R() {
@@ -71,6 +145,20 @@ class AlkkagiGame {
             this.marbles.push({ color:'blue', x: this.bRight - bW*0.15, y: this.bTop + spacing*(i+0.5) + spacing*0.1, vx:0, vy:0, r:R, alive:true });
         }
 
+        // 익스트림 모드: 보드 중앙에 세로로 고정 장애물 3개(양쪽 구슬 열과는 충분히 떨어진 위치)
+        this.obstacles = [];
+        if (this.variant === 'extreme') {
+            const cx = (this.bLeft + this.bRight) / 2;
+            const cy = (this.bTop + this.bBottom) / 2;
+            const OR = R * 1.15;
+            const gap = bH * 0.22;
+            this.obstacles = [
+                { x: cx, y: cy,        r: OR },
+                { x: cx, y: cy - gap,  r: OR },
+                { x: cx, y: cy + gap,  r: OR },
+            ];
+        }
+
         this.updateCounters();
         this.updateStatus();
         this.updateHighlight();
@@ -93,6 +181,7 @@ class AlkkagiGame {
         const onDown = e => {
             if (this.isGameOver || this.isSimulating || this.isAIThinking) return;
             if (this.gameMode === 'ai' && this.currentTurn === 'blue') return;
+            this.resumeAudio();
             const { x, y } = getPos(e);
             const m = this.marbles.find(m =>
                 m.alive && m.color === this.currentTurn &&
@@ -132,7 +221,23 @@ class AlkkagiGame {
         window.addEventListener('touchmove',  onMove, { passive:false });
         window.addEventListener('touchend',   onUp,   { passive:false });
 
-        // Mode overlay
+        // Mode overlay — 1단계: 게임 방식(클래식/익스트림)
+        document.getElementById('ak-classic-btn').addEventListener('click', () => {
+            this.variant = 'classic';
+            document.getElementById('ak-step-variant').classList.add('hidden');
+            document.getElementById('ak-step-mode').classList.remove('hidden');
+        });
+        document.getElementById('ak-extreme-btn').addEventListener('click', () => {
+            this.variant = 'extreme';
+            document.getElementById('ak-step-variant').classList.add('hidden');
+            document.getElementById('ak-step-mode').classList.remove('hidden');
+        });
+        document.getElementById('ak-mode-back').addEventListener('click', () => {
+            document.getElementById('ak-step-mode').classList.add('hidden');
+            document.getElementById('ak-step-variant').classList.remove('hidden');
+        });
+
+        // Mode overlay — 2단계: 대전 방식(1:1/AI)
         document.getElementById('ak-pvp-btn').addEventListener('click', () => this.startGame('pvp'));
         document.getElementById('ak-ai-select-btn').addEventListener('click', () => {
             document.getElementById('ak-step-mode').classList.add('hidden');
@@ -154,7 +259,8 @@ class AlkkagiGame {
 
     showModeScreen() {
         this.modeOverlay.classList.remove('hidden');
-        document.getElementById('ak-step-mode').classList.remove('hidden');
+        document.getElementById('ak-step-variant').classList.remove('hidden');
+        document.getElementById('ak-step-mode').classList.add('hidden');
         document.getElementById('ak-step-diff').classList.add('hidden');
     }
 
@@ -164,6 +270,9 @@ class AlkkagiGame {
         this.modeOverlay.classList.add('hidden');
         const blueLabel = document.getElementById('ak-blue-label');
         if (blueLabel) blueLabel.textContent = mode === 'ai' ? window.i18n.t('ak.ai.blue') : window.i18n.t('ak.blue');
+        if (this.subtitleEl) {
+            this.subtitleEl.textContent = window.i18n.t(this.variant === 'extreme' ? 'ak.subtitle.extreme' : 'ak.subtitle.classic');
+        }
         this.reset();
     }
 
@@ -207,6 +316,12 @@ class AlkkagiGame {
             if (Math.abs(m.vy) < MIN_SPEED) m.vy = 0;
         }
 
+        for (const m of alive) {
+            for (const o of this.obstacles) {
+                this.resolveObstacleHit(m, o);
+            }
+        }
+
         for (let i = 0; i < alive.length; i++) {
             for (let j = i+1; j < alive.length; j++) {
                 this.resolveCollision(alive[i], alive[j]);
@@ -217,6 +332,7 @@ class AlkkagiGame {
             if (!m.alive) continue;
             if (m.x < this.bLeft || m.x > this.bRight || m.y < this.bTop || m.y > this.bBottom) {
                 m.alive = false;
+                this.playOutSound();
             }
         }
 
@@ -239,6 +355,25 @@ class AlkkagiGame {
         const imp = dot * RESTITUTION;
         a.vx -= imp*nx; a.vy -= imp*ny;
         b.vx += imp*nx; b.vy += imp*ny;
+        this.playHitSound(dot);
+    }
+
+    // 고정 장애물(익스트림 모드)과의 충돌. 장애물은 움직이지 않으므로
+    // 운동량 변화는 전부 구슬 쪽에 반사(reflection)로 적용한다.
+    resolveObstacleHit(m, o) {
+        const dx = m.x - o.x, dy = m.y - o.y;
+        const dist = Math.hypot(dx, dy);
+        const minD = m.r + o.r;
+        if (dist >= minD || dist === 0) return;
+
+        const nx = dx/dist, ny = dy/dist;
+        m.x = o.x + nx*minD; m.y = o.y + ny*minD;
+
+        const dot = m.vx*nx + m.vy*ny;
+        if (dot >= 0) return; // 이미 멀어지는 중이면 반사하지 않음
+        const j = -(1 + RESTITUTION) * dot;
+        m.vx += j*nx; m.vy += j*ny;
+        this.playHitSound(-dot, true);
     }
 
     // ─── AI ──────────────────────────────────────────────────
@@ -299,10 +434,24 @@ class AlkkagiGame {
         return bestShot;
     }
 
+    // ponytail: AI 조준 시 "지름길로 곧장 갈 수 있는지"(장애물에 막히지 않는지)까지는
+    // 확인하지 않는다. 충돌 후 미끄러지는 경로에서 장애물에 튕기는 것만 반영한다.
+    // 익스트림 모드에서 AI가 가끔 기둥에 막혀 헛스윙하는 건 의도된 변수로 남겨둔다.
     simulateSlide(x, y, vx, vy, maxSteps = 300) {
         for (let i = 0; i < maxSteps; i++) {
             x += vx; y += vy;
             vx *= FRICTION; vy *= FRICTION;
+            for (const o of this.obstacles) {
+                const dx = x - o.x, dy = y - o.y;
+                const dist = Math.hypot(dx, dy);
+                const minD = this.R + o.r;
+                if (dist < minD && dist > 0) {
+                    const nx = dx/dist, ny = dy/dist;
+                    x = o.x + nx*minD; y = o.y + ny*minD;
+                    const dot = vx*nx + vy*ny;
+                    if (dot < 0) { const j = -(1+RESTITUTION)*dot; vx += j*nx; vy += j*ny; }
+                }
+            }
             if (Math.abs(vx) < MIN_SPEED && Math.abs(vy) < MIN_SPEED) break;
             if (x < this.bLeft || x > this.bRight || y < this.bTop || y > this.bBottom) {
                 return { x, y, escaped: true };
@@ -320,6 +469,7 @@ class AlkkagiGame {
         ctx.fillRect(0, 0, this.W, this.H);
 
         this.drawBoard();
+        if (this.obstacles.length) this.drawObstacles();
 
         if (this.dragging) {
             const d  = this.dragging;
@@ -411,6 +561,27 @@ class AlkkagiGame {
         ctx.beginPath(); ctx.roundRect(L, T, BW, BH, 6); ctx.stroke();
     }
 
+    drawObstacles() {
+        const ctx = this.ctx;
+        for (const o of this.obstacles) {
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.shadowBlur = 8;
+            ctx.shadowOffsetY = 3;
+            const grad = ctx.createRadialGradient(o.x - o.r*0.3, o.y - o.r*0.3, o.r*0.1, o.x, o.y, o.r);
+            grad.addColorStop(0, '#9ca3af'); grad.addColorStop(0.5, '#4b5563'); grad.addColorStop(1, '#1f2937');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI*2); ctx.fill();
+            ctx.restore();
+
+            ctx.save();
+            ctx.strokeStyle = 'rgba(251,191,36,0.55)';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(o.x, o.y, o.r + 2, 0, Math.PI*2); ctx.stroke();
+            ctx.restore();
+        }
+    }
+
     drawMarble(m, selected) {
         const ctx = this.ctx;
         const r   = m.r;
@@ -497,6 +668,9 @@ class AlkkagiGame {
     refreshLang() {
         const blueLabel = document.getElementById('ak-blue-label');
         if (blueLabel) blueLabel.textContent = this.gameMode === 'ai' ? window.i18n.t('ak.ai.blue') : window.i18n.t('ak.blue');
+        if (this.subtitleEl) {
+            this.subtitleEl.textContent = window.i18n.t(this.variant === 'extreme' ? 'ak.subtitle.extreme' : 'ak.subtitle.classic');
+        }
         if (!this.isGameOver) this.updateStatus();
     }
 
