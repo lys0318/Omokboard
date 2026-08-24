@@ -50,7 +50,7 @@
       "name": "일반 Connect Four와 뭐가 다른가요?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "칸이 아래로 쌓이는 중력이 없고, 바둑판 위 어디든 자유롭게 둘 수 있습니다."
+        "text": "칸이 아래로 쌓이는 중력이 없고 바둑판 위 어디든 자유롭게 둘 수 있습니다."
       }
     },
     {
@@ -66,7 +66,15 @@
       "name": "오목과 전략이 같나요?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "비슷하지만 승리 조건이 4개라 더 빠릅니다. \"열린 3\"의 위험도가 오목의 \"열린 4\"만큼 높습니다."
+        "text": "뼈대는 비슷하지만 승리 조건이 4개라 훨씬 빠릅니다. 사목의 열린 3은 오목의 열린 4만큼 위험한 모양이라고 생각하면 됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "오목을 잘하면 사목도 잘하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "위협을 읽는 감각 자체는 그대로 통합니다. 다만 사목은 판단 속도가 더 빨라야 해서 오목에서 통하던 \"일단 지켜보기\"가 사목에서는 자주 손해로 이어집니다."
       }
     }
   ]
@@ -85,143 +93,126 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>사목이란?</h2>
-                    <p>사목(四目)은 이름 그대로 같은 색 돌 <strong>4개를 한 줄로 먼저 잇는</strong> 게임입니다. 가로·세로·대각선 어느 방향이든 4개가 연속되면 승리하죠. 4개를 연결하는 게임은 1974년 발매된 보드게임 'Connect Four'로 세계적으로 유명해졌습니다.</p>
-                    <p>오목보드의 사목은 여기에 변형을 더해, 칸이 아래부터 쌓이는 <strong>중력 방식이 아니라 바둑판 위 원하는 교차점에 자유롭게 두는 방식</strong>입니다. 덕분에 오목처럼 판 전체를 넓게 보며 여러 방향으로 위협을 설계하는 재미가 있습니다. 승리에 필요한 돌이 5개가 아닌 4개뿐이라 승부가 훨씬 빠르게 납니다.</p>
+                    <h2>사목, 오목을 한 단계 빠르게 압축한 게임</h2>
+                    <p>오목을 해봤다면 사목은 규칙을 다시 배울 필요가 없습니다. 승리 조건만 하나 줄인 버전이니까요. 4개를 먼저 이으면 이깁니다. 그런데 막상 두어보면 체감 속도가 확실히 다릅니다. 5개가 아니라 4개만 채우면 끝나기 때문에 오목이라면 아직 여유 있는 타이밍에 사목은 벌써 승부가 갈리죠. 4목 게임은 1974년 발매된 보드게임 'Connect Four'로 세계적으로 유명해졌습니다. 오목보드는 여기에 중력 대신 바둑판 위 어디든 자유롭게 두는 방식을 더했습니다.</p>
                     <p style="margin-top:0.8rem;"><a href="connect4" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">사목 게임 바로 플레이하기 →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>게임의 목표와 규칙</h2>
                     <ul class="rule-list">
-                        <li><strong>목표:</strong> 가로·세로·대각선 한 줄에 내 돌 <strong>4개를 먼저 연속</strong>으로 놓으면 승리.</li>
-                        <li><strong>착수:</strong> 빈 교차점 어디에나 자유롭게 둘 수 있고, 놓은 돌은 움직이지 않습니다.</li>
-                        <li><strong>선·후공:</strong> 빨강이 먼저, 이후 번갈아 둡니다.</li>
-                        <li><strong>중력 없음:</strong> 일반 Connect Four와 달리 아래로 떨어지지 않으므로 위치 선택이 완전히 자유롭습니다.</li>
+                        <li>목표는 가로·세로·대각선 한 줄에 내 돌 4개를 먼저 연속으로 놓는 것입니다.</li>
+                        <li>빨강이 먼저 두고 이후 번갈아 둡니다.</li>
+                        <li>빈 교차점 어디에나 자유롭게 둘 수 있고 놓은 돌은 움직이지 않습니다.</li>
+                        <li>일반 Connect Four와 달리 칸이 아래로 떨어지는 중력이 없어서 위치 선택이 완전히 자유롭습니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>위협의 단계 — 4목은 3에서 갈린다</h2>
-                    <p>승리 조건이 4개뿐이라, 오목보다 위협이 한 단계 빨리 완성됩니다. 특히 <strong>양쪽이 열린 3</strong>은 매우 위험합니다.</p>
+                    <h2>오목보다 한 단계 빨리 오는 위협</h2>
+                    <p>승리에 필요한 개수가 하나 적으니 위협이 완성되는 시점도 한 단계 앞당겨집니다. 오목의 열린 4가 사실상 승리이듯 사목에서는 그보다 한 칸 짧은 <strong>열린 3이 사실상 승리</strong>입니다. 양쪽이 다 비어 있는 3연속을 상대에게 허용하면 어느 쪽을 막아도 반대쪽으로 4가 완성되니까요. 오목이라면 "일단 지켜보자"고 넘길 법한 모양도, 사목에서는 그 순간 이미 늦은 경우가 많습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>초반부터 중앙 싸움이 치열한 이유</h2>
+                    <p>중앙 교차점은 가로·세로·대각선 두 개, 네 방향에 동시에 걸쳐 있어 한 돌이 여러 줄에 기여합니다. 승부가 빨리 나는 게임일수록 이 효율이 더 크게 작용하기 때문에 사목은 오목보다도 중앙을 먼저 차지하려는 신경전이 초반부터 팽팽합니다. 특히 가로줄과 대각선이 겹치는 지점은 나중에 이중 위협의 씨앗이 되니 눈여겨보세요.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>이중 위협 — 여전히 가장 확실한 승리 공식</h2>
+                    <p>한 수로 서로 다른 두 방향의 3을 동시에 만들면 상대는 한쪽만 막을 수 있으니 나머지 한쪽으로 4가 완성됩니다. 원리는 오목의 4-3·쌍삼과 똑같지만 단계가 하나 앞당겨진 만큼 이걸 만드는 타이밍도 그만큼 빨리 옵니다. 한 줄만 늘려서는 상대가 쉽게 끝을 막으니 처음부터 두 방향이 겹치는 자리를 노려야 합니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>방어 — 오목보다 반응 속도가 빨라야 한다</h2>
                     <ul class="rule-list">
-                        <li><strong>열린 2:</strong> 양끝이 열린 2연속. 공격의 시작점.</li>
-                        <li><strong>열린 3 (양수):</strong> 양쪽이 모두 비어 있는 3연속. 어느 쪽을 막아도 반대쪽으로 4가 완성되므로 <strong>사실상 승리</strong>입니다. 절대 만들게 두면 안 됩니다.</li>
-                        <li><strong>막힌 3 (단수):</strong> 한쪽만 열린 3연속. 완성 지점이 한 곳이라 즉시 막으면 됩니다.</li>
-                        <li><strong>이중 위협:</strong> 한 수로 서로 다른 두 방향의 3을 동시에 만들면 상대가 한쪽만 막을 수 있어 승리로 직결됩니다.</li>
+                        <li>상대가 4를 완성할 수 있는 칸은 무조건 즉시 막습니다. 여기까지는 오목과 같습니다.</li>
+                        <li>다른 점은 여기부터입니다. 열린 3이 만들어진 순간 사실상 진 것이나 다름없기 때문에 그 전 단계인 열린 2일 때부터 미리 견제해야 합니다. 오목처럼 "열린 3까지는 지켜본다"는 여유가 사목에는 없습니다.</li>
+                        <li>내 공격을 두기 전에 "상대가 다음 수로 4를 만들 자리가 있나"를 항상 먼저 확인하는 습관을 들이세요.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>초반 전략 — 중앙과 교차점</h2>
-                    <p>중앙은 가로·세로·두 대각선 네 방향으로 뻗을 수 있어 가치가 높습니다. 초반에는 중앙 근처에 돌을 모아, 한 돌이 여러 줄에 동시에 기여하도록 두세요. 특히 가로줄과 대각선이 교차하는 지점은 나중에 이중 위협의 씨앗이 됩니다.</p>
-                </section>
-
-                <section class="info-section">
-                    <h2>중반 전략 — 이중 위협 만들기</h2>
-                    <p>사목에서 이기는 가장 확실한 방법은 <strong>한 수로 두 개의 "열린 3" 또는 "3"을 동시에 만드는 것</strong>입니다. 상대는 한 번에 한 곳만 막을 수 있으므로 다음 수에 4가 완성됩니다. 단순히 한 줄만 늘리면 쉽게 막히니, 두 방향이 겹치는 자리를 노리세요.</p>
-                </section>
-
-                <section class="info-section">
-                    <h2>방어 — 상대의 3을 보면 즉시 차단</h2>
-                    <ul class="rule-list">
-                        <li><strong>1순위:</strong> 상대가 4를 완성할 수 있는 칸은 무조건 즉시 막습니다.</li>
-                        <li><strong>2순위:</strong> 상대의 <strong>열린 3</strong>은 만들어진 순간 거의 진 것이므로, 그 전 단계(열린 2)에서 미리 견제하는 것이 좋습니다.</li>
-                        <li><strong>한 수 앞 확인:</strong> 내 공격을 두기 전에 "상대가 다음 수로 4를 만들 곳이 있나?"를 항상 먼저 확인하세요.</li>
-                    </ul>
+                    <h2>실력별 전략</h2>
+                    <p><strong>막 시작했다면</strong> 일단 중앙 근처에서 내 돌 3개를 만드는 연습부터 하세요. 이기고 지는 것보다 열린 3이 얼마나 위험한지 몸으로 느끼는 게 먼저입니다.</p>
+                    <p><strong>어느 정도 손에 익었다면</strong> 상대의 열린 2 단계에서부터 견제하는 습관을 들이세요. 오목의 감각으로 "아직 여유 있다"고 판단하면 사목에서는 늦습니다.</p>
+                    <p><strong>더 잘하고 싶다면</strong> 이중 위협을 상대보다 먼저 완성하는 데 집중하세요. AI 어려움은 이중 위협을 정확히 읽고 막기 때문에 한 방향으로만 미는 공격은 거의 통하지 않습니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
                         <li>내 3개 만들기에 몰두하다 상대의 3개·4개를 놓치는 경우</li>
-                        <li>열린 3을 가볍게 보고 방치했다가 막을 수 없게 되는 경우</li>
-                        <li>한 방향으로만 길게 늘여 쉽게 막히는 경우</li>
-                    </ul>
-                </section>
-
-                <section class="info-section">
-                    <h2>실전 팁</h2>
-                    <ul class="rule-list">
-                        <li>오목보다 호흡이 빠릅니다. 매 수 "상대가 다음에 이기나?"를 먼저 보세요.</li>
-                        <li>공격과 수비를 한 번에 하는 자리(내 위협을 키우면서 상대도 막는 칸)를 우선하세요.</li>
-                        <li>AI <strong>어려움</strong>은 이중 위협을 읽고 막으니, 한 방향 공격만으로는 이기기 어렵습니다.</li>
+                        <li>열린 3을 오목 감각으로 가볍게 보고 방치했다가 막을 수 없게 되는 경우</li>
+                        <li>한 방향으로만 길게 늘여서 한쪽 끝만 막히면 그만인 모양을 만드는 경우</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
-                        <li><strong>일반 Connect Four와 뭐가 다른가요?</strong> 칸이 아래로 쌓이는 중력이 없고, 바둑판 위 어디든 자유롭게 둘 수 있습니다.</li>
+                        <li><strong>일반 Connect Four와 뭐가 다른가요?</strong> 칸이 아래로 쌓이는 중력이 없고 바둑판 위 어디든 자유롭게 둘 수 있습니다.</li>
                         <li><strong>5개를 이으면요?</strong> 4개가 연속된 순간 바로 승리이므로 그 전에 게임이 끝납니다.</li>
-                        <li><strong>오목과 전략이 같나요?</strong> 비슷하지만 승리 조건이 4개라 더 빠릅니다. "열린 3"의 위험도가 오목의 "열린 4"만큼 높습니다.</li>
+                        <li><strong>오목과 전략이 같나요?</strong> 뼈대는 비슷하지만 승리 조건이 4개라 훨씬 빠릅니다. 사목의 열린 3은 오목의 열린 4만큼 위험한 모양이라고 생각하면 됩니다.</li>
+                        <li><strong>오목을 잘하면 사목도 잘하나요?</strong> 위협을 읽는 감각 자체는 그대로 통합니다. 다만 사목은 판단 속도가 더 빨라야 해서 오목에서 통하던 "일단 지켜보기"가 사목에서는 자주 손해로 이어집니다.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>What Is Connect 4 (Samok)?</h2>
-                    <p>Samok (四目) means lining up <strong>four stones of the same color</strong> in a row — horizontally, vertically, or diagonally — to win. The four-in-a-row idea was made famous worldwide by the 1974 board game Connect Four.</p>
-                    <p>Omokboard's version adds a twist: instead of pieces dropping by gravity, you place stones <strong>freely on any empty intersection</strong> of a Go-style board. This rewards whole-board awareness like Omok, and because you only need four (not five), games finish much faster.</p>
+                    <h2>Connect 4 (Samok) — Omok Compressed by One Gear</h2>
+                    <p>If you've already played Omok, you don't need to relearn anything here — Samok is the same idea with the win condition dropped from five to four. Play a round, though, and the pace feels completely different. Needing one fewer stone means the game is often already decided at a point where an Omok match would still feel relaxed. The four-in-a-row idea itself was made famous worldwide by the 1974 board game Connect Four, and Omokboard's version adds a twist: instead of pieces dropping by gravity, you place freely anywhere on a Go-style board.</p>
                     <p style="margin-top:0.8rem;"><a href="connect4" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Connect 4 now →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>Objective &amp; Rules</h2>
                     <ul class="rule-list">
-                        <li><strong>Goal:</strong> Be first to place <strong>four stones in an unbroken row</strong>.</li>
-                        <li><strong>Placing:</strong> Play on any empty intersection; stones never move.</li>
-                        <li><strong>Turn order:</strong> Red moves first, then players alternate.</li>
-                        <li><strong>No gravity:</strong> Unlike classic Connect Four, pieces do not fall — placement is fully free.</li>
+                        <li>The goal is to be first to place four stones in an unbroken row — horizontal, vertical, or diagonal.</li>
+                        <li>Red moves first, then players alternate.</li>
+                        <li>You can play on any empty intersection, and stones never move once placed.</li>
+                        <li>Unlike classic Connect Four, there's no gravity here — placement is completely free.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Threat Levels — It's Decided at Three</h2>
-                    <p>Since you only need four, threats mature a step earlier than in Omok. An <strong>open three</strong> is especially dangerous.</p>
+                    <h2>Threats Mature a Step Earlier Than in Omok</h2>
+                    <p>Needing one fewer stone to win means threats reach critical mass a step sooner too. Just as an open four is essentially a win in Omok, in Samok an <strong>open three is essentially a win</strong> — block one end and the other still completes four. A shape you might comfortably "watch for now" in Omok is often already too late in Samok.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Why the Center Fight Starts Immediately</h2>
+                    <p>A center intersection touches four directions at once — horizontal, vertical, and two diagonals — so a single stone there contributes to multiple lines. That efficiency matters even more in a game that resolves quickly, which is why the fight for the center in Samok starts from move one. Keep an eye on spots where a row and a diagonal cross — those become the seeds of double threats later.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Double Threats — Still the Surest Path to a Win</h2>
+                    <p>Create two threes in different directions with a single move and your opponent can only block one, so the other becomes four. It's the same principle as Omok's four-three or double-three, just arriving a step earlier — which means you need to start looking for it a step earlier too. A single extended line is easy to shut down at one end, so aim for the intersection where two directions overlap from the start.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Defense — You Need to React Faster Than in Omok</h2>
                     <ul class="rule-list">
-                        <li><strong>Open two:</strong> Two in a row, both ends open — the start of an attack.</li>
-                        <li><strong>Open three:</strong> Three open on both ends — blocking one end leaves the other, so it is essentially a win. Never allow it.</li>
-                        <li><strong>Closed three:</strong> Open on one end only — stoppable if blocked at once.</li>
-                        <li><strong>Double threat:</strong> One move making two separate threes wins, since only one can be blocked.</li>
+                        <li>Always block immediately anywhere your opponent could complete a four — same as Omok, this part doesn't change.</li>
+                        <li>Here's where it differs: an open three is nearly game over the moment it appears, so you need to contain it back at the open-two stage. Omok's "I can still watch an open three for now" instinct will cost you in Samok.</li>
+                        <li>Before playing your own attack, always check first whether your opponent can win on their next move.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Opening — Center &amp; Intersections</h2>
-                    <p>The center supports four directions, so keep early stones central where one stone helps several lines. Spots where a row and a diagonal cross are the seeds of future double threats.</p>
-                </section>
-
-                <section class="info-section">
-                    <h2>Midgame — Create Double Threats</h2>
-                    <p>The surest way to win is making <strong>two threes at once</strong> with a single move. The opponent can only block one, so a four completes next turn. Extending a single line is easily blocked — aim where two directions overlap.</p>
-                </section>
-
-                <section class="info-section">
-                    <h2>Defense — Stop Threes Immediately</h2>
-                    <ul class="rule-list">
-                        <li><strong>First:</strong> Always block any square where the opponent would make four.</li>
-                        <li><strong>Second:</strong> An open three is nearly game-over, so contain it at the open-two stage.</li>
-                        <li><strong>Look ahead:</strong> Before attacking, check if the opponent can win next move.</li>
-                    </ul>
+                    <h2>Strategy by Skill Level</h2>
+                    <p><strong>Just starting out?</strong> Focus on building three of your own stones near the center. Winning matters less right now than feeling, firsthand, just how dangerous an open three really is.</p>
+                    <p><strong>Getting comfortable?</strong> Build the habit of containing threats at your opponent's open-two stage. Judging "there's still time" with Omok instincts will already be too late here.</p>
+                    <p><strong>Want to go further?</strong> Focus on completing your double threat before your opponent does. The Hard AI reads and blocks double threats accurately, so attacking in a single direction rarely works against it.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
                         <li>Chasing your own three and missing the opponent's three or four.</li>
-                        <li>Underestimating an open three until it cannot be stopped.</li>
-                        <li>Extending only one direction, which is easy to block.</li>
-                    </ul>
-                </section>
-
-                <section class="info-section">
-                    <h2>Tips</h2>
-                    <ul class="rule-list">
-                        <li>The pace is faster than Omok — always check "can my opponent win next?" first.</li>
-                        <li>Prefer moves that attack and defend at once.</li>
-                        <li>The <strong>Hard</strong> AI reads and blocks double threats, so single-line attacks rarely win.</li>
+                        <li>Treating an open three lightly out of Omok habit, until it can no longer be stopped.</li>
+                        <li>Extending only one direction, leaving a shape that's easy to shut down at either end.</li>
                     </ul>
                 </section>
 
@@ -229,8 +220,9 @@
                     <h2>FAQ</h2>
                     <ul class="rule-list">
                         <li><strong>How is this different from classic Connect Four?</strong> No gravity — you place freely anywhere on the board.</li>
-                        <li><strong>What about five in a row?</strong> The game ends the moment four connect, before that happens.</li>
-                        <li><strong>Same strategy as Omok?</strong> Similar but faster. An "open three" here is as dangerous as an "open four" in Omok.</li>
+                        <li><strong>What about five in a row?</strong> The game ends the instant four connect, so that point never comes up.</li>
+                        <li><strong>Same strategy as Omok?</strong> The core idea is the same, but everything moves faster since you only need four. Treat Samok's "open three" as being about as dangerous as Omok's "open four."</li>
+                        <li><strong>If I'm good at Omok, am I automatically good at Samok?</strong> The instinct for reading threats carries over directly. But Samok demands faster judgment — the "wait and see" approach that works in Omok often costs you here.</li>
                     </ul>
                 </section>
             </div>

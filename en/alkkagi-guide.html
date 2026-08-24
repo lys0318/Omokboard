@@ -37,7 +37,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css?v=4">
     <link rel="stylesheet" href="/subpage.css?v=2">
-    <script src="/lang.js?v=5"></script>
+    <script src="/lang.js?v=7"></script>
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -48,26 +48,26 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What if my marble goes out?",
+      "name": "What happens if my own marble goes out?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Any marble whose center leaves the board is eliminated — hence power control matters."
+        "text": "It's eliminated the moment its center crosses the edge, regardless of color — which is exactly why power control matters so much."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I knock out several at once?",
+      "name": "Can one shot knock out several marbles?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes — chained collisions can clear multiple marbles in one shot."
+        "text": "Yes. Chained collisions can send two or three marbles out from a single launch."
       }
     },
     {
       "@type": "Question",
-      "name": "Does it go the way I drag?",
+      "name": "Does it fly the way I drag?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No — like a slingshot, it launches opposite to your drag."
+        "text": "No — like a slingshot, it launches in the opposite direction from your drag."
       }
     },
     {
@@ -75,7 +75,15 @@
       "name": "What is Extreme mode?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A variant you can pick on the game-style screen before starting. Three fixed obstacles sit at the center of the board, so you can't always shoot straight — look for bank shots off the pillars."
+        "text": "A variant you can pick on the mode-select screen before a match. Three fixed obstacles sit at the center of the board, blocking straight shots, so you'll need bank shots off the walls instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does AI difficulty make a big difference?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lower difficulty AI mostly just pushes the nearest marble with moderate force. Higher difficulty calculates landing position and chain reactions before firing. Start on a lower difficulty to build a feel for the game first."
       }
     }
   ]
@@ -94,134 +102,146 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>알까기란?</h2>
-                    <p>알까기는 바둑판 위에서 바둑알(구슬)을 손가락으로 튕겨 상대의 알을 판 밖으로 떨어뜨리는 한국의 전통 놀이입니다. 특별한 도구 없이 바둑돌만 있으면 즐길 수 있어 남녀노소에게 오래 사랑받아 왔죠. 규칙은 단순하지만 힘 조절과 각도 계산이 필요한, 손맛과 두뇌가 함께 필요한 게임입니다.</p>
-                    <p>오목보드의 알까기는 실제 물리(마찰·충돌·반발)를 그대로 구현해, 구슬을 당겨 발사하면 부딪히고 미끄러지며 자연스럽게 움직입니다.</p>
+                    <h2>알까기, 단순해 보이지만 은근히 어려운 이유</h2>
+                    <p>알까기는 바둑판과 바둑알만 있으면 시작할 수 있는 놀이입니다. 규칙을 설명하는 데 30초도 안 걸리죠. 내 알로 상대 알을 쳐서 판 밖으로 떨어뜨리면 됩니다. 그런데 막상 손가락으로 튕겨보면 생각처럼 안 맞습니다. 세게 치면 상대는 안 나가고 내 알만 굴러 나가는 경우가 부지기수고 살살 치면 상대 알 근처에도 못 갑니다. 명절에 친척들과 둘러앉아 몇 판 하다 보면 이게 은근히 두뇌 싸움이라는 걸 깨닫게 됩니다.</p>
+                    <p>오목보드의 알까기는 마찰력과 충돌, 반발력을 그대로 계산해서 알이 튕기고 미끄러지는 과정을 실제 물리와 비슷하게 재현했습니다. 그래서 "감"으로 치는 게 실제로 통합니다 — 직접 몇 판 해보면서 손에 익히는 게 가장 빠른 공략법입니다.</p>
                     <p style="margin-top:0.8rem;"><a href="alkkagi" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">알까기 게임 바로 플레이하기 →</a></p>
                 </section>
 
                 <section class="info-section">
-                    <h2>게임의 목표와 규칙</h2>
+                    <h2>게임 목표와 기본 규칙</h2>
+                    <p>목표는 하나입니다. 상대 알을 전부 판 밖으로 밀어내면 이깁니다.</p>
                     <ul class="rule-list">
-                        <li><strong>목표:</strong> 상대 구슬을 모두 보드 밖으로 밀어내면 승리합니다.</li>
-                        <li><strong>구성:</strong> 빨강·파랑이 각각 5개의 구슬로 시작하고, 번갈아 한 번씩 발사합니다.</li>
-                        <li><strong>탈락:</strong> 구슬의 <strong>중심이 보드 테두리를 벗어나면</strong> 그 구슬은 즉시 탈락합니다.</li>
-                        <li><strong>주의:</strong> 내 구슬이 밖으로 나가도 탈락하므로, 너무 세게 치면 자멸할 수 있습니다.</li>
+                        <li>빨강과 파랑이 각각 5개씩 알을 갖고 시작해서 한 번씩 번갈아 발사합니다.</li>
+                        <li>알의 중심이 보드 테두리를 벗어나는 순간 그 알은 탈락 처리됩니다. 색은 상관없습니다 — 내 알이 나가도 똑같이 빠집니다.</li>
+                        <li>그래서 무작정 세게 치는 건 반쯤은 자살행위입니다. 상대를 밀어내려다 내 알까지 같이 데리고 나가는 일이 초보자한테 정말 자주 일어납니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>기본 조작</h2>
-                    <p>자신의 구슬을 클릭(터치)한 뒤 <strong>당기는 방향의 반대쪽으로 발사</strong>됩니다. 마치 새총처럼, 뒤로 당긴 만큼 힘이 강해집니다. 조준선이 표시되니 방향과 세기를 보며 놓으세요. 보드를 좀 벗어나게 당겨도 조준은 끊기지 않으니 시원하게 당겨도 됩니다.</p>
+                    <h2>조작 감 잡기</h2>
+                    <p>내 알을 클릭하거나 터치한 다음 원하는 방향의 반대쪽으로 당기면 조준선이 나타납니다. 새총이랑 똑같은 원리예요 — 당긴 만큼, 그리고 당긴 반대 방향으로 튕겨 나갑니다. 처음엔 이 반대 방향 감각이 헷갈려서 엉뚱한 곳으로 쏘는 일이 많은데, 몇 번만 해보면 금방 익숙해집니다.</p>
+                    <p>조준선을 보드 바깥까지 시원하게 당겨도 끊기지 않으니 정밀하게 조준하고 싶으면 화면 여백까지 넉넉하게 활용하세요.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>힘 조절 — 세게 치는 게 능사가 아니다</h2>
-                    <ul class="rule-list">
-                        <li>가까운 상대는 <strong>짧게</strong> 당겨도 충분합니다. 과하게 치면 내 구슬까지 굴러 나가 위험합니다.</li>
-                        <li>가장자리에 있는 상대 구슬은 약한 힘으로도 쉽게 밀려납니다 — 작은 힘으로 정확히.</li>
-                        <li>발사 후 <strong>내 구슬이 어디서 멈출지</strong>까지 생각하세요. 좋은 자리에 남기는 것이 다음 턴 유리함으로 이어집니다.</li>
-                    </ul>
+                    <h2>힘 조절이 진짜 실력이다</h2>
+                    <p>알까기를 처음 하는 사람은 거의 다 힘 조절에서 무너집니다. 세게 칠수록 유리하다고 생각하기 쉬운데, 실제로는 정반대에 가깝습니다.</p>
+                    <p>가까이 있는 상대는 짧게 당겨도 충분히 밀어낼 수 있습니다. 오히려 과하게 힘을 실으면 맞은 상대는 당연히 나가고 내 알도 반발력으로 튕겨서 같이 밖으로 나가버리기도 합니다. 특히 테두리 근처에 있는 상대 알은 아주 약한 힘으로도 쉽게 떨어뜨릴 수 있으니 그런 알을 강하게 치는 건 힘 낭비입니다.</p>
+                    <p>여기서 한 단계 더 나가면 "발사 후 내 알이 어디에 멈추는가"까지 계산하게 됩니다. 상대를 밀어내는 데만 신경 쓰면 정작 내 알이 위험한 자리(테두리 근처, 다음 턴에 노출되기 쉬운 자리)에 멈춰버리는 경우가 많습니다. 고수들은 공격과 동시에 자기 알의 착지점을 같이 설계합니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>각도와 충돌 전략</h2>
-                    <ul class="rule-list">
-                        <li><strong>정면 충돌:</strong> 상대를 일직선으로 강하게 밀어냅니다. 가장자리의 상대를 쳐낼 때 효과적.</li>
-                        <li><strong>비스듬한 충돌:</strong> 상대를 옆으로 비껴 보내 원하는 방향(가까운 테두리)으로 굴립니다.</li>
-                        <li><strong>가까운 테두리 노리기:</strong> 상대를 보드 중앙이 아니라 <strong>가장 가까운 가장자리 쪽</strong>으로 밀면 적은 힘으로 탈락시킬 수 있습니다.</li>
-                        <li><strong>아군 경로 확인:</strong> 발사 경로에 내 구슬이 있으면 같이 밀려 나갈 수 있으니 주의하세요.</li>
-                    </ul>
+                    <h2>각도와 뱅크샷 — 벽을 이용하는 법</h2>
+                    <p>정면으로 부딪히면 상대를 일직선으로 강하게 밀어냅니다. 테두리에 붙은 상대를 확실하게 쳐낼 때 좋습니다.</p>
+                    <p>반면 비스듬하게 맞히면 상대는 옆으로 굴러갑니다. 이걸 활용하면 정중앙에 있어서 직접 밀기 애매한 알도 원하는 방향(가장 가까운 테두리)으로 유도할 수 있습니다. 상대를 무작정 세게 미는 것보다 가장 가까운 가장자리 쪽으로 살짝 밀어내는 게 훨씬 적은 힘으로 탈락시키는 방법입니다.</p>
+                    <p>한 가지 더 — 발사 경로에 내 알이 겹쳐 있으면 그 알까지 같이 밀려납니다. 공격 각도를 잡을 때는 상대 알뿐만 아니라 그 경로 위에 내 알이 있는지도 항상 확인하는 습관을 들이세요.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>안전하게 이기는 법</h2>
-                    <p>알까기는 "필요한 만큼만 힘을 쓰는" 게임입니다. 내 구슬을 <strong>중앙 안쪽에 모아 두면</strong> 쉽게 탈락하지 않고 다음 공격 선택지도 많아집니다. 반대로 상대 구슬이 가장자리에 몰려 있을수록 작은 힘으로 정리하기 좋습니다. 한 번에 무리하게 여러 개를 노리기보다, 확실한 한 개씩 안전하게 밀어내는 편이 승률이 높습니다.</p>
+                    <h2>실력별로 달라지는 전략</h2>
+                    <p><strong>막 시작했다면</strong> 일단 힘 조절에만 집중하세요. 정확한 각도보다 "적당한 세기"를 몸에 익히는 게 먼저입니다. 테두리 근처의 만만한 알부터 하나씩 확실하게 제거하는 것만으로도 절반은 이깁니다.</p>
+                    <p><strong>어느 정도 손에 익었다면</strong> 내 알의 배치를 신경 쓰기 시작해야 합니다. 알을 중앙 안쪽으로 모아두면 상대가 쉽게 노리지 못하고 나는 다음 턴에 여러 각도에서 공격할 수 있는 선택지가 생깁니다. 반대로 상대 알이 흩어져서 가장자리에 몰려 있다면, 그건 상대의 실수니까 놓치지 말고 정리하세요.</p>
+                    <p><strong>더 잘하고 싶다면</strong> 한 번에 여러 개를 노리는 연쇄 충돌을 계산해보세요. 알끼리 붙어있는 상황에서 정확한 각도로 치면, 한 발로 두세 개를 동시에 쳐낼 수 있습니다. 다만 이건 실패 확률도 높은 도박에 가까운 수라서 확실한 한 개를 안전하게 정리하는 것과 항상 저울질해야 합니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>익스트림 알까기: 장애물이 있으면 뭐가 달라질까</h2>
+                    <p>기본 모드에 익숙해졌다면 익스트림 모드를 추천합니다. 게임 시작 전 모드 선택 화면에서 고를 수 있습니다. 보드 중앙에는 고정된 장애물 3개가 나란히 배치됩니다.</p>
+                    <p>가장 크게 달라지는 건 "직선으로 못 친다"는 겁니다. 중앙을 관통하는 공격이 거의 불가능해지기 때문에 기본 모드에서 통하던 정면 승부 패턴을 그대로 쓰면 계속 막힙니다. 대신 장애물에 알을 맞춰 방향을 꺾는 뱅크샷을 노려야 합니다. 당구에서 쿠션을 이용하는 것과 비슷한 감각이에요. 장애물에 부딪힌 알은 각도가 반사되어 튕겨 나가니까 그 반사각을 미리 그려보고 발사하는 연습이 필요합니다.</p>
+                    <p>장애물 자체도 알처럼 부딪히면 소리가 나고 알을 튕겨내지만 절대 판 밖으로 나가지 않는 고정된 벽이라는 점만 기억하면 됩니다. 처음에는 뱅크샷이 낯설어서 애먹을 수 있는데, 몇 판만 해보면 "이 각도로 치면 어느 쪽으로 튕기겠다"는 감이 금방 붙습니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
-                        <li>너무 세게 쳐서 상대와 함께 내 구슬까지 밖으로 나가는 경우</li>
-                        <li>발사 경로에 있는 아군 구슬을 못 보고 같이 밀어내는 경우</li>
-                        <li>맞히기 어려운 중앙 구슬을 무리하게 노리다 헛발사하는 경우</li>
+                        <li><strong>과하게 세게 쳐서 자멸하는 경우.</strong> 상대를 확실히 보내겠다는 생각에 힘을 실었다가 반발력으로 내 알까지 밖으로 나가는 패턴입니다. 가장 흔한 실수입니다.</li>
+                        <li><strong>발사 경로에 있는 내 알을 못 보는 경우.</strong> 상대 알에만 시선이 쏠려서 그 사이에 있는 아군 알을 놓치고 같이 밀어내 버립니다.</li>
+                        <li><strong>어려운 표적에 무리하게 도전하는 경우.</strong> 중앙 깊숙이 박힌 알을 억지로 노리다가 완전히 빗나가면, 그 턴을 통째로 날리는 셈입니다. 확실한 한 발이 화려한 헛발사보다 낫습니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
-                        <li><strong>내 구슬이 나가면요?</strong> 색에 상관없이 중심이 보드를 벗어나면 탈락합니다. 그래서 힘 조절이 중요합니다.</li>
-                        <li><strong>한 번에 여러 개를 밀어낼 수 있나요?</strong> 네. 충돌이 연쇄되면 한 발로 여러 개가 나갈 수 있습니다.</li>
-                        <li><strong>당기는 방향으로 가나요?</strong> 반대입니다. 새총처럼 당긴 반대 방향으로 발사됩니다.</li>
-                        <li><strong>익스트림 모드는 뭔가요?</strong> 게임 시작 전 방식 선택 화면에서 고를 수 있는 변형 모드로, 보드 중앙에 고정 장애물 3개가 추가됩니다. 직선으로 못 치니 벽을 이용한 뱅크샷을 노려야 합니다.</li>
+                        <li><strong>내 알이 나가면 어떻게 되나요?</strong> 색깔과 상관없이 중심이 보드를 벗어나는 순간 탈락 처리됩니다. 힘 조절이 중요한 이유죠.</li>
+                        <li><strong>한 번에 여러 개를 쳐낼 수 있나요?</strong> 네, 가능합니다. 알들이 연쇄로 충돌하면 한 발에 두세 개가 동시에 나갈 수도 있습니다.</li>
+                        <li><strong>당기는 방향으로 날아가나요?</strong> 아니요, 반대입니다. 새총과 똑같이 당긴 방향의 반대쪽으로 발사됩니다.</li>
+                        <li><strong>익스트림 모드는 뭔가요?</strong> 시작 전 모드 선택 화면에서 고를 수 있는 변형 모드로, 보드 중앙에 고정 장애물 3개가 추가됩니다. 직선 공격이 막히니 벽을 이용한 뱅크샷을 노려야 합니다.</li>
+                        <li><strong>AI 난이도별로 실력 차이가 큰가요?</strong> 낮은 난이도의 AI는 단순히 가장 가까운 알을 적당한 힘으로 밀어내는 정도지만 높은 난이도로 갈수록 착지 위치와 연쇄 충돌까지 계산해서 발사합니다. 초보 단계에서는 낮은 난이도로 감을 먼저 잡는 걸 추천합니다.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>What Is Alkkagi?</h2>
-                    <p>Alkkagi is a traditional Korean game where you flick Go stones (marbles) on a board to knock your opponent's stones off the edge. It needs nothing but Go stones, which is why it has been enjoyed for generations. Simple to start, it rewards touch, power control, and angle calculation.</p>
-                    <p>Omokboard's Alkkagi simulates real physics — friction, collisions, and bounce — so marbles slide and ricochet naturally when launched.</p>
+                    <h2>Why Alkkagi Looks Simple But Isn't</h2>
+                    <p>All you need for Alkkagi is a Go board and a handful of stones. The rule takes ten seconds to explain: flick your stone into your opponent's and knock it off the board. Try it with your fingers, though, and it rarely goes the way you planned. Hit too hard and your own stone rolls out right along with theirs; hit too soft and you barely nudge anything. Play a few rounds with family over a holiday and you'll realize it's a surprisingly deep mind game.</p>
+                    <p>Omokboard's Alkkagi runs real physics underneath — friction, collisions, and bounce are all calculated, so marbles slide and ricochet the way real ones would. That means the "feel" you build actually transfers. Playing a few rounds is the fastest way to get good.</p>
                     <p style="margin-top:0.8rem;"><a href="alkkagi" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Alkkagi now →</a></p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Objective &amp; Rules</h2>
+                    <h2>Objective &amp; Basic Rules</h2>
+                    <p>The goal is simple: knock every one of your opponent's marbles off the board and you win.</p>
                     <ul class="rule-list">
-                        <li><strong>Goal:</strong> Knock all of your opponent's marbles off the board to win.</li>
-                        <li><strong>Setup:</strong> Red and Blue each start with five marbles and take turns launching one.</li>
-                        <li><strong>Elimination:</strong> A marble is out the moment its <strong>center leaves the board edge</strong>.</li>
-                        <li><strong>Careful:</strong> Your own marble is eliminated if it flies out too — over-hitting can backfire.</li>
+                        <li>Red and Blue each start with five marbles and take turns launching one at a time.</li>
+                        <li>A marble is eliminated the instant its center crosses the board's edge — color doesn't matter, your own marble goes out the same way.</li>
+                        <li>That's why swinging for maximum power is close to self-sabotage. Dragging your own marble out along with your target is one of the most common beginner mistakes.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Basic Controls</h2>
-                    <p>Click (or touch) one of your marbles and it launches in the <strong>opposite direction</strong> of your drag — like a slingshot, the farther you pull the stronger the shot. An aim line shows direction and power. You can even drag past the board edge without losing your aim.</p>
+                    <h2>Getting a Feel for the Controls</h2>
+                    <p>Click or tap one of your marbles, then drag opposite the direction you want to shoot — an aim line appears as you pull. It works exactly like a slingshot: the farther you pull, the harder it launches, and it always fires the opposite way from your drag. That reversed direction trips up almost everyone at first, sending shots off in the wrong direction, but it clicks after a handful of tries.</p>
+                    <p>You can keep dragging past the edge of the board without losing your aim, so use the extra screen space around the board if you want a longer, more precise pull.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Power Control — Harder Isn't Better</h2>
-                    <ul class="rule-list">
-                        <li>Use a <strong>short</strong> pull for nearby targets; too much power can send your own marble out.</li>
-                        <li>Marbles near the edge are knocked out easily — use small, precise force.</li>
-                        <li>Think about <strong>where your marble stops</strong> after the shot; good positioning wins the next turn.</li>
-                    </ul>
+                    <h2>Power Control Is the Real Skill</h2>
+                    <p>Nearly every beginner falls apart on power control. It's tempting to assume harder is always better — in practice, it's closer to the opposite.</p>
+                    <p>A short pull is plenty for a nearby target. Overdo it and yes, your target goes flying, but the recoil often sends your own marble out right along with it. Marbles sitting near the edge already fall with the lightest tap, so putting real force behind those shots is just wasted power.</p>
+                    <p>Push further and you start thinking about where your own marble lands after the shot, not just where the target goes. Focus only on the attack and you'll often end up parked somewhere dangerous — right on the edge, or exposed for your opponent's next turn. Strong players plan their landing spot at the same time as the attack.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Angles &amp; Collisions</h2>
-                    <ul class="rule-list">
-                        <li><strong>Head-on:</strong> Pushes the target straight and hard — great for edge marbles.</li>
-                        <li><strong>Glancing hit:</strong> Sends the target sideways toward the direction you want.</li>
-                        <li><strong>Aim at the nearest edge:</strong> Push opponents toward the closest border, not the center, to remove them with less force.</li>
-                        <li><strong>Mind your path:</strong> Your own marbles in the line of fire can be knocked out too.</li>
-                    </ul>
+                    <h2>Angles &amp; Bank Shots — Using the Walls</h2>
+                    <p>A head-on hit sends the target straight back, hard. It's the right call against a marble already sitting near the edge.</p>
+                    <p>A glancing hit sends the target rolling sideways instead. That's how you deal with a marble parked dead center, where a straight push doesn't help — angle it toward whichever edge is closest instead of trying to force it across the whole board. Nudging a target toward its nearest edge almost always costs less power than trying to blast it out from the middle.</p>
+                    <p>One more thing to watch: if one of your own marbles sits in the firing line, it gets pushed along with everything else. Before you commit to an angle, check the path for your own pieces, not just the target.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Playing Safely</h2>
-                    <p>Alkkagi is about controlled force. Keeping your marbles <strong>near the center</strong> makes them hard to remove and gives you more options, while opponents clustered at the edge are easy to clear. Removing one marble safely usually beats greedily going for several at once.</p>
+                    <h2>Strategy by Skill Level</h2>
+                    <p><strong>Just starting out?</strong> Focus on power control alone for now. Getting a feel for "just enough force" matters more than precise angles early on. Clearing the easy marbles near the edge one at a time is enough to win more than half your games.</p>
+                    <p><strong>Getting comfortable?</strong> Start paying attention to where your own marbles end up. Keeping them clustered near the center makes them hard to target and gives you more angles to attack from next turn. If your opponent's marbles are scattered near the edges, that's their mistake — don't let it go to waste.</p>
+                    <p><strong>Want to go further?</strong> Look for chain reactions, where hitting one marble at the right angle sends two or three out in a single shot. It's a bit of a gamble — the miss rate is higher — so weigh it against just clearing one marble safely, which is usually still the better bet.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Extreme Alkkagi: What Changes With Obstacles</h2>
+                    <p>Once classic mode feels comfortable, try Extreme mode. You can pick it from the mode-select screen before a match starts — it adds three fixed obstacles lined up across the center of the board.</p>
+                    <p>The biggest change is that you can't shoot straight through the middle anymore. Attacks that used to cut across the board head-on just get blocked, so the patterns that worked in classic mode stop working here. Instead, you're looking for bank shots — hitting an obstacle to redirect your marble, the same way you'd play a cushion in billiards. A marble that hits an obstacle reflects off at an angle, so it helps to picture that reflection before you commit to the shot.</p>
+                    <p>The obstacles behave like marbles when you hit them — they make a sound and bounce your marble away — but they're permanently fixed and never leave the board themselves. Bank shots feel awkward for the first few rounds, but the sense of "hit it here, it bounces there" comes together fast once you've played a bit.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
-                        <li>Hitting so hard that your own marble flies out with the opponent's.</li>
-                        <li>Missing a teammate marble in the firing path and knocking it out.</li>
-                        <li>Forcing a tough shot at a center marble and whiffing.</li>
+                        <li><strong>Overhitting and taking yourself out with it.</strong> You commit extra force to make sure the target goes out, and the recoil sends your own marble with it. The single most common mistake.</li>
+                        <li><strong>Missing your own marble in the firing line.</strong> Locked in on the opponent's marble, you don't notice one of yours sitting in the path and knock it out too.</li>
+                        <li><strong>Forcing a low-percentage shot.</strong> Going for a marble buried deep in the center and missing outright burns the whole turn. A safe, certain hit beats a flashy miss.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>FAQ</h2>
                     <ul class="rule-list">
-                        <li><strong>What if my marble goes out?</strong> Any marble whose center leaves the board is eliminated — hence power control matters.</li>
-                        <li><strong>Can I knock out several at once?</strong> Yes — chained collisions can clear multiple marbles in one shot.</li>
-                        <li><strong>Does it go the way I drag?</strong> No — like a slingshot, it launches opposite to your drag.</li>
-                        <li><strong>What is Extreme mode?</strong> A variant you can pick on the game-style screen before starting. Three fixed obstacles sit at the center of the board, so you can't always shoot straight — look for bank shots off the pillars.</li>
+                        <li><strong>What happens if my own marble goes out?</strong> It's eliminated the moment its center crosses the edge, regardless of color — which is exactly why power control matters so much.</li>
+                        <li><strong>Can one shot knock out several marbles?</strong> Yes. Chained collisions can send two or three marbles out from a single launch.</li>
+                        <li><strong>Does it fly the way I drag?</strong> No — like a slingshot, it launches in the opposite direction from your drag.</li>
+                        <li><strong>What is Extreme mode?</strong> A variant you can pick on the mode-select screen before a match. Three fixed obstacles sit at the center of the board, blocking straight shots, so you'll need bank shots off the walls instead.</li>
+                        <li><strong>Does AI difficulty make a big difference?</strong> Lower difficulty AI mostly just pushes the nearest marble with moderate force. Higher difficulty calculates landing position and chain reactions before firing. Start on a lower difficulty to build a feel for the game first.</li>
                     </ul>
                 </section>
             </div>

@@ -66,7 +66,7 @@
       "name": "3·3은 반칙 아닌가요?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "정식 렌주룰에서는 흑의 3·3이 금수지만, 오목보드는 금수 없는 자유 오목이라 누구나 둘 수 있습니다."
+        "text": "정식 렌주룰에서는 흑의 3·3이 금수지만 오목보드는 금수 없는 자유 오목이라 누구나 둘 수 있습니다."
       }
     },
     {
@@ -74,7 +74,15 @@
       "name": "실력을 빨리 늘리려면?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "\"위협의 단계\"를 외우고, 매 수 상대의 가장 큰 위협부터 처리하는 연습이 가장 빠릅니다."
+        "text": "위협의 5단계를 외우고 매 수 상대의 가장 큰 위협부터 처리하는 연습이 가장 빠릅니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "몇 수 앞까지 내다봐야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "처음에는 한 수 앞(지금 상대가 이길 수 있는지)만 확인해도 충분합니다. 익숙해지면 내 다음 수가 이중 위협으로 이어지는지 두 수 앞까지 그려보는 연습을 더하세요."
       }
     }
   ]
@@ -93,77 +101,63 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>오목이란?</h2>
-                    <p>오목(五目, Gomoku)은 가로·세로 줄이 그어진 바둑판 위에서 두 사람이 번갈아 돌을 놓아, 가로·세로·대각선 중 한 방향으로 같은 색 돌 5개를 먼저 잇는 쪽이 이기는 전략 보드게임입니다. 동아시아에서 바둑판과 바둑돌을 그대로 활용해 오래전부터 즐겨 온 놀이로, 한국·일본·중국에서 남녀노소 누구나 두던 대중적인 게임입니다.</p>
-                    <p>규칙은 1분이면 배울 만큼 단순하지만, 한 수 한 수가 곧바로 위협이 되기 때문에 "상대가 다음에 무엇을 노리는지" 읽는 수읽기 싸움이 됩니다. 배우기는 쉽고 통달하기는 어려운, 대표적인 두뇌 게임이에요.</p>
+                    <h2>오목, 왜 규칙 1분짜리 게임에 다들 진지해질까</h2>
+                    <p>오목은 배우는 데 1분도 안 걸립니다. 가로든 세로든 대각선이든, 내 돌 5개를 먼저 쭉 이으면 이깁니다. 그런데 막상 두 명이 마주 앉으면 분위기가 순식간에 진지해집니다. 한 수 한 수가 다음 수의 위협으로 바로 이어지기 때문에 "무심코 둔 돌"이라는 게 사실상 없습니다. 학교 쉬는 시간에 바둑판 하나로 반 전체가 순서를 기다리던 그 게임이 바로 오목이고 단순함과 깊이가 동시에 있다는 게 이 게임이 세대를 넘어 계속 살아남은 이유입니다.</p>
+                    <p>오목보드의 오목은 자유 오목 규칙을 씁니다. 렌주룰의 금수(3·3, 4·4 등 흑의 제약) 없이 누구나 자유롭게 둘 수 있습니다.</p>
                     <p style="margin-top:0.8rem;"><a href="omok" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">오목 게임 바로 플레이하기 →</a></p>
                 </section>
 
                 <section class="info-section">
-                    <h2>게임의 목표와 기본 규칙</h2>
+                    <h2>게임 목표와 기본 규칙</h2>
                     <ul class="rule-list">
-                        <li><strong>목표:</strong> 가로·세로·대각선 중 한 줄에 내 돌 <strong>5개를 먼저 연속</strong>으로 놓으면 승리합니다.</li>
-                        <li><strong>선·후공:</strong> 흑이 먼저 두고, 이후 흑·백이 한 수씩 번갈아 둡니다. 흑이 약간 유리하기 때문에 흑은 적극적으로 공격하고 백은 빠르게 방어하는 것이 기본입니다.</li>
-                        <li><strong>착수:</strong> 비어 있는 교차점에 돌을 놓습니다. 한 번 놓은 돌은 옮기거나 따낼 수 없습니다.</li>
-                        <li><strong>무승부:</strong> 판이 모두 채워질 때까지 5목이 나오지 않으면 무승부지만, 실제로는 거의 발생하지 않습니다.</li>
+                        <li>목표는 하나, 가로·세로·대각선 중 한 줄에 내 돌 5개를 먼저 연속으로 놓는 것입니다.</li>
+                        <li>흑이 먼저 두고 이후 한 수씩 번갈아 둡니다. 흑이 약간 유리해서 백은 초반부터 방어를 게을리하면 순식간에 밀립니다.</li>
+                        <li>놓은 돌은 옮기거나 따낼 수 없고 6개 이상 길게 이어져도 5개가 포함돼 있으면 승리로 인정합니다.</li>
+                        <li>한 수당 30초 제한이 있어서 시간을 넘기면 차례가 그냥 상대에게 넘어갑니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>오목보드의 규칙</h2>
-                    <p>오목보드는 누구나 쉽게 즐길 수 있도록 <strong>금수(禁手)가 없는 자유 오목 규칙</strong>을 사용합니다. 즉 정식 대회에서 쓰는 렌주룰의 3·3, 4·4, 장목 금지 같은 제약 없이 흑·백 모두 자유롭게 둘 수 있습니다. 6개 이상 길게 이어져도 5개가 포함되어 있으면 승리로 인정합니다. 또한 한 수당 <strong>30초 제한 시간</strong>이 있어, 시간 안에 두지 않으면 차례가 상대에게 넘어갑니다.</p>
-                </section>
-
-                <section class="info-section">
-                    <h2>반드시 알아야 할 돌의 모양</h2>
-                    <p>오목의 모든 전략은 아래 "위협의 단계"를 이해하는 데서 출발합니다. 내 모양은 키우고, 상대의 같은 모양은 단계가 높아지기 전에 막는 것이 핵심입니다.</p>
+                    <h2>위협의 5단계 — 이 순서만 외우면 절반은 이깁니다</h2>
+                    <p>오목의 모든 수읽기는 결국 "지금 이 모양이 몇 단계짜리 위협인가"를 판단하는 일입니다.</p>
                     <ul class="rule-list">
-                        <li><strong>열린 2:</strong> 양쪽이 열린 2연속. 아직 위협은 아니지만 공격의 씨앗입니다.</li>
-                        <li><strong>열린 3:</strong> 양쪽이 비어 있는 3연속. 다음 수에 "열린 4"로 발전할 수 있어, 막지 않으면 위험합니다.</li>
-                        <li><strong>열린 4 (양수):</strong> 양쪽이 열린 4연속. 어느 쪽을 막아도 반대쪽으로 5목이 완성되므로 <strong>사실상 승리</strong>입니다.</li>
-                        <li><strong>막힌 4 (단수):</strong> 한쪽만 열린 4연속. 완성 지점이 한 곳이라 막을 수는 있지만, 즉시 막지 않으면 바로 집니다.</li>
-                        <li><strong>4-3, 쌍삼(3-3):</strong> 한 수로 4와 3, 또는 3 두 개를 동시에 만드는 <strong>이중 위협</strong>. 상대가 한쪽만 막을 수 있어 오목에서 이기는 가장 강력한 형태입니다.</li>
+                        <li><strong>열린 2</strong> — 양쪽이 다 비어 있는 2연속. 아직 위협은 아니지만 공격의 씨앗입니다.</li>
+                        <li><strong>열린 3</strong> — 양쪽이 비어 있는 3연속. 막지 않으면 다음 수에 열린 4로 자랍니다.</li>
+                        <li><strong>열린 4</strong> — 양쪽이 다 열린 4연속. 어느 쪽을 막아도 반대쪽으로 5목이 완성되니 사실상 이긴 겁니다.</li>
+                        <li><strong>막힌 4</strong> — 한쪽만 열린 4연속. 완성 지점이 한 곳뿐이라 막을 수는 있지만 놓치는 순간 바로 집니다.</li>
+                        <li><strong>이중 위협(4-3, 쌍삼)</strong> — 한 수로 4와 3, 혹은 열린 3 두 개를 동시에 만드는 것. 상대는 한 곳만 막을 수 있어서 오목에서 이기는 가장 확실한 형태입니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>초반 전략 — 중앙을 잡아라</h2>
-                    <p>오목은 가장자리보다 중앙이 유리합니다. 중앙에 돌이 있으면 가로·세로·두 개의 대각선까지 네 방향으로 뻗을 수 있어 공격 선택지가 많아지기 때문입니다. 반대로 구석에 둔 돌은 뻗을 방향이 적어 위협을 만들기 어렵습니다. 첫 몇 수는 중앙 근처에 돌을 모아 여러 방향의 가능성을 동시에 열어 두세요.</p>
+                    <h2>초반 — 중앙에 모이는 이유</h2>
+                    <p>중앙에 있는 돌은 가로·세로·대각선 두 개, 총 네 방향으로 뻗을 수 있습니다. 구석에 둔 돌은 뻗어나갈 방향 자체가 적어서 아무리 잘 이어도 위협을 만들기 어렵습니다. 그래서 첫 몇 수는 무조건 중앙 근처에 모으는 게 정석입니다. 화려한 수를 찾기보다 일단 사방으로 갈 수 있는 자리부터 차지하세요.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>중반 전략 — 이중 위협으로 이기기</h2>
-                    <p>오목에서 실력 차이를 가르는 핵심은 <strong>한 수로 두 개의 위협을 동시에 만드는 것</strong>입니다. 상대는 한 번에 한 곳만 막을 수 있으므로, 4-3(4 하나와 열린 3 하나)이나 쌍삼(열린 3 두 개)을 만들면 다음 수에 한쪽이 반드시 살아남아 5목으로 이어집니다.</p>
-                    <p>그래서 단순히 내 줄을 길게 잇기보다, 서로 다른 두 방향이 교차하는 지점에 돌을 모아 "한 수 더 두면 두 곳이 동시에 위협이 되는" 자리를 노리는 것이 중요합니다.</p>
+                    <h2>중반 — 두 방향이 겹치는 자리를 찾는다</h2>
+                    <p>실력 차이는 결국 여기서 갈립니다. 한 줄만 계속 늘리면 상대는 한쪽 끝만 막으면 그만이라 쉽게 막힙니다. 진짜 강한 수는 서로 다른 두 방향(가로+대각선처럼)이 동시에 지나가는 교차점에 돌을 쌓아 "여기 한 수만 더 두면 두 곳이 한꺼번에 위협이 되는" 자리를 미리 만들어 두는 것입니다. 그 지점에 도달하면 상대는 무엇을 막아도 지게 됩니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>방어의 기술 — 막는 순서가 중요하다</h2>
+                    <h2>방어 — 막는 순서를 틀리면 한 수에 무너진다</h2>
                     <ul class="rule-list">
-                        <li><strong>1순위:</strong> 상대의 4(열린 4·막힌 4)는 무조건 즉시 막습니다. 한 수만 늦어도 바로 집니다.</li>
-                        <li><strong>2순위:</strong> 상대의 <strong>열린 3</strong>은 열린 4로 크기 전에 한쪽 끝을 막습니다.</li>
-                        <li><strong>주의:</strong> 막을 곳이 여러 개라면, 막으면서 동시에 내 공격도 만들어지는 자리를 고르면 수비와 공격을 한 번에 할 수 있습니다.</li>
-                        <li><strong>함정 경계:</strong> 상대가 일부러 약한 위협으로 유도해 이중 위협 자리를 만드는 경우가 많습니다. 막기 전에 "이걸 막으면 다른 곳이 더 위험해지지 않나?"를 한 번 더 확인하세요.</li>
+                        <li><strong>1순위, 상대의 4는 무조건 즉시 막습니다.</strong> 열린 4든 막힌 4든 한 수만 늦어도 그대로 집니다.</li>
+                        <li><strong>2순위, 열린 3은 열린 4로 자라기 전에 끊습니다.</strong> "아직 3개뿐인데"라고 방치하는 순간이 가장 위험합니다.</li>
+                        <li>막을 곳이 여러 개라면 막으면서 동시에 내 공격도 만들어지는 자리를 고르세요. 수비와 공격을 한 수에 같이 할 수 있습니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>초보자가 자주 하는 실수</h2>
-                    <ul class="rule-list">
-                        <li>내 돌 잇기에만 집중하다 상대의 4를 놓쳐 한순간에 지는 경우</li>
-                        <li>열린 3을 "아직 3개뿐"이라며 방치했다가 다음 수에 열린 4를 허용하는 경우</li>
-                        <li>가장자리·구석에서 시작해 공격 방향이 막혀 버리는 경우</li>
-                        <li>상대의 이중 위협을 보지 못하고 엉뚱한 한쪽만 막는 경우</li>
-                    </ul>
+                    <h2>함정 조심 — 상대가 일부러 약하게 보이는 수를 둘 때</h2>
+                    <p>고수들은 처음부터 강한 위협을 만들지 않습니다. 일부러 약해 보이는 자리에 둬서 상대가 별생각 없이 막게 만든 다음, 그 막는 수 때문에 다른 곳에 이중 위협이 완성되는 함정을 자주 씁니다. 뭔가를 막기 전에 "이걸 막으면 다른 자리가 더 위험해지지 않나"를 한 번 더 확인하는 습관이 필요합니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>실전 팁</h2>
-                    <ul class="rule-list">
-                        <li>매 수마다 "내 위협"과 "상대 위협"을 둘 다 확인하는 습관을 들이세요.</li>
-                        <li>공격이 막혔다면 무리하게 잇지 말고, 다른 방향과 연결되는 자리로 옮겨 새 위협을 준비하세요.</li>
-                        <li>AI 대전의 <strong>쉬움</strong>으로 모양을 연습하고, 익숙해지면 <strong>어려움</strong>에서 이중 위협 방어를 훈련해 보세요.</li>
-                    </ul>
+                    <h2>실력별 훈련법</h2>
+                    <p><strong>이제 막 시작했다면</strong> AI 쉬움 난이도로 위협의 5단계를 눈으로 익히는 데 집중하세요. 이기고 지는 것보다 "지금 이게 열린 3인지 막힌 3인지" 구분하는 게 먼저입니다.</p>
+                    <p><strong>규칙에 익숙해졌다면</strong> AI 보통에서 매 수 "내 위협"과 "상대 위협"을 둘 다 확인하는 습관을 들이세요. 공격만 보다가 상대의 4를 놓치는 게 이 단계에서 가장 흔한 실수입니다.</p>
+                    <p><strong>이중 위협까지 만들 수 있다면</strong> AI 어려움으로 넘어가 방어 훈련을 하세요. 어려움 AI는 이중 위협을 스스로 만들 줄 알기 때문에 여기서 안 지고 버티는 것만으로도 실력이 확 늡니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -171,83 +165,82 @@
                     <ul class="rule-list">
                         <li><strong>흑이 무조건 유리한가요?</strong> 선수인 흑이 약간 유리합니다. 그래서 백은 초반부터 방어를 게을리하지 않는 것이 중요합니다.</li>
                         <li><strong>6개를 이어도 이기나요?</strong> 오목보드의 자유 규칙에서는 5개 이상 연속이면 승리로 인정합니다.</li>
-                        <li><strong>3·3은 반칙 아닌가요?</strong> 정식 렌주룰에서는 흑의 3·3이 금수지만, 오목보드는 금수 없는 자유 오목이라 누구나 둘 수 있습니다.</li>
-                        <li><strong>실력을 빨리 늘리려면?</strong> "위협의 단계"를 외우고, 매 수 상대의 가장 큰 위협부터 처리하는 연습이 가장 빠릅니다.</li>
+                        <li><strong>3·3은 반칙 아닌가요?</strong> 정식 렌주룰에서는 흑의 3·3이 금수지만 오목보드는 금수 없는 자유 오목이라 누구나 둘 수 있습니다.</li>
+                        <li><strong>실력을 빨리 늘리려면?</strong> 위협의 5단계를 외우고 매 수 상대의 가장 큰 위협부터 처리하는 연습이 가장 빠릅니다.</li>
+                        <li><strong>몇 수 앞까지 내다봐야 하나요?</strong> 처음에는 한 수 앞(지금 상대가 이길 수 있는지)만 확인해도 충분합니다. 익숙해지면 내 다음 수가 이중 위협으로 이어지는지 두 수 앞까지 그려보는 연습을 더하세요.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>What Is Omok?</h2>
-                    <p>Omok (五目, also known as Gomoku or Five in a Row) is a two-player strategy board game played on a gridded board. Players take turns placing stones, and the first to line up five of their own stones in a row — horizontally, vertically, or diagonally — wins. It has been played for generations across East Asia using a Go board and stones.</p>
-                    <p>The rules take about a minute to learn, but because every stone can become a threat, strong play is all about reading what your opponent will do next. It is the classic "easy to learn, hard to master" brain game.</p>
+                    <h2>Why a One-Minute Rule Turns Everyone Serious</h2>
+                    <p>Omok takes about a minute to learn. Line up five of your own stones — horizontal, vertical, or diagonal — before your opponent does, and you win. Sit two people down at a board, though, and the mood turns serious fast. Every stone you place immediately becomes a potential threat, so there's really no such thing as a "throwaway move." It's the game an entire classroom used to gather around one board to play during breaks, and that mix of simplicity and depth is exactly why it has survived across generations.</p>
+                    <p>Omokboard's Omok uses free-style rules — no forbidden-move restrictions like Renju's 3-3 or 4-4 bans, so both sides can play however they like.</p>
                     <p style="margin-top:0.8rem;"><a href="omok" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Omok now →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>Objective &amp; Basic Rules</h2>
                     <ul class="rule-list">
-                        <li><strong>Goal:</strong> Be the first to place <strong>five stones in an unbroken row</strong> (horizontal, vertical, or diagonal).</li>
-                        <li><strong>Turn order:</strong> Black moves first, then players alternate. Black has a slight edge, so Black attacks while White defends quickly.</li>
-                        <li><strong>Placing:</strong> Stones go on empty intersections and never move or get captured once placed.</li>
-                        <li><strong>Draw:</strong> If the board fills with no five-in-a-row it is a draw, though that rarely happens.</li>
+                        <li>The goal is simple: be the first to place five stones in an unbroken row — horizontal, vertical, or diagonal.</li>
+                        <li>Black moves first, then players alternate. Black has a slight edge, so if White lets up on defense early, the game can slip away fast.</li>
+                        <li>Stones never move or get captured once placed. A line of six or more still counts as a win as long as it contains five in a row.</li>
+                        <li>Each move has a 30-second limit — run out the clock and the turn simply passes to your opponent.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Omokboard Rules</h2>
-                    <p>Omokboard uses <strong>free-style rules with no forbidden moves</strong>, so unlike tournament Renju there are no 3-3, 4-4, or overline restrictions — both players may play freely. A line of six or more still wins as long as it contains five in a row. Each turn also has a <strong>30-second timer</strong>; if you do not move in time, the turn passes to your opponent.</p>
-                </section>
-
-                <section class="info-section">
-                    <h2>Key Shapes to Know</h2>
+                    <h2>The Five Threat Levels — Learn This Order and You're Halfway There</h2>
+                    <p>Every bit of reading in Omok comes down to judging one thing: what threat level is this shape right now?</p>
                     <ul class="rule-list">
-                        <li><strong>Open two:</strong> Two in a row, open both ends — not yet a threat, but the seed of an attack.</li>
-                        <li><strong>Open three:</strong> Three in a row, open both ends — can grow into an open four, so it must be answered.</li>
-                        <li><strong>Open four:</strong> Four with both ends open — essentially a win, since blocking one end still leaves the other.</li>
-                        <li><strong>Closed four:</strong> Four open on only one end — stoppable, but must be blocked immediately.</li>
-                        <li><strong>Four-three / double-three:</strong> A move creating two threats at once. Your opponent can only block one, making it the strongest winning shape.</li>
+                        <li><strong>Open two</strong> — two in a row with both ends open. Not a threat yet, but the seed of an attack.</li>
+                        <li><strong>Open three</strong> — three in a row, both ends open. Leave it alone and it grows into an open four next move.</li>
+                        <li><strong>Open four</strong> — four in a row with both ends open. Block one end and the other still completes five — this is essentially a win already.</li>
+                        <li><strong>Closed four</strong> — four in a row open on only one end. You can still block it, but miss that one spot and you lose immediately.</li>
+                        <li><strong>Double threat (four-three, double-three)</strong> — one move that creates a four and a three, or two open threes, at once. Your opponent can only block one, making this the single strongest winning shape in Omok.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Opening — Control the Center</h2>
-                    <p>The center is stronger than the edges because a central stone can extend in four directions (horizontal, vertical, and two diagonals), giving far more attacking options. Stones in the corner have fewer directions and struggle to build threats. Keep your first few stones near the center.</p>
+                    <h2>Opening — Why Everyone Crowds the Center</h2>
+                    <p>A stone in the center can extend in four directions — horizontal, vertical, and two diagonals. A stone in the corner has far fewer directions to work with, so no matter how well you connect it, it struggles to build real threats. That's why the first few moves almost always cluster near the center: claim a spot that can grow in every direction before chasing anything flashy.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Midgame — Win With Double Threats</h2>
-                    <p>The key skill in Omok is creating <strong>two threats with a single move</strong>. Since the opponent can only block one, a four-three or double-three guarantees one line survives to become five. Rather than just extending one line, aim for intersections where two directions meet.</p>
+                    <h2>Midgame — Hunt for Where Two Directions Cross</h2>
+                    <p>This is where skill gaps actually show. Just extending one line is easy to stop — your opponent only has to block one end. The real strength move is stacking stones at an intersection where two different directions (say, a row and a diagonal) both pass through, quietly setting up a spot where one more move creates two threats at the same time. Once you reach that point, whatever your opponent blocks, they still lose.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Defense — Order Matters</h2>
+                    <h2>Defense — Block in the Wrong Order and One Move Ends It</h2>
                     <ul class="rule-list">
-                        <li><strong>First:</strong> Always block any opponent four immediately — one late move loses.</li>
-                        <li><strong>Second:</strong> Stop open threes before they grow into open fours.</li>
-                        <li><strong>Tip:</strong> When several blocks are possible, choose one that also builds your own attack.</li>
-                        <li><strong>Watch out:</strong> Opponents bait you into blocking one spot to set up a double threat elsewhere.</li>
+                        <li><strong>Priority one: always block a four immediately</strong> — open or closed, one late move and it's over.</li>
+                        <li><strong>Priority two: stop an open three before it grows into an open four.</strong> The most dangerous moment is thinking "it's only three stones" and letting it sit.</li>
+                        <li>When you have several options to block, pick the one that also builds your own attack — you get defense and offense in a single move.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Common Beginner Mistakes</h2>
-                    <ul class="rule-list">
-                        <li>Focusing only on your own line and missing the opponent's four.</li>
-                        <li>Ignoring an open three until it becomes an open four.</li>
-                        <li>Starting from edges or corners and running out of attacking room.</li>
-                        <li>Blocking the wrong side of a double threat.</li>
-                    </ul>
+                    <h2>Watch for the Trap — When a "Weak" Move Isn't Weak</h2>
+                    <p>Strong players rarely open with an obvious threat. They often play something that looks harmless on purpose, baiting you into an automatic block — and that very block is what completes a double threat somewhere else on the board. Before you block anything, take one extra beat to ask: does blocking here make some other spot even more dangerous?</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Training by Skill Level</h2>
+                    <p><strong>Just starting out?</strong> Play the Easy AI and focus purely on recognizing the five threat levels by sight. Winning matters less right now than being able to tell an open three from a closed one at a glance.</p>
+                    <p><strong>Getting comfortable with the rules?</strong> Move to Normal AI and build the habit of checking both "my threats" and "their threats" every single move. Missing an opponent's four while chasing your own attack is the most common mistake at this stage.</p>
+                    <p><strong>Can you already build a double threat?</strong> Move to Hard AI and train your defense. The Hard AI creates double threats on its own, so simply holding your ground against it will sharpen your play fast.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>FAQ</h2>
                     <ul class="rule-list">
-                        <li><strong>Does Black always win?</strong> Black has a slight first-move advantage, so White must defend carefully from the start.</li>
-                        <li><strong>Does six in a row count?</strong> Yes — in free-style rules any line containing five wins.</li>
-                        <li><strong>Is 3-3 illegal?</strong> It is forbidden in tournament Renju, but Omokboard's free style allows it.</li>
-                        <li><strong>How do I improve fast?</strong> Memorize the threat shapes and always handle the opponent's biggest threat first.</li>
+                        <li><strong>Does Black always win?</strong> Black has a slight first-move advantage, so White needs to defend carefully from the very start.</li>
+                        <li><strong>Does six in a row count?</strong> Yes — Omokboard's free-style rules count any line containing five or more.</li>
+                        <li><strong>Isn't 3-3 illegal?</strong> It's forbidden under tournament Renju rules, but Omokboard uses forbidden-move-free style, so anyone can play it.</li>
+                        <li><strong>What's the fastest way to improve?</strong> Memorize the five threat levels, and always deal with your opponent's biggest threat first, every move.</li>
+                        <li><strong>How many moves ahead should I think?</strong> At first, checking just one move ahead — can my opponent win right now — is enough. Once that's comfortable, practice looking two moves out to see whether your next move sets up a double threat.</li>
                     </ul>
                 </section>
             </div>

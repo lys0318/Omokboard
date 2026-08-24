@@ -68,6 +68,14 @@
         "@type": "Answer",
         "text": "킹은 실제로 잡지 않습니다. 피할 수 없게 만드는 체크메이트가 승리입니다."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "초반에 뭐부터 연습해야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "정해진 오프닝을 외우기보다 오프닝 3원칙(중앙·전개·안전)을 매 판 의식적으로 따라가 보세요. 그게 몇 가지 오프닝을 암기하는 것보다 훨씬 오래갑니다."
+      }
     }
   ]
 }
@@ -85,74 +93,76 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>체스란?</h2>
-                    <p>체스는 8×8 판에서 두 사람이 16개씩의 기물로 싸워 상대의 킹을 잡는 세계에서 가장 인기 있는 보드게임입니다. 6세기 인도의 '차투랑가'에서 유래해 페르시아·유럽을 거치며 오늘날의 형태로 발전했고, 지금은 전 세계에서 즐기는 두뇌 스포츠가 되었습니다.</p>
-                    <p>경우의 수가 사실상 무한해 평생 공부해도 끝이 없지만, 기본 원칙 몇 가지만 알아도 훨씬 재미있게 둘 수 있습니다.</p>
+                    <h2>체스, 세상에서 가장 많이 연구된 게임</h2>
+                    <p>체스는 8×8 판 위에서 16개씩의 기물로 싸워 상대 킹을 궁지에 모는 게임입니다. 지구상에서 가장 널리 두는 보드게임이기도 합니다. 6세기 인도의 '차투랑가'에서 시작해 페르시아와 유럽을 거치며 지금의 규칙으로 자리 잡았고 그 사이 수백 년 동안 셀 수 없이 많은 사람이 이 게임을 연구했습니다. 경우의 수가 사실상 무한에 가까워서 평생을 두어도 다 알 수 없지만 다행히 몇 가지 원칙만 알아도 첫 판부터 훨씬 재미있어집니다.</p>
                     <p style="margin-top:0.8rem;"><a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">체스 게임 바로 플레이하기 →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>게임의 목표 — 체크메이트</h2>
-                    <p>승리 조건은 상대 <strong>킹을 체크메이트</strong>하는 것입니다. <strong>체크</strong>는 킹이 다음 수에 잡히도록 공격받는 상태이고, <strong>체크메이트</strong>는 그 공격을 어떤 수로도 피할 수 없는 상태입니다. 킹은 실제로 잡히지 않으며, 체크메이트가 곧 게임의 끝입니다. 어느 쪽도 체크메이트가 안 되는 특정 상황에서는 무승부(스테일메이트 등)가 됩니다.</p>
+                    <p>승리 조건은 상대 킹을 체크메이트하는 것 하나뿐입니다. 킹이 다음 수에 잡히도록 공격받는 상태가 체크, 그 공격을 어떤 수로도 피할 수 없는 상태가 체크메이트입니다. 실제로 킹을 잡는 일은 없습니다 — 체크메이트가 확정되는 순간 게임이 그대로 끝납니다. 어느 쪽도 이기지 못하는 특정 상황(스테일메이트 등)에서는 무승부가 됩니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>기물의 이동법</h2>
                     <ul class="rule-list">
-                        <li><strong>폰:</strong> 앞으로 한 칸(첫 수는 두 칸 가능), 잡을 때만 대각선 앞으로. 끝 줄에 도달하면 퀸 등으로 승격.</li>
-                        <li><strong>나이트(♞):</strong> L자(2+1)로 이동하며, 유일하게 다른 기물을 뛰어넘습니다.</li>
-                        <li><strong>비숍(♝):</strong> 대각선으로 원하는 만큼. 한 가지 색 칸만 다닙니다.</li>
-                        <li><strong>룩(♜):</strong> 가로·세로로 원하는 만큼.</li>
-                        <li><strong>퀸(♛):</strong> 가로·세로·대각선 모두. 가장 강력합니다.</li>
-                        <li><strong>킹(♚):</strong> 모든 방향으로 한 칸. 가장 소중한 기물.</li>
+                        <li><strong>폰</strong> — 앞으로 한 칸(첫 수에 한해 두 칸도 가능), 잡을 때만 대각선 앞으로 한 칸. 맨 끝 줄에 도달하면 다른 기물로 승격합니다.</li>
+                        <li><strong>나이트(♞)</strong> — L자(2+1) 모양으로 움직이며 유일하게 다른 기물을 뛰어넘을 수 있습니다.</li>
+                        <li><strong>비숍(♝)</strong> — 대각선으로 원하는 만큼. 처음 있던 색의 칸에서 절대 벗어나지 않습니다.</li>
+                        <li><strong>룩(♜)</strong> — 가로·세로로 원하는 만큼 이동합니다.</li>
+                        <li><strong>퀸(♛)</strong> — 가로·세로·대각선 모두 가능한 가장 강력한 기물입니다.</li>
+                        <li><strong>킹(♚)</strong> — 모든 방향으로 딱 한 칸. 약하지만 가장 소중한 기물입니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>꼭 알아야 할 특수 규칙</h2>
                     <ul class="rule-list">
-                        <li><strong>캐슬링:</strong> 킹과 룩이 한 번에 움직여 킹을 안전하게 피신시키는 수. 둘 다 안 움직였고 사이가 비어 있어야 합니다.</li>
-                        <li><strong>앙파상:</strong> 상대 폰이 두 칸 전진해 내 폰 옆을 지나칠 때, 한 칸 지나간 것처럼 잡는 특수 규칙.</li>
-                        <li><strong>프로모션(승격):</strong> 폰이 맨 끝 줄에 도달하면 퀸·룩·비숍·나이트 중 하나로 변신합니다(보통 퀸).</li>
+                        <li><strong>캐슬링</strong> — 킹과 룩이 한 번에 움직여 킹을 구석으로 안전하게 피신시키는 수입니다. 둘 다 아직 움직이지 않았고 그 사이가 비어 있어야 합니다.</li>
+                        <li><strong>앙파상</strong> — 상대 폰이 두 칸을 한 번에 전진해 내 폰 옆을 스쳐 지나갈 때, 마치 한 칸만 움직인 것처럼 잡아낼 수 있는 특수 규칙입니다.</li>
+                        <li><strong>프로모션(승격)</strong> — 폰이 맨 끝 줄에 도달하면 퀸·룩·비숍·나이트 중 하나로 변신합니다. 대부분은 가장 강한 퀸을 고릅니다.</li>
                     </ul>
-                    <p style="margin-top:0.6rem;">오목보드의 체스는 이 규칙들을 모두 지원합니다.</p>
+                    <p style="margin-top:0.6rem;">오목보드의 체스는 이 세 가지 규칙을 모두 지원합니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>기물 가치</h2>
-                    <ul class="rule-list">
-                        <li>폰 ≈ 1점 — 작지만 승격하면 퀸이 됩니다.</li>
-                        <li>나이트·비숍 ≈ 3점 — 위치에 따라 가치가 달라집니다.</li>
-                        <li>룩 ≈ 5점, 퀸 ≈ 9점 — 강력한 장거리 기물.</li>
-                        <li>교환할 때 이 가치를 비교하면 손해 보는 거래를 피할 수 있습니다.</li>
-                    </ul>
+                    <h2>기물 가치 — 손해 보는 교환을 피하는 기준</h2>
+                    <p>폰은 대략 1점, 나이트와 비숍은 3점, 룩은 5점, 퀸은 9점 정도로 봅니다. 폰은 숫자로는 가장 낮지만 끝까지 살아남으면 퀸으로 승격할 잠재력이 있습니다. 나이트와 비숍은 숫자상 같아 보여도 자리에 따라 실제 가치가 크게 달라집니다. 교환을 고민할 때 이 숫자를 기준으로 비교하는 습관만 들여도 "기물 하나를 내주고 훨씬 못한 것만 얻는" 손해 거래를 크게 줄일 수 있습니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>초반 3원칙</h2>
+                    <h2>오프닝 3원칙</h2>
                     <ul class="rule-list">
-                        <li><strong>중앙 장악:</strong> e4·d4 같은 중앙 폰으로 가운데를 차지하면 기물이 활발해집니다.</li>
-                        <li><strong>빠른 전개:</strong> 나이트·비숍을 먼저 꺼내고, 같은 기물을 반복해서 움직이지 마세요.</li>
-                        <li><strong>킹 안전:</strong> 초반에 캐슬링으로 킹을 구석으로 피신시키세요.</li>
+                        <li><strong>중앙 장악</strong> — e4·d4 같은 중앙 폰으로 가운데를 차지하면 이후 기물들이 훨씬 자유롭게 움직입니다.</li>
+                        <li><strong>빠른 전개</strong> — 나이트와 비숍을 먼저 꺼내세요. 같은 기물을 여러 번 반복해서 움직이는 건 그만큼 다른 기물의 전개를 늦추는 셈입니다.</li>
+                        <li><strong>킹 안전</strong> — 초반에 캐슬링으로 킹을 구석으로 피신시켜야 중앙에서 벌어지는 싸움에 킹이 휘말리지 않습니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>기본 전술 — 한 수로 둘을 노린다</h2>
+                    <p>체스 전술의 대부분은 결국 "한 수로 두 가지 이득을 동시에 만드는 것"으로 요약됩니다.</p>
                     <ul class="rule-list">
-                        <li><strong>포크:</strong> 한 기물(특히 나이트)로 동시에 두 기물을 공격. 상대는 하나만 구합니다.</li>
-                        <li><strong>핀:</strong> 뒤에 더 중요한 기물(킹·퀸)이 있어 앞 기물이 움직이지 못하게 묶는 수.</li>
-                        <li><strong>스큐어:</strong> 핀의 반대 — 앞의 큰 기물을 비키게 해 뒤의 기물을 잡습니다.</li>
+                        <li><strong>포크</strong> — 기물 하나(특히 나이트)로 상대 기물 두 개를 동시에 공격합니다. 상대는 하나밖에 구하지 못합니다.</li>
+                        <li><strong>핀</strong> — 어떤 기물 뒤에 킹이나 퀸처럼 더 중요한 기물이 있어서, 앞의 기물이 움직이면 뒤가 뚫리는 상황을 만들어 움직이지 못하게 묶습니다.</li>
+                        <li><strong>스큐어</strong> — 핀과 반대 순서입니다. 앞에 있는 더 큰 기물을 먼저 비키게 만들어 뒤에 있던 기물을 잡아냅니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
-                        <li>초반에 퀸을 너무 일찍 꺼내 쫓겨다니며 시간을 낭비하는 경우</li>
-                        <li>캐슬링을 미루다 중앙에서 킹이 공격받는 경우</li>
-                        <li>공짜로 보이는 기물을 잡았다가 포크·핀에 걸리는 경우</li>
+                        <li>초반부터 퀸을 너무 일찍 꺼내 상대 기물에 계속 쫓기며 시간(수)을 낭비하는 경우</li>
+                        <li>캐슬링을 미루다가 중앙에 그대로 남은 킹이 공격받는 경우</li>
+                        <li>공짜로 보이는 기물을 덥석 잡았다가 포크나 핀에 걸리는 경우</li>
                     </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>레벨별 전략</h2>
+                    <p><strong>막 시작했다면</strong> 오프닝 3원칙만 지켜도 절반은 성공입니다. 화려한 수를 찾기보다 중앙 장악, 빠른 전개, 킹 안전 이 세 가지를 순서대로 챙기세요.</p>
+                    <p><strong>어느 정도 감이 잡혔다면</strong> 모든 교환 전에 기물 가치를 비교하는 습관을 들이세요. 손해 보는 교환만 피해도 중반 판세가 눈에 띄게 좋아집니다.</p>
+                    <p><strong>더 잘하고 싶다면</strong> 상대의 다음 수에 포크나 핀이 걸리는 자리가 없는지 내 수를 두기 전에 한 번 더 확인하는 훈련을 하세요. AI 난이도를 올려가며 이 습관을 시험해보는 게 가장 빠릅니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -161,88 +171,92 @@
                         <li><strong>스테일메이트가 뭔가요?</strong> 둘 수는 있어야 하는데 합법적인 수가 전혀 없고 킹도 체크가 아닌 상태로, 무승부입니다.</li>
                         <li><strong>폰은 항상 퀸이 되나요?</strong> 보통 퀸을 고르지만 룩·비숍·나이트로도 승격할 수 있습니다.</li>
                         <li><strong>킹을 잡으면 이기나요?</strong> 킹은 실제로 잡지 않습니다. 피할 수 없게 만드는 체크메이트가 승리입니다.</li>
+                        <li><strong>초반에 뭐부터 연습해야 하나요?</strong> 정해진 오프닝을 외우기보다 오프닝 3원칙(중앙·전개·안전)을 매 판 의식적으로 따라가 보세요. 그게 몇 가지 오프닝을 암기하는 것보다 훨씬 오래갑니다.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>What Is Chess?</h2>
-                    <p>Chess is the world's most popular board game, played on an 8×8 board where each side commands 16 pieces aiming to trap the enemy king. It descends from 6th-century Indian "chaturanga" and evolved through Persia and Europe into today's game, now a global mind sport.</p>
-                    <p>Its possibilities are effectively endless, but a few core principles make it far more enjoyable right away.</p>
+                    <h2>Chess — The Most Studied Game on Earth</h2>
+                    <p>Chess is played on an 8×8 board, each side commanding 16 pieces with one goal: corner the opponent's king. It traces back to 6th-century India's "chaturanga," evolved through Persia and Europe into the game we know today, and along the way has been studied by more people, for more centuries, than perhaps any other game in existence. Its possibilities are effectively endless — nobody finishes learning it in a lifetime — but a handful of core principles make even your very first game far more enjoyable.</p>
                     <p style="margin-top:0.8rem;"><a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Chess now →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>The Goal — Checkmate</h2>
-                    <p>You win by <strong>checkmating</strong> the king. <strong>Check</strong> means the king is under attack; <strong>checkmate</strong> means that attack cannot be escaped by any move. The king is never actually captured — checkmate ends the game. Certain positions with no legal move (stalemate) are draws.</p>
+                    <p>There's exactly one way to win: checkmate the opponent's king. Check means the king is under attack and would be captured next move; checkmate means that attack can't be escaped by any move at all. The king is never actually captured — the moment checkmate is confirmed, the game simply ends. Certain positions where neither side can force a win (like stalemate) are ruled draws.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>How the Pieces Move</h2>
                     <ul class="rule-list">
-                        <li><strong>Pawn:</strong> Forward one (two on its first move), captures diagonally; promotes on the last rank.</li>
-                        <li><strong>Knight (♞):</strong> Moves in an L (2+1) and is the only piece that jumps over others.</li>
-                        <li><strong>Bishop (♝):</strong> Any distance diagonally, staying on one color.</li>
-                        <li><strong>Rook (♜):</strong> Any distance horizontally or vertically.</li>
-                        <li><strong>Queen (♛):</strong> Any direction — the strongest piece.</li>
-                        <li><strong>King (♚):</strong> One square any direction — the most valuable piece.</li>
+                        <li><strong>Pawn</strong> — one square forward (two on its very first move), captures only diagonally forward. Reaching the far rank promotes it to another piece.</li>
+                        <li><strong>Knight (♞)</strong> — moves in an L-shape (two squares plus one), and is the only piece that can jump over others.</li>
+                        <li><strong>Bishop (♝)</strong> — any distance diagonally, always staying on the same color square it started on.</li>
+                        <li><strong>Rook (♜)</strong> — any distance horizontally or vertically.</li>
+                        <li><strong>Queen (♛)</strong> — any direction at all — the single most powerful piece on the board.</li>
+                        <li><strong>King (♚)</strong> — exactly one square in any direction. Weak in raw power, but the most valuable piece of all.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Special Rules to Know</h2>
+                    <h2>Special Rules Worth Knowing</h2>
                     <ul class="rule-list">
-                        <li><strong>Castling:</strong> King and rook move together to tuck the king to safety (neither may have moved; squares between empty).</li>
-                        <li><strong>En passant:</strong> Capture a pawn that just advanced two squares past yours, as if it moved one.</li>
-                        <li><strong>Promotion:</strong> A pawn reaching the far rank becomes a queen, rook, bishop, or knight (usually a queen).</li>
+                        <li><strong>Castling</strong> — the king and a rook move together in one turn to tuck the king safely into a corner. Neither piece may have moved yet, and the squares between them must be empty.</li>
+                        <li><strong>En passant</strong> — if an opponent's pawn advances two squares and lands beside yours, you may capture it as though it had only moved one square — but only immediately, on your very next move.</li>
+                        <li><strong>Promotion</strong> — a pawn that reaches the far rank transforms into a queen, rook, bishop, or knight. Most players choose the queen, the strongest option.</li>
                     </ul>
-                    <p style="margin-top:0.6rem;">Omokboard's chess supports all of these rules.</p>
+                    <p style="margin-top:0.6rem;">Omokboard's chess supports all three of these rules.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Piece Values</h2>
-                    <ul class="rule-list">
-                        <li>Pawn ≈ 1 — small, but can promote to a queen.</li>
-                        <li>Knight/Bishop ≈ 3 — value depends on position.</li>
-                        <li>Rook ≈ 5, Queen ≈ 9 — powerful long-range pieces.</li>
-                        <li>Compare values on every trade to avoid bad exchanges.</li>
-                    </ul>
+                    <h2>Piece Values — A Rule of Thumb for Fair Trades</h2>
+                    <p>Roughly speaking: a pawn is worth 1, a knight or bishop about 3, a rook 5, and a queen 9. The pawn looks like the weakest piece on paper, but it carries the hidden potential to promote into a queen if it survives to the far rank. Knights and bishops share the same rough value, yet their real worth swings a lot depending on where they sit on the board. Getting in the habit of comparing these numbers before every trade goes a long way toward avoiding the kind of exchange where you give up a strong piece and get much less back.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Three Opening Principles</h2>
                     <ul class="rule-list">
-                        <li><strong>Control the center:</strong> Central pawns (e4/d4) make your pieces active.</li>
-                        <li><strong>Develop quickly:</strong> Bring out knights and bishops; don't move one piece repeatedly.</li>
-                        <li><strong>King safety:</strong> Castle early to tuck the king into the corner.</li>
+                        <li><strong>Control the center</strong> — central pawn moves like e4 or d4 open up far more freedom for the pieces that follow.</li>
+                        <li><strong>Develop quickly</strong> — bring your knights and bishops out early. Moving the same piece over and over just delays everything else.</li>
+                        <li><strong>Keep the king safe</strong> — castle early so your king isn't caught in the crossfire while the center opens up.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Basic Tactics — Hit Two at Once</h2>
+                    <h2>Basic Tactics — Hitting Two Targets With One Move</h2>
+                    <p>Most chess tactics ultimately boil down to the same idea: create two advantages with a single move.</p>
                     <ul class="rule-list">
-                        <li><strong>Fork:</strong> One piece (often a knight) attacks two at once — only one can be saved.</li>
-                        <li><strong>Pin:</strong> A piece can't move because a more valuable piece sits behind it.</li>
-                        <li><strong>Skewer:</strong> The reverse of a pin — force the big piece to move and win the one behind.</li>
+                        <li><strong>Fork</strong> — one piece, often a knight, attacks two enemy pieces at the same time. Your opponent can only save one.</li>
+                        <li><strong>Pin</strong> — a piece can't safely move because a more valuable piece (often the king or queen) sits directly behind it in the line of attack.</li>
+                        <li><strong>Skewer</strong> — the mirror image of a pin: force a valuable piece to move out of the way first, then capture whatever was hiding behind it.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
-                        <li>Bringing the queen out too early and losing time as it's chased.</li>
-                        <li>Delaying castling and getting the king attacked in the center.</li>
-                        <li>Grabbing a "free" piece and walking into a fork or pin.</li>
+                        <li>Bringing the queen out too early and losing tempo chasing it around the board while it gets attacked.</li>
+                        <li>Delaying castling and leaving the king exposed in the center as the position opens up.</li>
+                        <li>Grabbing a piece that looks free, only to walk straight into a fork or a pin.</li>
                     </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Strategy by Level</h2>
+                    <p><strong>Just starting out?</strong> The three opening principles alone get you halfway there. Skip the search for a flashy move and just work through center control, quick development, and king safety in order, every game.</p>
+                    <p><strong>Starting to get a feel for it?</strong> Build the habit of comparing piece values before every trade. Avoiding bad exchanges alone noticeably improves your position by the midgame.</p>
+                    <p><strong>Want to go further?</strong> Before playing your move, double-check whether it opens up a fork or a pin for your opponent next turn. Testing this habit against higher AI difficulty is the fastest way to sharpen it.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>FAQ</h2>
                     <ul class="rule-list">
-                        <li><strong>What is stalemate?</strong> You have no legal move but your king is not in check — it's a draw.</li>
-                        <li><strong>Must a pawn become a queen?</strong> Usually, but you may also choose rook, bishop, or knight.</li>
-                        <li><strong>Do I win by capturing the king?</strong> The king is never captured — making it inescapable (checkmate) wins.</li>
+                        <li><strong>What is stalemate?</strong> A position where you must move but have no legal move available, and your king isn't in check — it's ruled a draw.</li>
+                        <li><strong>Does a pawn always become a queen?</strong> Usually, since the queen is strongest, but you can also choose a rook, bishop, or knight.</li>
+                        <li><strong>Do I win by capturing the king?</strong> No — the king is never actually captured. Making it impossible to escape (checkmate) is what wins the game.</li>
+                        <li><strong>What should I practice first as a beginner?</strong> Rather than memorizing set openings, try consciously following the three opening principles — center, development, safety — in every single game. That habit outlasts memorizing a handful of openings by heart.</li>
                     </ul>
                 </section>
             </div>

@@ -58,7 +58,7 @@
       "name": "깃발을 꼭 꽂아야 하나요?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "필수는 아니지만, 확정된 지뢰에 깃발을 꽂아두면 실수로 클릭하는 것을 막고 숫자 규칙도 적용하기 쉬워집니다."
+        "text": "필수는 아니지만 확정된 지뢰에 깃발을 꽂아두면 실수로 클릭하는 것을 막고 숫자 규칙도 적용하기 쉬워집니다."
       }
     },
     {
@@ -74,7 +74,7 @@
       "name": "완전히 운으로만 하는 게임인가요?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "아닙니다. 대부분의 상황은 숫자 논리로 확정할 수 있고, 정말 애매한 순간에만 추측이 필요합니다."
+        "text": "아닙니다. 대부분의 상황은 숫자 논리로 확정할 수 있고 정말 애매한 순간에만 추측이 필요합니다."
       }
     }
   ]
@@ -93,9 +93,8 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>지뢰찾기란?</h2>
-                    <p>지뢰찾기(Minesweeper)는 격자 칸 속에 숨겨진 지뢰를 피해 안전한 칸을 모두 여는 퍼즐 게임입니다. 칸을 열면 그 칸에 적힌 숫자가 <strong>주변 8칸에 지뢰가 몇 개 있는지</strong> 알려주는데, 이 숫자들을 논리적으로 조합하면 어디가 안전하고 어디가 위험한지 확실하게 알아낼 수 있습니다.</p>
-                    <p>운이 필요한 순간도 있지만, 실력이 늘수록 "찍는" 횟수는 확실히 줄어듭니다.</p>
+                    <h2>지뢰찾기, 사실은 운보다 논리가 훨씬 많이 작용하는 게임</h2>
+                    <p>지뢰찾기는 격자 칸 속에 숨겨진 지뢰를 피해 안전한 칸을 모두 여는 퍼즐입니다. 칸을 열면 그 자리에 적힌 숫자가 주변 8칸에 지뢰가 몇 개 있는지 알려줍니다. 이 숫자들을 논리적으로 조합하면 대부분 어디가 안전하고 어디가 위험한지 확실하게 알아낼 수 있습니다. 가끔 정말 운에 맡겨야 하는 순간이 오긴 하지만 실력이 늘수록 그런 순간은 눈에 띄게 줄어듭니다.</p>
                     <p style="margin-top:0.8rem;"><a href="minesweeper" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">지뢰찾기 바로 플레이하기 →</a></p>
                 </section>
 
@@ -104,56 +103,62 @@
                     <ul class="rule-list">
                         <li><strong>목표:</strong> 지뢰가 없는 칸을 모두 열면 승리합니다.</li>
                         <li><strong>숫자:</strong> 열린 칸의 숫자는 주변 8칸 중 지뢰의 개수를 뜻합니다.</li>
-                        <li><strong>난이도:</strong> 쉬움(9×9·지뢰 10개), 보통(12×12·20개), 어려움(16×16·40개) 중 선택합니다.</li>
+                        <li><strong>난이도:</strong> 쉬움(9×9·지뢰 10개), 보통(12×12·20개), 어려움(16×16·40개) 중에서 고를 수 있습니다.</li>
                         <li><strong>패배:</strong> 지뢰가 있는 칸을 열면 그 즉시 게임이 끝납니다.</li>
-                        <li><strong>첫 클릭 안전:</strong> 처음 여는 칸과 그 주변에는 지뢰가 배치되지 않으므로, 안심하고 아무 곳이나 먼저 눌러도 됩니다.</li>
+                        <li><strong>첫 클릭 안전:</strong> 처음 여는 칸과 그 주변에는 지뢰가 배치되지 않으니 첫 클릭만큼은 안심하고 아무 데나 눌러도 됩니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
                     <h2>기본 조작</h2>
-                    <p>칸을 클릭하면 열립니다. 지뢰로 의심되는 칸은 <strong>우클릭</strong>(또는 상단의 "깃발 모드"를 켜고 클릭)해 🚩로 표시해 두면 실수로 여는 것을 막을 수 있습니다. 숫자가 0인 칸을 열면 주변의 안전한 칸들이 한 번에 펼쳐집니다.</p>
+                    <p>칸을 클릭하면 열립니다. 지뢰로 의심되는 칸은 <strong>우클릭</strong>(또는 상단의 "깃발 모드"를 켜고 클릭)해서 🚩로 표시해두세요. 실수로 여는 것을 막아 줍니다. 숫자가 0인 칸을 열면 그 주변의 안전한 칸들이 한꺼번에 펼쳐지면서 시원하게 진행됩니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>숫자 읽는 법 — 핵심 논리</h2>
+                    <h2>숫자 읽는 법 — 이 두 가지 논리가 전부입니다</h2>
                     <ul class="rule-list">
-                        <li>어떤 숫자 주변의 <strong>미개봉 칸 개수가 그 숫자와 같다면</strong>, 그 미개봉 칸은 전부 지뢰입니다. 바로 깃발을 꽂으세요.</li>
-                        <li>반대로 어떤 숫자 주변에 <strong>이미 그 숫자만큼 깃발이 꽂혀 있다면</strong>, 나머지 미개봉 칸은 전부 안전합니다. 바로 열어도 됩니다.</li>
-                        <li>"1"이 두 칸에 걸쳐 이웃한 미개봉 칸을 하나만 공유한다면, 그 공유 칸이 지뢰일 확률과 나머지 칸들의 안전도를 서로 비교해 추론할 수 있습니다.</li>
+                        <li>어떤 숫자 주변의 <strong>미개봉 칸 개수가 그 숫자와 정확히 같다면</strong>, 그 미개봉 칸은 전부 지뢰입니다. 바로 깃발을 꽂으세요.</li>
+                        <li>반대로 어떤 숫자 주변에 <strong>이미 그 숫자만큼 깃발이 꽂혀 있다면</strong>, 나머지 미개봉 칸은 전부 안전합니다. 망설이지 말고 여세요.</li>
                     </ul>
+                    <p style="margin-top:0.6rem;">이 두 규칙만 정확히 적용해도 어지간한 판은 추측 없이 끝까지 풀립니다. 조금 더 나아가면, 숫자 "1"이 인접한 두 칸에 걸쳐 있고 그 두 칸이 미개봉 칸을 하나만 공유하는 상황이 나옵니다. 여기서는 그 공유 칸이 지뢰일 확률과 나머지 칸들의 안전도를 서로 비교해서 추가로 추론할 수도 있습니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>실력을 늘리는 팁</h2>
-                    <p>모서리와 구석부터 정리하면 진행이 편해집니다. 확신이 서지 않을 때는 <strong>지뢰일 확률이 가장 낮아 보이는 칸</strong>을 고르되, 먼저 깃발 규칙으로 확정할 수 있는 칸이 남아있지 않은지 항상 한 번 더 확인하는 습관을 들이세요.</p>
+                    <p>모서리와 구석부터 정리하면 확정할 수 있는 칸이 많아 진행이 한결 편해집니다. 판단이 애매한 순간이 와도 바로 찍지 마세요. 위의 두 규칙으로 아직 확정할 수 있는 칸이 남아 있지 않은지 한 번 더 훑어보세요. 이 습관만 들여도 실제로 "찍어야만 하는" 순간은 생각보다 훨씬 드뭅니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
-                        <li>깃발을 전혀 쓰지 않고 암산만으로 진행하다 실수로 지뢰를 클릭하는 경우</li>
-                        <li>이미 규칙으로 확정할 수 있는 안전한 칸을 놓치고 불필요하게 찍는 경우</li>
-                        <li>숫자 하나만 보고 판단하고, 주변 다른 숫자와 교차 확인을 하지 않는 경우</li>
+                        <li>깃발을 전혀 쓰지 않고 암산만으로 진행하다가 실수로 지뢰를 클릭하는 경우</li>
+                        <li>이미 숫자 논리로 확정할 수 있는 안전한 칸을 놓치고 불필요하게 찍어버리는 경우</li>
+                        <li>숫자 하나만 보고 바로 판단해서 주변 다른 숫자와 교차 확인을 건너뛰는 경우</li>
                     </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>실력별 전략</h2>
+                    <p><strong>막 시작했다면</strong> 쉬움 난이도에서 두 가지 기본 규칙(지뢰 확정, 안전 확정)을 반복해서 연습하세요. 익숙해지기 전까지는 깃발을 적극적으로 쓰는 게 실수를 줄이는 가장 확실한 방법입니다.</p>
+                    <p><strong>어느 정도 손에 익었다면</strong> 보통 난이도로 넘어가 숫자 하나만 보지 말고 인접한 여러 숫자를 동시에 놓고 비교하는 연습을 하세요. 겹치는 미개봉 칸을 비교하는 감각이 여기서부터 쌓입니다.</p>
+                    <p><strong>더 잘하고 싶다면</strong> 어려움 난이도에서 정말 애매한 상황과 확률상 유리한 추측을 구분하는 훈련을 하세요. 모든 판을 논리만으로 끝낼 순 없지만 "지금이 진짜 추측이 필요한 순간인지"를 정확히 판단하는 것 자체가 실력입니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
                         <li><strong>지뢰를 밟으면 바로 끝나나요?</strong> 네, 지뢰가 있는 칸을 열면 그 즉시 게임이 종료됩니다.</li>
-                        <li><strong>깃발을 꼭 꽂아야 하나요?</strong> 필수는 아니지만, 확정된 지뢰에 깃발을 꽂아두면 실수로 클릭하는 것을 막고 숫자 규칙도 적용하기 쉬워집니다.</li>
+                        <li><strong>깃발을 꼭 꽂아야 하나요?</strong> 필수는 아니지만 확정된 지뢰에 깃발을 꽂아두면 실수로 클릭하는 것을 막고 숫자 규칙도 적용하기 쉬워집니다.</li>
                         <li><strong>첫 클릭에서 지뢰가 나올 수도 있나요?</strong> 아니요. 첫 클릭 칸과 그 주변 8칸에는 지뢰가 배치되지 않습니다.</li>
-                        <li><strong>완전히 운으로만 하는 게임인가요?</strong> 아닙니다. 대부분의 상황은 숫자 논리로 확정할 수 있고, 정말 애매한 순간에만 추측이 필요합니다.</li>
+                        <li><strong>완전히 운으로만 하는 게임인가요?</strong> 아닙니다. 대부분의 상황은 숫자 논리로 확정할 수 있고 정말 애매한 순간에만 추측이 필요합니다.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>What Is Minesweeper?</h2>
-                    <p>Minesweeper is a logic puzzle where you clear every safe cell on a grid without detonating a hidden mine. Opening a cell reveals a number showing <strong>how many mines are in the 8 surrounding cells</strong> — combine these numbers logically and you can pin down exactly which cells are safe and which are dangerous.</p>
-                    <p>Some moments still call for a guess, but the more you practice reading numbers, the fewer guesses you'll need.</p>
+                    <h2>Minesweeper — More Logic Than Luck, Once You Know the Rules</h2>
+                    <p>Minesweeper challenges you to clear every safe cell on a grid without ever detonating a hidden mine. Open a cell and the number it reveals tells you exactly how many mines sit among its 8 surrounding cells — combine enough of these numbers logically, and in most positions you can pin down with certainty which cells are safe and which aren't. There are still moments that genuinely come down to luck, but the more you practice reading the numbers, the rarer those moments become.</p>
                     <p style="margin-top:0.8rem;"><a href="minesweeper" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Minesweeper now →</a></p>
                 </section>
 
@@ -170,39 +175,46 @@
 
                 <section class="info-section">
                     <h2>Basic Controls</h2>
-                    <p>Click a cell to open it. Right-click (or turn on "Flag Mode" and tap) to mark a suspected mine with a 🚩, preventing accidental clicks. Opening a cell showing 0 automatically opens all its safe neighbors at once.</p>
+                    <p>Click a cell to open it. Right-click (or turn on "Flag Mode" at the top and tap) any cell you suspect holds a mine to mark it with a 🚩, which helps prevent an accidental click later. Opening a cell that reveals a 0 automatically clears every safe cell around it at once, often opening up a large chunk of the board in one move.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Reading Numbers — The Core Logic</h2>
+                    <h2>Reading Numbers — It Really Comes Down to Two Rules</h2>
                     <ul class="rule-list">
-                        <li>If a number's <strong>unopened neighbor count equals the number itself</strong>, every one of those neighbors is a mine — flag them immediately.</li>
-                        <li>If a number already has <strong>that many flags</strong> around it, every other unopened neighbor is safe — open them freely.</li>
-                        <li>When two numbered cells share a smaller set of common unopened neighbors, comparing their counts can reveal which shared cells are mines.</li>
+                        <li>If a number's count of unopened neighboring cells exactly equals the number itself, every one of those unopened cells is a mine — flag them immediately.</li>
+                        <li>If a number already has that many flags placed around it, every other unopened neighbor is guaranteed safe — open them without hesitation.</li>
                     </ul>
+                    <p style="margin-top:0.6rem;">Apply just these two rules consistently and most boards solve themselves without a single guess. Push a step further and you can compare numbers too: when a "1" shares just one unopened neighbor with another numbered cell nearby, comparing what each number implies can reveal exactly which of the shared cells is the mine.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Tips to Improve</h2>
-                    <p>Clear corners and edges first — they're easiest to reason about. When unsure, pick the cell that looks least likely to be a mine, but always double-check first whether any remaining cell can already be confirmed safe by the flag rules.</p>
+                    <p>Clearing corners and edges first usually leaves you with more cells you can confirm outright, which keeps things moving smoothly. When a moment feels genuinely uncertain, resist the urge to click right away — sweep back through the two number rules once more to check whether some cell you overlooked is actually already provably safe. Do this consistently and you'll find that truly "must-guess" moments are far rarer than they first seem.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
-                        <li>Never using flags and relying on memory alone, leading to an accidental click on a mine.</li>
-                        <li>Guessing on a cell that was already provably safe by the numbers.</li>
-                        <li>Reading one number in isolation instead of cross-checking it against its neighbors.</li>
+                        <li>Never using flags and relying purely on memory, which eventually leads to an accidental click on a mine.</li>
+                        <li>Guessing on a cell that the number logic had already proven safe.</li>
+                        <li>Reading a single number in isolation instead of cross-checking it against its neighbors.</li>
                     </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Strategy by Skill Level</h2>
+                    <p><strong>Just starting out?</strong> Practice the two core rules — confirming mines and confirming safe cells — repeatedly on Easy. Until it becomes second nature, using flags liberally is the most reliable way to avoid careless mistakes.</p>
+                    <p><strong>Getting comfortable?</strong> Move up to Normal and practice comparing several adjacent numbers at once instead of reading just one in isolation. That's where the instinct for comparing shared unopened cells really starts to build.</p>
+                    <p><strong>Want to go further?</strong> On Hard, train yourself to tell the difference between a position that's genuinely ambiguous and one where a guess is simply the statistically better bet. Not every board resolves through pure logic alone — but knowing exactly when you've truly hit that point is a skill in itself.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>FAQ</h2>
                     <ul class="rule-list">
-                        <li><strong>Does hitting a mine end the game instantly?</strong> Yes — opening any mine ends the game right away.</li>
-                        <li><strong>Do I have to use flags?</strong> Not required, but flagging confirmed mines helps you avoid mistakes and apply the number rules more easily.</li>
-                        <li><strong>Can the first click be a mine?</strong> No. The first cell you click and its neighbors never contain a mine.</li>
-                        <li><strong>Is it all luck?</strong> No — most positions can be solved with pure logic; only truly ambiguous spots require a guess.</li>
+                        <li><strong>Does hitting a mine end the game instantly?</strong> Yes — opening any mine ends the game immediately.</li>
+                        <li><strong>Do I have to use flags?</strong> They're not required, but flagging confirmed mines helps prevent accidental clicks and makes the number rules much easier to apply.</li>
+                        <li><strong>Could the first click ever be a mine?</strong> No. Your first clicked cell and all of its neighbors are guaranteed to never contain a mine.</li>
+                        <li><strong>Is it really all luck?</strong> No — most positions can be fully solved with logic alone. Only genuinely ambiguous spots ever require an actual guess.</li>
                     </ul>
                 </section>
             </div>

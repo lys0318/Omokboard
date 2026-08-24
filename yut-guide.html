@@ -49,7 +49,7 @@
       "name": "윷/모가 계속 나오면?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "나올 때마다 계속 추가로 던질 수 있어, 운이 좋으면 한 차례에 크게 전진합니다."
+        "text": "나올 때마다 계속 추가로 던질 수 있습니다. 운이 좋으면 한 차례에 크게 전진합니다."
       }
     },
     {
@@ -75,6 +75,14 @@
         "@type": "Answer",
         "text": "판에 있는 내 말 하나를 1칸 뒤로 이동합니다. 아직 낸 말이 없다면 이 결과는 쓸 수 없어 다른 말을 움직이거나 턴이 넘어갑니다."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "빽도는 손해이기만 한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "꼭 그렇지는 않습니다. 상대에게 잡히기 직전인 칸에 내 말이 서 있다면, 빽도로 한 칸 물러나는 게 오히려 그 칸을 피하는 방어 수단이 될 수 있습니다."
+      }
     }
   ]
 }
@@ -92,136 +100,132 @@
         <main class="subpage-main">
             <div class="ko-only">
                 <section class="info-section">
-                    <h2>윷놀이란?</h2>
-                    <p>윷놀이는 네 개의 윷가락을 던져 나온 결과만큼 말을 움직여, 자기 말 4개를 먼저 출발점으로 되돌려 완주시키면 이기는 한국의 대표적인 전통 보드게임입니다. 설날 같은 명절에 온 가족이 둘러앉아 즐기는 놀이로, 운(윷을 던지는 것)과 전략(말을 어떻게 쓰느냐)이 절묘하게 섞여 있습니다.</p>
-                    <p>오목보드의 윷놀이는 표준 윷판(외곽 길 + 가운데를 가로지르는 지름길)과 잡기·업기 규칙을 그대로 구현했습니다.</p>
+                    <h2>윷놀이, 명절마다 온 가족이 다시 모이는 이유</h2>
+                    <p>윷놀이는 네 개의 윷가락을 던진 결과만큼 말을 움직이는 한국의 대표 전통 보드게임입니다. 내 말 4개를 먼저 완주시키면 이깁니다. 설날 같은 명절에 온 가족이 둘러앉아 다 같이 즐길 수 있는 몇 안 되는 놀이인데, 여기엔 이유가 있습니다. 윷을 던지는 순간의 운과 그 결과를 어느 말에 쓸지 고르는 전략이 절묘하게 섞여 있어서 나이나 실력 차이가 커도 승부가 쉽게 갈리지 않거든요. 오목보드의 윷놀이는 외곽 길과 가운데를 가로지르는 지름길, 그리고 잡기·업기 규칙까지 표준 윷판을 그대로 구현했습니다.</p>
                     <p style="margin-top:0.8rem;"><a href="yut" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">윷놀이 게임 바로 플레이하기 →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>윷 던지기 — 도·개·걸·윷·모·빽도</h2>
-                    <p>윷가락 4개를 던져, 평평한 면이 위로 나온 개수로 결과가 정해집니다.</p>
+                    <p>윷가락 4개를 던지면 평평한 면이 위로 나온 개수로 결과가 정해집니다.</p>
                     <ul class="rule-list">
                         <li><strong>도(1):</strong> 1칸 이동 (평면 1개)</li>
                         <li><strong>개(2):</strong> 2칸 이동 (평면 2개)</li>
                         <li><strong>걸(3):</strong> 3칸 이동 (평면 3개)</li>
                         <li><strong>윷(4):</strong> 4칸 이동 + <strong>한 번 더</strong> 던지기 (평면 4개)</li>
                         <li><strong>모(5):</strong> 5칸 이동 + <strong>한 번 더</strong> 던지기 (평면 0개)</li>
-                        <li><strong>빽도:</strong> 드물게 나오는 결과로, 판에 있는 내 말을 1칸 뒤로 보냅니다. 대기 중인 새 말은 낼 수 없습니다.</li>
+                        <li><strong>빽도:</strong> 드물게 나오는 결과로, 판에 있는 내 말을 1칸 뒤로 보냅니다. 아직 낸 말이 없다면 이 결과는 쓸 수 없습니다.</li>
                     </ul>
-                    <p style="margin-top:0.6rem;">윷이나 모가 나오면 추가로 던질 수 있어, 한 차례에 여러 번의 이동 기회를 얻습니다. 던진 결과들은 모아 두었다가 원하는 말에 골라서 적용합니다.</p>
+                    <p style="margin-top:0.6rem;">윷이나 모가 나오면 계속 추가로 던질 수 있습니다. 운이 따르는 차례에는 한 번에 여러 번의 이동 기회를 몰아서 얻습니다. 던진 결과는 그 자리에서 바로 쓰지 않고 모아뒀다가, 원하는 말에 골라서 적용하면 됩니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>말 움직이기와 완주</h2>
                     <ul class="rule-list">
-                        <li>각 플레이어는 <strong>말 4개</strong>를 가지고 시작합니다.</li>
-                        <li>던진 결과를 골라 말을 그 칸 수만큼 외곽 길을 따라 이동시킵니다.</li>
-                        <li>출발점을 지나 한 바퀴를 돌아 나오면 그 말은 <strong>완주(골인)</strong>합니다.</li>
-                        <li>말 4개를 모두 먼저 완주시키는 쪽이 승리합니다.</li>
+                        <li>각 플레이어는 <strong>말 4개</strong>로 시작합니다.</li>
+                        <li>던진 결과를 골라 그만큼 외곽 길을 따라 이동시킵니다.</li>
+                        <li>출발점을 지나 한 바퀴를 완전히 돌아 나오면 그 말은 <strong>완주(골인)</strong>합니다.</li>
+                        <li>말 4개를 먼저 다 완주시키는 쪽이 승리합니다.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>지름길 — 빠른 길로 질러가기</h2>
-                    <p>윷판에는 가운데를 가로지르는 대각선 지름길이 있습니다. 말이 <strong>모서리(꼭짓점) 칸에 정확히 멈추면</strong> 다음 차례에 지름길로 들어가 더 빠르게 돌 수 있습니다. 특히 가운데(중앙)를 지나는 길을 잘 타면 한참을 단축할 수 있어, "어디에 정확히 멈추느냐"가 중요한 전략이 됩니다. 모서리를 지나치면 지름길을 못 타고 외곽으로 돌아야 합니다.</p>
+                    <h2>지름길 — 정확히 멈춰야 열리는 길</h2>
+                    <p>윷판 가운데를 가로지르는 대각선 지름길은 아무 때나 탈 수 있는 게 아닙니다. 말이 <strong>모서리(꼭짓점) 칸에 정확히 멈춰야만</strong> 다음 차례에 지름길로 들어갈 수 있습니다. 특히 가운데를 관통하는 길을 잘 타면 바깥 길을 빙 돌아가는 것보다 훨씬 빨리 완주할 수 있습니다. 그래서 "어디에 정확히 멈추느냐"가 윷놀이 전략의 큰 부분을 차지합니다. 반대로 모서리를 살짝 지나쳐버리면 지름길을 놓치고 다시 바깥으로 돌아야 합니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>잡기 — 상대를 출발점으로</h2>
-                    <p>내 말이 이동을 마친 칸에 <strong>상대 말이 있으면 그 말을 잡아</strong> 출발점(처음 위치)으로 돌려보냅니다. 잡으면 보너스로 <strong>한 번 더 던질 수 있어</strong> 큰 이득입니다. 그래서 상대 말이 모여 있는 길목을 노려 잡는 것이 윷놀이의 핵심 공격입니다. 반대로 내 말이 잡히지 않도록 위험한 칸은 피하는 것도 중요합니다.</p>
+                    <h2>잡기 — 상대를 처음으로 되돌리는 가장 확실한 공격</h2>
+                    <p>내 말이 이동을 마친 칸에 상대 말이 있으면, 그 말을 잡아 출발점으로 돌려보냅니다. 상대가 그동안 애써 전진시킨 말을 한 번에 원점으로 되돌리는 거니 이득이 큽니다. 게다가 잡으면 보너스로 한 번 더 던질 수도 있습니다. 그래서 상대 말이 몰려 있는 길목을 노려 잡는 게 윷놀이의 핵심 공격입니다. 반대로 내 말이 상대에게 잡히기 쉬운 자리에 서 있지 않은지 항상 신경 써야 합니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>업기 — 말을 합쳐 함께 이동</h2>
-                    <p>내 말이 이미 내 다른 말이 있는 칸에 도착하면 두 말이 <strong>업혀(합쳐)</strong> 이후 함께 움직입니다. 한 번에 여러 말을 전진시킬 수 있어 효율적이지만, 업힌 말이 상대에게 잡히면 <strong>한꺼번에 여러 개</strong>를 잃으므로 위험 부담도 큽니다. 안전한 길과 잡힐 위험을 저울질해 결정하세요.</p>
+                    <h2>업기 — 빠르지만 위험도 함께 커진다</h2>
+                    <p>내 말이 이미 내 다른 말이 있는 칸에 도착하면 두 말은 하나로 업혀서 이후 함께 움직입니다. 여러 말을 한 번에 전진시킬 수 있어 효율적입니다. 다만 업힌 말 무더기가 통째로 상대에게 잡히면 한꺼번에 여러 개를 잃게 되니 위험 부담도 그만큼 커집니다. 안전한 길인지, 잡힐 위험이 있는지를 매번 저울질하고 업을지 말지 결정하세요.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>이기는 전략</h2>
-                    <ul class="rule-list">
-                        <li><strong>잡기 우선:</strong> 잡으면 한 번 더 던지니, 잡을 기회가 있으면 적극적으로 노리세요.</li>
-                        <li><strong>지름길 노리기:</strong> 모서리·중앙에 정확히 멈추도록 결과를 배분하면 크게 단축됩니다.</li>
-                        <li><strong>업기는 신중히:</strong> 빠르지만 한 번에 잡히면 타격이 큽니다. 잡힐 위험이 낮을 때 활용하세요.</li>
-                        <li><strong>결과 배분:</strong> 큰 수(윷·모)는 멀리 갈 말에, 작은 수(도)는 막판 골인 직전 말에 쓰면 효율적입니다.</li>
-                    </ul>
+                    <p><strong>잡을 기회는 최우선으로 노리세요.</strong> 잡으면 상대를 원점으로 되돌리는 데다 한 번 더 던질 수 있으니 이득이 두 배입니다.</p>
+                    <p><strong>결과는 몰아주지 말고 상황에 맞게 배분하세요.</strong> 큰 수(윷·모)는 아직 멀리 있는 말에, 작은 수(도)는 골인을 코앞에 둔 말에 쓰는 게 전체적으로 효율적입니다.</p>
+                    <p><strong>업기는 신중하게 판단하세요.</strong> 속도는 빠르지만 잡히면 손해도 그만큼 큽니다. 잡힐 위험이 낮은 구간에서만 활용하는 게 안전합니다.</p>
+                    <p><strong>빽도가 나왔을 때도 당황하지 마세요.</strong> 판에 있는 말 중 상대에게 잡히기 직전인 말이 있다면, 오히려 빽도로 한 칸 물러나 위기를 피할 수 있는 경우도 있습니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
-                        <li><strong>윷/모가 계속 나오면?</strong> 나올 때마다 계속 추가로 던질 수 있어, 운이 좋으면 한 차례에 크게 전진합니다.</li>
+                        <li><strong>윷/모가 계속 나오면?</strong> 나올 때마다 계속 추가로 던질 수 있습니다. 운이 좋으면 한 차례에 크게 전진합니다.</li>
                         <li><strong>지름길은 자동인가요?</strong> 모서리·중앙에 정확히 멈춘 말은 다음 이동에서 지름길로 진입합니다.</li>
                         <li><strong>업은 말도 잡히나요?</strong> 네. 업힌 말 무더기가 잡히면 그 말들이 모두 출발점으로 돌아갑니다.</li>
                         <li><strong>빽도가 나오면 어떻게 되나요?</strong> 판에 있는 내 말 하나를 1칸 뒤로 이동합니다. 아직 낸 말이 없다면 이 결과는 쓸 수 없어 다른 말을 움직이거나 턴이 넘어갑니다.</li>
+                        <li><strong>빽도는 손해이기만 한가요?</strong> 꼭 그렇지는 않습니다. 상대에게 잡히기 직전인 칸에 내 말이 서 있다면, 빽도로 한 칸 물러나는 게 오히려 그 칸을 피하는 방어 수단이 될 수 있습니다.</li>
                     </ul>
                 </section>
             </div>
 
             <div class="en-only" style="display:none;">
                 <section class="info-section">
-                    <h2>What Is Yut Nori?</h2>
-                    <p>Yut Nori is a classic Korean traditional board game. You throw four yut sticks and move your tokens (mal) by the result, racing to bring all four mal around the board and home first. Families play it together on holidays like Lunar New Year, blending luck (the throw) with strategy (how you use your mal).</p>
-                    <p>Omokboard's Yut Nori uses the standard board (outer path plus diagonal shortcuts through the center) with capturing and stacking.</p>
+                    <h2>Yut Nori — Why It Brings the Whole Family Back to the Table</h2>
+                    <p>Yut Nori is Korea's signature traditional board game: throw four wooden sticks, move your tokens by the result, and race to bring all four of your mal home before your opponent does. It's one of the few games an entire family can genuinely enjoy together on a holiday like Lunar New Year, and there's a real reason for that. The luck of the throw and the strategy of choosing which token to move blend together so well that age or skill gaps rarely decide the outcome on their own. Omokboard's Yut Nori implements the standard board in full — the outer path, the diagonal shortcuts through the center, and both capturing and stacking.</p>
                     <p style="margin-top:0.8rem;"><a href="yut" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Yut Nori now →</a></p>
                 </section>
 
                 <section class="info-section">
                     <h2>The Throw — Do, Gae, Geol, Yut, Mo, Backdo</h2>
-                    <p>Throw four sticks; the number landing flat-side up sets the result.</p>
+                    <p>Throw four sticks, and however many land flat-side up decides your result.</p>
                     <ul class="rule-list">
-                        <li><strong>Do (1):</strong> move 1 (1 flat)</li>
-                        <li><strong>Gae (2):</strong> move 2 (2 flat)</li>
-                        <li><strong>Geol (3):</strong> move 3 (3 flat)</li>
-                        <li><strong>Yut (4):</strong> move 4 + <strong>throw again</strong> (4 flat)</li>
-                        <li><strong>Mo (5):</strong> move 5 + <strong>throw again</strong> (0 flat)</li>
-                        <li><strong>Backdo:</strong> a rare result that moves a mal already on the board back one space. It can't bring a new mal out from the yard.</li>
+                        <li><strong>Do (1):</strong> move 1 space (1 flat side up)</li>
+                        <li><strong>Gae (2):</strong> move 2 spaces (2 flat)</li>
+                        <li><strong>Geol (3):</strong> move 3 spaces (3 flat)</li>
+                        <li><strong>Yut (4):</strong> move 4 spaces, then <strong>throw again</strong> (4 flat)</li>
+                        <li><strong>Mo (5):</strong> move 5 spaces, then <strong>throw again</strong> (0 flat)</li>
+                        <li><strong>Backdo:</strong> a rare result that sends one of your mal already on the board back one space. If you have no mal on the board yet, this result can't be used.</li>
                     </ul>
-                    <p style="margin-top:0.6rem;">Yut or Mo grants an extra throw, so one turn can give several moves. Collect your results and assign them to the mal you choose.</p>
+                    <p style="margin-top:0.6rem;">Rolling Yut or Mo earns you another throw, so a lucky turn can stack up several moves in a row. You don't have to use a result the instant you roll it — collect your results first, then assign each one to whichever mal you choose.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Moving &amp; Finishing</h2>
                     <ul class="rule-list">
-                        <li>Each player has <strong>four mal</strong>.</li>
-                        <li>Pick a result and move a mal that many steps along the path.</li>
-                        <li>A mal that travels all the way around past the start <strong>finishes</strong>.</li>
-                        <li>First to finish all four mal wins.</li>
+                        <li>Each player starts with <strong>four mal</strong>.</li>
+                        <li>Pick a result and move a mal that many spaces along the outer path.</li>
+                        <li>A mal that travels all the way around and back past the starting point <strong>finishes</strong>.</li>
+                        <li>Whoever gets all four mal home first wins.</li>
                     </ul>
                 </section>
 
                 <section class="info-section">
-                    <h2>Shortcuts — Cut Across</h2>
-                    <p>The board has diagonal shortcuts through the center. If a mal <strong>lands exactly on a corner</strong>, its next move enters the shortcut for a faster route. Riding the center path saves many steps, so landing precisely matters. Pass the corner and you must take the long outer route.</p>
+                    <h2>Shortcuts — A Faster Path That Only Opens With a Precise Landing</h2>
+                    <p>The diagonal shortcuts crossing the center of the board aren't available whenever you like. A mal only unlocks the shortcut on its next move if it <strong>lands exactly on a corner space</strong>. Riding the path through the center can save you a lot of ground compared to looping all the way around the outside, which is exactly why landing precisely matters so much strategically. Overshoot the corner even slightly, though, and you miss the shortcut entirely — back to the long way around.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Capturing — Send Them Home</h2>
-                    <p>If your mal ends on a square holding an <strong>opponent mal, you capture it</strong> and send it back to start — plus you get <strong>an extra throw</strong>. Hunting the opponent's path is the key attack; meanwhile, keep your own mal off risky squares.</p>
+                    <h2>Capturing — The Most Reliable Way to Set an Opponent Back</h2>
+                    <p>If your mal lands on a space occupied by an opponent's mal, you <strong>capture it</strong> and send it all the way back to the start. That alone is a big swing, since it erases however far they'd already traveled — and capturing also earns you a bonus throw. Hunting down spaces where opponent mal are clustered is the core offensive move in Yut Nori, and just as importantly, keep an eye on whether your own mal are sitting somewhere vulnerable to the same thing.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Stacking — Move Together</h2>
-                    <p>Landing on your own mal <strong>stacks</strong> them, and they move together afterward — efficient, but if a stack is captured you lose <strong>several at once</strong>. Weigh the speed against the risk.</p>
+                    <h2>Stacking — Faster, but Riskier</h2>
+                    <p>If your mal lands on a space already holding another of your own mal, the two <strong>stack together</strong> and move as one unit from then on. It's efficient, letting you advance multiple mal in a single move — but if that stack gets captured, you lose <strong>all of them at once</strong>. Weigh the safety of the path against that risk each time before deciding whether to stack.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Winning Strategy</h2>
-                    <ul class="rule-list">
-                        <li><strong>Capture first:</strong> a capture grants another throw, so take chances to capture.</li>
-                        <li><strong>Aim for shortcuts:</strong> land exactly on corners/center to cut the route.</li>
-                        <li><strong>Stack carefully:</strong> fast, but costly if captured.</li>
-                        <li><strong>Assign wisely:</strong> big results (Yut/Mo) to far mal, small (Do) to a mal near home.</li>
-                    </ul>
+                    <p><strong>Prioritize captures whenever you get the chance.</strong> A capture sends your opponent back to start and earns you an extra throw — a double win.</p>
+                    <p><strong>Don't dump every result on one mal — distribute them to fit the situation.</strong> Big results (Yut, Mo) are usually best spent on a mal still far from home, while small results (Do) work well finishing off a mal that's almost there.</p>
+                    <p><strong>Think carefully before stacking.</strong> It's fast, but costly if captured — save it for stretches of the board where the capture risk is genuinely low.</p>
+                    <p><strong>Don't panic when you roll Backdo.</strong> If one of your mal on the board is about to be within an opponent's capturing range, moving it back one space can sometimes be exactly the escape you need.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>FAQ</h2>
                     <ul class="rule-list">
-                        <li><strong>What if Yut/Mo keeps coming?</strong> You keep earning extra throws — a lucky streak advances you far.</li>
-                        <li><strong>Are shortcuts automatic?</strong> A mal that lands exactly on a corner/center takes the shortcut on its next move.</li>
-                        <li><strong>Can stacks be captured?</strong> Yes — a captured stack sends all those mal back to start.</li>
-                        <li><strong>What happens when you throw Backdo?</strong> One of your mal already on the board moves back one space. If you have no mal on the board yet, this result can't be used — move another mal or your turn passes.</li>
+                        <li><strong>What if I keep rolling Yut or Mo?</strong> Every one earns another throw, so a lucky streak can advance you dramatically in a single turn.</li>
+                        <li><strong>Are shortcuts automatic?</strong> A mal that lands exactly on a corner or the center takes the shortcut on its very next move.</li>
+                        <li><strong>Can a stack of mal be captured together?</strong> Yes — capturing a stack sends every mal in it back to the start at once.</li>
+                        <li><strong>What happens when I roll Backdo?</strong> One of your mal already on the board moves back one space. If you have no mal on the board yet, this result can't be used — you'll move a different mal instead, or your turn passes if nothing else is available.</li>
+                        <li><strong>Is Backdo always a loss?</strong> Not necessarily. If one of your mal is sitting right where an opponent could capture it next, retreating one space with Backdo can actually be a defensive move that saves it.</li>
                     </ul>
                 </section>
             </div>
