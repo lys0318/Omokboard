@@ -37,6 +37,8 @@ const META = {
   'ladder-uses':       { t:'Ladder Game Uses — Penalties, Teams & Order | Omokboard', d:'Use a ladder game (Amidakuji) to fairly decide penalties, team splits, who pays, and cleanup or presentation order. Free, no install.' },
   'korean-games':      { t:'Korean Traditional Games — Yut Nori & Alkkagi | Omokboard', d:'The history, culture, and rules of Korean traditional games Yut Nori and Alkkagi. Play them free online, no install.' },
   'free-board-games':  { t:'Free Online Board Games — 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser — no install, no sign-up. Compare and pick one to play.' },
+  'brain-training':    { t:'Brain Games and Cognitive Skills | Omokboard', d:'What each Omokboard game actually trains — pattern recognition, logical deduction, planning ahead, spatial organization, risk management, and hand-eye feel.' },
+  'game-recommendations': { t:'Game Recommendations by Situation | Omokboard', d:'Which Omokboard game fits your situation — solo training, playing with kids, head-to-head with a friend, holidays, a quick 5 minutes, or going deep.' },
   about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games — play vs AI or 2-player, no install required.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard for bug reports, suggestions, or privacy and advertising inquiries.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy — what we collect, how it is used, and third-party services.' }
