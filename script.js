@@ -638,6 +638,7 @@ class OmokGame {
                 ? 'linear-gradient(to right, #444, #111)'
                 : 'linear-gradient(to right, #fff, #d4d4d4)';
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 800);
     }
 
@@ -651,6 +652,7 @@ class OmokGame {
             this.winDesc.textContent = window.i18n.t('game.close');
             this.winTitle.style.background = 'linear-gradient(to right, #94a3b8, #64748b)';
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 800);
     }
 

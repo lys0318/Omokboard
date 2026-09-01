@@ -112,17 +112,25 @@
             </div>
         </main>
 
-        <div id="room-panel" class="hidden" style="max-width:520px;margin:1rem auto 0;padding:1rem 1.25rem;border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;background:rgba(255,255,255,0.04);">
-            <div id="room-status" style="color:var(--text-muted);font-size:0.95rem;"></div>
-            <div id="room-code-row" class="hidden" style="margin-top:0.6rem;display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-                <span style="font-size:0.85rem;color:var(--text-muted);">방 코드</span>
-                <strong id="room-code" style="font-size:1.4rem;letter-spacing:0.15em;"></strong>
-                <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">링크 복사</button>
-            </div>
-            <div style="margin-top:0.75rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
-                <input id="room-input" placeholder="코드 입력 (예: K7RM92)" maxlength="6"
-                       style="flex:1;min-width:160px;min-height:44px;padding:0 0.75rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;">
-                <button id="room-join" class="btn primary" style="min-height:44px;">입장</button>
+        <div id="room-panel" class="overlay hidden">
+            <div class="modal" style="max-width:420px;padding:2.25rem 2rem;">
+                <h2 style="font-size:1.6rem;">
+                    <span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span>
+                </h2>
+                <p id="room-status" style="color:var(--text-muted);font-size:1rem;margin-bottom:1rem;"></p>
+                <div id="room-code-row" class="hidden" style="margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;flex-wrap:wrap;">
+                    <span style="font-size:0.85rem;color:var(--text-muted);"><span class="ko-only">방 코드</span><span class="en-only" style="display:none;">Room code</span></span>
+                    <strong id="room-code" style="font-size:1.5rem;letter-spacing:0.15em;"></strong>
+                    <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">
+                        <span class="ko-only">링크 복사</span><span class="en-only" style="display:none;">Copy Link</span>
+                    </button>
+                </div>
+                <div id="room-count" style="font-weight:700;font-size:1.2rem;color:var(--accent-blue);"></div>
+                <p style="margin-top:1.5rem;">
+                    <a href="/" style="color:var(--text-muted);font-size:0.9rem;text-decoration:none;">
+                        <span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span>
+                    </a>
+                </p>
             </div>
         </div>
 
@@ -181,7 +189,7 @@
                         <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
                         <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
                     </button>
-                    <button class="mode-btn" onclick="window.startOnlineOmok()">
+                    <button class="mode-btn" onclick="document.getElementById('step-mode').classList.add('hidden');document.getElementById('step-online').classList.remove('hidden')">
                         <span class="mode-icon">🌐</span>
                         <span class="mode-label"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></span>
                         <span class="mode-desc"><span class="ko-only">방 코드로 초대</span><span class="en-only" style="display:none;">Invite by room code</span></span>
@@ -193,6 +201,32 @@
                     </button>
                 </div>
                 <a href="/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+            </div>
+            <div id="step-online" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="online-create-btn">
+                        <span class="mode-icon">➕</span>
+                        <span class="mode-label"><span class="ko-only">방 생성</span><span class="en-only" style="display:none;">Create Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">새 방을 만들고 코드 공유</span><span class="en-only" style="display:none;">Make a room and share the code</span></span>
+                    </button>
+                    <button class="mode-btn" onclick="document.getElementById('step-online').classList.add('hidden');document.getElementById('step-online-join').classList.remove('hidden')">
+                        <span class="mode-icon">🔑</span>
+                        <span class="mode-label"><span class="ko-only">방 입장</span><span class="en-only" style="display:none;">Join Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">코드를 입력해 입장</span><span class="en-only" style="display:none;">Enter a code to join</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" onclick="document.getElementById('step-online').classList.add('hidden');document.getElementById('step-mode').classList.remove('hidden')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+            <div id="step-online-join" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">방 코드를 입력하세요</span><span class="en-only" style="display:none;">Enter the room code</span></p>
+                <input id="join-code-input" placeholder="예: K7RM92" maxlength="6"
+                       style="width:100%;min-height:48px;padding:0 0.9rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;text-align:center;font-size:1.1rem;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                <p id="join-code-error" style="min-height:1.3em;color:#f87171;font-size:0.85rem;margin-bottom:0.75rem;"></p>
+                <button id="join-code-confirm" class="btn primary" style="min-height:48px;width:100%;">
+                    <span class="ko-only">입장하기</span><span class="en-only" style="display:none;">Join</span>
+                </button>
+                <button class="mode-back-btn" onclick="document.getElementById('step-online-join').classList.add('hidden');document.getElementById('step-online').classList.remove('hidden')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
             </div>
             <div id="step-difficulty" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
@@ -224,6 +258,17 @@
             <h2 id="win-title">승리!</h2>
             <p id="win-desc">흑돌이 승리했습니다.</p>
             <button id="modal-reset-btn" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+            <div id="online-endgame" class="hidden">
+                <div style="display:flex;gap:0.6rem;justify-content:center;">
+                    <button id="online-leave-btn" class="btn secondary large">
+                        <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                    </button>
+                    <button id="online-rematch-btn" class="btn primary large">
+                        <span class="ko-only">다시하기</span><span class="en-only" style="display:none;">Rematch</span>
+                    </button>
+                </div>
+                <p id="online-endgame-status" style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;min-height:1.3em;"></p>
+            </div>
         </div>
     </div>
 
@@ -238,10 +283,15 @@
       const statusEl = document.getElementById('room-status');
       const codeRow = document.getElementById('room-code-row');
       const codeEl = document.getElementById('room-code');
+      const countEl = document.getElementById('room-count');
+      const onlineEndgame = document.getElementById('online-endgame');
+      const modalResetBtn = document.getElementById('modal-reset-btn');
+      const rematchBtn = document.getElementById('online-rematch-btn');
+      const endgameStatusEl = document.getElementById('online-endgame-status');
+      const winOverlay = document.getElementById('win-overlay');
 
       const TEXT = {
-        waiting: '상대를 기다리는 중입니다. 코드나 링크를 공유하세요.',
-        playing: '대국 중입니다.',
+        waiting: '상대를 기다리는 중입니다.',
         paused: '상대의 연결이 끊겼습니다. 잠시 기다립니다.',
         finished: '대국이 종료되었습니다.',
         connected: '서버에 연결되었습니다.',
@@ -260,29 +310,50 @@
       };
 
       let shareLink = '';
+      let mpSession = null;
 
       const ui = {
         onStatus(status, info) {
-          statusEl.textContent = TEXT[status] || status;
-          if (status === 'playing' && info && info.color) {
-            statusEl.textContent += ` (내 돌: ${info.color === 'black' ? '흑' : '백'})`;
+          if (status === 'playing') {
+            // 정원 2/2 — 짧게 보여준 뒤 게임 화면으로 넘어간다.
+            countEl.textContent = '2 / 2';
+            statusEl.textContent = '게임을 시작합니다!';
+            setTimeout(() => panel.classList.add('hidden'), 700);
+            return;
           }
+          if (status === 'waiting') {
+            countEl.textContent = '1 / 2';
+            panel.classList.remove('hidden'); // 상대가 나가서 되돌아온 경우 다시 노출
+            winOverlay.classList.add('hidden'); // 지난 판의 종료 모달이 남아있지 않도록
+          }
+          statusEl.textContent = TEXT[status] || status;
         },
         onCode(code, url) {
           shareLink = url;
           codeEl.textContent = code;
           codeRow.classList.remove('hidden');
+          countEl.textContent = '1 / 2';
         },
         onError(code) {
           statusEl.textContent = ERR[code] || code;
+          document.getElementById('join-code-error').textContent = ERR[code] || code;
+        },
+        onRematchWait() {
+          endgameStatusEl.textContent = '상대방이 재대결을 원합니다. "다시하기"를 눌러 수락하세요.';
+        },
+        onRematchStart() {
+          rematchBtn.disabled = false;
+          endgameStatusEl.textContent = '';
+          winOverlay.classList.add('hidden');
         },
       };
 
       function begin() {
         panel.classList.remove('hidden');
+        statusEl.textContent = TEXT.waiting;
         window.omokGame.startGame('online');
         window.omokGame.inputLocked = true;
-        window.Multiplayer.start({
+        mpSession = window.Multiplayer.start({
           gameId: 'omok',
           game: window.omokGame,
           adapter: window.OmokboardAdapters.omok,
@@ -290,16 +361,39 @@
         });
       }
 
-      window.startOnlineOmok = begin;
+      // 대국 종료 모달: 온라인 대전에서는 나가기/다시하기만 보인다.
+      window.omokGame.onGameOver = () => {
+        modalResetBtn.classList.add('hidden');
+        onlineEndgame.classList.remove('hidden');
+        endgameStatusEl.textContent = '';
+      };
+
+      document.getElementById('online-create-btn').addEventListener('click', begin);
+
+      document.getElementById('join-code-confirm').addEventListener('click', () => {
+        const code = document.getElementById('join-code-input').value.trim().toUpperCase();
+        const errEl = document.getElementById('join-code-error');
+        if (code.length !== 6) {
+          errEl.textContent = '6자리 코드를 입력하세요.';
+          return;
+        }
+        location.search = `?room=${code}`;
+      });
 
       document.getElementById('room-copy').addEventListener('click', () => {
         if (shareLink) navigator.clipboard.writeText(shareLink);
       });
 
-      document.getElementById('room-join').addEventListener('click', () => {
-        const code = document.getElementById('room-input').value.trim().toUpperCase();
-        if (code.length !== 6) return ui.onError('ROOM_NOT_FOUND');
-        location.search = `?room=${code}`;
+      document.getElementById('online-leave-btn').addEventListener('click', () => {
+        if (mpSession) mpSession.leave();
+        location.href = '/';
+      });
+
+      document.getElementById('online-rematch-btn').addEventListener('click', () => {
+        if (!mpSession) return;
+        mpSession.rematch();
+        rematchBtn.disabled = true;
+        endgameStatusEl.textContent = '상대방을 기다리는 중입니다...';
       });
 
       // 링크로 들어온 경우 자동 입장

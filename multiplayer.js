@@ -27,6 +27,17 @@
       } else {
         createRoom(session);
       }
+
+      // 대국 종료 후 명시적 액션. 끊김 재접속과는 별개 경로다.
+      session.leave = () => {
+        session.closedByUs = true; // close 핸들러가 재접속을 시도하지 않도록
+        try { session.ws.send(JSON.stringify({ type: 'leave' })); } catch { /* 이미 끊김 */ }
+        try { session.ws.close(); } catch { /* no-op */ }
+      };
+      session.rematch = () => {
+        try { session.ws.send(JSON.stringify({ type: 'rematch' })); } catch { /* no-op */ }
+      };
+
       return session;
     },
   };
@@ -125,7 +136,25 @@
         break;
 
       case 'status':
+        // 상대가 "나가기"로 방을 떠난 경우: 새 상대를 기다리는 화면으로 돌아간다.
+        // 지난 판이 화면에 남아있지 않도록 여기서 로컬 보드도 함께 비운다.
+        if (msg.reason === 'OPPONENT_LEFT_ROOM') {
+          session.seq = 0;
+          game.resetGame();
+        }
         ui.onStatus(msg.status, msg);
+        updateInput(session);
+        break;
+
+      case 'rematch_wait':
+        // 이 메시지는 항상 "상대방"이 요청했다는 뜻이다(내 요청은 나에게 되돌아오지 않는다).
+        ui.onRematchWait();
+        break;
+
+      case 'rematch_start':
+        session.seq = 0;
+        game.resetGame();
+        ui.onRematchStart();
         updateInput(session);
         break;
 

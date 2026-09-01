@@ -44,6 +44,8 @@ export class RoomDO {
       return;
     }
     if (msg.type === 'move') return this.onMove(ws, msg);
+    if (msg.type === 'leave') return this.onLeave(ws);
+    if (msg.type === 'rematch') return this.onRematch(ws);
   }
 
   async onMove(ws, msg) {
@@ -74,6 +76,74 @@ export class RoomDO {
     });
 
     this.broadcast({ type: 'move', move: msg.move, seq: nextSeq, turn: nextTurn });
+  }
+
+  // 대국 종료 후 "나가기": 접속 끊김(재접속 유예)과 달리 자리를 즉시 비운다.
+  // 남은 플레이어는 새 상대를 기다리는 대기방으로 돌아간다(같은 방 코드 유지).
+  async onLeave(ws) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    if (!color) return;
+
+    const players = await this.ctx.storage.get('players');
+    if (players) players[color] = null; // 자리 즉시 비움 — webSocketClose가 유예 처리를 하지 않도록
+
+    await this.ctx.storage.put({
+      players,
+      status: 'waiting',
+      turn: 'black',
+      seq: 0,
+      occupied: [],
+      state: null,
+      rematchReady: {},
+      graceDeadline: null,
+      lastActivityAt: Date.now(),
+    });
+    await this.rescheduleAlarm();
+
+    for (const other of this.ctx.getWebSockets()) {
+      if (other === ws) continue;
+      this.send(other, { type: 'status', status: 'waiting', reason: 'OPPONENT_LEFT_ROOM' });
+    }
+    ws.close(1000, 'LEFT'); // 클라이언트가 이 사유를 보면 재접속을 시도하지 않는다
+  }
+
+  // 재대결: 두 플레이어 모두 요청해야 판이 초기화된다.
+  // 두 요청이 거의 동시에 도착하면 get→put 사이에 서로 끼어들 수 있어
+  // (둘 다 상대의 ready를 못 본 채로 판정) blockConcurrencyWhile로 원자적으로 묶는다.
+  async onRematch(ws) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    if (!color) return;
+
+    const bothReady = await this.ctx.blockConcurrencyWhile(async () => {
+      const room = await this.ctx.storage.get(['rematchReady', 'players']);
+      const players = room.get('players');
+      const ready = { ...(room.get('rematchReady') ?? {}), [color]: true };
+      const bothReady = !!(players?.black && players?.white && ready.black && ready.white);
+
+      if (bothReady) {
+        await this.ctx.storage.put({
+          status: 'playing',
+          turn: 'black',
+          seq: 0,
+          occupied: [],
+          state: null,
+          rematchReady: {},
+          lastActivityAt: Date.now(),
+        });
+      } else {
+        await this.ctx.storage.put({ rematchReady: ready });
+      }
+      return bothReady;
+    });
+
+    if (bothReady) {
+      this.broadcast({ type: 'rematch_start', turn: 'black' });
+      return;
+    }
+    for (const other of this.ctx.getWebSockets()) {
+      if (other === ws) continue;
+      this.send(other, { type: 'rematch_wait', color });
+    }
   }
 
   // 알람은 DO당 하나뿐이다. 유예와 만료 중 이른 시각을 쓴다.
@@ -229,6 +299,7 @@ export class RoomDO {
       lastActivityAt: Date.now(),
       roomExpiresAt: Date.now() + ROOM_TTL_MS,
       graceDeadline: null,
+      rematchReady: {},
     });
     // 아무도 입장하지 않은 방도 반드시 정리되도록 생성 시점에 알람을 건다.
     await this.rescheduleAlarm();
