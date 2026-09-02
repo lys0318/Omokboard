@@ -1,21 +1,29 @@
 :root {
-    --bg-dark: #0f172a;
-    --bg-darker: #020617;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
+    /* 차갑고 어디서나 보는 slate+blue 조합 대신, 실제 오목판의 나무·먹 톤에서
+       끌어온 팔레트. 배경은 먹빛에 가까운 따뜻한 흑갈색, 강조색은 단청·인주
+       느낌의 주홍 — 보드의 금빛 나무색과 톤은 맞추되 색상은 겹치지 않게 갈라둠. */
+    --bg-dark: #1b1512;
+    --bg-darker: #100c0a;
+    --surface: #2b2118;
+    --text-main: #f3ece2;
+    --text-muted: #a99a89;
     --board-wood: #deae6c;
     --board-wood-dark: #b4854b;
     --board-shadow: rgba(0, 0, 0, 0.4);
     --grid-line: #5a3c1e;
-    
+
     --stone-black: #111;
     --stone-black-shine: #444;
     --stone-white: #f5f5f5;
     --stone-white-edge: #d4d4d4;
-    
-    --accent-blue: #3b82f6;
-    --accent-blue-hover: #2563eb;
-    
+
+    --accent: #bd4c20; /* 흰 글자 버튼 배경 기준 4.5:1 대비를 넘기는 선까지 낮춘 채도 */
+    --accent-hover: #a03e19;
+    --accent-soft: #f2a97e;
+    /* 다른 11개 게임 페이지의 인라인 스타일이 아직 이 이름을 참조한다 */
+    --accent-blue: var(--accent);
+    --accent-blue-hover: var(--accent-hover);
+
     --board-size: min(90vw, 600px);
     --cell-size: calc(var(--board-size) / 15);
 }
@@ -60,9 +68,7 @@ h1 {
     font-size: 3.5rem;
     font-weight: 800;
     letter-spacing: 0.2em;
-    background: linear-gradient(135deg, #fff, #94a3b8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-main);
     margin-bottom: 0.5rem;
 }
 
@@ -156,7 +162,7 @@ h1 {
     border-radius: 1.5rem;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     border: 1px solid rgba(255,255,255,0.05);
-    animation: zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: zoomIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .board {
@@ -238,7 +244,7 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    animation: placeStone 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: placeStone 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .stone.black {
@@ -296,15 +302,15 @@ h1 {
 }
 
 .btn.primary {
-    background: var(--accent-blue);
+    background: var(--accent);
     color: white;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 15px rgba(189, 76, 32, 0.35);
 }
 
 .btn.primary:hover {
-    background: var(--accent-blue-hover);
+    background: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 6px 20px rgba(189, 76, 32, 0.5);
 }
 
 .btn.primary:active {
@@ -339,7 +345,7 @@ h1 {
 }
 
 .modal {
-    background: #1e293b;
+    background: var(--surface);
     padding: 3rem;
     border-radius: 1.5rem;
     text-align: center;
@@ -348,7 +354,7 @@ h1 {
     max-width: 92vw; /* 폭 제한이 없으면 좁은 화면에서 내용에 맞춰 애매하게 눌려
                         버튼 텍스트가 세로로 줄바꿈되는 문제가 생긴다 */
     transform: translateY(0);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .overlay.hidden .modal {
@@ -358,9 +364,7 @@ h1 {
 .modal h2 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
-    background: linear-gradient(to right, #fbbf24, #f59e0b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #e8a54c;
 }
 
 .modal p {
@@ -376,7 +380,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 6, 23, 0.92);
+    background: rgba(16, 12, 10, 0.92);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -388,7 +392,7 @@ h1 {
 }
 
 #mode-card {
-    background: #1e293b;
+    background: var(--surface);
     padding: 3rem 4rem;
     border-radius: 1.5rem;
     text-align: center;
@@ -400,10 +404,7 @@ h1 {
     font-size: 3rem;
     font-weight: 800;
     letter-spacing: 0.2em;
-    background: linear-gradient(135deg, #fff, #94a3b8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-main);
     margin-bottom: 0.5rem;
 }
 
@@ -422,7 +423,7 @@ h1 {
 
 .mode-btn {
     background: rgba(255, 255, 255, 0.06);
-    color: #f8fafc;
+    color: var(--text-main);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 1rem;
     padding: 1.5rem 2rem;
@@ -437,10 +438,10 @@ h1 {
 }
 
 .mode-btn:hover {
-    background: rgba(59, 130, 246, 0.25);
-    border-color: #3b82f6;
+    background: rgba(189, 76, 32, 0.18);
+    border-color: var(--accent);
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+    box-shadow: 0 8px 24px rgba(189, 76, 32, 0.3);
 }
 
 .mode-icon {
@@ -529,7 +530,7 @@ h1 {
 }
 
 .game-nav-item.active {
-    background: var(--accent-blue);
+    background: var(--accent);
     color: #fff;
 }
 
@@ -584,14 +585,14 @@ h1 {
     position: relative;
     line-height: 1.55;
 }
-.game-how-to li::before { content: '▸'; position: absolute; left: 0; color: var(--accent-blue); font-size: 0.7rem; top: 0.22em; }
+.game-how-to li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 0.22em; }
 
 /* Generic mode overlay for all games */
 .game-mode-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(2,6,23,0.92);
+    background: rgba(16,12,10,0.92);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -599,7 +600,7 @@ h1 {
 }
 .game-mode-overlay.hidden { display: none; }
 .game-mode-card {
-    background: #1e293b;
+    background: var(--surface);
     padding: 3rem 4rem;
     border-radius: 1.5rem;
     text-align: center;
@@ -680,14 +681,14 @@ footer {
 }
 
 .footer-nav a {
-    color: var(--accent-blue);
+    color: var(--accent);
     text-decoration: none;
     font-size: 0.85rem;
     transition: color 0.2s;
 }
 
 .footer-nav a:hover {
-    color: var(--accent-blue-hover);
+    color: var(--accent-hover);
 }
 
 .footer-sep {
@@ -756,9 +757,38 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 [tabindex]:focus-visible {
-    outline: 3px solid #7cb0ff;
+    outline: 3px solid var(--accent-soft);
     outline-offset: 2px;
     border-radius: 6px;
+}
+
+/* 브라우저 기본 렌더링(선택 영역·스크롤바)도 팔레트에 맞춰 —
+   손대지 않으면 여기만 파랗게 남아 그 자체로 티가 난다 */
+::selection {
+    background: var(--accent);
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--board-wood-dark);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+html {
+    scrollbar-color: var(--board-wood-dark) var(--bg-darker);
 }
 
 /* 접근성: 모션 최소화 선호 존중 (CSS 전환·애니메이션 억제) */
