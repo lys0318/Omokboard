@@ -167,6 +167,7 @@ h1 {
     box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 10px 30px var(--board-shadow);
     position: relative;
     cursor: crosshair;
+    touch-action: manipulation; /* 모바일에서 더블탭 확대 지연 없이 바로 착수되도록 */
 }
 
 /* Grid Lines */
@@ -290,6 +291,7 @@ h1 {
     border: none;
     border-radius: 0.5rem;
     cursor: pointer;
+    white-space: nowrap; /* 좁은 곳에 끼면 글자가 세로로 한 자씩 줄바꿈되던 문제 방지 */
     transition: all 0.2s ease;
 }
 
@@ -343,6 +345,8 @@ h1 {
     text-align: center;
     border: 1px solid rgba(255,255,255,0.1);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    max-width: 92vw; /* 폭 제한이 없으면 좁은 화면에서 내용에 맞춰 애매하게 눌려
+                        버튼 텍스트가 세로로 줄바꿈되는 문제가 생긴다 */
     transform: translateY(0);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -700,12 +704,44 @@ footer {
 
 /* Responsive */
 @media (max-width: 600px) {
-    .app-container { padding: 1rem; }
-    h1 { font-size: 2.5rem; }
+    .app-container { padding: 0.6rem; }
+    h1 { font-size: 2.2rem; }
     .game-info { flex-direction: column; gap: 1rem; padding: 1rem; }
     .status-center { order: -1; margin-bottom: 0.5rem; }
     .lang-toggle-btn { margin-left: 0; }
     .game-mode-card { padding: 2rem 1.25rem; }
+
+    /* 12개 게임 링크가 3~4줄로 줄바꿈되며 보드까지의 스크롤을 늘리던 문제 →
+       한 줄 가로 스크롤 스트립으로 압축 */
+    .game-nav {
+        width: 100%;
+        min-width: 0; /* flex item 기본 min-width:auto가 내용물(줄바꿈 없는 12개 링크) 크기만큼
+                         커지는 걸 막아야 overflow-x:auto가 실제로 잘라내고 스크롤된다 */
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .game-nav::-webkit-scrollbar { display: none; }
+    .game-nav-item { flex: 0 0 auto; }
+
+    /* 모드 선택 카드가 max-width 없이 가용 폭까지 늘어나면서, 버튼 3개가
+       "2개+1개"로 어중간하게 줄바꿈되고 카드 좌우 여백도 없어지던 문제 →
+       카드 폭을 제한하고 버튼은 항상 세로 1열로 쌓이게 고정 */
+    #mode-card { width: 100%; max-width: 380px; padding: 2rem 1.5rem; }
+    .mode-buttons { flex-direction: column; align-items: stretch; }
+    .mode-btn { width: 100%; }
+
+    /* 온라인 대전 종료 모달의 나가기/다시하기 버튼도 같은 이유로 세로 1열로 */
+    .online-endgame-actions { flex-direction: column; }
+    .online-endgame-actions .btn { width: 100%; }
+
+    /* board-size가 뷰포트 기준(vw)이라 app-container/board-container의
+       패딩을 무시하고 넘쳐서, 보드만 다른 요소보다 여백이 좁아 보이던 문제 →
+       실제 남는 폭 기준으로 다시 계산하고 카드 패딩도 함께 줄여 셀을 최대화 */
+    .board-container { padding: 0.5rem; }
+    :root { --board-size: min(calc(100vw - 2.2rem), 420px); }
 }
 
 /* 접근성: 키보드 포커스 링 (다크 테마 대비 확보) */
