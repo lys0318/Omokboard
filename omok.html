@@ -282,7 +282,7 @@
     </div>
 
     <script src="lang.js?v=6"></script>
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
     <script src="/adapters/omok.js?v=1"></script>
     <script src="/multiplayer.js?v=1"></script>
     <script>
@@ -299,23 +299,25 @@
       const endgameStatusEl = document.getElementById('online-endgame-status');
       const winOverlay = document.getElementById('win-overlay');
 
+      // 언어별 문구는 lang.js의 online.* 키에서 가져온다(EN 페이지에서도 정상 표시되도록).
+      const t = window.i18n.t;
       const TEXT = {
-        waiting: '상대를 기다리는 중입니다.',
-        paused: '상대의 연결이 끊겼습니다. 잠시 기다립니다.',
-        finished: '대국이 종료되었습니다.',
-        connected: '서버에 연결되었습니다.',
-        reconnecting: '연결이 끊겨 재접속 중입니다.',
-        opponent_left: '상대의 연결이 끊겼습니다.',
-        opponent_back: '상대가 돌아왔습니다.',
+        waiting: t('online.waiting'),
+        paused: t('online.paused'),
+        finished: t('online.finished'),
+        connected: t('online.connected'),
+        reconnecting: t('online.reconnecting'),
+        opponent_left: t('online.opponentLeft'),
+        opponent_back: t('online.opponentBack'),
       };
       const ERR = {
-        ROOM_FULL: '이미 두 명이 대전 중인 방입니다.',
-        ROOM_NOT_FOUND: '존재하지 않는 방 코드입니다.',
-        NOT_YOUR_TURN: '상대 차례입니다.',
-        CELL_TAKEN: '이미 돌이 놓인 자리입니다.',
-        SEQ_MISMATCH: '판을 서버 기준으로 맞췄습니다.',
-        CREATE_FAILED: '방 생성에 실패했습니다.',
-        REPLACED: '다른 창에서 같은 자리로 접속해 이 창의 연결이 종료되었습니다.',
+        ROOM_FULL: t('online.err.roomFull'),
+        ROOM_NOT_FOUND: t('online.err.roomNotFound'),
+        NOT_YOUR_TURN: t('online.err.notYourTurn'),
+        CELL_TAKEN: t('online.err.cellTaken'),
+        SEQ_MISMATCH: t('online.err.seqMismatch'),
+        CREATE_FAILED: t('online.err.createFailed'),
+        REPLACED: t('online.err.replaced'),
       };
 
       let shareLink = '';
@@ -326,7 +328,7 @@
           if (status === 'playing') {
             // 정원 2/2 — 짧게 보여준 뒤 게임 화면으로 넘어간다.
             countEl.textContent = '2 / 2';
-            statusEl.textContent = '게임을 시작합니다!';
+            statusEl.textContent = t('online.starting');
             setTimeout(() => panel.classList.add('hidden'), 700);
             return;
           }
@@ -348,7 +350,7 @@
           document.getElementById('join-code-error').textContent = ERR[code] || code;
         },
         onRematchWait() {
-          endgameStatusEl.textContent = '상대방이 재대결을 원합니다. "다시하기"를 눌러 수락하세요.';
+          endgameStatusEl.textContent = t('online.rematchWait');
         },
         onRematchStart() {
           rematchBtn.disabled = false;
@@ -389,6 +391,7 @@
         modalResetBtn.classList.add('hidden');
         onlineEndgame.classList.remove('hidden');
         endgameStatusEl.textContent = '';
+        rematchBtn.disabled = false; // 지난 판에서 눌러 비활성화된 채 남아있지 않도록
       };
 
       document.getElementById('online-create-btn').addEventListener('click', begin);
@@ -397,7 +400,7 @@
         const code = document.getElementById('join-code-input').value.trim().toUpperCase();
         const errEl = document.getElementById('join-code-error');
         if (code.length !== 6) {
-          errEl.textContent = '6자리 코드를 입력하세요.';
+          errEl.textContent = t('online.err.codeLength');
           return;
         }
         location.search = `?room=${code}`;
@@ -410,8 +413,7 @@
       document.getElementById('online-leave-btn').addEventListener('click', doLeave);
 
       document.getElementById('online-leave-mid-btn').addEventListener('click', () => {
-        const msg = '게임을 종료하고 나가시겠습니까? 상대방은 대기 화면으로 돌아갑니다.';
-        if (!confirm(msg)) return;
+        if (!confirm(t('online.confirmLeaveMidGame'))) return;
         doLeave();
       });
 
@@ -419,7 +421,7 @@
         if (!mpSession) return;
         mpSession.rematch();
         rematchBtn.disabled = true;
-        endgameStatusEl.textContent = '상대방을 기다리는 중입니다...';
+        endgameStatusEl.textContent = t('online.rematchWaitingSelf');
       });
 
       // 링크로 들어온 경우 자동 입장

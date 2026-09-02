@@ -185,7 +185,7 @@ class OmokGame {
         if (mode === 'ai') {
             whiteNameEl.textContent = 'AI (White)';
         } else {
-            whiteNameEl.textContent = '백돌 (White)';
+            whiteNameEl.textContent = window.i18n ? window.i18n.t('omok.white') : '백돌 (White)';
         }
 
         this.resetGame();
