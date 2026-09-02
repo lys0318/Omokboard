@@ -92,6 +92,9 @@
                 <div class="player black active" id="player-black">
                     <div class="stone-preview black-stone"></div>
                     <span class="player-name" data-i18n="omok.black">흑돌 (Black)</span>
+                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                        <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                    </span>
                 </div>
                 <div class="status-center">
                     <div class="status-message" id="status-message" data-i18n="omok.black.turn">흑의 차례입니다</div>
@@ -100,6 +103,9 @@
                 <div class="player white" id="player-white">
                     <div class="stone-preview white-stone"></div>
                     <span class="player-name" id="white-player-name" data-i18n="omok.white">백돌 (White)</span>
+                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                        <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                    </span>
                 </div>
             </div>
 
@@ -109,6 +115,9 @@
 
             <div class="controls">
                 <button id="reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+                <button id="online-leave-mid-btn" class="btn secondary hidden">
+                    <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                </button>
             </div>
         </main>
 
@@ -346,13 +355,27 @@
           endgameStatusEl.textContent = '';
           winOverlay.classList.add('hidden');
         },
+        // 내가 흑/백 어느 쪽인지 대국 내내 표시한다(턴 강조와는 별개 정보).
+        onColor(color) {
+          document.getElementById('me-black').classList.toggle('hidden', color !== 'black');
+          document.getElementById('me-white').classList.toggle('hidden', color !== 'white');
+        },
       };
+
+      function doLeave() {
+        if (mpSession) mpSession.leave();
+        location.href = '/';
+      }
 
       function begin() {
         panel.classList.remove('hidden');
         statusEl.textContent = TEXT.waiting;
         window.omokGame.startGame('online');
         window.omokGame.inputLocked = true;
+        // 온라인 대전에서는 "게임 재시작" 대신 "나가기"를 쓴다 — 재시작은
+        // 서버에 알리지 않고 모드 화면만 여는 로컬 동작이라 온라인 상태와 어긋난다.
+        document.getElementById('reset-btn').classList.add('hidden');
+        document.getElementById('online-leave-mid-btn').classList.remove('hidden');
         mpSession = window.Multiplayer.start({
           gameId: 'omok',
           game: window.omokGame,
@@ -384,9 +407,12 @@
         if (shareLink) navigator.clipboard.writeText(shareLink);
       });
 
-      document.getElementById('online-leave-btn').addEventListener('click', () => {
-        if (mpSession) mpSession.leave();
-        location.href = '/';
+      document.getElementById('online-leave-btn').addEventListener('click', doLeave);
+
+      document.getElementById('online-leave-mid-btn').addEventListener('click', () => {
+        const msg = '게임을 종료하고 나가시겠습니까? 상대방은 대기 화면으로 돌아갑니다.';
+        if (!confirm(msg)) return;
+        doLeave();
       });
 
       document.getElementById('online-rematch-btn').addEventListener('click', () => {

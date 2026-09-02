@@ -110,6 +110,7 @@
         if (msg.state) adapter.restore(game, { ...msg.state, turn: msg.turn || msg.state.turn });
         bindLocalMoves(session);
         ui.onCode(session.code, shareUrl(session.code));
+        ui.onColor(msg.color);
         ui.onStatus(msg.status, { color: msg.color });
         updateInput(session);
         break;
