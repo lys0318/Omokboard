@@ -7,6 +7,7 @@
     "build": "node scripts/build-dist.mjs",
     "dev": "npm run build && wrangler dev",
     "smoke": "node scripts/smoke.mjs",
+    "load-test": "node scripts/load-test.mjs",
     "test": "vitest run"
   },
   "repository": {
