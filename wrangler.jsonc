@@ -11,6 +11,10 @@
   "durable_objects": {
     "bindings": [{ "name": "ROOM", "class_name": "RoomDO" }]
   },
+  "routes": [
+    { "pattern": "omokboard.com", "custom_domain": true },
+    { "pattern": "www.omokboard.com", "custom_domain": true }
+  ],
   "migrations": [
     { "tag": "v1", "new_sqlite_classes": ["RoomDO"] }
   ]
