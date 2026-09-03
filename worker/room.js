@@ -206,37 +206,59 @@ export class RoomDO {
   }
 
   async onJoin(ws, token) {
-    const room = await this.ctx.storage.get([
-      'initialized', 'status', 'turn', 'seq', 'state', 'players',
-    ]);
+    const initialized = await this.ctx.storage.get('initialized');
 
     // DO는 idFromName으로 항상 생성되므로 initialized로 "없는 방"을 구분한다.
-    if (!room.get('initialized')) {
+    if (!initialized) {
       this.send(ws, { type: 'error', code: 'ROOM_NOT_FOUND' });
       ws.close(1008, 'ROOM_NOT_FOUND');
       await this.ctx.storage.deleteAll(); // 오타 코드로 생긴 빈 방 정리
       return;
     }
 
-    const players = room.get('players');
-    let color = null;
+    // 좌석 배정(읽기→계산→쓰기)이 원자적이지 않으면, 두 사람이 공유 링크를 받고
+    // 거의 동시에 접속할 때 get→put 사이에 서로 끼어들어 상대의 좌석 배정을
+    // 덮어쓸 수 있다(부하 테스트로 실제 재현됨) — blockConcurrencyWhile로 묶는다.
+    const result = await this.ctx.blockConcurrencyWhile(async () => {
+      const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'players']);
+      const players = room.get('players');
+      let color = null;
 
-    // 1) 토큰이 맞으면 원래 자리로 복귀
-    for (const seat of ['black', 'white']) {
-      if (players[seat] && token && players[seat].token === token) color = seat;
-    }
-    // 2) 아니면 빈 자리
-    if (!color) {
-      if (!players.black) color = 'black';
-      else if (!players.white) color = 'white';
-    }
-    if (!color) {
-      this.send(ws, { type: 'error', code: 'ROOM_FULL' });
-      ws.close(1008, 'ROOM_FULL');
+      // 1) 토큰이 맞으면 원래 자리로 복귀
+      for (const seat of ['black', 'white']) {
+        if (players[seat] && token && players[seat].token === token) color = seat;
+      }
+      // 2) 아니면 빈 자리
+      if (!color) {
+        if (!players.black) color = 'black';
+        else if (!players.white) color = 'white';
+      }
+      if (!color) return { error: 'ROOM_FULL' };
+
+      const seatToken = players[color]?.token ?? crypto.randomUUID();
+      players[color] = { token: seatToken, connected: true };
+
+      const status = players.black && players.white ? 'playing' : 'waiting';
+      const wasPaused = room.get('status') === 'paused';
+      await this.ctx.storage.put({
+        players,
+        status,
+        graceDeadline: null, // 돌아왔으니 유예 해제
+        roomExpiresAt: Date.now() + ROOM_TTL_MS,
+        lastActivityAt: Date.now(),
+      });
+      return {
+        color, seatToken, status, wasPaused,
+        state: room.get('state'), seq: room.get('seq'), turn: room.get('turn'),
+      };
+    });
+
+    if (result.error) {
+      this.send(ws, { type: 'error', code: result.error });
+      ws.close(1008, result.error);
       return;
     }
-
-    const seatToken = players[color]?.token ?? crypto.randomUUID();
+    const { color, seatToken, status, wasPaused, state, seq, turn } = result;
 
     // 같은 좌석에 이미 붙어 있는 소켓은 닫는다. 나중 연결이 이긴다.
     // (모바일에서 새로고침을 반복하면 유령 소켓이 남는다)
@@ -245,19 +267,8 @@ export class RoomDO {
       const att = other.deserializeAttachment();
       if (att && att.color === color) other.close(1000, 'REPLACED');
     }
-
-    players[color] = { token: seatToken, connected: true };
     ws.serializeAttachment({ color });
 
-    const status = players.black && players.white ? 'playing' : 'waiting';
-    const wasPaused = room.get('status') === 'paused';
-    await this.ctx.storage.put({
-      players,
-      status,
-      graceDeadline: null, // 돌아왔으니 유예 해제
-      roomExpiresAt: Date.now() + ROOM_TTL_MS,
-      lastActivityAt: Date.now(),
-    });
     await this.rescheduleAlarm();
     if (wasPaused) this.broadcast({ type: 'opponent', event: 'reconnected' });
 
@@ -266,9 +277,9 @@ export class RoomDO {
       color,
       token: seatToken,
       status,
-      state: room.get('state'),
-      seq: room.get('seq'),
-      turn: room.get('turn'), // 턴은 서버가 권위를 갖는다 (state.turn은 착수 시점 값이라 밀림)
+      state,
+      seq,
+      turn, // 턴은 서버가 권위를 갖는다 (state.turn은 착수 시점 값이라 밀림)
     });
 
     // 정원이 찼으면 먼저 와서 기다리던 쪽에도 시작을 알린다.
