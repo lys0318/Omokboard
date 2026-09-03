@@ -445,8 +445,19 @@ h1 {
 }
 
 .mode-icon {
-    font-size: 2rem;
-    line-height: 1;
+    width: 2rem;
+    height: 2rem;
+    color: var(--text-muted);
+}
+
+.mode-icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.mode-btn:hover .mode-icon {
+    color: var(--text-main);
 }
 
 .mode-label {
