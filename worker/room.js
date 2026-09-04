@@ -1,5 +1,6 @@
 const GRACE_MS = 120_000; // 재접속 유예 2분
 const ROOM_TTL_MS = 1_800_000; // 방 유지 30분
+const TURN_TIME_MS = 30_000; // 턴 제한 시간 (로컬/AI 모드와 동일)
 
 export class RoomDO {
   constructor(ctx, env) {
@@ -72,10 +73,12 @@ export class RoomDO {
       turn: nextTurn,
       occupied: [...occupied],
       state: msg.move?.state ?? room.get('state'),
+      turnDeadline: Date.now() + TURN_TIME_MS,
       lastActivityAt: Date.now(),
     });
 
     this.broadcast({ type: 'move', move: msg.move, seq: nextSeq, turn: nextTurn });
+    await this.rescheduleAlarm();
   }
 
   // 대국 종료 후 "나가기": 접속 끊김(재접속 유예)과 달리 자리를 즉시 비운다.
@@ -96,6 +99,7 @@ export class RoomDO {
       state: null,
       rematchReady: {},
       graceDeadline: null,
+      turnDeadline: null,
       lastActivityAt: Date.now(),
     });
     await this.rescheduleAlarm();
@@ -128,6 +132,7 @@ export class RoomDO {
           occupied: [],
           state: null,
           rematchReady: {},
+          turnDeadline: Date.now() + TURN_TIME_MS,
           lastActivityAt: Date.now(),
         });
       } else {
@@ -146,28 +151,38 @@ export class RoomDO {
     }
   }
 
-  // 알람은 DO당 하나뿐이다. 유예와 만료 중 이른 시각을 쓴다.
-  nextAlarmAt({ graceDeadline, roomExpiresAt }) {
-    return Math.min(graceDeadline ?? Infinity, roomExpiresAt);
+  // 알람은 DO당 하나뿐이다. 유예·만료·턴 타임아웃 중 이른 시각을 쓴다.
+  // 턴 타임아웃은 playing 상태일 때만 후보로 넣는다 — 상대가 끊겨 paused가 되면
+  // 유예(2분)만 남고 턴 시계는 자연히 멈춘다.
+  nextAlarmAt({ graceDeadline, roomExpiresAt, turnDeadline, status }) {
+    const candidates = [roomExpiresAt];
+    if (graceDeadline != null) candidates.push(graceDeadline);
+    if (status === 'playing' && turnDeadline != null) candidates.push(turnDeadline);
+    return Math.min(...candidates);
   }
 
   async rescheduleAlarm() {
-    const r = await this.ctx.storage.get(['graceDeadline', 'roomExpiresAt']);
+    const r = await this.ctx.storage.get(['graceDeadline', 'roomExpiresAt', 'turnDeadline', 'status']);
     const at = this.nextAlarmAt({
       graceDeadline: r.get('graceDeadline') ?? null,
       roomExpiresAt: r.get('roomExpiresAt') ?? Date.now() + ROOM_TTL_MS,
+      turnDeadline: r.get('turnDeadline') ?? null,
+      status: r.get('status'),
     });
     await this.ctx.storage.setAlarm(at);
   }
 
   async alarm() {
-    const r = await this.ctx.storage.get(['status', 'graceDeadline', 'roomExpiresAt']);
+    const r = await this.ctx.storage.get([
+      'status', 'graceDeadline', 'roomExpiresAt', 'turnDeadline', 'turn', 'seq',
+    ]);
     const now = Date.now();
+    const status = r.get('status');
     const grace = r.get('graceDeadline');
 
     // 유예 마감이 먼저 도래한 경우
-    if (r.get('status') === 'paused' && grace != null && now >= grace) {
-      await this.ctx.storage.put({ status: 'finished', graceDeadline: null });
+    if (status === 'paused' && grace != null && now >= grace) {
+      await this.ctx.storage.put({ status: 'finished', graceDeadline: null, turnDeadline: null });
       this.broadcast({ type: 'status', status: 'finished', reason: 'OPPONENT_LEFT' });
       await this.rescheduleAlarm();
       return;
@@ -177,6 +192,19 @@ export class RoomDO {
       this.broadcast({ type: 'status', status: 'finished', reason: 'ROOM_EXPIRED' });
       await this.ctx.storage.deleteAll();
       return;
+    }
+    // 턴 시간 초과 — 승패 처리 없이 턴만 넘긴다
+    const turnDeadline = r.get('turnDeadline');
+    if (status === 'playing' && turnDeadline != null && now >= turnDeadline) {
+      const nextTurn = r.get('turn') === 'black' ? 'white' : 'black';
+      const nextSeq = (r.get('seq') ?? 0) + 1;
+      await this.ctx.storage.put({
+        turn: nextTurn,
+        seq: nextSeq,
+        turnDeadline: now + TURN_TIME_MS,
+        lastActivityAt: now,
+      });
+      this.broadcast({ type: 'timeout', seq: nextSeq, turn: nextTurn });
     }
     await this.rescheduleAlarm();
   }
@@ -244,6 +272,7 @@ export class RoomDO {
         players,
         status,
         graceDeadline: null, // 돌아왔으니 유예 해제
+        turnDeadline: status === 'playing' ? Date.now() + TURN_TIME_MS : null,
         roomExpiresAt: Date.now() + ROOM_TTL_MS,
         lastActivityAt: Date.now(),
       });
@@ -310,6 +339,7 @@ export class RoomDO {
       lastActivityAt: Date.now(),
       roomExpiresAt: Date.now() + ROOM_TTL_MS,
       graceDeadline: null,
+      turnDeadline: null,
       rematchReady: {},
     });
     // 아무도 입장하지 않은 방도 반드시 정리되도록 생성 시점에 알람을 건다.
