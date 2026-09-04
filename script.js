@@ -220,15 +220,6 @@ class OmokGame {
     // ─── 타이머 ───────────────────────────────────────────────
 
     startTimer() {
-        // 온라인 대전은 턴이 서버 권위다. 클라이언트 타이머가 제멋대로 턴을 넘기면
-        // 양쪽 판이 어긋난다(서버는 이 전환을 모른다). 온라인에선 타이머를 돌리지 않는다.
-        if (this.gameMode === 'online') {
-            clearInterval(this.timerInterval);
-            this.timerDisplayElement.textContent = '-';
-            this.timerDisplayElement.classList.remove('urgent');
-            return;
-        }
-
         // AI 차례엔 타이머 없음
         if (this.gameMode === 'ai' && this.currentTurn === 'white') {
             this.timerDisplayElement.textContent = '-';
@@ -246,6 +237,11 @@ class OmokGame {
 
             if (this.timeLeft <= 0) {
                 clearInterval(this.timerInterval);
+
+                // 온라인 대전은 턴이 서버 권위다. 여기서 턴을 넘기지 않고
+                // 서버의 move/timeout 메시지가 와야 반영한다(양쪽 판 어긋남 방지).
+                if (this.gameMode === 'online') return;
+
                 this.currentTurn = this.currentTurn === 'black' ? 'white' : 'black';
                 this.updateUI();
                 this.startTimer();
