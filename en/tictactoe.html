@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v=12">
+    <link rel="stylesheet" href="/style.css?v=13">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -155,7 +155,7 @@
                     </div>
                 </div>
                 <div id="ttt-board" class="ttt-board"></div>
-                <div class="controls"><button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button></div>
+                <div class="controls"><button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button><button class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button></div>
             </main>
 
         <script src="/adfit.js?v=1"></script>
@@ -183,7 +183,7 @@
                     </div>
                 </div>
                 <div id="uttt-board" class="uttt-board"></div>
-                <div class="controls"><button id="uttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button></div>
+                <div class="controls"><button id="uttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button><button class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button></div>
             </main>
             <section class="game-how-to">
                 <h3 data-i18n="howto.title">게임 방법</h3>
@@ -307,7 +307,7 @@
             <button id="uttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button></div>
     </div>
 
-    <script src="/lang.js?v=6"></script>
+    <script src="/lang.js?v=7"></script>
     <script src="/tictactoe.js?v=2"></script>
     <script src="/ultimate.js?v=2"></script>
     <script>
