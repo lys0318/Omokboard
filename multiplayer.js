@@ -112,6 +112,7 @@
         ui.onCode(session.code, shareUrl(session.code));
         ui.onColor(msg.color);
         ui.onStatus(msg.status, { color: msg.color });
+        if (msg.status === 'playing') game.startTimer();
         updateInput(session);
         break;
 
@@ -121,6 +122,17 @@
         if (msg.move && msg.move.by !== session.color) {
           adapter.applyMove(game, msg.move);
         }
+        game.startTimer(); // 서버가 턴을 넘겼으니 30초 카운트다운을 새로 시작
+        updateInput(session);
+        break;
+
+      case 'timeout':
+        // 시간 초과로 서버가 직접 턴을 넘긴 경우. 실제 착수가 없었으므로
+        // applyMove는 부르지 않고 턴 표시와 카운트다운만 갱신한다.
+        session.seq = msg.seq;
+        game.currentTurn = msg.turn;
+        game.updateUI();
+        game.startTimer();
         updateInput(session);
         break;
 
@@ -144,6 +156,8 @@
           game.resetGame();
         }
         ui.onStatus(msg.status, msg);
+        // 정원이 차서 playing으로 바뀐 순간(상대가 막 들어온 쪽)에도 카운트다운 시작
+        if (msg.status === 'playing') game.startTimer();
         updateInput(session);
         break;
 
