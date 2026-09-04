@@ -367,6 +367,10 @@ h1 {
     color: #e8a54c;
 }
 
+.modal h2.result-lose {
+    color: var(--text-muted);
+}
+
 .modal p {
     font-size: 1.5rem;
     color: var(--text-muted);

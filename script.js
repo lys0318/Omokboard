@@ -626,17 +626,16 @@ class OmokGame {
 
         setTimeout(() => {
             const isBlack = this.currentTurn === 'black';
+            const isLose = !isBlack && this.gameMode === 'ai';
             let winnerName;
             if (this.gameMode === 'ai') {
                 winnerName = isBlack ? window.i18n.t('omok.you.win') : window.i18n.t('omok.ai.win');
             } else {
                 winnerName = isBlack ? window.i18n.t('omok.black.win') : window.i18n.t('omok.white.win');
             }
-            this.winTitle.textContent = isBlack || this.gameMode !== 'ai' ? window.i18n.t('game.win') : window.i18n.t('game.lose');
+            this.winTitle.textContent = isLose ? window.i18n.t('game.lose') : window.i18n.t('game.win');
+            this.winTitle.classList.toggle('result-lose', isLose);
             this.winDesc.textContent = winnerName;
-            this.winTitle.style.background = isBlack
-                ? 'linear-gradient(to right, #444, #111)'
-                : 'linear-gradient(to right, #fff, #d4d4d4)';
             this.winOverlay.classList.remove('hidden');
             if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 800);
