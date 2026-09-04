@@ -115,6 +115,9 @@
 
             <div class="controls">
                 <button id="reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+                <button id="local-leave-btn" class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'">
+                    <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                </button>
                 <button id="online-leave-mid-btn" class="btn secondary hidden">
                     <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
                 </button>
@@ -377,6 +380,7 @@
         // 온라인 대전에서는 "게임 재시작" 대신 "나가기"를 쓴다 — 재시작은
         // 서버에 알리지 않고 모드 화면만 여는 로컬 동작이라 온라인 상태와 어긋난다.
         document.getElementById('reset-btn').classList.add('hidden');
+        document.getElementById('local-leave-btn').classList.add('hidden');
         document.getElementById('online-leave-mid-btn').classList.remove('hidden');
         mpSession = window.Multiplayer.start({
           gameId: 'omok',
