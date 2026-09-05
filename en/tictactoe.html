@@ -147,15 +147,21 @@
                     <div class="player active" id="ttt-player-x">
                         <div class="ttt-mark" style="background:#ef4444;"></div>
                         <span class="player-name" id="ttt-x-label">X</span>
+                        <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                            <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                        </span>
                     </div>
                     <div class="status-center"><div class="status-message" id="ttt-status">X 차례</div></div>
                     <div class="player" id="ttt-player-o">
                         <div class="ttt-mark" style="background:#3b82f6;"></div>
                         <span class="player-name" id="ttt-o-label">O</span>
+                        <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                            <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                        </span>
                     </div>
                 </div>
                 <div id="ttt-board" class="ttt-board"></div>
-                <div class="controls"><button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button><button class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button></div>
+                <div class="controls"><button id="ttt-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button><button id="ttt-local-leave-btn" class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button><button id="online-leave-mid-btn" class="btn secondary hidden"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button></div>
             </main>
 
         <script src="/adfit.js?v=1"></script>
@@ -256,9 +262,40 @@
                 <div class="mode-buttons">
                     <button class="mode-btn" id="ttt-pvp-btn"><span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span><span class="mode-label" data-i18n="mode.pvp">1:1 하기</span><span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span></button>
                     <button class="mode-btn" id="ttt-ai-select-btn"><span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span><span class="mode-label" data-i18n="mode.ai">AI 대전</span><span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span></button>
+                    <button class="mode-btn" id="ttt-online-select-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></span>
+                        <span class="mode-desc"><span class="ko-only">방 코드로 초대</span><span class="en-only" style="display:none;">Invite by room code</span></span>
+                    </button>
                 </div>
                 <button class="mode-back-btn to-variant">← <span class="ko-only">다른 틱택토</span><span class="en-only" style="display:none;">Other mode</span></button>
                 <a href="/en/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+            </div>
+            <div id="ttt-step-online" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="online-create-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 생성</span><span class="en-only" style="display:none;">Create Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">새 방을 만들고 코드 공유</span><span class="en-only" style="display:none;">Make a room and share the code</span></span>
+                    </button>
+                    <button class="mode-btn" onclick="document.getElementById('ttt-step-online').classList.add('hidden');document.getElementById('ttt-step-online-join').classList.remove('hidden')">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 입장</span><span class="en-only" style="display:none;">Join Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">코드를 입력해 입장</span><span class="en-only" style="display:none;">Enter a code to join</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" onclick="document.getElementById('ttt-step-online').classList.add('hidden');document.getElementById('ttt-step-mode').classList.remove('hidden')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+            <div id="ttt-step-online-join" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">방 코드를 입력하세요</span><span class="en-only" style="display:none;">Enter the room code</span></p>
+                <input id="join-code-input" placeholder="예: K7RM92" maxlength="6"
+                       style="width:100%;min-height:48px;padding:0 0.9rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;text-align:center;font-size:1.1rem;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                <p id="join-code-error" style="min-height:1.3em;color:#f87171;font-size:0.85rem;margin-bottom:0.75rem;"></p>
+                <button id="join-code-confirm" class="btn primary" style="min-height:48px;width:100%;">
+                    <span class="ko-only">입장하기</span><span class="en-only" style="display:none;">Join</span>
+                </button>
+                <button class="mode-back-btn" onclick="document.getElementById('ttt-step-online-join').classList.add('hidden');document.getElementById('ttt-step-online').classList.remove('hidden')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
             </div>
             <div id="ttt-step-diff" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
@@ -300,16 +337,200 @@
     <!-- 승리 오버레이 -->
     <div id="ttt-win-overlay" class="overlay hidden">
         <div class="modal"><h2 id="ttt-win-title">승리!</h2><p id="ttt-win-desc"></p>
-            <button id="ttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button></div>
+            <button id="ttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+            <div id="online-endgame" class="hidden">
+                <div class="online-endgame-actions" style="display:flex;gap:0.6rem;justify-content:center;">
+                    <button id="online-leave-btn" class="btn secondary large">
+                        <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                    </button>
+                    <button id="online-rematch-btn" class="btn primary large">
+                        <span class="ko-only">다시하기</span><span class="en-only" style="display:none;">Rematch</span>
+                    </button>
+                </div>
+                <p id="online-endgame-status" style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;min-height:1.3em;"></p>
+            </div>
+        </div>
     </div>
     <div id="uttt-win-overlay" class="overlay hidden">
         <div class="modal"><h2 id="uttt-win-title">승리!</h2><p id="uttt-win-desc"></p>
             <button id="uttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button></div>
     </div>
 
+    <div id="room-panel" class="overlay hidden">
+        <div class="modal" style="max-width:420px;padding:2.25rem 2rem;">
+            <h2 style="font-size:1.05rem;font-weight:700;background:none;-webkit-text-fill-color:var(--text-muted);letter-spacing:0.02em;">
+                <span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span>
+            </h2>
+            <p id="room-status" style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;"></p>
+            <div id="room-code-row" class="hidden" style="margin-bottom:1.25rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;">
+                <span style="font-size:0.8rem;color:var(--text-muted);"><span class="ko-only">방 코드</span><span class="en-only" style="display:none;">Room code</span></span>
+                <strong id="room-code" style="font-size:2.25rem;letter-spacing:0.15em;line-height:1;"></strong>
+                <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">
+                    <span class="ko-only">링크 복사</span><span class="en-only" style="display:none;">Copy Link</span>
+                </button>
+            </div>
+            <div id="room-count" style="font-weight:700;font-size:1.15rem;color:var(--accent-blue);"></div>
+            <p style="margin-top:1.5rem;">
+                <a href="/en/" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">
+                    <span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span>
+                </a>
+            </p>
+        </div>
+    </div>
+
     <script src="/lang.js?v=7"></script>
-    <script src="/tictactoe.js?v=2"></script>
+    <script src="/tictactoe.js?v=3"></script>
     <script src="/ultimate.js?v=2"></script>
+    <script src="/adapters/tictactoe.js?v=1"></script>
+    <script src="/multiplayer.js?v=2"></script>
+    <script>
+    // 온라인 대전 진입점(클래식 3×3 전용). 얼티메이트·AI·2인 모드는 건드리지 않는다.
+    (function () {
+      const panel = document.getElementById('room-panel');
+      const statusEl = document.getElementById('room-status');
+      const codeRow = document.getElementById('room-code-row');
+      const codeEl = document.getElementById('room-code');
+      const countEl = document.getElementById('room-count');
+      const onlineEndgame = document.getElementById('online-endgame');
+      const modalResetBtn = document.getElementById('ttt-modal-reset');
+      const rematchBtn = document.getElementById('online-rematch-btn');
+      const endgameStatusEl = document.getElementById('online-endgame-status');
+      const winOverlay = document.getElementById('ttt-win-overlay');
+
+      const t = window.i18n.t;
+      const TEXT = {
+        waiting: t('online.waiting'),
+        paused: t('online.paused'),
+        finished: t('online.finished'),
+        connected: t('online.connected'),
+        reconnecting: t('online.reconnecting'),
+        opponent_left: t('online.opponentLeft'),
+        opponent_back: t('online.opponentBack'),
+      };
+      const ERR = {
+        ROOM_FULL: t('online.err.roomFull'),
+        ROOM_NOT_FOUND: t('online.err.roomNotFound'),
+        NOT_YOUR_TURN: t('online.err.notYourTurn'),
+        CELL_TAKEN: t('online.err.cellTaken'),
+        SEQ_MISMATCH: t('online.err.seqMismatch'),
+        CREATE_FAILED: t('online.err.createFailed'),
+        REPLACED: t('online.err.replaced'),
+      };
+
+      let shareLink = '';
+      let mpSession = null;
+
+      const ui = {
+        onStatus(status, info) {
+          if (status === 'playing') {
+            countEl.textContent = '2 / 2';
+            statusEl.textContent = t('online.starting');
+            setTimeout(() => panel.classList.add('hidden'), 700);
+            return;
+          }
+          if (status === 'waiting') {
+            countEl.textContent = '1 / 2';
+            panel.classList.remove('hidden');
+            winOverlay.classList.add('hidden');
+          }
+          statusEl.textContent = TEXT[status] || status;
+        },
+        onCode(code, url) {
+          shareLink = url;
+          codeEl.textContent = code;
+          codeRow.classList.remove('hidden');
+          countEl.textContent = '1 / 2';
+        },
+        onError(code) {
+          statusEl.textContent = ERR[code] || code;
+          document.getElementById('join-code-error').textContent = ERR[code] || code;
+        },
+        onRematchWait() {
+          endgameStatusEl.textContent = t('online.rematchWait');
+        },
+        onRematchStart() {
+          rematchBtn.disabled = false;
+          endgameStatusEl.textContent = '';
+          winOverlay.classList.add('hidden');
+        },
+        // 방(DO) 좌석 라벨은 오목 기준이라 'black'이 선공이다. 틱택토는 X가 선공이므로
+        // 좌석 'black' == X, 좌석 'white' == O로 매핑해 표시한다.
+        onColor(seatColor) {
+          document.getElementById('me-black').classList.toggle('hidden', seatColor !== 'black');
+          document.getElementById('me-white').classList.toggle('hidden', seatColor !== 'white');
+        },
+      };
+
+      function doLeave() {
+        if (mpSession) mpSession.leave();
+        location.href = '/';
+      }
+
+      function begin() {
+        panel.classList.remove('hidden');
+        statusEl.textContent = TEXT.waiting;
+        window.tttGame.startGame('online');
+        window.tttGame.inputLocked = true;
+        document.getElementById('ttt-reset-btn').classList.add('hidden');
+        document.getElementById('ttt-local-leave-btn').classList.add('hidden');
+        document.getElementById('online-leave-mid-btn').classList.remove('hidden');
+        mpSession = window.Multiplayer.start({
+          gameId: 'tictactoe',
+          game: window.tttGame,
+          adapter: window.OmokboardAdapters.tictactoe,
+          ui,
+        });
+      }
+
+      window.tttGame.onGameOver = () => {
+        modalResetBtn.classList.add('hidden');
+        onlineEndgame.classList.remove('hidden');
+        endgameStatusEl.textContent = '';
+        rematchBtn.disabled = false;
+      };
+
+      document.getElementById('online-create-btn').addEventListener('click', begin);
+
+      document.getElementById('join-code-confirm').addEventListener('click', () => {
+        const code = document.getElementById('join-code-input').value.trim().toUpperCase();
+        const errEl = document.getElementById('join-code-error');
+        if (code.length !== 6) {
+          errEl.textContent = t('online.err.codeLength');
+          return;
+        }
+        location.search = `?room=${code}`;
+      });
+
+      document.getElementById('room-copy').addEventListener('click', () => {
+        if (shareLink) navigator.clipboard.writeText(shareLink);
+      });
+
+      document.getElementById('online-leave-btn').addEventListener('click', doLeave);
+
+      document.getElementById('online-leave-mid-btn').addEventListener('click', () => {
+        if (!confirm(t('online.confirmLeaveMidGame'))) return;
+        doLeave();
+      });
+
+      document.getElementById('online-rematch-btn').addEventListener('click', () => {
+        if (!mpSession) return;
+        mpSession.rematch();
+        rematchBtn.disabled = true;
+        endgameStatusEl.textContent = t('online.rematchWaitingSelf');
+      });
+
+      // 클래식 모드로 온라인 방 링크를 타고 들어온 경우에만 자동 입장한다
+      // (얼티메이트는 이 기능이 없으므로 변형 선택 화면이 그대로 보인다).
+      // window.tttHub는 이 스크립트 다음에 오는 <script>가 정의하므로, 이 시점엔
+      // 아직 없다 — 다음 매크로태스크로 미뤄 정의가 끝난 뒤 실행되게 한다.
+      if (new URLSearchParams(location.search).get('room')) {
+        setTimeout(() => {
+          window.tttHub.pickVariant('classic');
+          begin();
+        }, 0);
+      }
+    })();
+    </script>
     <script>
         window.tttHub = {
             showVariant() {

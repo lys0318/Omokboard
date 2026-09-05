@@ -4,12 +4,15 @@ class TicTacToe {
         this.board = Array(9).fill(null);
         this.human = 'X';      // 사람(선공)
         this.ai = 'O';
-        this.currentTurn = 'X';
+        this.turnColor = 'X';
         this.gameMode = 'pvp'; // 'pvp' | 'ai'
         this.difficulty = 'hard';
         this.isGameOver = false;
         this.isAIThinking = false;
         this.winLine = null;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.boardEl     = document.getElementById('ttt-board');
         this.statusEl    = document.getElementById('ttt-status');
@@ -51,6 +54,10 @@ class TicTacToe {
             document.getElementById('ttt-step-mode').classList.add('hidden');
             document.getElementById('ttt-step-diff').classList.remove('hidden');
         });
+        document.getElementById('ttt-online-select-btn').addEventListener('click', () => {
+            document.getElementById('ttt-step-mode').classList.add('hidden');
+            document.getElementById('ttt-step-online').classList.remove('hidden');
+        });
         document.getElementById('ttt-easy-btn').addEventListener('click',   () => this.startGame('ai', 'easy'));
         document.getElementById('ttt-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
         document.getElementById('ttt-hard-btn').addEventListener('click',   () => this.startGame('ai', 'hard'));
@@ -81,7 +88,7 @@ class TicTacToe {
 
     reset() {
         this.board = Array(9).fill(null);
-        this.currentTurn = 'X';
+        this.turnColor = 'X';
         this.isGameOver = false;
         this.isAIThinking = false;
         this.winLine = null;
@@ -92,19 +99,25 @@ class TicTacToe {
     onCellClick(i) {
         if (this.isGameOver || this.isAIThinking) return;
         if (this.board[i]) return;
-        if (this.gameMode === 'ai' && this.currentTurn !== this.human) return;
-        this.place(i, this.currentTurn);
+        if (this.gameMode === 'ai' && this.turnColor !== this.human) return;
+        if (this.gameMode === 'online' && this.inputLocked) return;
+        this.place(i, this.turnColor);
     }
 
-    place(i, player) {
+    place(i, player, opts) {
         this.board[i] = player;
         const line = this.getWinLine(this.board, player);
-        if (line) { this.winLine = line; this.render(); this.handleWin(player); return; }
-        if (this.board.every(c => c)) { this.render(); this.handleDraw(); return; }
-        this.currentTurn = this.currentTurn === 'X' ? 'O' : 'X';
+        if (line) { this.winLine = line; this.render(); this.handleWin(player, i, opts); return; }
+        if (this.board.every(c => c)) { this.render(); this.handleDraw(i, opts); return; }
+        this.turnColor = this.turnColor === 'X' ? 'O' : 'X';
         this.render();
         this.updateStatus();
-        if (this.gameMode === 'ai' && this.currentTurn === this.ai) this.scheduleAI();
+
+        if (!opts?.remote && this.hooks.afterMove) {
+            this.hooks.afterMove({ cell: i });
+        }
+
+        if (this.gameMode === 'ai' && this.turnColor === this.ai) this.scheduleAI();
     }
 
     scheduleAI() {
@@ -178,26 +191,27 @@ class TicTacToe {
             cell.classList.toggle('win', !!(this.winLine && this.winLine.includes(i)));
             cell.disabled = !!v || this.isGameOver;
         }
-        this.xPlayerEl.classList.toggle('active', this.currentTurn === 'X' && !this.isGameOver);
-        this.oPlayerEl.classList.toggle('active', this.currentTurn === 'O' && !this.isGameOver);
+        this.xPlayerEl.classList.toggle('active', this.turnColor === 'X' && !this.isGameOver);
+        this.oPlayerEl.classList.toggle('active', this.turnColor === 'O' && !this.isGameOver);
     }
 
     updateStatus() {
         if (this.isAIThinking) { this.statusEl.textContent = this.en ? 'AI is thinking…' : 'AI가 생각 중…'; return; }
         if (this.gameMode === 'ai') {
-            this.statusEl.textContent = this.currentTurn === this.human
+            this.statusEl.textContent = this.turnColor === this.human
                 ? (this.en ? 'Your turn (X)' : '당신 차례 (X)')
                 : (this.en ? "AI's turn (O)" : 'AI 차례 (O)');
         } else {
-            this.statusEl.textContent = this.currentTurn === 'X'
+            this.statusEl.textContent = this.turnColor === 'X'
                 ? (this.en ? "X's turn" : 'X 차례')
                 : (this.en ? "O's turn" : 'O 차례');
         }
     }
 
-    handleWin(player) {
+    handleWin(player, cell, opts) {
         this.isGameOver = true;
         this.render();
+        if (!opts?.remote && this.hooks.afterMove) this.hooks.afterMove({ cell });
         setTimeout(() => {
             let title, desc;
             if (this.gameMode === 'ai') {
@@ -211,16 +225,30 @@ class TicTacToe {
             this.winTitle.textContent = title;
             this.winDesc.textContent = desc;
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 600);
     }
 
-    handleDraw() {
+    handleDraw(cell, opts) {
         this.isGameOver = true;
+        if (!opts?.remote && this.hooks.afterMove) this.hooks.afterMove({ cell });
         setTimeout(() => {
             this.winTitle.textContent = this.en ? 'Draw' : '무승부';
             this.winDesc.textContent = this.en ? 'No more moves.' : '더 둘 곳이 없습니다.';
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 400);
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 틱택토는 X가 선공이라 DO 좌석 'black'(선공)을 X에 대응시킨다.
+    get currentTurn() {
+        return this.turnColor === 'X' ? 'black' : 'white';
     }
 
     refreshLang() {
