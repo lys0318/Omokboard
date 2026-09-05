@@ -15,6 +15,9 @@ class UltimateTTT {
         this.human = 'X'; this.ai = 'O';
         this.gameMode = 'pvp'; this.difficulty = 'hard';
         this.isGameOver = false; this.isAIThinking = false;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.boardEl   = document.getElementById('uttt-board');
         this.statusEl  = document.getElementById('uttt-status');
@@ -60,6 +63,10 @@ class UltimateTTT {
         document.getElementById('uttt-ai-select-btn').addEventListener('click', () => {
             document.getElementById('uttt-step-mode').classList.add('hidden');
             document.getElementById('uttt-step-diff').classList.remove('hidden');
+        });
+        document.getElementById('uttt-online-select-btn').addEventListener('click', () => {
+            document.getElementById('uttt-step-mode').classList.add('hidden');
+            document.getElementById('uttt-step-online').classList.remove('hidden');
         });
         document.getElementById('uttt-easy-btn').addEventListener('click',   () => this.startGame('ai','easy'));
         document.getElementById('uttt-normal-btn').addEventListener('click', () => this.startGame('ai','normal'));
@@ -131,11 +138,12 @@ class UltimateTTT {
     onCellClick(sb, c) {
         if (this.isGameOver || this.isAIThinking) return;
         if (this.gameMode === 'ai' && this.current !== this.human) return;
+        if (this.gameMode === 'online' && this.inputLocked) return;
         if (!this.isLegal(sb, c)) return;
         this.play(sb, c, this.current);
     }
 
-    play(sb, c, player) {
+    play(sb, c, player, opts) {
         this.boards[sb][c] = player;
         this.lastCell = { sb, c };
         // 작은 보드 승패
@@ -146,15 +154,20 @@ class UltimateTTT {
         }
         // 큰 보드 승리
         const big = this.winnerOf(this.boardWinner.map(w => (w==='X'||w==='O') ? w : null));
-        if (big) { this.bigWinner = big; this.activeBoard = null; this.render(); this.handleWin(big); return; }
+        if (big) { this.bigWinner = big; this.activeBoard = null; this.render(); this.handleWin(big, opts); return; }
         // 다음 활성 보드
         this.activeBoard = this.boardPlayable(c) ? c : null;
         // 전체 무승부
-        if (!this.legalMoves().length) { this.render(); this.handleDraw(); return; }
+        if (!this.legalMoves().length) { this.render(); this.handleDraw(opts); return; }
 
         this.current = this.current === 'X' ? 'O' : 'X';
         this.render();
         this.updateStatus();
+
+        if (!opts?.remote && this.hooks.afterMove) {
+            this.hooks.afterMove({ sb, c });
+        }
+
         if (this.gameMode === 'ai' && this.current === this.ai) this.scheduleAI();
     }
 
@@ -324,9 +337,10 @@ class UltimateTTT {
     }
 
     // ─── 승패 처리 ───────────────────────────────────────────
-    handleWin(winner) {
+    handleWin(winner, opts) {
         this.isGameOver = true;
         this.render();
+        if (!opts?.remote && this.hooks.afterMove) this.hooks.afterMove({ sb: this.lastCell.sb, c: this.lastCell.c });
         setTimeout(() => {
             let title, desc;
             if (this.gameMode === 'ai') {
@@ -339,15 +353,29 @@ class UltimateTTT {
             }
             this.winTitle.textContent = title; this.winDesc.textContent = desc;
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 500);
     }
-    handleDraw() {
+    handleDraw(opts) {
         this.isGameOver = true;
+        if (!opts?.remote && this.hooks.afterMove) this.hooks.afterMove({ sb: this.lastCell.sb, c: this.lastCell.c });
         setTimeout(() => {
             this.winTitle.textContent = this.en?'Draw':'무승부';
             this.winDesc.textContent = this.en?'No big-board line.':'큰 보드에 줄이 없습니다.';
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 400);
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 얼티메이트도 X가 선공이라 DO 좌석 'black'(선공)을 X에 대응시킨다.
+    get currentTurn() {
+        return this.current === 'X' ? 'black' : 'white';
     }
 
     // ─── 렌더 ────────────────────────────────────────────────
