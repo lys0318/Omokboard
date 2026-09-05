@@ -4,13 +4,16 @@ class Connect4 {
         this.COLS = 15;
         // Initialize board early — resize() → draw() runs before reset()
         this.board = Array.from({ length: 15 }, () => Array(15).fill(null));
-        this.currentTurn = 'red';
+        this.turnColor = 'red';
         this.gameMode = 'pvp';
         this.difficulty = 'normal';
         this.isGameOver = false;
         this.isAIThinking = false;
         this.hoverPos = null;
         this.winLine = null;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.canvas   = document.getElementById('c4-canvas');
         this.ctx      = this.canvas.getContext('2d');
@@ -73,14 +76,15 @@ class Connect4 {
 
         this.canvas.addEventListener('click', e => {
             if (this.isGameOver || this.isAIThinking) return;
-            if (this.gameMode === 'ai' && this.currentTurn === 'yellow') return;
+            if (this.gameMode === 'ai' && this.turnColor === 'yellow') return;
+            if (this.gameMode === 'online' && this.inputLocked) return;
             const { x, y } = getPos(e);
             const cell = this.getCell(x, y);
             if (cell) this.placePiece(cell.r, cell.c);
         });
         this.canvas.addEventListener('mousemove', e => {
             if (this.isGameOver || this.isAIThinking) return;
-            if (this.gameMode === 'ai' && this.currentTurn === 'yellow') return;
+            if (this.gameMode === 'ai' && this.turnColor === 'yellow') return;
             const { x, y } = getPos(e);
             this.hoverPos = this.getCell(x, y);
             this.draw();
@@ -94,7 +98,8 @@ class Connect4 {
         }, { passive: false });
         this.canvas.addEventListener('touchend', e => {
             if (this.isGameOver || this.isAIThinking) return;
-            if (this.gameMode === 'ai' && this.currentTurn === 'yellow') return;
+            if (this.gameMode === 'ai' && this.turnColor === 'yellow') return;
+            if (this.gameMode === 'online' && this.inputLocked) return;
             const { x, y } = getPos(e);
             const cell = this.getCell(x, y);
             if (cell) this.placePiece(cell.r, cell.c);
@@ -106,6 +111,10 @@ class Connect4 {
         document.getElementById('c4-ai-select-btn').addEventListener('click', () => {
             document.getElementById('c4-step-mode').classList.add('hidden');
             document.getElementById('c4-step-diff').classList.remove('hidden');
+        });
+        document.getElementById('c4-online-select-btn').addEventListener('click', () => {
+            document.getElementById('c4-step-mode').classList.add('hidden');
+            document.getElementById('c4-step-online').classList.remove('hidden');
         });
         document.getElementById('c4-easy-btn').addEventListener('click',   () => this.startGame('ai', 'easy'));
         document.getElementById('c4-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
@@ -136,7 +145,7 @@ class Connect4 {
 
     reset() {
         this.board        = Array.from({ length: this.ROWS }, () => Array(this.COLS).fill(null));
-        this.currentTurn  = 'red';
+        this.turnColor  = 'red';
         this.isGameOver   = false;
         this.isAIThinking = false;
         this.hoverPos     = null;
@@ -146,20 +155,24 @@ class Connect4 {
         this.draw();
     }
 
-    placePiece(row, col) {
+    placePiece(row, col, opts) {
         if (this.board[row][col]) return;
-        this.board[row][col] = this.currentTurn;
+        this.board[row][col] = this.turnColor;
+
+        if (!opts?.remote && this.hooks.afterMove) {
+            this.hooks.afterMove({ row, col });
+        }
 
         const winLine = this.checkWin(row, col);
         if (winLine) { this.winLine = winLine; this.draw(); this.handleWin(); return; }
         if (this.checkDraw()) { this.draw(); this.handleDraw(); return; }
 
-        this.currentTurn = this.currentTurn === 'red' ? 'yellow' : 'red';
+        this.turnColor = this.turnColor === 'red' ? 'yellow' : 'red';
         this.updateStatus();
         this.updateHighlight();
         this.draw();
 
-        if (this.gameMode === 'ai' && this.currentTurn === 'yellow') this.scheduleAI();
+        if (this.gameMode === 'ai' && this.turnColor === 'yellow') this.scheduleAI();
     }
 
     // ─── AI ──────────────────────────────────────────────────
@@ -386,7 +399,7 @@ class Connect4 {
     handleWin() {
         this.isGameOver = true;
         setTimeout(() => {
-            const isRed = this.currentTurn === 'red';
+            const isRed = this.turnColor === 'red';
             const name  = this.gameMode === 'ai' ? (isRed ? window.i18n.t('c4.you') : window.i18n.t('c4.ai')) : (isRed ? window.i18n.t('c4.red.n') : window.i18n.t('c4.yellow.n'));
             this.winTitle.textContent = (this.gameMode === 'ai' && !isRed) ? window.i18n.t('game.lose') : window.i18n.t('game.win');
             this.winTitle.style.background = isRed
@@ -397,6 +410,7 @@ class Connect4 {
             this.winTitle.style.webkitTextFillColor = 'transparent';
             this.winDesc.textContent = window.i18n.getLang() === 'en' ? `${name} connected 4 in a row!` : `${name}이 4개를 연결했습니다!`;
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 600);
     }
 
@@ -410,7 +424,19 @@ class Connect4 {
             this.winTitle.style.webkitTextFillColor = 'transparent';
             this.winDesc.textContent = window.i18n.t('game.draw.full');
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 400);
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 사목은 빨강이 선공이라 DO 좌석 'black'(선공)을 빨강에 대응시킨다.
+    get currentTurn() {
+        return this.turnColor === 'red' ? 'black' : 'white';
     }
 
     // ─── Drawing ─────────────────────────────────────────────
@@ -429,7 +455,7 @@ class Connect4 {
                 const y = this.boardTop  + r * this.cellSize;
                 ctx.save();
                 ctx.globalAlpha = 0.45;
-                ctx.fillStyle = this.currentTurn === 'red' ? '#ef4444' : '#eab308';
+                ctx.fillStyle = this.turnColor === 'red' ? '#ef4444' : '#eab308';
                 ctx.beginPath(); ctx.arc(x, y, this.stoneR, 0, Math.PI*2); ctx.fill();
                 ctx.restore();
             }
@@ -534,7 +560,7 @@ class Connect4 {
         if (this.isAIThinking) {
             this.statusEl.textContent = window.i18n.t('game.ai.thinking');
         } else {
-            this.statusEl.textContent = this.currentTurn === 'red' ? window.i18n.t('c4.red.turn') : window.i18n.t('c4.yellow.turn');
+            this.statusEl.textContent = this.turnColor === 'red' ? window.i18n.t('c4.red.turn') : window.i18n.t('c4.yellow.turn');
         }
     }
 
@@ -543,8 +569,8 @@ class Connect4 {
     }
 
     updateHighlight() {
-        document.getElementById('c4-player-red').classList.toggle('active',    this.currentTurn === 'red');
-        document.getElementById('c4-player-yellow').classList.toggle('active', this.currentTurn === 'yellow');
+        document.getElementById('c4-player-red').classList.toggle('active',    this.turnColor === 'red');
+        document.getElementById('c4-player-yellow').classList.toggle('active', this.turnColor === 'yellow');
     }
 }
 
