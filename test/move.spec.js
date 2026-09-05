@@ -47,6 +47,21 @@ describe('수 릴레이', () => {
     expect(toB.move.cell).toBe('7,7');
   });
 
+  it('move.nextTurn을 명시하면 자동 반전 대신 그 값을 쓴다(리버시 패스 지원)', async () => {
+    const { a, b } = await setup();
+    // 리버시처럼 패스가 있는 게임: black이 두고도 다음이 다시 black 차례인 경우
+    a.ws.send(JSON.stringify({ type: 'move', move: { nextTurn: 'black' }, seq: 1 }));
+    const toA = await a.next();
+    const toB = await b.next();
+    expect(toA.turn).toBe('black');
+    expect(toB.turn).toBe('black');
+
+    // 서버가 실제로 이 값을 저장했는지: black이 이어서 또 둘 수 있어야 한다
+    a.ws.send(JSON.stringify({ type: 'move', move: {}, seq: 2 }));
+    const toA2 = await a.next();
+    expect(toA2.type).toBe('move');
+  });
+
   it('남의 차례에 두면 rejected', async () => {
     const { b } = await setup();
     b.ws.send(JSON.stringify({ type: 'move', move: { cell: '7,7' }, seq: 1 }));

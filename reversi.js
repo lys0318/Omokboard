@@ -9,6 +9,9 @@ class ReversiGame {
         this.isAIThinking = false;
         this.hoverMove = null;
         this.passMessage = '';
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.weights = [
             [120, -25, 20,  5,  5, 20, -25, 120],
@@ -79,6 +82,7 @@ class ReversiGame {
         this.canvas.addEventListener('click', (e) => {
             if (this.isGameOver || this.isAIThinking) return;
             if (this.gameMode === 'ai' && this.currentTurn === 'white') return;
+            if (this.gameMode === 'online' && this.inputLocked) return;
             const cell = this.getCell(getPos(e));
             if (cell) this.placeStone(cell.r, cell.c);
         });
@@ -104,6 +108,7 @@ class ReversiGame {
         this.canvas.addEventListener('touchend', (e) => {
             if (this.isGameOver || this.isAIThinking) return;
             if (this.gameMode === 'ai' && this.currentTurn === 'white') return;
+            if (this.gameMode === 'online' && this.inputLocked) return;
             const cell = this.getCell(getPos(e));
             if (cell) this.placeStone(cell.r, cell.c);
             this.hoverMove = null;
@@ -114,6 +119,10 @@ class ReversiGame {
         document.getElementById('rev-ai-select-btn').addEventListener('click', () => {
             document.getElementById('rev-step-mode').classList.add('hidden');
             document.getElementById('rev-step-diff').classList.remove('hidden');
+        });
+        document.getElementById('rev-online-select-btn').addEventListener('click', () => {
+            document.getElementById('rev-step-mode').classList.add('hidden');
+            document.getElementById('rev-step-online').classList.remove('hidden');
         });
         document.getElementById('rev-easy-btn').addEventListener('click', () => this.startGame('ai', 'easy'));
         document.getElementById('rev-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
@@ -205,7 +214,7 @@ class ReversiGame {
         return moves;
     }
 
-    placeStone(row, col) {
+    placeStone(row, col, opts) {
         const flips = this.getFlips(row, col, this.currentTurn);
         if (!flips.length) return;
 
@@ -215,10 +224,10 @@ class ReversiGame {
         });
         this.passMessage = '';
         this.hoverMove = null;
-        this.afterMove();
+        this.afterMove(row, col, opts);
     }
 
-    afterMove() {
+    afterMove(row, col, opts) {
         const justMoved = this.currentTurn;
         const next = justMoved === 'black' ? 'white' : 'black';
         const nextMoves = this.getValidMoves(next);
@@ -230,12 +239,17 @@ class ReversiGame {
             this.currentTurn = justMoved;
             this.passMessage = next === 'black' ? window.i18n.t('rev.black.pass') : window.i18n.t('rev.white.pass');
         } else {
+            if (!opts?.remote && this.hooks.afterMove) this.hooks.afterMove({ row, col, nextTurn: this.currentTurn });
             this.handleGameOver();
             return;
         }
 
         this.updateUI();
         this.draw();
+
+        // 온라인 대전: 패스가 있어 다음 턴이 자동 반전이 아닐 수 있으므로
+        // 실제로 확정된 this.currentTurn을 서버에 명시적으로 알린다.
+        if (!opts?.remote && this.hooks.afterMove) this.hooks.afterMove({ row, col, nextTurn: this.currentTurn });
 
         if (this.gameMode === 'ai' && this.currentTurn === 'white') {
             this.scheduleAI();
@@ -333,7 +347,13 @@ class ReversiGame {
             this.winTitle.style.webkitTextFillColor = 'transparent';
             this.winDesc.textContent = `${winner} (${counts.black} : ${counts.white})`;
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 450);
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
     }
 
     draw() {

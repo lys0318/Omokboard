@@ -68,7 +68,10 @@ export class RoomDO {
     if (msg.move?.cell && occupied.has(msg.move.cell)) return reject('CELL_TAKEN');
 
     if (msg.move?.cell) occupied.add(msg.move.cell);
-    const nextTurn = turn === 'black' ? 'white' : 'black';
+    // 대부분의 게임은 매 수마다 턴이 자동으로 넘어가지만, 리버시처럼 "둘 곳이 없으면
+    // 패스"가 있는 게임은 다음 턴이 자동 반전이 아닐 수 있다. 어댑터가 move.nextTurn을
+    // 명시하면 그 값을 신뢰하고, 없으면(오목 등 기존 게임) 자동 반전으로 계산한다.
+    const nextTurn = msg.move?.nextTurn ?? (turn === 'black' ? 'white' : 'black');
     const nextSeq = seq + 1;
 
     await this.ctx.storage.put({
