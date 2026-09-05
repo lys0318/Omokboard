@@ -162,6 +162,9 @@
                 <div class="player black active" id="chess-player-white">
                     <div class="stone-preview" style="background:#f0d9b5;border-radius:4px;width:20px;height:20px;border:1px solid rgba(255,255,255,0.3);"></div>
                     <span class="player-name" id="chess-white-label" data-i18n="chess.white">흰색 (White)</span>
+                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                        <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                    </span>
                 </div>
                 <div class="status-center">
                     <div class="status-message" id="chess-status" data-i18n="chess.white.turn">흰색의 차례입니다</div>
@@ -169,6 +172,9 @@
                 <div class="player white" id="chess-player-black">
                     <div class="stone-preview" style="background:#1e1e1e;border-radius:4px;width:20px;height:20px;border:1px solid rgba(255,255,255,0.3);"></div>
                     <span class="player-name" id="chess-black-label" data-i18n="chess.black">검정 (Black)</span>
+                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                        <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                    </span>
                 </div>
             </div>
 
@@ -433,8 +439,12 @@
           endgameStatusEl.textContent = '';
           winOverlay.classList.add('hidden');
         },
-        onColor() {
-          // 체스는 보드 방향이 항상 흰색 기준 고정이라(로컬 2인 모드와 동일) 별도 표시가 필요 없다.
+        // 방(DO) 좌석 라벨은 오목 기준이라 'black'이 선공이다. 체스는 흰색이 선공이므로
+        // 좌석 'black' == 체스 흰색, 좌석 'white' == 체스 검정으로 뒤집어 표시해야 한다.
+        onColor(seatColor) {
+          const isWhite = seatColor === 'black';
+          document.getElementById('me-white').classList.toggle('hidden', !isWhite);
+          document.getElementById('me-black').classList.toggle('hidden', isWhite);
         },
       };
 
