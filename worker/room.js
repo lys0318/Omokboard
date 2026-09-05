@@ -1,6 +1,9 @@
 const GRACE_MS = 120_000; // 재접속 유예 2분
 const ROOM_TTL_MS = 1_800_000; // 방 유지 30분
 const TURN_TIME_MS = 30_000; // 턴 제한 시간 (로컬/AI 모드와 동일)
+// 시간 초과 시 "턴만 넘기기"가 게임 규칙과 맞는 게임만 켠다.
+// 체스처럼 매 턴 반드시 기물을 움직여야 하는 게임은 턴만 건너뛰면 규칙이 깨진다.
+const TURN_TIMER_GAMES = new Set(['omok']);
 
 export class RoomDO {
   constructor(ctx, env) {
@@ -51,7 +54,7 @@ export class RoomDO {
 
   async onMove(ws, msg) {
     const { color } = ws.deserializeAttachment() ?? {};
-    const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'occupied']);
+    const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'occupied', 'gameId']);
     const seq = room.get('seq') ?? 0;
     const turn = room.get('turn');
     const occupied = new Set(room.get('occupied') ?? []);
@@ -73,7 +76,7 @@ export class RoomDO {
       turn: nextTurn,
       occupied: [...occupied],
       state: msg.move?.state ?? room.get('state'),
-      turnDeadline: Date.now() + TURN_TIME_MS,
+      turnDeadline: TURN_TIMER_GAMES.has(room.get('gameId')) ? Date.now() + TURN_TIME_MS : null,
       lastActivityAt: Date.now(),
     });
 
@@ -119,7 +122,7 @@ export class RoomDO {
     if (!color) return;
 
     const bothReady = await this.ctx.blockConcurrencyWhile(async () => {
-      const room = await this.ctx.storage.get(['rematchReady', 'players']);
+      const room = await this.ctx.storage.get(['rematchReady', 'players', 'gameId']);
       const players = room.get('players');
       const ready = { ...(room.get('rematchReady') ?? {}), [color]: true };
       const bothReady = !!(players?.black && players?.white && ready.black && ready.white);
@@ -132,7 +135,7 @@ export class RoomDO {
           occupied: [],
           state: null,
           rematchReady: {},
-          turnDeadline: Date.now() + TURN_TIME_MS,
+          turnDeadline: TURN_TIMER_GAMES.has(room.get('gameId')) ? Date.now() + TURN_TIME_MS : null,
           lastActivityAt: Date.now(),
         });
       } else {
@@ -248,7 +251,7 @@ export class RoomDO {
     // 거의 동시에 접속할 때 get→put 사이에 서로 끼어들어 상대의 좌석 배정을
     // 덮어쓸 수 있다(부하 테스트로 실제 재현됨) — blockConcurrencyWhile로 묶는다.
     const result = await this.ctx.blockConcurrencyWhile(async () => {
-      const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'players']);
+      const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'players', 'gameId']);
       const players = room.get('players');
       let color = null;
 
@@ -272,7 +275,7 @@ export class RoomDO {
         players,
         status,
         graceDeadline: null, // 돌아왔으니 유예 해제
-        turnDeadline: status === 'playing' ? Date.now() + TURN_TIME_MS : null,
+        turnDeadline: status === 'playing' && TURN_TIMER_GAMES.has(room.get('gameId')) ? Date.now() + TURN_TIME_MS : null,
         roomExpiresAt: Date.now() + ROOM_TTL_MS,
         lastActivityAt: Date.now(),
       });

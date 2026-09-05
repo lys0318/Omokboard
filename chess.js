@@ -80,6 +80,9 @@ class ChessGame {
         this.legalMoves = [];
         this.lastMove = null;
         this.isThinking = false;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.boardRowsEl = document.getElementById('chess-board-rows');
         this.statusEl    = document.getElementById('chess-status');
@@ -97,6 +100,10 @@ class ChessGame {
         document.getElementById('chess-ai-select-btn').addEventListener('click', () => {
             document.getElementById('chess-step-mode').classList.add('hidden');
             document.getElementById('chess-step-diff').classList.remove('hidden');
+        });
+        document.getElementById('chess-online-select-btn').addEventListener('click', () => {
+            document.getElementById('chess-step-mode').classList.add('hidden');
+            document.getElementById('chess-step-online').classList.remove('hidden');
         });
         document.getElementById('chess-easy-btn').addEventListener('click',   () => this.startGame('ai', 'easy'));
         document.getElementById('chess-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
@@ -224,6 +231,7 @@ class ChessGame {
     handleClick(sq) {
         if (this.chess.game_over() || this.isThinking) return;
         if (this.gameMode === 'ai' && this.chess.turn() === 'b') return;
+        if (this.gameMode === 'online' && this.inputLocked) return;
 
         const piece = this.chess.get(sq);
 
@@ -256,6 +264,8 @@ class ChessGame {
         this.renderBoard();
         this.updateStatus();
         this.updatePlayerHighlight();
+
+        if (this.hooks.afterMove) this.hooks.afterMove({ from, to, promotion });
 
         if (this.chess.game_over()) { this.handleGameOver(); return; }
         if (this.gameMode === 'ai' && this.chess.turn() === 'b') this.scheduleAI();
@@ -406,7 +416,26 @@ class ChessGame {
             this.winTitle.style.webkitTextFillColor = '';
             this.winDesc.textContent = desc;
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 500);
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.chess.reset();
+        this.selected = null;
+        this.legalMoves = [];
+        this.lastMove = null;
+        this.isThinking = false;
+        this.renderBoard();
+        this.updateStatus();
+        this.updatePlayerHighlight();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 체스는 흰색이 선공이라 DO 좌석 'black'(선공)을 체스 'w'에 대응시킨다.
+    get currentTurn() {
+        return this.chess.turn() === 'w' ? 'black' : 'white';
     }
 
     updateStatus() {

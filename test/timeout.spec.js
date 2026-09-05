@@ -22,10 +22,10 @@ async function connect(code, token) {
   return { ws, next };
 }
 
-async function setup() {
+async function setup(gameId = 'omok') {
   const res = await SELF.fetch('https://example.com/api/room', {
     method: 'POST',
-    body: JSON.stringify({ gameId: 'omok' }),
+    body: JSON.stringify({ gameId }),
   });
   const { code, token } = await res.json();
   const a = await connect(code, token);
@@ -94,6 +94,26 @@ describe('턴 타임아웃', () => {
     expect(toA.turn).toBe('white');
     expect(toA.seq).toBe(1);
     expect(toB.type).toBe('timeout');
+  });
+
+  it('타이머를 지원하지 않는 게임(체스)은 정원이 차도 turnDeadline을 설정하지 않는다', async () => {
+    const { code } = await setup('chess');
+    const stub = env.ROOM.get(env.ROOM.idFromName(code));
+    await runInDurableObject(stub, async (_instance, state) => {
+      expect(await state.storage.get('turnDeadline')).toBeNull();
+      expect(await state.storage.get('status')).toBe('playing');
+    });
+  });
+
+  it('타이머를 지원하지 않는 게임은 수를 둬도 turnDeadline이 계속 null이다', async () => {
+    const { code, a } = await setup('chess');
+    a.ws.send(JSON.stringify({ type: 'move', move: { from: 'e2', to: 'e4' }, seq: 1 }));
+    await a.next();
+
+    const stub = env.ROOM.get(env.ROOM.idFromName(code));
+    await runInDurableObject(stub, async (_instance, state) => {
+      expect(await state.storage.get('turnDeadline')).toBeNull();
+    });
   });
 
   it('paused 상태면 턴 시간이 지나도 턴을 넘기지 않는다', async () => {

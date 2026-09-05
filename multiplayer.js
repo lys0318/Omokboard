@@ -112,7 +112,8 @@
         ui.onCode(session.code, shareUrl(session.code));
         ui.onColor(msg.color);
         ui.onStatus(msg.status, { color: msg.color });
-        if (msg.status === 'playing') game.startTimer();
+        // startTimer는 턴제 카운트다운이 있는 게임(오목 등)만 구현한다 — 없는 게임은 조용히 스킵.
+        if (msg.status === 'playing') game.startTimer?.();
         updateInput(session);
         break;
 
@@ -122,17 +123,19 @@
         if (msg.move && msg.move.by !== session.color) {
           adapter.applyMove(game, msg.move);
         }
-        game.startTimer(); // 서버가 턴을 넘겼으니 30초 카운트다운을 새로 시작
+        game.startTimer?.(); // 서버가 턴을 넘겼으니 30초 카운트다운을 새로 시작(지원하는 게임만)
         updateInput(session);
         break;
 
       case 'timeout':
         // 시간 초과로 서버가 직접 턴을 넘긴 경우. 실제 착수가 없었으므로
         // applyMove는 부르지 않고 턴 표시와 카운트다운만 갱신한다.
+        // room.js가 턴 타이머를 지원하는 게임에만 이 메시지를 보내므로,
+        // currentTurn을 직접 대입할 수 있는 게임(오목 등)에서만 발생한다.
         session.seq = msg.seq;
         game.currentTurn = msg.turn;
-        game.updateUI();
-        game.startTimer();
+        game.updateUI?.();
+        game.startTimer?.();
         updateInput(session);
         break;
 
