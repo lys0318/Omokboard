@@ -13,7 +13,7 @@ class AlkkagiGame {
         this.marbles = [];
         this.obstacles   = [];       // 익스트림 모드 고정 장애물
         this.variant     = 'classic'; // 'classic' | 'extreme'
-        this.currentTurn  = 'red';
+        this.turnColor    = 'red';
         this.isGameOver   = false;
         this.isSimulating = false;
         this.isAIThinking = false;
@@ -21,6 +21,9 @@ class AlkkagiGame {
         this.difficulty   = 'normal';
         this.animId = null;
         this.dragging = null;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.statusEl    = document.getElementById('ak-status');
         this.subtitleEl  = document.getElementById('ak-subtitle');
@@ -132,7 +135,7 @@ class AlkkagiGame {
         this.isSimulating = false;
         this.isAIThinking = false;
         this.dragging     = null;
-        this.currentTurn  = 'red';
+        this.turnColor    = 'red';
 
         const R  = this.R;
         const bW = this.bRight  - this.bLeft;
@@ -180,11 +183,12 @@ class AlkkagiGame {
 
         const onDown = e => {
             if (this.isGameOver || this.isSimulating || this.isAIThinking) return;
-            if (this.gameMode === 'ai' && this.currentTurn === 'blue') return;
+            if (this.gameMode === 'ai' && this.turnColor === 'blue') return;
+            if (this.gameMode === 'online' && this.inputLocked) return;
             this.resumeAudio();
             const { x, y } = getPos(e);
             const m = this.marbles.find(m =>
-                m.alive && m.color === this.currentTurn &&
+                m.alive && m.color === this.turnColor &&
                 Math.hypot(m.x - x, m.y - y) <= m.r * 1.8
             );
             if (m) { this.dragging = { marble:m, sx:x, sy:y, cx:x, cy:y }; e.preventDefault(); }
@@ -204,10 +208,13 @@ class AlkkagiGame {
             const dist = Math.hypot(dx, dy);
             if (dist > 6) {
                 const power = Math.min(dist * 0.38, MAX_LAUNCH);
-                d.marble.vx = (dx / dist) * power;
-                d.marble.vy = (dy / dist) * power;
+                const vx = (dx / dist) * power;
+                const vy = (dy / dist) * power;
+                d.marble.vx = vx;
+                d.marble.vy = vy;
                 this.isSimulating = true;
-                this.runPhysics();
+                const marbleIndex = this.marbles.indexOf(d.marble);
+                this.runPhysics({ marbleIndex, vx, vy });
             }
             this.dragging = null; e.preventDefault();
         };
@@ -242,6 +249,10 @@ class AlkkagiGame {
         document.getElementById('ak-ai-select-btn').addEventListener('click', () => {
             document.getElementById('ak-step-mode').classList.add('hidden');
             document.getElementById('ak-step-diff').classList.remove('hidden');
+        });
+        document.getElementById('ak-online-select-btn').addEventListener('click', () => {
+            document.getElementById('ak-step-mode').classList.add('hidden');
+            document.getElementById('ak-step-online').classList.remove('hidden');
         });
         document.getElementById('ak-easy-btn').addEventListener('click',   () => this.startGame('ai', 'easy'));
         document.getElementById('ak-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
@@ -278,7 +289,11 @@ class AlkkagiGame {
 
     // ─── Physics ─────────────────────────────────────────────
 
-    runPhysics() {
+    // shotInfo: {marbleIndex,vx,vy} — 훅으로 상대에게 보낼 발사 정보(로컬 발사일 때만).
+    // opts.remote: 상대가 쏜 수를 재생하는 중이면 true(훅을 다시 쏘지 않는다).
+    // opts.finalState: 상대 클라이언트가 이미 계산한 최종 구슬 상태 — 물리는 결정론적이라
+    // 거의 항상 이미 같은 결과지만, 부동소수점 오차 누적에 대비해 정지 후 조용히 맞춘다.
+    runPhysics(shotInfo, opts) {
         const step = () => {
             this.update();
             this.draw();
@@ -288,12 +303,17 @@ class AlkkagiGame {
             } else {
                 this.marbles.forEach(m => { m.vx = 0; m.vy = 0; });
                 this.isSimulating = false;
+
+                if (opts?.remote && opts?.finalState) {
+                    this.marbles = opts.finalState.marbles.map(m => ({ ...m }));
+                }
+
                 this.checkWin();
                 if (!this.isGameOver) {
-                    this.currentTurn = this.currentTurn === 'red' ? 'blue' : 'red';
+                    this.turnColor = this.turnColor === 'red' ? 'blue' : 'red';
                     this.updateStatus();
                     this.updateHighlight();
-                    if (this.gameMode === 'ai' && this.currentTurn === 'blue') {
+                    if (this.gameMode === 'ai' && this.turnColor === 'blue') {
                         this.isAIThinking = true;
                         this.updateStatus();
                         const delay = this.difficulty === 'easy' ? 900 : this.difficulty === 'hard' ? 200 : 500;
@@ -301,6 +321,10 @@ class AlkkagiGame {
                     }
                 }
                 this.draw();
+
+                if (!opts?.remote && shotInfo && this.hooks.afterMove) {
+                    this.hooks.afterMove(shotInfo);
+                }
             }
         };
         this.animId = requestAnimationFrame(step);
@@ -479,7 +503,7 @@ class AlkkagiGame {
                 const power = Math.min(dist * 0.38, MAX_LAUNCH) / MAX_LAUNCH;
                 ctx.save();
                 ctx.globalAlpha = 0.55;
-                ctx.strokeStyle = this.currentTurn === 'red' ? '#ef4444' : '#3b82f6';
+                ctx.strokeStyle = this.turnColor === 'red' ? '#ef4444' : '#3b82f6';
                 ctx.lineWidth   = 2.5;
                 ctx.setLineDash([6, 5]);
                 ctx.lineCap = 'round';
@@ -646,8 +670,20 @@ class AlkkagiGame {
                 this.winTitle.style.webkitTextFillColor = 'transparent';
                 this.winDesc.textContent = desc;
                 this.winOverlay.classList.remove('hidden');
+                if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
             }, 500);
         }
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 알까기는 빨강이 선공이라 DO 좌석 'black'(선공)을 빨강에 대응시킨다.
+    get currentTurn() {
+        return this.turnColor === 'red' ? 'black' : 'white';
     }
 
     updateCounters() {
@@ -661,7 +697,7 @@ class AlkkagiGame {
         if (this.isAIThinking) {
             this.statusEl.textContent = window.i18n.t('game.ai.thinking');
         } else {
-            this.statusEl.textContent = this.currentTurn === 'red' ? window.i18n.t('ak.red.turn') : window.i18n.t('ak.blue.turn');
+            this.statusEl.textContent = this.turnColor === 'red' ? window.i18n.t('ak.red.turn') : window.i18n.t('ak.blue.turn');
         }
     }
 
@@ -675,8 +711,8 @@ class AlkkagiGame {
     }
 
     updateHighlight() {
-        document.getElementById('ak-player-red').classList.toggle('active',  this.currentTurn === 'red');
-        document.getElementById('ak-player-blue').classList.toggle('active', this.currentTurn === 'blue');
+        document.getElementById('ak-player-red').classList.toggle('active',  this.turnColor === 'red');
+        document.getElementById('ak-player-blue').classList.toggle('active', this.turnColor === 'blue');
     }
 }
 

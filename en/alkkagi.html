@@ -116,6 +116,9 @@
                 <div class="player black active" id="ak-player-red">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ff7070,#b91c1c);border-radius:50%;width:20px;height:20px;"></div>
                     <span class="player-name"><span data-i18n="ak.red">빨강</span> <span id="ak-red-count">5</span>개</span>
+                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                        <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                    </span>
                 </div>
                 <div class="status-center">
                     <div class="status-message" id="ak-status" data-i18n="ak.red.turn">빨강의 차례입니다</div>
@@ -123,6 +126,9 @@
                 <div class="player white" id="ak-player-blue">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);border-radius:50%;width:20px;height:20px;"></div>
                     <span class="player-name" id="ak-blue-label" data-i18n="ak.blue">파랑</span> <span id="ak-blue-count">5</span>개
+                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                        <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
+                    </span>
                 </div>
             </div>
 
@@ -137,7 +143,8 @@
 
             <div class="controls" style="margin-top:0.5rem;">
                 <button class="btn primary" id="ak-reset-btn" data-i18n="btn.restart">게임 재시작</button>
-                <button class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
+                <button id="ak-local-leave-btn" class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
+                <button id="online-leave-mid-btn" class="btn secondary hidden"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
             </div>
         </main>
 
@@ -219,8 +226,39 @@
                         <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
                         <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
                     </button>
+                    <button class="mode-btn" id="ak-online-select-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></span>
+                        <span class="mode-desc"><span class="ko-only">방 코드로 초대</span><span class="en-only" style="display:none;">Invite by room code</span></span>
+                    </button>
                 </div>
                 <button class="mode-back-btn" id="ak-mode-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+            <div id="ak-step-online" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="online-create-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 생성</span><span class="en-only" style="display:none;">Create Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">새 방을 만들고 코드 공유</span><span class="en-only" style="display:none;">Make a room and share the code</span></span>
+                    </button>
+                    <button class="mode-btn" onclick="document.getElementById('ak-step-online').classList.add('hidden');document.getElementById('ak-step-online-join').classList.remove('hidden')">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 입장</span><span class="en-only" style="display:none;">Join Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">코드를 입력해 입장</span><span class="en-only" style="display:none;">Enter a code to join</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" onclick="document.getElementById('ak-step-online').classList.add('hidden');document.getElementById('ak-step-mode').classList.remove('hidden')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+            <div id="ak-step-online-join" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">방 코드를 입력하세요</span><span class="en-only" style="display:none;">Enter the room code</span></p>
+                <input id="join-code-input" placeholder="예: K7RM92" maxlength="6"
+                       style="width:100%;min-height:48px;padding:0 0.9rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;text-align:center;font-size:1.1rem;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                <p id="join-code-error" style="min-height:1.3em;color:#f87171;font-size:0.85rem;margin-bottom:0.75rem;"></p>
+                <button id="join-code-confirm" class="btn primary" style="min-height:48px;width:100%;">
+                    <span class="ko-only">입장하기</span><span class="en-only" style="display:none;">Join</span>
+                </button>
+                <button class="mode-back-btn" onclick="document.getElementById('ak-step-online-join').classList.add('hidden');document.getElementById('ak-step-online').classList.remove('hidden')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
             </div>
             <div id="ak-step-diff" class="hidden">
                 <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
@@ -252,11 +290,184 @@
             <h2 id="ak-win-title">승리!</h2>
             <p id="ak-win-desc"></p>
             <button class="btn primary large" id="ak-modal-reset" data-i18n="btn.replay">다시 하기</button>
+            <div id="online-endgame" class="hidden">
+                <div class="online-endgame-actions" style="display:flex;gap:0.6rem;justify-content:center;">
+                    <button id="online-leave-btn" class="btn secondary large">
+                        <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                    </button>
+                    <button id="online-rematch-btn" class="btn primary large">
+                        <span class="ko-only">다시하기</span><span class="en-only" style="display:none;">Rematch</span>
+                    </button>
+                </div>
+                <p id="online-endgame-status" style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;min-height:1.3em;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="room-panel" class="overlay hidden">
+        <div class="modal" style="max-width:420px;padding:2.25rem 2rem;">
+            <h2 style="font-size:1.05rem;font-weight:700;background:none;-webkit-text-fill-color:var(--text-muted);letter-spacing:0.02em;">
+                <span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span>
+            </h2>
+            <p id="room-status" style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;"></p>
+            <div id="room-code-row" class="hidden" style="margin-bottom:1.25rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;">
+                <span style="font-size:0.8rem;color:var(--text-muted);"><span class="ko-only">방 코드</span><span class="en-only" style="display:none;">Room code</span></span>
+                <strong id="room-code" style="font-size:2.25rem;letter-spacing:0.15em;line-height:1;"></strong>
+                <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">
+                    <span class="ko-only">링크 복사</span><span class="en-only" style="display:none;">Copy Link</span>
+                </button>
+            </div>
+            <div id="room-count" style="font-weight:700;font-size:1.15rem;color:var(--accent-blue);"></div>
+            <p style="margin-top:1.5rem;">
+                <a href="/en/" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">
+                    <span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span>
+                </a>
+            </p>
         </div>
     </div>
 
     <script src="/lang.js?v=7"></script>
-    <script src="/alkkagi.js?v=5"></script>
+    <script src="/alkkagi.js?v=6"></script>
+    <script src="/adapters/alkkagi.js?v=1"></script>
+    <script src="/multiplayer.js?v=3"></script>
+    <script>
+    // 온라인 대전 진입점. 기존 AI·2인 모드는 건드리지 않는다.
+    (function () {
+      const panel = document.getElementById('room-panel');
+      const statusEl = document.getElementById('room-status');
+      const codeRow = document.getElementById('room-code-row');
+      const codeEl = document.getElementById('room-code');
+      const countEl = document.getElementById('room-count');
+      const onlineEndgame = document.getElementById('online-endgame');
+      const modalResetBtn = document.getElementById('ak-modal-reset');
+      const rematchBtn = document.getElementById('online-rematch-btn');
+      const endgameStatusEl = document.getElementById('online-endgame-status');
+      const winOverlay = document.getElementById('ak-win-overlay');
+
+      const t = window.i18n.t;
+      const TEXT = {
+        waiting: t('online.waiting'),
+        paused: t('online.paused'),
+        finished: t('online.finished'),
+        connected: t('online.connected'),
+        reconnecting: t('online.reconnecting'),
+        opponent_left: t('online.opponentLeft'),
+        opponent_back: t('online.opponentBack'),
+      };
+      const ERR = {
+        ROOM_FULL: t('online.err.roomFull'),
+        ROOM_NOT_FOUND: t('online.err.roomNotFound'),
+        NOT_YOUR_TURN: t('online.err.notYourTurn'),
+        SEQ_MISMATCH: t('online.err.seqMismatch'),
+        CREATE_FAILED: t('online.err.createFailed'),
+        REPLACED: t('online.err.replaced'),
+      };
+
+      let shareLink = '';
+      let mpSession = null;
+
+      const ui = {
+        onStatus(status, info) {
+          if (status === 'playing') {
+            countEl.textContent = '2 / 2';
+            statusEl.textContent = t('online.starting');
+            setTimeout(() => panel.classList.add('hidden'), 700);
+            return;
+          }
+          if (status === 'waiting') {
+            countEl.textContent = '1 / 2';
+            panel.classList.remove('hidden');
+            winOverlay.classList.add('hidden');
+          }
+          statusEl.textContent = TEXT[status] || status;
+        },
+        onCode(code, url) {
+          shareLink = url;
+          codeEl.textContent = code;
+          codeRow.classList.remove('hidden');
+          countEl.textContent = '1 / 2';
+        },
+        onError(code) {
+          statusEl.textContent = ERR[code] || code;
+          document.getElementById('join-code-error').textContent = ERR[code] || code;
+        },
+        onRematchWait() {
+          endgameStatusEl.textContent = t('online.rematchWait');
+        },
+        onRematchStart() {
+          rematchBtn.disabled = false;
+          endgameStatusEl.textContent = '';
+          winOverlay.classList.add('hidden');
+        },
+        // 방(DO) 좌석 라벨은 오목 기준이라 'black'이 선공이다. 알까기는 빨강이 선공이므로
+        // 좌석 'black' == 빨강, 좌석 'white' == 파랑으로 매핑해 표시한다.
+        onColor(seatColor) {
+          document.getElementById('me-black').classList.toggle('hidden', seatColor !== 'black');
+          document.getElementById('me-white').classList.toggle('hidden', seatColor !== 'white');
+        },
+      };
+
+      function doLeave() {
+        if (mpSession) mpSession.leave();
+        location.href = '/';
+      }
+
+      function begin() {
+        panel.classList.remove('hidden');
+        statusEl.textContent = TEXT.waiting;
+        window.alkkagiGame.startGame('online');
+        window.alkkagiGame.inputLocked = true;
+        document.getElementById('ak-reset-btn').classList.add('hidden');
+        document.getElementById('ak-local-leave-btn').classList.add('hidden');
+        document.getElementById('online-leave-mid-btn').classList.remove('hidden');
+        mpSession = window.Multiplayer.start({
+          gameId: 'alkkagi',
+          game: window.alkkagiGame,
+          adapter: window.OmokboardAdapters.alkkagi,
+          ui,
+        });
+      }
+
+      window.alkkagiGame.onGameOver = () => {
+        modalResetBtn.classList.add('hidden');
+        onlineEndgame.classList.remove('hidden');
+        endgameStatusEl.textContent = '';
+        rematchBtn.disabled = false;
+      };
+
+      document.getElementById('online-create-btn').addEventListener('click', begin);
+
+      document.getElementById('join-code-confirm').addEventListener('click', () => {
+        const code = document.getElementById('join-code-input').value.trim().toUpperCase();
+        const errEl = document.getElementById('join-code-error');
+        if (code.length !== 6) {
+          errEl.textContent = t('online.err.codeLength');
+          return;
+        }
+        location.search = `?room=${code}`;
+      });
+
+      document.getElementById('room-copy').addEventListener('click', () => {
+        if (shareLink) navigator.clipboard.writeText(shareLink);
+      });
+
+      document.getElementById('online-leave-btn').addEventListener('click', doLeave);
+
+      document.getElementById('online-leave-mid-btn').addEventListener('click', () => {
+        if (!confirm(t('online.confirmLeaveMidGame'))) return;
+        doLeave();
+      });
+
+      document.getElementById('online-rematch-btn').addEventListener('click', () => {
+        if (!mpSession) return;
+        mpSession.rematch();
+        rematchBtn.disabled = true;
+        endgameStatusEl.textContent = t('online.rematchWaitingSelf');
+      });
+
+      if (new URLSearchParams(location.search).get('room')) begin();
+    })();
+    </script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>

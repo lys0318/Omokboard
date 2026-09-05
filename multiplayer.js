@@ -13,9 +13,11 @@
   const store = window.sessionStorage;
 
   window.Multiplayer = {
-    start({ gameId, game, adapter, ui }) {
+    // initialState: 방장이 시작 전에 고른 설정(예: 알까기 익스트림 장애물)이 있는
+    // 게임만 넘긴다 — 첫 수가 오기 전에 입장한 쪽도 같은 초기 상태를 봐야 하므로.
+    start({ gameId, game, adapter, ui, initialState }) {
       const session = {
-        gameId, game, adapter, ui,
+        gameId, game, adapter, ui, initialState,
         code: null, color: null, seq: 0,
         ws: null, attempt: 0, closedByUs: false, graceUntil: 0,
       };
@@ -45,7 +47,7 @@
   async function createRoom(session) {
     const res = await fetch('/api/room', {
       method: 'POST',
-      body: JSON.stringify({ gameId: session.gameId }),
+      body: JSON.stringify({ gameId: session.gameId, initialState: session.initialState }),
     });
     if (!res.ok) return session.ui.onError('CREATE_FAILED');
     const data = await res.json();

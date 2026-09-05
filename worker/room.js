@@ -329,7 +329,7 @@ export class RoomDO {
 
   // 방을 처음 만든다. 이미 초기화됐으면 409를 준다(코드 충돌).
   async create(request) {
-    const { gameId } = await request.json();
+    const { gameId, initialState } = await request.json();
     if (await this.ctx.storage.get('initialized')) {
       return new Response(JSON.stringify({ error: 'CODE_TAKEN' }), { status: 409 });
     }
@@ -340,7 +340,10 @@ export class RoomDO {
       status: 'waiting',
       turn: 'black',
       seq: 0,
-      state: null,
+      // 대부분의 게임은 고정된 시작 상태라 필요 없지만, 알까기의 익스트림
+      // 장애물처럼 방장이 시작 전에 고른 설정은 첫 수 전에도 입장한 쪽에
+      // 전달돼야 한다 — 없으면 기존 게임과 동일하게 null.
+      state: initialState ?? null,
       players: { black: { token, connected: false }, white: null },
       lastActivityAt: Date.now(),
       roomExpiresAt: Date.now() + ROOM_TTL_MS,
