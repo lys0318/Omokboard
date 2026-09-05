@@ -160,7 +160,8 @@
         }
         ui.onStatus(msg.status, msg);
         // 정원이 차서 playing으로 바뀐 순간(상대가 막 들어온 쪽)에도 카운트다운 시작
-        if (msg.status === 'playing') game.startTimer();
+        // (startTimer는 오목 등 카운트다운이 있는 게임만 구현 — 없는 게임은 스킵)
+        if (msg.status === 'playing') game.startTimer?.();
         updateInput(session);
         break;
 
