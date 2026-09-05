@@ -2,12 +2,15 @@ class DotsGame {
     constructor() {
         this.DOTS = 6;
         this.BOXES = this.DOTS - 1;
-        this.currentTurn = 'red';
+        this.turnColor = 'red';
         this.gameMode = 'pvp';
         this.difficulty = 'normal';
         this.isGameOver = false;
         this.isAIThinking = false;
         this.hoverLine = null;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
 
         this.canvas = document.getElementById('dots-canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -45,7 +48,7 @@ class DotsGame {
         this.vLines = lines.v;
         this.boxes = this.emptyBoxes();
         this.scores = { red: 0, blue: 0 };
-        this.currentTurn = 'red';
+        this.turnColor = 'red';
         this.isGameOver = false;
         this.isAIThinking = false;
         this.hoverLine = null;
@@ -95,6 +98,10 @@ class DotsGame {
             document.getElementById('dots-step-mode').classList.add('hidden');
             document.getElementById('dots-step-diff').classList.remove('hidden');
         });
+        document.getElementById('dots-online-select-btn').addEventListener('click', () => {
+            document.getElementById('dots-step-mode').classList.add('hidden');
+            document.getElementById('dots-step-online').classList.remove('hidden');
+        });
         document.getElementById('dots-easy-btn').addEventListener('click', () => this.startGame('ai', 'easy'));
         document.getElementById('dots-normal-btn').addEventListener('click', () => this.startGame('ai', 'normal'));
         document.getElementById('dots-hard-btn').addEventListener('click', () => this.startGame('ai', 'hard'));
@@ -111,7 +118,8 @@ class DotsGame {
 
     canHumanMove() {
         if (this.isGameOver || this.isAIThinking) return false;
-        return !(this.gameMode === 'ai' && this.currentTurn === 'blue');
+        if (this.gameMode === 'online' && this.inputLocked) return false;
+        return !(this.gameMode === 'ai' && this.turnColor === 'blue');
     }
 
     getPos(e) {
@@ -215,25 +223,32 @@ class DotsGame {
         return sides;
     }
 
-    placeLine(line) {
+    placeLine(line, opts) {
         if (!line || this.isLineTaken(line) || this.isGameOver) return false;
 
-        this.setLine(line, this.currentTurn);
+        this.setLine(line, this.turnColor);
         const completed = [];
         for (const box of this.adjacentBoxes(line)) {
             if (!this.boxes[box.r][box.c] && this.countBoxSides(box.r, box.c) === 4) {
-                this.boxes[box.r][box.c] = this.currentTurn;
+                this.boxes[box.r][box.c] = this.turnColor;
                 completed.push(box);
             }
         }
 
         if (completed.length) {
-            this.scores[this.currentTurn] += completed.length;
+            this.scores[this.turnColor] += completed.length;
         } else {
-            this.currentTurn = this.currentTurn === 'red' ? 'blue' : 'red';
+            this.turnColor = this.turnColor === 'red' ? 'blue' : 'red';
         }
 
         this.hoverLine = null;
+
+        // 온라인 대전: 박스를 완성하면 같은 사람이 다시 두므로 다음 턴이 자동
+        // 반전이 아닐 수 있다. 실제로 확정된 turnColor를 서버에 명시적으로 알린다.
+        if (!opts?.remote && this.hooks.afterMove) {
+            this.hooks.afterMove({ line, nextTurn: this.currentTurn });
+        }
+
         if (this.isBoardFull()) {
             this.handleGameOver();
             return true;
@@ -241,7 +256,7 @@ class DotsGame {
 
         this.updateUI();
         this.draw();
-        if (this.gameMode === 'ai' && this.currentTurn === 'blue') this.scheduleAI();
+        if (this.gameMode === 'ai' && this.turnColor === 'blue') this.scheduleAI();
         return true;
     }
 
@@ -357,7 +372,19 @@ class DotsGame {
             this.winTitle.textContent = title;
             this.winDesc.textContent = `${desc} (${counts.red} : ${counts.blue})`;
             this.winOverlay.classList.remove('hidden');
+            if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
         }, 350);
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 점잇기는 빨강이 선공이라 DO 좌석 'black'(선공)을 빨강에 대응시킨다.
+    get currentTurn() {
+        return this.turnColor === 'red' ? 'black' : 'white';
     }
 
     draw() {
@@ -442,7 +469,7 @@ class DotsGame {
             }
         }
         if (this.hoverLine && !this.isLineTaken(this.hoverLine)) {
-            drawLine(this.hoverLine, this.currentTurn, 0.48);
+            drawLine(this.hoverLine, this.turnColor, 0.48);
         }
     }
 
@@ -472,15 +499,15 @@ class DotsGame {
         if (!this.redScoreEl) return;
         this.redScoreEl.textContent = this.scores.red;
         this.blueScoreEl.textContent = this.scores.blue;
-        this.redPlayerEl.classList.toggle('active', this.currentTurn === 'red');
-        this.bluePlayerEl.classList.toggle('active', this.currentTurn === 'blue');
+        this.redPlayerEl.classList.toggle('active', this.turnColor === 'red');
+        this.bluePlayerEl.classList.toggle('active', this.turnColor === 'blue');
 
         if (this.isGameOver) {
             this.statusEl.textContent = window.i18n.t('chess.gameover.desc');
         } else if (this.isAIThinking) {
             this.statusEl.textContent = window.i18n.t('game.ai.thinking');
         } else {
-            this.statusEl.textContent = this.currentTurn === 'red'
+            this.statusEl.textContent = this.turnColor === 'red'
                 ? window.i18n.t('dots.red.turn')
                 : window.i18n.t('dots.blue.turn');
         }
