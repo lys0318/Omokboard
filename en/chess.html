@@ -367,7 +367,7 @@
         </div>
     </div>
 
-    <script src="/lang.js?v=7"></script>
+    <script src="/lang.js?v=8"></script>
     <script src="/chess.js?v=3"></script>
     <script src="/adapters/chess.js?v=1"></script>
     <script src="/multiplayer.js?v=3"></script>
@@ -398,6 +398,7 @@
       const ERR = {
         ROOM_FULL: t('online.err.roomFull'),
         ROOM_NOT_FOUND: t('online.err.roomNotFound'),
+        WRONG_GAME: t('online.err.wrongGame'),
         NOT_YOUR_TURN: t('online.err.notYourTurn'),
         SEQ_MISMATCH: t('online.err.seqMismatch'),
         CREATE_FAILED: t('online.err.createFailed'),
@@ -507,7 +508,17 @@
         endgameStatusEl.textContent = t('online.rematchWaitingSelf');
       });
 
-      if (new URLSearchParams(location.search).get('room')) begin();
+      // 링크로 들어온 경우, 실제 게임 종류를 확인한 뒤 입장한다
+      // (다른 게임 방 코드를 잘못 입력했을 때 엉뚱하게 들어가지 않도록).
+      const roomParam = new URLSearchParams(location.search).get('room');
+      if (roomParam) {
+        panel.classList.remove('hidden');
+        statusEl.textContent = TEXT.waiting;
+        fetch(`/api/room/${roomParam}/info`)
+          .then((res) => (res.ok ? res.json() : Promise.reject()))
+          .then((data) => (data.gameId === 'chess' ? begin() : ui.onError('WRONG_GAME')))
+          .catch(() => ui.onError('ROOM_NOT_FOUND'));
+      }
     })();
     </script>
     <script src="/analytics.js?v=1" defer></script>

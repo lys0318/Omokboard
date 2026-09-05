@@ -14,6 +14,7 @@ export class RoomDO {
   async fetch(request) {
     const url = new URL(request.url);
     if (url.pathname === '/create') return this.create(request);
+    if (url.pathname === '/info') return this.info();
 
     if (request.headers.get('Upgrade') === 'websocket') {
       const [client, server] = Object.values(new WebSocketPair());
@@ -325,6 +326,19 @@ export class RoomDO {
         this.send(other, { type: 'status', status: 'playing' });
       }
     }
+  }
+
+  // 좌석을 배정하지 않고 이 코드가 어떤 게임인지만 확인한다. 틱택토처럼 한
+  // 페이지에 서로 다른 게임 엔진(클래식/얼티메이트)이 걸려 있을 때, 코드를
+  // 직접 입력해 입장하는 쪽이 방장과 다른 화면으로 잘못 들어가지 않도록
+  // 클라이언트가 화면을 고르기 전에 먼저 물어보는 용도.
+  async info() {
+    const initialized = await this.ctx.storage.get('initialized');
+    if (!initialized) {
+      return new Response(JSON.stringify({ error: 'ROOM_NOT_FOUND' }), { status: 404 });
+    }
+    const gameId = await this.ctx.storage.get('gameId');
+    return Response.json({ gameId });
   }
 
   // 방을 처음 만든다. 이미 초기화됐으면 409를 준다(코드 충돌).

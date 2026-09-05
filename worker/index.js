@@ -12,6 +12,14 @@ export default {
       return createRoom(request, env);
     }
 
+    // 좌석 배정 없이 코드만으로 게임 종류를 확인한다(틱택토 클래식/얼티메이트처럼
+    // 한 페이지에 여러 게임 엔진이 걸려 있을 때 입장 전에 화면을 고르는 데 사용).
+    const infoMatch = url.pathname.match(/^\/api\/room\/([A-Z0-9]{6})\/info$/);
+    if (infoMatch && request.method === 'GET') {
+      const stub = env.ROOM.get(env.ROOM.idFromName(infoMatch[1]));
+      return stub.fetch('https://do/info');
+    }
+
     // 방 코드 하나가 DO 인스턴스 하나에 대응한다.
     const m = url.pathname.match(/^\/api\/room\/([A-Z0-9]{6})$/);
     if (m) {

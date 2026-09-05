@@ -426,7 +426,7 @@
         </div>
     </div>
 
-    <script src="lang.js?v=7"></script>
+    <script src="lang.js?v=8"></script>
     <script src="tictactoe.js?v=3"></script>
     <script src="ultimate.js?v=3"></script>
     <script src="/adapters/tictactoe.js?v=1"></script>
@@ -435,6 +435,22 @@
     <script>
     // 온라인 대전 진입점(클래식 3×3 전용). 얼티메이트는 별도 IIFE(아래)에서 처리한다.
     window._tttOnline = window._tttOnline || {};
+    // 방 코드만으로 실제 게임 종류를 서버에 물어본다. 공유 링크든 코드를 직접
+    // 입력해 들어오든, 방장이 고른 변형과 다른 화면으로 잘못 들어가지 않도록
+    // 클라이언트가 추측하지 않고 항상 서버 응답을 신뢰한다.
+    window._tttOnline.resolveVariant = async (code) => {
+      try {
+        const res = await fetch(`/api/room/${code}/info`);
+        if (!res.ok) return { ok: false, reason: 'ROOM_NOT_FOUND' };
+        const data = await res.json();
+        if (data.gameId === 'ultimate') return { ok: true, variant: 'ultimate' };
+        if (data.gameId === 'tictactoe') return { ok: true, variant: 'classic' };
+        // 오목·체스 등 완전히 다른 게임의 방 코드 — 틱택토 어느 쪽으로도 못 들어간다.
+        return { ok: false, reason: 'WRONG_GAME' };
+      } catch {
+        return { ok: false, reason: 'ROOM_NOT_FOUND' };
+      }
+    };
     (function () {
       const panel = document.getElementById('room-panel');
       const statusEl = document.getElementById('room-status');
@@ -460,6 +476,7 @@
       const ERR = {
         ROOM_FULL: t('online.err.roomFull'),
         ROOM_NOT_FOUND: t('online.err.roomNotFound'),
+        WRONG_GAME: t('online.err.wrongGame'),
         NOT_YOUR_TURN: t('online.err.notYourTurn'),
         CELL_TAKEN: t('online.err.cellTaken'),
         SEQ_MISMATCH: t('online.err.seqMismatch'),
@@ -540,6 +557,17 @@
       };
 
       window._tttOnline.classic = begin;
+      // 방 코드가 틱택토(클래식·얼티메이트) 어느 쪽도 아닐 때 에러를 보여줄 화면과,
+      // 서버에 게임 종류를 물어보는 동안 보여줄 대기 화면. 어차피 어느 쪽에도
+      // 못 들어가는 코드의 에러는 클래식 화면을 기본으로 쓴다.
+      window._tttOnline.showJoinError = (reason) => {
+        panel.classList.remove('hidden');
+        ui.onError(reason);
+      };
+      window._tttOnline.showWaiting = () => {
+        panel.classList.remove('hidden');
+        statusEl.textContent = TEXT.waiting;
+      };
 
       document.getElementById('online-create-btn').addEventListener('click', begin);
 
@@ -600,6 +628,7 @@
       const ERR = {
         ROOM_FULL: t('online.err.roomFull'),
         ROOM_NOT_FOUND: t('online.err.roomNotFound'),
+        WRONG_GAME: t('online.err.wrongGame'),
         NOT_YOUR_TURN: t('online.err.notYourTurn'),
         CELL_TAKEN: t('online.err.cellTaken'),
         SEQ_MISMATCH: t('online.err.seqMismatch'),
@@ -626,8 +655,10 @@
           statusEl.textContent = TEXT[status] || status;
         },
         onCode(code, url) {
-          // 얼티메이트 방은 링크에 variant를 표시해 입장 시 올바른 변형으로 연결한다.
-          shareLink = `${url}&variant=ultimate`;
+          // variant는 더 이상 링크에 실어 보내지 않는다 — 입장하는 쪽이 서버에
+          // 물어 실제 게임 종류를 확인하므로(_tttOnline.resolveVariant), 링크가
+          // 없거나 잘려도, 코드를 직접 입력해 들어와도 항상 올바른 화면으로 간다.
+          shareLink = url;
           codeEl.textContent = code;
           codeRow.classList.remove('hidden');
           countEl.textContent = '1 / 2';
@@ -691,7 +722,9 @@
           errEl.textContent = t('online.err.codeLength');
           return;
         }
-        location.search = `?room=${code}&variant=ultimate`;
+        // variant는 붙이지 않는다 — 자동 입장 처리기가 서버에 물어 실제
+        // 게임 종류를 확인한 뒤 올바른 화면으로 보내준다.
+        location.search = `?room=${code}`;
       });
 
       document.getElementById('room-copy').addEventListener('click', () => {
@@ -739,13 +772,22 @@
         document.getElementById('variant-ultimate').addEventListener('click', () => window.tttHub.pickVariant('ultimate'));
         document.querySelectorAll('.to-variant').forEach(b => b.addEventListener('click', () => window.tttHub.showVariant()));
 
-        // 온라인 방 링크(?room=CODE)를 타고 들어온 경우, URL의 variant로 올바른
-        // 변형(클래식/얼티메이트)을 골라 자동 입장한다. variant가 없으면 클래식(기존 링크 호환).
+        // 온라인 방 코드(?room=CODE)로 들어온 경우, 서버에 실제 게임 종류를
+        // 물어 올바른 변형(클래식/얼티메이트)으로 자동 입장한다. 공유 링크든
+        // 코드를 직접 입력해 들어왔든 동일하게 서버 응답을 신뢰하므로,
+        // 방장과 다른 화면으로 잘못 들어가는 일이 없다.
         const roomParam = new URLSearchParams(location.search).get('room');
         if (roomParam) {
-            const variant = new URLSearchParams(location.search).get('variant') === 'ultimate' ? 'ultimate' : 'classic';
-            window.tttHub.pickVariant(variant);
-            window._tttOnline[variant]();
+            window._tttOnline.showWaiting();
+            window._tttOnline.resolveVariant(roomParam).then((result) => {
+                if (!result.ok) {
+                    window.tttHub.pickVariant('classic');
+                    window._tttOnline.showJoinError(result.reason);
+                    return;
+                }
+                window.tttHub.pickVariant(result.variant);
+                window._tttOnline[result.variant]();
+            });
         }
     </script>
     <script src="/analytics.js?v=1" defer></script>
