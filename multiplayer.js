@@ -121,12 +121,18 @@
 
       case 'move':
         session.seq = msg.seq;
+        game.startTimer?.(); // 서버가 턴을 넘겼으니 30초 카운트다운을 새로 시작(지원하는 게임만)
         // 내가 둔 수가 되돌아온 경우엔 이미 화면에 반영돼 있다.
         if (msg.move && msg.move.by !== session.color) {
-          adapter.applyMove(game, msg.move);
+          // applyMove가 즉시 끝나는 게임(대부분)은 undefined를 반환해도
+          // Promise.resolve가 바로 다음 마이크로태스크에 풀어주므로 그대로 동작한다.
+          // 알까기처럼 반영이 비동기(물리 재생)인 게임은 Promise를 반환해,
+          // 실제로 재생이 끝나 턴이 넘어간 뒤에야 입력 잠금을 계산하게 한다 —
+          // 안 그러면 아직 안 넘어간 턴 기준으로 잠겨서 내 차례가 와도 드래그가 안 먹는다.
+          Promise.resolve(adapter.applyMove(game, msg.move)).then(() => updateInput(session));
+        } else {
+          updateInput(session);
         }
-        game.startTimer?.(); // 서버가 턴을 넘겼으니 30초 카운트다운을 새로 시작(지원하는 게임만)
-        updateInput(session);
         break;
 
       case 'timeout':

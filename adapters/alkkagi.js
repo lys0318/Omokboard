@@ -41,16 +41,23 @@
       game.draw();
     },
 
+    // 다른 게임과 달리 한 수 반영이 즉시 끝나지 않고 물리 재생(수 초)이 필요하다.
+    // multiplayer.js는 applyMove가 끝난 뒤 곧바로 입력 잠금을 다시 계산하므로,
+    // Promise를 반환해 재생이 실제로 정지할 때까지 그 계산을 미루게 한다
+    // (안 그러면 상대 차례로 넘어가기 전 시점의 turnColor로 잠금이 계산돼
+    // 내 차례가 와도 드래그가 안 먹는 버그가 생긴다).
     applyMove(game, move) {
       const m = game.marbles[move.marbleIndex];
       if (!m) return;
       m.vx = move.vx;
       m.vy = move.vy;
       game.isSimulating = true;
-      game.runPhysics(
-        { marbleIndex: move.marbleIndex, vx: move.vx, vy: move.vy },
-        { remote: true, finalState: move.state }
-      );
+      return new Promise((resolve) => {
+        game.runPhysics(
+          { marbleIndex: move.marbleIndex, vx: move.vx, vy: move.vy },
+          { remote: true, finalState: move.state, onSettled: resolve }
+        );
+      });
     },
 
     onLocalMove(game, cb) {

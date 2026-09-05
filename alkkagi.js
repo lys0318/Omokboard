@@ -325,6 +325,11 @@ class AlkkagiGame {
                 if (!opts?.remote && shotInfo && this.hooks.afterMove) {
                     this.hooks.afterMove(shotInfo);
                 }
+                // 온라인 대전(상대 수 재생): multiplayer.js가 이 시점 이후에야
+                // 정확한 턴으로 입력 잠금을 다시 계산할 수 있다 — 재생 중간에
+                // 계산하면 아직 안 넘어간 턴 기준으로 잠겨서 내 차례가 와도
+                // 드래그가 안 먹는다.
+                opts?.onSettled?.();
             }
         };
         this.animId = requestAnimationFrame(step);
