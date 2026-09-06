@@ -39,6 +39,10 @@ const META = {
   'free-board-games':  { t:'Free Online Board Games — 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser — no install, no sign-up. Compare and pick one to play.' },
   'brain-training':    { t:'Brain Games and Cognitive Skills | Omokboard', d:'What each Omokboard game actually trains — pattern recognition, logical deduction, planning ahead, spatial organization, risk management, and hand-eye feel.' },
   'game-recommendations': { t:'Game Recommendations by Situation | Omokboard', d:'Which Omokboard game fits your situation — solo training, playing with kids, head-to-head with a friend, holidays, a quick 5 minutes, or going deep.' },
+  'omok-history':      { t:'The History and Origins of Omok (Gomoku) | Omokboard', d:'Where Omok came from, why the first player wins under free-style rules, and how Renju’s forbidden moves (double-three, double-four, overline) balance the game.' },
+  'online-play-guide': { t:'Online Play Guide — Play Friends with a Room Code | Omokboard', d:'How to create a room, share the code, reconnect after a drop, and rematch. Which of Omokboard’s games support online play, with no sign-up required.' },
+  'chess-openings':    { t:'Chess Openings for Beginners | Omokboard', d:'The three opening principles (center, development, king safety), plus the Italian Game, London System, Sicilian Defense, French Defense, and common beginner mistakes.' },
+  'board-games-for-kids': { t:'Board Games to Play With Kids by Age | Omokboard', d:'Which Omokboard games fit ages 4 to 13+, why playing together on one screen matters, and what parents should know — no sign-up, no chat, no payments.' },
   about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games — play vs AI or 2-player, no install required.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard for bug reports, suggestions, or privacy and advertising inquiries.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy — what we collect, how it is used, and third-party services.' }
