@@ -57,7 +57,7 @@ class YutGame {
     get en() { return window.i18n && window.i18n.getLang() === 'en'; }
 
     resize() {
-        const maxW = Math.min(window.innerWidth - 32, 460);
+        const maxW = Math.max(280, Math.min(window.innerWidth - 32, 460)); // innerWidth가 0으로 잡히는 상황(프리렌더 등)에서 음수 크기로 캔버스가 터지지 않도록 하한을 둔다
         this.W = maxW; this.H = maxW;
         this.canvas.width = this.W; this.canvas.height = this.H;
         this.margin = this.W * 0.1;
