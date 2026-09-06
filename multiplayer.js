@@ -39,6 +39,12 @@
       session.rematch = () => {
         try { session.ws.send(JSON.stringify({ type: 'rematch' })); } catch { /* no-op */ }
       };
+      // 윷놀이처럼 난수가 필요한 게임: 서버가 윷가락을 뽑아 양쪽에 뿌려준다.
+      // 클라이언트가 직접 뽑으면 조작할 수 있어서 서버에 요청만 보낸다.
+      session.throwDice = () => {
+        session.seq += 1;
+        try { session.ws.send(JSON.stringify({ type: 'throw', seq: session.seq })); } catch { /* no-op */ }
+      };
 
       return session;
     },
@@ -133,6 +139,14 @@
         } else {
           updateInput(session);
         }
+        break;
+
+      case 'throw':
+        // 서버가 뽑아준 윷가락. 해석(도·개·걸·윷·모·빽도)과 규칙 처리는
+        // 어댑터가 게임 쪽에 맡긴다 — 서버는 난수만 책임진다.
+        session.seq = msg.seq;
+        adapter.applyThrow?.(game, msg.sticks, msg.turn === session.color);
+        updateInput(session);
         break;
 
       case 'timeout':

@@ -29,6 +29,9 @@ class YutGame {
         this.isGameOver = false;
         this.busy = false;
         this.glow = 0;
+        this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
+        this.hooks = {};
+        this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
         this._glowRAF = null;
 
         this.canvas = document.getElementById('yut-canvas');
@@ -76,6 +79,10 @@ class YutGame {
             document.getElementById('yut-step-mode').classList.add('hidden');
             document.getElementById('yut-step-diff').classList.remove('hidden');
         });
+        document.getElementById('yut-online-select-btn').addEventListener('click', () => {
+            document.getElementById('yut-step-mode').classList.add('hidden');
+            document.getElementById('yut-step-online').classList.remove('hidden');
+        });
         document.getElementById('yut-easy-btn').addEventListener('click',   () => this.startGame('ai','easy'));
         document.getElementById('yut-normal-btn').addEventListener('click', () => this.startGame('ai','normal'));
         document.getElementById('yut-hard-btn').addEventListener('click',   () => this.startGame('ai','hard'));
@@ -94,7 +101,8 @@ class YutGame {
     }
 
     startGame(mode, diff) {
-        this.gameMode = mode === 'ai' ? 'ai' : 'pvp';
+        // 'online'도 그대로 보존해야 온라인 전용 분기(입력 잠금·훅)가 걸린다.
+        this.gameMode = mode === 'ai' ? 'ai' : mode === 'online' ? 'online' : 'pvp';
         this.vsAI = mode === 'ai';
         this.difficulty = diff || 'normal';
         this.modeOverlay.classList.add('hidden');
@@ -124,10 +132,12 @@ class YutGame {
     // 윷가락 4개 중 하나를 "표식 막대"로 두고, 평면이 딱 1개(도) 나왔는데
     // 그게 표식 막대일 때만 빽도로 갈린다 (실제 윷 도구의 뒷도 막대와 같은 원리).
     // 도(4/16) 전체를 도(3/16)·빽도(1/16)로 쪼갤 뿐, 개·걸·윷·모 확률은 그대로다.
-    rollYut() {
+    // sticks: 온라인 대전에서 서버가 뽑아 보낸 윷가락 4개의 앞뒤(boolean).
+    // 로컬(2인·AI)에서는 인자 없이 불러 그대로 여기서 뽑는다.
+    rollYut(sticks) {
         let flats = 0, markedFlat = false;
         for (let i = 0; i < 4; i++) {
-            const up = Math.random() < 0.5;
+            const up = sticks ? !!sticks[i] : Math.random() < 0.5;
             if (up) flats++;
             if (i === 0 && up) markedFlat = true;
         }
@@ -139,11 +149,32 @@ class YutGame {
     onThrow() {
         if (this.isGameOver || this.busy || !this.canThrow) return;
         if (this.gameMode === 'ai' && this.current === 'p2') return;
+        // 온라인에서는 내가 직접 뽑지 않는다 — 서버가 뽑아 양쪽에 뿌려준다.
+        if (this.gameMode === 'online') {
+            if (this.inputLocked) return;
+            this.hooks.requestThrow?.();
+            return;
+        }
         this.doThrow();
     }
 
-    doThrow() {
-        const r = this.rollYut();
+    // 서버가 뽑아준 윷가락을 반영한다. mine이면(내 차례면) 턴이 끝나는 경우
+    // 상대에게 알려야 하므로 emit 플래그를 켜서 넘긴다.
+    applyServerThrow(sticks, mine) {
+        if (this.isGameOver) return;
+        this.doThrow(sticks, { emit: mine });
+    }
+
+    // 온라인 대전: 지금 판 상태와 다음 차례를 상대에게 보낸다.
+    // 윷놀이는 한 턴에 던지기·이동이 여러 번 섞이므로, 행동이 끝난 시점의
+    // 상태를 통째로 보내고 받는 쪽은 그대로 반영한다(규칙 재계산 없이).
+    emitOnlineState() {
+        if (this.gameMode !== 'online') return;
+        this.hooks.afterMove?.({ nextTurn: this.current === 'p1' ? 'black' : 'white' });
+    }
+
+    doThrow(sticks, opts) {
+        const r = this.rollYut(sticks);
         this.results.push(r);
         const bonus = (r.name === '윷' || r.name === '모');
         this.canThrow = bonus;
@@ -151,7 +182,13 @@ class YutGame {
         this.renderResults();
         if (!this.hasAnyMove()) {
             // 움직일 말이 전혀 없음
-            if (!this.canThrow) { this.setStatusNoMove(); setTimeout(() => this.endTurn(), 900); }
+            if (!this.canThrow) {
+                this.setStatusNoMove();
+                setTimeout(() => {
+                    this.endTurn();
+                    if (opts?.emit) this.emitOnlineState();
+                }, 900);
+            }
             else { this.updateStatus(); }
             this.updateThrowBtn();
             return;
@@ -280,6 +317,7 @@ class YutGame {
     onCanvasClick(e) {
         if (this.isGameOver || this.busy) return;
         if (this.gameMode === 'ai' && this.current === 'p2') return;
+        if (this.gameMode === 'online' && this.inputLocked) return;
         if (!this.results.length) {
             this.statusEl.textContent = this.canThrow ? (this.en ? 'Throw the yut' : '윷을 던지세요') : '';
             return;
@@ -335,8 +373,9 @@ class YutGame {
         this.renderResults();
         if (res.captured) this.canThrow = true;
         this.draw();
-        if (this.checkWin()) { this.stopGlow(); return; }
+        if (this.checkWin()) { this.stopGlow(); this.emitOnlineState(); return; }
         this.afterMovePhase();
+        this.emitOnlineState();
     }
 
     afterMovePhase() {
@@ -382,6 +421,7 @@ class YutGame {
                     this.winTitle.textContent = title;
                     this.winDesc.textContent = desc;
                     this.winOverlay.classList.remove('hidden');
+                    if (this.gameMode === 'online' && this.onGameOver) this.onGameOver();
                 }, 400);
                 return true;
             }
@@ -483,7 +523,8 @@ class YutGame {
 
     updateThrowBtn() {
         const aiTurn = this.gameMode === 'ai' && this.current === 'p2';
-        this.throwBtn.disabled = !this.canThrow || this.isGameOver || this.busy || aiTurn;
+        const locked = this.gameMode === 'online' && this.inputLocked;
+        this.throwBtn.disabled = !this.canThrow || this.isGameOver || this.busy || aiTurn || locked;
         this.throwBtn.style.opacity = this.throwBtn.disabled ? '0.5' : '1';
     }
 
@@ -612,6 +653,17 @@ class YutGame {
                 ctx.textBaseline='alphabetic';
             }
         }
+    }
+
+    // 온라인 대전: 재대결·상대나가기 시 판만 초기화한다(모드 화면은 건드리지 않음).
+    resetGame() {
+        this.reset();
+    }
+
+    // multiplayer.js가 세션 색('black'/'white', 오목 기준 좌석 라벨)과 비교하는 데 쓴다.
+    // 윷놀이는 p1(빨강)이 선공이라 DO 좌석 'black'(선공)을 p1에 대응시킨다.
+    get currentTurn() {
+        return this.current === 'p1' ? 'black' : 'white';
     }
 
     refreshLang() {

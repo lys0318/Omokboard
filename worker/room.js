@@ -49,6 +49,7 @@ export class RoomDO {
       return;
     }
     if (msg.type === 'move') return this.onMove(ws, msg);
+    if (msg.type === 'throw') return this.onThrow(ws, msg);
     if (msg.type === 'leave') return this.onLeave(ws);
     if (msg.type === 'rematch') return this.onRematch(ws);
   }
@@ -85,6 +86,33 @@ export class RoomDO {
     });
 
     this.broadcast({ type: 'move', move: msg.move, seq: nextSeq, turn: nextTurn });
+    await this.rescheduleAlarm();
+  }
+
+  // 윷놀이 전용: 윷가락 4개의 앞뒤만 서버가 뽑아서 양쪽에 뿌린다.
+  // 난수를 클라이언트가 만들면 조작할 수 있으므로 이것만 서버 권위로 두고,
+  // 도·개·걸·윷·모·빽도 해석과 이동 규칙은 다른 게임과 같이 클라이언트에 맡긴다.
+  // 던지기 자체는 턴을 넘기지 않는다(윷/모면 또 던지고, 이동까지 끝나야 턴 종료).
+  async onThrow(ws, msg) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    const room = await this.ctx.storage.get(['turn', 'seq', 'state']);
+    const seq = room.get('seq') ?? 0;
+    const turn = room.get('turn');
+
+    const reject = (reason) =>
+      this.send(ws, { type: 'rejected', reason, state: room.get('state'), seq, turn });
+
+    if (msg.seq !== seq + 1) return reject('SEQ_MISMATCH');
+    if (color !== turn) return reject('NOT_YOUR_TURN');
+
+    const rnd = new Uint8Array(4);
+    crypto.getRandomValues(rnd);
+    const sticks = [...rnd].map((n) => n % 2 === 0);
+
+    const nextSeq = seq + 1;
+    await this.ctx.storage.put({ seq: nextSeq, lastActivityAt: Date.now() });
+
+    this.broadcast({ type: 'throw', sticks, seq: nextSeq, turn });
     await this.rescheduleAlarm();
   }
 
