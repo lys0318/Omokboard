@@ -1,5 +1,5 @@
 // 사이트 자산만 dist/로 복사한다. 허용 목록 방식이라 docs·node_modules 등이 섞일 수 없다.
-import { readdir, mkdir, copyFile, rm, stat } from 'node:fs/promises';
+import { readdir, mkdir, copyFile, rm, stat, readFile, writeFile } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 
 const ROOT = process.cwd();
@@ -39,4 +39,47 @@ for (const name of await readdir(ROOT)) {
     count++;
   }
 }
-console.log(`dist/ 생성 완료 (최상위 항목 ${count}개)`);
+// 소스 HTML은 한/영 본문을 둘 다 담고 있지만(언어 전환은 /x ↔ /en/x URL 이동),
+// 배포본엔 그 페이지 언어만 남긴다. 반대 언어 블록은 화면에 절대 안 나오는 숨김 텍스트라
+// 검색엔진에 중복·숨김 콘텐츠로 보인다.
+function dropLang(html, cls) {
+  const open = new RegExp(`<(div|span|strong)\\b[^>]*class="${cls}"[^>]*>`, 'g');
+  let out = '', last = 0, m;
+  while ((m = open.exec(html))) {
+    const close = new RegExp(`<(/?)${m[1]}\\b[^>]*>`, 'g');
+    close.lastIndex = open.lastIndex;
+    let depth = 1, t;
+    while (depth && (t = close.exec(html))) depth += t[1] ? -1 : 1;
+    if (!t) throw new Error(`닫히지 않은 <${m[1]} class="${cls}">`);
+    out += html.slice(last, m.index);
+    last = open.lastIndex = close.lastIndex;
+  }
+  return out + html.slice(last);
+}
+const balance = (h, tag) => (h.match(new RegExp(`<${tag}\\b`, 'g')) || []).length - (h.match(new RegExp(`</${tag}>`, 'g')) || []).length;
+
+async function htmlFiles(dir) {
+  const out = [];
+  for (const name of await readdir(dir)) {
+    const p = join(dir, name);
+    if ((await stat(p)).isDirectory()) out.push(...await htmlFiles(p));
+    else if (name.endsWith('.html')) out.push(p);
+  }
+  return out;
+}
+
+let stripped = 0;
+for (const file of await htmlFiles(OUT)) {
+  const src = await readFile(file, 'utf8');
+  const en = /<html lang="en">/.test(src);
+  let html = dropLang(src, en ? 'ko-only' : 'en-only');
+  if (en) html = html.replace(/class="en-only" style="display:none;"/g, 'class="en-only"'); // JS 없이도 영어가 보이게
+  // 빌드 자체가 검증: 반대 언어가 남거나 태그 짝이 깨지면 배포 중단
+  if (/class="[^"]*\b(ko|en)-only\b/.test(html.replace(new RegExp(`class="${en ? 'en' : 'ko'}-only"`, 'g'), ''))) throw new Error(`${file}: 반대 언어 블록이 남음`);
+  for (const tag of ['div', 'span', 'strong']) {
+    if (balance(html, tag) !== balance(src, tag)) throw new Error(`${file}: <${tag}> 짝이 깨짐`);
+  }
+  if (html !== src) { await writeFile(file, html); stripped++; }
+}
+
+console.log(`dist/ 생성 완료 (최상위 항목 ${count}개, 반대 언어 제거 ${stripped}개 페이지)`);
