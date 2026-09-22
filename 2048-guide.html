@@ -132,23 +132,23 @@
                 </section>
 
                 <section class="info-section">
-                    <h2>핵심 전략 — 코너 전략</h2>
+                    <h2>핵심 전략: 코너 전략</h2>
                     <p>가장 큰 숫자 타일을 <strong>구석 한 곳에 고정</strong>시키고, 그 타일을 구석에서 벗어나게 만드는 방향키는 되도록 누르지 않는 것이 2048의 기본 전략입니다. 예를 들어 가장 큰 타일을 오른쪽 아래에 두기로 했다면, 그 타일이 위나 왼쪽으로 밀려나는 이동은 꼭 필요할 때만 사용하세요.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>핵심 전략 — 오름차순으로 줄 세우기</h2>
+                    <h2>핵심 전략: 오름차순으로 줄 세우기</h2>
                     <p>구석의 큰 타일 옆으로 숫자가 점점 작아지는 줄을 만들어두면(예: 1024-512-256-128 순서), 판이 계속 정리된 상태를 유지하기 쉽습니다. 이렇게 정렬해두면 새로 생기는 작은 타일들을 반대편에서 안전하게 합쳐 나갈 공간이 계속 확보됩니다.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>고급 전략 — 스네이크 패턴</h2>
-                    <p>코너 전략에 익숙해졌다면 <strong>스네이크(뱀) 패턴</strong>으로 한 단계 발전시켜보세요. 맨 위 줄은 오른쪽에서 왼쪽으로 큰 순서대로, 그다음 줄은 왼쪽에서 오른쪽으로, 그다음은 다시 오른쪽에서 왼쪽으로 — 이렇게 지그재그(S자)로 타일을 배열하는 방식입니다. 한 줄만 정리하는 코너 전략보다 <strong>판 전체를 체계적으로</strong> 관리할 수 있어, 후반부까지 안정적으로 버틸 수 있습니다.</p>
+                    <h2>고급 전략: 스네이크 패턴</h2>
+                    <p>코너 전략에 익숙해졌다면 <strong>스네이크(뱀) 패턴</strong>으로 한 단계 발전시켜보세요. 맨 위 줄은 오른쪽에서 왼쪽으로 큰 순서대로, 그다음 줄은 왼쪽에서 오른쪽으로, 그다음은 다시 오른쪽에서 왼쪽으로, 이렇게 지그재그(S자)로 타일을 배열하는 방식입니다. 한 줄만 정리하는 코너 전략보다 <strong>판 전체를 체계적으로</strong> 관리할 수 있어, 후반부까지 안정적으로 버틸 수 있습니다.</p>
                     <p style="margin-top:0.6rem;">스네이크를 유지하려면 <strong>한 방향(보통 아래)은 거의 누르지 않는다</strong>는 규칙을 스스로 정해두는 것이 좋습니다. 지그재그 순서가 한 번 끊기면 다시 만들기 어려우므로, 급하게 합치기보다 순서를 지키는 이동을 우선하세요.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>점수의 원리 — 왜 큰 타일을 늦게 합쳐야 유리할까</h2>
+                    <h2>점수의 원리: 왜 큰 타일을 늦게 합쳐야 유리할까</h2>
                     <p>2048은 두 타일을 합칠 때마다 <strong>합쳐진 값만큼 점수</strong>가 오릅니다(예: 1024+1024를 합치면 2048점 획득). 즉 작은 타일 여러 개를 그때그때 합치는 것보다, 큰 타일 두 개를 한 번에 합치는 한 방이 훨씬 큰 점수를 줍니다. 그래서 고수는 작은 타일을 성급하게 없애기보다, <strong>같은 값의 큰 타일 두 개가 만들어질 때까지 참고 모으는</strong> 쪽을 택합니다. 조급하게 합치기보다 큰 그림에서 어떤 타일을 언제 합칠지 계획하는 것이 점수를 극대화하는 핵심입니다.</p>
                 </section>
 
@@ -178,7 +178,7 @@
             <div class="en-only" style="display:none;">
                 <section class="info-section">
                     <h2>What Is 2048?</h2>
-                    <p>2048 is a puzzle played on a 4×4 grid where you merge matching number tiles into bigger ones. Press an arrow key and every tile slides that direction; matching numbers that collide merge into one. Keep merging 2s and you'll eventually reach the 2048 tile — and win.</p>
+                    <p>2048 is a puzzle played on a 4×4 grid where you merge matching number tiles into bigger ones. Press an arrow key and every tile slides that direction; matching numbers that collide merge into one. Keep merging 2s and you'll eventually reach the 2048 tile and win.</p>
                     <p>The rules are simple, but moving carelessly fills the board fast. How you "organize" tiles while sliding is the real key to a high score.</p>
                     <p style="margin-top:0.8rem;"><a href="2048" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play 2048 now →</a></p>
                 </section>
@@ -200,24 +200,24 @@
                 </section>
 
                 <section class="info-section">
-                    <h2>Core Strategy — The Corner Method</h2>
+                    <h2>Core Strategy: The Corner Method</h2>
                     <p>Park your biggest tile in one corner and avoid any move that would pull it away from that corner unless you truly have to. If your biggest tile lives in the bottom-right, for example, only press up or left when it's unavoidable.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Core Strategy — Build a Descending Chain</h2>
+                    <h2>Core Strategy: Build a Descending Chain</h2>
                     <p>Line tiles up next to your corner tile in descending order (like 1024-512-256-128). This keeps the board organized and leaves room on the opposite side to safely merge the small tiles that keep appearing.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>Advanced Strategy — The Snake Pattern</h2>
-                    <p>Once the corner method feels natural, level up to the <strong>snake pattern</strong>. Arrange the top row in descending order from right to left, the next row left to right, the next right to left again — a zigzag that winds through the whole board like a snake. Unlike the corner method, which only organizes one line, the snake keeps <strong>the entire board</strong> structured, letting you hold together much longer into the late game.</p>
-                    <p style="margin-top:0.6rem;">To protect the snake, set yourself a rule to <strong>barely ever press one direction</strong> (usually down). Once the zigzag order breaks, it's hard to rebuild — prioritize moves that preserve the order over chasing a quick merge.</p>
+                    <h2>Advanced Strategy: The Snake Pattern</h2>
+                    <p>Once the corner method feels natural, level up to the <strong>snake pattern</strong>. Arrange the top row in descending order from right to left, the next row left to right, the next right to left again, forming a zigzag that winds through the whole board like a snake. Unlike the corner method, which only organizes one line, the snake keeps <strong>the entire board</strong> structured, letting you hold together much longer into the late game.</p>
+                    <p style="margin-top:0.6rem;">To protect the snake, set yourself a rule to <strong>barely ever press one direction</strong> (usually down). Once the zigzag order breaks, it's hard to rebuild, so prioritize moves that preserve the order over chasing a quick merge.</p>
                 </section>
 
                 <section class="info-section">
-                    <h2>The Scoring Math — Why Waiting to Merge Big Tiles Pays Off</h2>
-                    <p>Every merge adds <strong>the value of the resulting tile</strong> to your score (merge two 1024s and you gain 2048 points). That means one merge of two large tiles is worth far more than merging small tiles one at a time. Strong players resist clearing small tiles too eagerly and instead <strong>wait until two equal large tiles line up</strong> before merging. Planning which tiles to combine and when — rather than merging on impulse — is what actually maximizes your score.</p>
+                    <h2>The Scoring Math: Why Waiting to Merge Big Tiles Pays Off</h2>
+                    <p>Every merge adds <strong>the value of the resulting tile</strong> to your score (merge two 1024s and you gain 2048 points). That means one merge of two large tiles is worth far more than merging small tiles one at a time. Strong players resist clearing small tiles too eagerly and instead <strong>wait until two equal large tiles line up</strong> before merging. Planning which tiles to combine and when, rather than merging on impulse, is what actually maximizes your score.</p>
                 </section>
 
                 <section class="info-section">
@@ -236,9 +236,9 @@
                         <li><strong>Does the game end at the 2048 tile?</strong> You'll see a win message, but pressing "Continue" lets you keep playing for a higher score.</li>
                         <li><strong>How is my best score saved?</strong> It's saved automatically in your browser and stays there on your next visit.</li>
                         <li><strong>When is it game over?</strong> When the board is full and no two adjacent tiles can merge.</li>
-                        <li><strong>Can I undo a move?</strong> There's no undo — choosing carefully is part of the challenge.</li>
-                        <li><strong>What's the snake pattern?</strong> An advanced organizing method that arranges tiles in a descending zigzag from a corner — a step up from the basic corner method.</li>
-                        <li><strong>Is merging small tiles quickly always good?</strong> No. Rushing merges can break up your big-tile order — holding a stable line is often more valuable than an immediate merge.</li>
+                        <li><strong>Can I undo a move?</strong> There's no undo, so choosing carefully is part of the challenge.</li>
+                        <li><strong>What's the snake pattern?</strong> An advanced organizing method that arranges tiles in a descending zigzag from a corner. It's a step up from the basic corner method.</li>
+                        <li><strong>Is merging small tiles quickly always good?</strong> No. Rushing merges can break up your big-tile order, and holding a stable line is often more valuable than an immediate merge.</li>
                     </ul>
                 </section>
             </div>

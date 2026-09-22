@@ -8,16 +8,16 @@ const DATE = '2026-07-16';
 
 // 영어 제목/설명 (페이지별)
 const META = {
-  index:            { t:'Omokboard - Free Online Board Games | Omok, Chess, Sudoku & More', d:'Play 12 free online board games — Omok (Gomoku), Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, Tic-Tac-Toe, Minesweeper, 2048, and a Ladder Game. No install. Play vs AI or 2-player.' },
+  index:            { t:'Omokboard - Free Online Board Games | Omok, Chess, Sudoku & More', d:'Play 12 free online board games: Omok (Gomoku), Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, Tic-Tac-Toe, Minesweeper, 2048, and a Ladder Game. No install. Play vs AI or 2-player.' },
   omok:             { t:'Omok (Gomoku) - Free Online Five in a Row | Omokboard', d:'Play free online Omok (Gomoku). Connect five stones in a row to win. Play vs AI (easy/normal/hard) or 2-player, no install.' },
   connect4:         { t:'Connect 4 - Free Online Four in a Row | Omokboard', d:'Play free online Connect 4 (four in a row), a free-placement variant. Play vs AI or 2-player, no install.' },
   reversi:          { t:'Reversi (Othello) - Free Online | Omokboard', d:'Play free online Reversi / Othello. Flip discs to own the most squares. Play vs AI or 2-player, no install.' },
   dots:             { t:'Dots and Boxes - Free Online | Omokboard', d:'Play free online Dots and Boxes. Complete the fourth side of a box to score. Play vs AI or 2-player, no install.' },
-  chess:            { t:'Chess - Free Online | Omokboard', d:'Play free online Chess with full rules — castling, en passant, promotion. Play vs AI or 2-player, no install.' },
+  chess:            { t:'Chess - Free Online | Omokboard', d:'Play free online Chess with full rules, including castling, en passant, and promotion. Play vs AI or 2-player, no install.' },
   alkkagi:          { t:'Alkkagi - Free Online Korean Marble-Flicking Game | Omokboard', d:'Play free online Alkkagi, the Korean flicking game. Knock your opponent off the board. Play vs AI or 2-player.' },
   yut:              { t:'Yut Nori - Free Online Korean Board Game | Omokboard', d:'Play free online Yut Nori. Throw the yut sticks and race all four mal home first. Play vs AI or 2-player, no install.' },
   sudoku:           { t:'Sudoku - Free Online (Solo & Duel) | Omokboard', d:'Play free online Sudoku with unique-solution puzzles. Solo mode plus a 1v1 / AI duel mode. No install.' },
-  tictactoe:        { t:'Tic-Tac-Toe - Free Online (Classic & Ultimate) | Omokboard', d:'Play free online Tic-Tac-Toe — classic 3×3 and Ultimate Tic-Tac-Toe. Play vs AI or 2-player, no install.' },
+  tictactoe:        { t:'Tic-Tac-Toe - Free Online (Classic & Ultimate) | Omokboard', d:'Play free online Tic-Tac-Toe, both classic 3×3 and Ultimate Tic-Tac-Toe. Play vs AI or 2-player, no install.' },
   guides:           { t:'Board Game Guides | Omokboard', d:'Rules and beginner strategy for Omok, Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, and Tic-Tac-Toe.' },
   'omok-guide':     { t:'Omok (Gomoku) Rules & Strategy Guide | Omokboard', d:'Learn Omok rules, threat shapes (open three and four), opening play, double threats, and defense order.' },
   'connect4-guide': { t:'Connect 4 Rules & Strategy Guide | Omokboard', d:'Learn Connect 4 rules and strategy: open threes, double threats, and defense in four-in-a-row.' },
@@ -34,18 +34,18 @@ const META = {
   'minesweeper-guide': { t:'Minesweeper Guide - Reading Numbers | Omokboard', d:'Learn Minesweeper number logic, flag tips, and how to solve without guessing.' },
   '2048-guide':        { t:'2048 Strategy Guide | Omokboard', d:'Learn the 2048 corner strategy and tile-ordering tricks for a high score.' },
   'ladder-guide':      { t:'Ladder Game Guide (Amidakuji) | Omokboard', d:'Learn how the ladder game works, why it is always fair, and when to use it.' },
-  'ladder-uses':       { t:'Ladder Game Uses — Penalties, Teams & Order | Omokboard', d:'Use a ladder game (Amidakuji) to fairly decide penalties, team splits, who pays, and cleanup or presentation order. Free, no install.' },
-  'korean-games':      { t:'Korean Traditional Games — Yut Nori & Alkkagi | Omokboard', d:'The history, culture, and rules of Korean traditional games Yut Nori and Alkkagi. Play them free online, no install.' },
-  'free-board-games':  { t:'Free Online Board Games — 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser — no install, no sign-up. Compare and pick one to play.' },
-  'brain-training':    { t:'Brain Games and Cognitive Skills | Omokboard', d:'What each Omokboard game actually trains — pattern recognition, logical deduction, planning ahead, spatial organization, risk management, and hand-eye feel.' },
-  'game-recommendations': { t:'Game Recommendations by Situation | Omokboard', d:'Which Omokboard game fits your situation — solo training, playing with kids, head-to-head with a friend, holidays, a quick 5 minutes, or going deep.' },
+  'ladder-uses':       { t:'Ladder Game Uses: Penalties, Teams & Order | Omokboard', d:'Use a ladder game (Amidakuji) to fairly decide penalties, team splits, who pays, and cleanup or presentation order. Free, no install.' },
+  'korean-games':      { t:'Korean Traditional Games: Yut Nori & Alkkagi | Omokboard', d:'The history, culture, and rules of Korean traditional games Yut Nori and Alkkagi. Play them free online, no install.' },
+  'free-board-games':  { t:'Free Online Board Games: 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser, with no install and no sign-up. Compare and pick one to play.' },
+  'brain-training':    { t:'Brain Games and Cognitive Skills | Omokboard', d:'What each Omokboard game actually trains: pattern recognition, logical deduction, planning ahead, spatial organization, risk management, and hand-eye feel.' },
+  'game-recommendations': { t:'Game Recommendations by Situation | Omokboard', d:'Which Omokboard game fits your situation: solo training, playing with kids, head-to-head with a friend, holidays, a quick 5 minutes, or going deep.' },
   'omok-history':      { t:'The History and Origins of Omok (Gomoku) | Omokboard', d:'Where Omok came from, why the first player wins under free-style rules, and how Renju’s forbidden moves (double-three, double-four, overline) balance the game.' },
-  'online-play-guide': { t:'Online Play Guide — Play Friends with a Room Code | Omokboard', d:'How to create a room, share the code, reconnect after a drop, and rematch. Which of Omokboard’s games support online play, with no sign-up required.' },
+  'online-play-guide': { t:'Online Play Guide: Play Friends with a Room Code | Omokboard', d:'How to create a room, share the code, reconnect after a drop, and rematch. Which of Omokboard’s games support online play, with no sign-up required.' },
   'chess-openings':    { t:'Chess Openings for Beginners | Omokboard', d:'The three opening principles (center, development, king safety), plus the Italian Game, London System, Sicilian Defense, French Defense, and common beginner mistakes.' },
-  'board-games-for-kids': { t:'Board Games to Play With Kids by Age | Omokboard', d:'Which Omokboard games fit ages 4 to 13+, why playing together on one screen matters, and what parents should know — no sign-up, no chat, no payments.' },
+  'board-games-for-kids': { t:'Board Games to Play With Kids by Age | Omokboard', d:'Which Omokboard games fit ages 4 to 13+, why playing together on one screen matters, and what parents should know: no sign-up, no chat, no payments.' },
   about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games. Play the AI, a friend on the same device, or a friend online by room code, with nothing to install.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard for bug reports, suggestions, or privacy and advertising inquiries.' },
-  privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy — what we collect, how it is used, and third-party services.' }
+  privacy:          { t:'Privacy Policy | Omokboard', d:'Omokboard privacy policy: what we collect, how it is used, and third-party services.' }
 };
 
 const PRI = { index:'1.0', omok:'0.9', guides:'0.7', about:'0.5', contact:'0.4', privacy:'0.3' };
