@@ -269,6 +269,34 @@
             font-size: 0.9rem;
         }
         .guide-strip a:hover { color: var(--accent-blue-hover); }
+        .home-reads {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.8rem;
+        }
+        .guide-strip .home-read {
+            display: block;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0.75rem;
+            padding: 0.9rem 1rem;
+            font-weight: 400;
+            transition: border-color 0.2s;
+        }
+        .guide-strip .home-read:hover { border-color: rgba(255,255,255,0.22); }
+        .home-read strong {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+        .home-read-desc {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.55;
+        }
 
         @media (max-width: 500px) {
             .game-cards { grid-template-columns: 1fr; }
@@ -543,9 +571,32 @@
         </div>
 
         <section class="guide-strip">
-            <h2><span class="ko-only">처음이라면 공략부터 확인해보세요</span><span class="en-only" style="display:none;">New here? Start with the guides</span></h2>
-            <p><span class="ko-only">오목, 사목, 리버시, 점잇기, 체스, 알까기 규칙과 초보 전략을 정리했습니다. 기본 패턴을 알면 AI 대전과 2인 대전이 더 재미있어집니다.</span><span class="en-only" style="display:none;">Read simple rules and beginner strategy for Omok, Connect 4, Reversi, Dots & Boxes, Chess, and Alkkagi before you play.</span></p>
-            <a href="guides" data-i18n="footer.guides">공략 모음</a>
+            <div class="ko-only">
+                <h2>오목보드는 이런 곳이에요</h2>
+                <p>오목, 체스, 윷놀이처럼 오래 사랑받아 온 보드게임 12가지를 브라우저에서 바로 할 수 있게 모아둔 무료 사이트입니다. 앱 설치나 회원가입 없이 PC와 스마트폰 어디서든 열립니다.</p>
+                <p>혼자일 때는 AI와 대결하거나 스도쿠, 지뢰찾기, 2048 같은 퍼즐을 풀면 됩니다. 옆에 친구가 있으면 한 기기로 번갈아 두는 2인 대전을, 멀리 있는 친구와는 6자리 방 코드로 연결하는 온라인 대전을 고르세요. 온라인 대전은 오목, 사목, 리버시, 점잇기, 체스, 틱택토, 알까기, 윷놀이에서 할 수 있습니다.</p>
+                <p>12가지 게임 모두 규칙과 초보 전략을 정리한 공략이 있습니다. 처음 해보는 게임이라면 한 판 두기 전에 잠깐 읽어보세요. 사람들이 보통 어디서 막히는지 알고 시작하면 훨씬 덜 헤맵니다.</p>
+                <a href="guides">공략 모음 보기 →</a>
+            </div>
+            <div class="en-only" style="display:none;">
+                <h2>What Omokboard Is</h2>
+                <p>Omokboard is a free site that gathers 12 long-loved board games, like Omok, Chess, and Yut Nori, so you can play them right in your browser. There is no app to install and no account to create, and it works the same on a PC or a phone.</p>
+                <p>On your own, you can play against the AI or work through puzzles like Sudoku, Minesweeper, and 2048. With a friend next to you, pick 2-player mode and take turns on one device. With a friend somewhere else, use online play and connect with a 6-character room code. Online play works in Omok, Connect 4, Reversi, Dots and Boxes, Chess, Tic-Tac-Toe, Alkkagi, and Yut Nori.</p>
+                <p>All 12 games have a guide covering the rules and beginner strategy. If a game is new to you, give it a quick read before your first round. Knowing where people usually get stuck saves you a lot of fumbling.</p>
+                <a href="guides">Browse all guides →</a>
+            </div>
+        </section>
+
+        <section class="guide-strip">
+            <h2><span class="ko-only">읽을거리</span><span class="en-only" style="display:none;">Further Reading</span></h2>
+            <div class="home-reads">
+                <a class="home-read" href="omok-history"><strong><span class="ko-only">오목의 역사와 기원</span><span class="en-only" style="display:none;">History and Origins of Omok</span></strong><span class="home-read-desc"><span class="ko-only">오목, 고모쿠, 렌주는 뭐가 다른지, 왜 먼저 두는 흑이 유리한지 정리했습니다.</span><span class="en-only" style="display:none;">How Omok, Gomoku, and Renju differ, and why the first player has the edge.</span></span></a>
+                <a class="home-read" href="online-play-guide"><strong><span class="ko-only">온라인 대전 이용 가이드</span><span class="en-only" style="display:none;">Online Play Guide</span></strong><span class="home-read-desc"><span class="ko-only">방 만들기부터 재접속, 재대결까지 방 코드로 친구와 즐기는 법.</span><span class="en-only" style="display:none;">Creating a room, reconnecting, and rematching with a friend by room code.</span></span></a>
+                <a class="home-read" href="chess-openings"><strong><span class="ko-only">체스 오프닝 기초</span><span class="en-only" style="display:none;">Chess Openings for Beginners</span></strong><span class="home-read-desc"><span class="ko-only">오프닝 3원칙과 이탈리안 게임, 런던 시스템 같은 대표 오프닝.</span><span class="en-only" style="display:none;">The three opening principles, plus the Italian Game and the London System.</span></span></a>
+                <a class="home-read" href="board-games-for-kids"><strong><span class="ko-only">아이와 함께하는 보드게임</span><span class="en-only" style="display:none;">Board Games to Play With Kids</span></strong><span class="home-read-desc"><span class="ko-only">네 살 아이부터 온 가족까지, 나이대에 맞는 게임을 골랐습니다.</span><span class="en-only" style="display:none;">From age 4 to the whole family, games matched to each age.</span></span></a>
+                <a class="home-read" href="korean-games"><strong><span class="ko-only">한국 전통 놀이</span><span class="en-only" style="display:none;">Korean Traditional Games</span></strong><span class="home-read-desc"><span class="ko-only">윷놀이와 알까기의 유래와 문화, 규칙을 정리했습니다.</span><span class="en-only" style="display:none;">The history, culture, and rules of Yut Nori and Alkkagi.</span></span></a>
+                <a class="home-read" href="game-recommendations"><strong><span class="ko-only">상황별 게임 추천</span><span class="en-only" style="display:none;">Game Picks by Situation</span></strong><span class="home-read-desc"><span class="ko-only">혼자, 둘이서, 여럿이, 5분만 있을 때처럼 상황에 맞는 게임을 골라드립니다.</span><span class="en-only" style="display:none;">Solo, one-on-one, a group, or five spare minutes: games that fit each case.</span></span></a>
+            </div>
         </section>
 
     <script src="adfit.js?v=1"></script>
