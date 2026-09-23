@@ -1,6 +1,8 @@
 // 윷놀이 (Yut Nori) — 표준 윷판(외곽 + 대각선 지름길) · PvP + AI
 // 노드: 0~19 외곽, 20~24 대각선/중앙, FINISH=99, WAIT=-1
 const YUT_FINISH = 99, YUT_WAIT = -1;
+// 윷가락 4개가 각각 반반 → 빽도 1/16, 도 3/16, 개 6/16, 걸 4/16, 윷 1/16, 모 1/16 (rollYut과 같은 분포)
+const YUT_ODDS = [[-1, 1/16], [1, 3/16], [2, 6/16], [3, 4/16], [4, 1/16], [5, 1/16]];
 
 class YutGame {
     constructor() {
@@ -474,24 +476,7 @@ class YutGame {
             if (this.canThrow) { this.aiTurn(); return; }
             this.busy = false; this.endTurn(); return;
         }
-        const p = this.players.p2;
-        let best = null, bestScore = -Infinity; const seen = new Set();
-        for (const res of this.results) {
-            p.tokens.forEach((pos, i) => {
-                if (pos === YUT_FINISH) return;
-                if (pos !== YUT_WAIT) { if (seen.has(res.v + ':' + pos)) return; seen.add(res.v + ':' + pos); }
-                const t = this.travel(pos, res.v);
-                if (t.legal === false) return; // 대기 말은 빽도를 쓸 수 없음
-                const dest = t.pos;
-                let score = 0;
-                if (dest === YUT_FINISH) score += 100;
-                const hit = this.tokensAt('p1', dest);
-                if (dest !== YUT_FINISH && hit.length) score += 60 + this.progress(this.players.p1.tokens[hit[0]]) * 2;
-                score += this.progress(dest) - this.progress(pos);
-                if (pos === YUT_WAIT) score += 2;
-                if (score > bestScore) { bestScore = score; best = { res, i }; }
-            });
-        }
+        const best = this.aiChoose('p2');
         if (!best) { this.busy = false; this.endTurn(); return; }
         const ri = this.results.indexOf(best.res); if (ri >= 0) this.results.splice(ri, 1);
         const r = this.executeMove('p2', best.i, best.res.v);
@@ -500,6 +485,72 @@ class YutGame {
         this.draw();
         if (this.checkWin()) { this.busy = false; return; }
         setTimeout(() => this.aiMove(), 650);
+    }
+
+    // 쉬움: 둘 수 있는 수 중 무작위. 보통: 완주·잡기·전진만 보는 한 수 탐욕.
+    // 어려움: 수를 둔 뒤의 판 전체를 평가한다. 지름길을 반영한 실제 남은 거리와,
+    // 상대가 다음에 한 번 던져서 내 말을 잡을 확률(업힌 말이 많을수록 손실도 커짐)까지 본다.
+    aiChoose(me) {
+        const opp = me === 'p1' ? 'p2' : 'p1';
+        const legal = []; const seen = new Set();
+        for (const res of this.results) {
+            this.players[me].tokens.forEach((pos, i) => {
+                if (pos === YUT_FINISH) return;
+                const key = res.v + ':' + pos; // 업힌 말·대기 말끼리는 같은 수
+                if (seen.has(key)) return; seen.add(key);
+                const t = this.travel(pos, res.v);
+                if (t.legal === false) return; // 대기 말은 빽도를 쓸 수 없음
+                legal.push({ res, i, pos, dest: t.pos });
+            });
+        }
+        if (!legal.length) return null;
+        if (this.difficulty === 'easy') return legal[Math.floor(Math.random() * legal.length)];
+        const evalMove = this.difficulty === 'hard' ? m => this.aiEvalHard(me, opp, m) : m => this.aiEvalNormal(opp, m);
+        let best = null, bestScore = -Infinity;
+        for (const m of legal) { const s = evalMove(m); if (s > bestScore) { bestScore = s; best = m; } }
+        return best;
+    }
+
+    aiEvalNormal(opp, { pos, dest }) {
+        let score = 0;
+        if (dest === YUT_FINISH) score += 100;
+        const hit = this.tokensAt(opp, dest);
+        if (dest !== YUT_FINISH && hit.length) score += 60 + this.progress(this.players[opp].tokens[hit[0]]) * 2;
+        score += this.progress(dest) - this.progress(pos);
+        if (pos === YUT_WAIT) score += 2;
+        return score;
+    }
+
+    aiEvalHard(me, opp, m) {
+        const mine = this.players[me].tokens.slice(), theirs = this.players[opp].tokens.slice();
+        mine.forEach((p, k) => { if (k === m.i || (m.pos !== YUT_WAIT && p === m.pos)) mine[k] = m.dest; });
+        let captured = false;
+        if (m.dest !== YUT_FINISH) theirs.forEach((p, k) => { if (p === m.dest) { theirs[k] = YUT_WAIT; captured = true; } });
+        const done = arr => arr.reduce((s, p) => s + 20 - this.remaining(p), 0);
+        let score = done(mine) - done(theirs) + (captured ? 3 : 0); // 잡으면 한 번 더 던진다(평균 2칸 남짓)
+        // ponytail: 상대의 다음 한 번 던지기만 본다. 윷·모로 이어지는 추가 던지기와 결과 조합은 무시.
+        for (const spot of new Set(mine.filter(p => p !== YUT_WAIT && p !== YUT_FINISH))) {
+            const hit = this.hitChance(theirs, spot);
+            if (hit) score -= hit * (mine.filter(p => p === spot).length * (20 - this.remaining(spot)) + 3);
+        }
+        return score;
+    }
+
+    // 지름길 규칙대로 갈 때 완주까지 남은 칸 수. 대기 말은 20, 모서리(5·10)와 중앙(22)은 지름길로 짧아진다.
+    remaining(pos) {
+        if (pos === YUT_FINISH) return 0;
+        let p = pos === YUT_WAIT ? 0 : pos, prev = -2, first = true, n = 0;
+        while (p !== YUT_FINISH) { const nx = this.nextNode(p, prev, first); first = false; p = nx.pos; prev = nx.prev; n++; }
+        return n;
+    }
+
+    // tokens 중 하나가 한 번 던져서 spot에 도착할 확률
+    hitChance(tokens, spot) {
+        let chance = 0;
+        for (const [v, prob] of YUT_ODDS) {
+            if (tokens.some(t => { if (t === YUT_FINISH) return false; const r = this.travel(t, v); return r.legal !== false && r.pos === spot; })) chance += prob;
+        }
+        return chance;
     }
 
     progress(pos) {
