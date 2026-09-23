@@ -1,6 +1,11 @@
-const PIECE_UNICODE = {
-    wK:'♔', wQ:'♕', wR:'♖', wB:'♗', wN:'♘', wP:'♙',
-    bK:'♚', bQ:'♛', bR:'♜', bB:'♝', bN:'♞', bP:'♟'
+// 흑·백 모두 속이 찬 기호를 쓰고 색은 CSS로 칠한다(속이 빈 백 기호는 밝은 칸에서 거의 안 보였다).
+// \uFE0E: 일부 휴대폰에서 폰(♟)이 이모지로 바뀌지 않게 글자 모양으로 고정
+const PIECE_GLYPH = { k:'♚\uFE0E', q:'♛\uFE0E', r:'♜\uFE0E', b:'♝\uFE0E', n:'♞\uFE0E', p:'♟\uFE0E' };
+const pieceSpan = (color, type) => {
+    const span = document.createElement('span');
+    span.className = 'chess-piece ' + (color === 'w' ? 'white-piece' : 'black-piece');
+    span.textContent = PIECE_GLYPH[type];
+    return span;
 };
 
 // PIECE_VALUE·PST는 chess-ai.js에 있다(탐색 엔진과 같은 표를 쓴다).
@@ -115,13 +120,7 @@ class ChessGame {
                 }
 
                 const piece = this.chess.get(sq);
-                if (piece) {
-                    const span = document.createElement('span');
-                    const key  = piece.color + piece.type.toUpperCase();
-                    span.className = 'chess-piece' + (piece.color === 'b' ? ' black-piece' : '');
-                    span.textContent = PIECE_UNICODE[key] || '';
-                    sqEl.appendChild(span);
-                }
+                if (piece) sqEl.appendChild(pieceSpan(piece.color, piece.type));
 
                 sqEl.addEventListener('click', () => this.handleClick(sq));
                 row.appendChild(sqEl);
@@ -149,16 +148,14 @@ class ChessGame {
     }
 
     renderCaptured() {
-        const whiteCap = [], blackCap = [];
+        const whiteCap = document.getElementById('chess-cap-white'); // 백이 잡은 흑 기물
+        const blackCap = document.getElementById('chess-cap-black'); // 흑이 잡은 백 기물
+        whiteCap.textContent = ''; blackCap.textContent = '';
         for (const move of this.chess.history({ verbose: true })) {
-            if (move.captured) {
-                const key = (move.color === 'w' ? 'b' : 'w') + move.captured.toUpperCase();
-                if (move.color === 'w') whiteCap.push(PIECE_UNICODE[key] || '');
-                else blackCap.push(PIECE_UNICODE[key] || '');
-            }
+            if (!move.captured) continue;
+            if (move.color === 'w') whiteCap.appendChild(pieceSpan('b', move.captured));
+            else blackCap.appendChild(pieceSpan('w', move.captured));
         }
-        document.getElementById('chess-cap-white').textContent = whiteCap.join(' ');
-        document.getElementById('chess-cap-black').textContent = blackCap.join(' ');
     }
 
     // ─── Click handling ───────────────────────────────────────
@@ -288,8 +285,7 @@ class ChessGame {
             let title, desc;
             if (this.chess.in_checkmate()) {
                 const winnerIsBlack = this.chess.turn() === 'w';
-                const isPlayerWin = this.gameMode !== 'ai' || !winnerIsBlack;
-                title = isPlayerWin ? window.i18n.t('game.win') : window.i18n.t('game.lose');
+                title = window.i18n.t('chess.checkmate'); // 결과(승리/패배)는 아래 설명 문구로 알린다
                 if (this.gameMode === 'ai') {
                     desc = !winnerIsBlack ? window.i18n.t('chess.you.win') : window.i18n.t('chess.ai.win');
                 } else {
