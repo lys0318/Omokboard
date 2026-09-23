@@ -1,3 +1,16 @@
+// 칸 위치 점수: 모서리 +120, X칸(모서리 대각선 안쪽) -45, C칸(모서리 옆) -25
+const REVERSI_WEIGHTS = [
+    [120, -25, 20,  5,  5, 20, -25, 120],
+    [-25, -45, -5, -5, -5, -5, -45, -25],
+    [ 20,  -5, 15,  3,  3, 15,  -5,  20],
+    [  5,  -5,  3,  3,  3,  3,  -5,   5],
+    [  5,  -5,  3,  3,  3,  3,  -5,   5],
+    [ 20,  -5, 15,  3,  3, 15,  -5,  20],
+    [-25, -45, -5, -5, -5, -5, -45, -25],
+    [120, -25, 20,  5,  5, 20, -25, 120]
+];
+const REVERSI_DIRS = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
+
 class ReversiGame {
     constructor() {
         this.SIZE = 8;
@@ -12,17 +25,6 @@ class ReversiGame {
         this.inputLocked = false; // 온라인 대전: 내 차례가 아니면 true
         this.hooks = {};
         this.onGameOver = null; // 온라인 대전: 대국 종료를 알리는 훅
-
-        this.weights = [
-            [120, -25, 20,  5,  5, 20, -25, 120],
-            [-25, -45, -5, -5, -5, -5, -45, -25],
-            [ 20,  -5, 15,  3,  3, 15,  -5,  20],
-            [  5,  -5,  3,  3,  3,  3,  -5,   5],
-            [  5,  -5,  3,  3,  3,  3,  -5,   5],
-            [ 20,  -5, 15,  3,  3, 15,  -5,  20],
-            [-25, -45, -5, -5, -5, -5, -45, -25],
-            [120, -25, 20,  5,  5, 20, -25, 120]
-        ];
 
         this.canvas = document.getElementById('reversi-canvas');
         this.ctx = this.canvas.getContext('2d');
@@ -279,14 +281,16 @@ class ReversiGame {
         if (this.difficulty === 'easy') {
             return moves[Math.floor(Math.random() * moves.length)];
         }
+        if (this.difficulty === 'hard') return this.searchMove(moves);
 
+        // 보통: 한 수 앞 점수 상위 3곳 중 무작위
         const scored = moves.map((move) => {
             const score = this.scoreMove(move);
             return { ...move, score };
         }).sort((a, b) => b.score - a.score);
 
-        if (this.difficulty === 'normal' && scored.length > 2) {
-            const pool = scored.slice(0, Math.min(3, scored.length));
+        if (scored.length > 2) {
+            const pool = scored.slice(0, 3);
             return pool[Math.floor(Math.random() * pool.length)];
         }
 
@@ -294,18 +298,91 @@ class ReversiGame {
     }
 
     scoreMove(move) {
-        const nextBoard = this.board.map(row => row.slice());
-        nextBoard[move.r][move.c] = 'white';
-        move.flips.forEach(({ r, c }) => {
-            nextBoard[r][c] = 'white';
-        });
-
+        const nextBoard = this.applyMove(this.board, move, 'white');
         const whiteMoves = this.getValidMoves('white', nextBoard).length;
         const blackMoves = this.getValidMoves('black', nextBoard).length;
-        const countScore = move.flips.length * (this.difficulty === 'hard' ? 4 : 10);
-        const positionScore = this.weights[move.r][move.c];
+        const countScore = move.flips.length * 10;
+        const positionScore = REVERSI_WEIGHTS[move.r][move.c];
         const mobilityScore = (whiteMoves - blackMoves) * 3;
         return countScore + positionScore + mobilityScore + Math.random() * 0.01;
+    }
+
+    applyMove(board, move, color) {
+        const next = board.map(row => row.slice());
+        next[move.r][move.c] = color;
+        move.flips.forEach(({ r, c }) => { next[r][c] = color; });
+        return next;
+    }
+
+    // 어려움: 알파베타 탐색으로 4수 앞을 읽고, 빈칸이 8개 이하로 남으면 끝까지 읽어 최종 돌 수로 판단한다.
+    // ponytail: 평가 함수는 위치 점수표 + 기동력뿐이다. 더 세게 하려면 안정석(절대 안 뒤집히는 돌) 계산을 evalBoard에 추가.
+    searchMove(moves) {
+        const empties = this.board.flat().filter(c => !c).length;
+        const depth = empties <= 8 ? empties : 4;
+        let best = moves[0], alpha = -Infinity;
+        for (const m of this.orderMoves(moves)) {
+            const v = -this.negamax(this.applyMove(this.board, m, 'white'), 'black', depth - 1, -Infinity, -alpha);
+            if (v > alpha) { alpha = v; best = m; }
+        }
+        return best;
+    }
+
+    // turn 입장에서 본 점수
+    negamax(board, turn, depth, alpha, beta) {
+        const opp = turn === 'black' ? 'white' : 'black';
+        const moves = this.getValidMoves(turn, board);
+        if (!moves.length) {
+            if (!this.countMoves(opp, board)) { // 둘 다 못 두면 끝: 돌 수 차이로 승부
+                let diff = 0;
+                for (const row of board) for (const c of row) diff += c === turn ? 1 : c === opp ? -1 : 0;
+                return diff * 1000;
+            }
+            return -this.negamax(board, opp, depth, -beta, -alpha); // 패스
+        }
+        if (depth <= 0) return this.evalBoard(board, turn, moves.length);
+        for (const m of this.orderMoves(moves)) {
+            const v = -this.negamax(this.applyMove(board, m, turn), opp, depth - 1, -beta, -alpha);
+            if (v >= beta) return v;
+            if (v > alpha) alpha = v;
+        }
+        return alpha;
+    }
+
+    evalBoard(board, turn, turnMoves) {
+        const opp = turn === 'black' ? 'white' : 'black';
+        let score = 0;
+        for (let r = 0; r < this.SIZE; r++) {
+            for (let c = 0; c < this.SIZE; c++) {
+                const cell = board[r][c];
+                if (!cell) continue;
+                let w = REVERSI_WEIGHTS[r][c];
+                // 모서리가 이미 차 있으면 그 옆 X·C칸은 더 이상 모서리를 내주는 자리가 아니다
+                if (w < 0 && board[r < 4 ? 0 : 7][c < 4 ? 0 : 7]) w = 0;
+                score += cell === turn ? w : -w;
+            }
+        }
+        return score + (turnMoves - this.countMoves(opp, board)) * 5;
+    }
+
+    // getValidMoves(...).length와 같지만 뒤집을 돌 목록을 만들지 않아 탐색 말단에서 훨씬 싸다
+    countMoves(player, board) {
+        const other = player === 'black' ? 'white' : 'black';
+        let n = 0;
+        for (let r = 0; r < this.SIZE; r++) {
+            for (let c = 0; c < this.SIZE; c++) {
+                if (board[r][c]) continue;
+                for (const [dr, dc] of REVERSI_DIRS) {
+                    let rr = r + dr, cc = c + dc, seen = false;
+                    while (rr >= 0 && rr < this.SIZE && cc >= 0 && cc < this.SIZE && board[rr][cc] === other) { rr += dr; cc += dc; seen = true; }
+                    if (seen && rr >= 0 && rr < this.SIZE && cc >= 0 && cc < this.SIZE && board[rr][cc] === player) { n++; break; }
+                }
+            }
+        }
+        return n;
+    }
+
+    orderMoves(moves) { // 좋은 자리부터 읽어야 가지치기가 잘 된다
+        return moves.slice().sort((a, b) => REVERSI_WEIGHTS[b.r][b.c] - REVERSI_WEIGHTS[a.r][a.c]);
     }
 
     getCounts() {

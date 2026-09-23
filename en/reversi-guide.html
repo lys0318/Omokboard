@@ -75,7 +75,7 @@
       "name": "How far ahead does the AI think?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Every level looks just one move ahead. Easy plays at random, while Normal and Hard weigh square position, discs flipped, and mobility together to pick the move that looks best. Start on a lower difficulty to build a feel for corners and X/C squares first."
+        "text": "Easy plays at random and Normal looks just one move ahead. Hard reads four moves ahead, and once 8 or fewer empty squares remain, it reads all the way to the end. Start on a lower difficulty to build a feel for corners and X/C squares first."
       }
     }
   ]
@@ -143,10 +143,11 @@
                     <p>AI 대전에서는 사람이 흑으로 먼저 두고 AI가 백을 잡습니다.</p>
                     <ul class="rule-list">
                         <li><strong>쉬움</strong>은 둘 수 있는 칸 중 하나를 완전히 무작위로 고릅니다. 비어 있는 모서리를 그냥 지나치는 일도 많아서, 모서리와 X칸·C칸의 위치를 눈에 익히기 좋은 상대입니다.</li>
-                        <li><strong>보통</strong>과 <strong>어려움</strong>은 둘 수 있는 모든 칸에 점수를 매깁니다. 점수는 그 칸의 위치 점수, 뒤집는 돌 수, 그리고 그 수를 둔 뒤 자기가 둘 수 있는 칸 수에서 내가 둘 수 있는 칸 수를 뺀 값(기동력)을 더한 것입니다. 보통은 상위 세 곳 중 무작위로, 어려움은 항상 1등을 고릅니다.</li>
+                        <li><strong>보통</strong>은 한 수 앞만 봅니다. 둘 수 있는 칸마다 위치 점수, 뒤집는 돌 수, 그 수를 둔 뒤의 기동력(자기가 둘 수 있는 칸 수에서 내가 둘 수 있는 칸 수를 뺀 값)을 더해 점수를 매기고, 상위 세 곳 중 하나를 무작위로 고릅니다.</li>
+                        <li><strong>어려움</strong>은 자기 수와 내 응수를 번갈아 네 수 앞까지 읽습니다. 빈칸이 8개 이하로 남으면 끝까지 전부 읽어서, 마지막에 돌이 가장 많이 남는 수를 정확히 찾아 둡니다.</li>
                     </ul>
-                    <p>위치 점수표를 보면 이 가이드의 원칙이 그대로 숫자로 들어 있습니다. 모서리는 +120점, X칸은 -45점, C칸은 -25점이고, 모서리에서 두 칸 떨어진 가장자리는 +20점입니다. 뒤집는 돌 하나의 값은 보통이 10점, 어려움이 4점입니다. 어려운 AI일수록 많이 뒤집는 데 욕심을 덜 내도록 만든 것이라, 위에서 설명한 "적게 뒤집을수록 유리하다"는 원리와 같은 방향입니다.</p>
-                    <p>약점도 분명합니다. AI는 자기 수 하나만 보고 판단합니다. 자기가 둔 뒤 내가 둘 수 있는 칸이 몇 개인지는 세지만, 그중에 모서리가 끼어 있는지는 따로 따지지 않습니다. 그래서 X칸이나 C칸이 아닌 평범한 자리에 두면서도 나에게 모서리로 가는 길을 열어주는 일이 생깁니다. AI가 둘 때마다 모서리에 둘 수 있게 됐는지 확인하는 습관을 들이면, 어려움 AI를 상대로도 모서리를 먼저 가져올 기회가 생각보다 자주 옵니다.</p>
+                    <p>AI가 판을 평가하는 위치 점수표에는 이 가이드의 원칙이 그대로 숫자로 들어 있습니다. 모서리는 +120점, X칸은 -45점, C칸은 -25점이고, 모서리에서 두 칸 떨어진 가장자리는 +20점입니다. 어려움 AI는 여기에 한 가지를 더 따집니다. 모서리가 이미 차 있으면 그 옆 X칸·C칸의 감점을 빼고 계산합니다. 모서리를 누가 가져간 뒤에는 그 옆 칸이 더 이상 모서리를 내주는 자리가 아니기 때문입니다.</p>
+                    <p>AI끼리 200판씩 붙여 보면 어려움이 보통과 쉬움을 99% 넘게 이겼고, 보통은 쉬움을 약 87% 이겼습니다. 보통 AI는 한 수 앞만 보기 때문에, 평범한 자리에 두면서 나에게 모서리로 가는 길을 열어주는 실수를 자주 합니다. AI가 둘 때마다 모서리에 둘 수 있게 됐는지 확인하는 습관을 들이면 보통 AI는 충분히 이길 수 있습니다. 어려움 AI는 그런 실수가 훨씬 적습니다. 다만 평가 기준이 위치 점수와 기동력뿐이라, 절대 뒤집히지 않는 돌(안정석)이 몇 개인지는 따로 세지 않습니다. 네 수보다 멀리서 갈리는 가장자리 싸움이 어려움 AI를 상대할 때 노려볼 만한 곳입니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -171,7 +172,7 @@
                         <li><strong>리버시와 오델로는 같나요?</strong> 거의 같은 게임입니다. 오델로는 초기 배치와 규칙을 표준화한 상표명입니다.</li>
                         <li><strong>중간에 한참 지고 있는데 뒤집을 수 있나요?</strong> 네. 모서리와 막판 계산으로 한두 수에 크게 역전되는 일이 흔합니다.</li>
                         <li><strong>둘 곳이 없으면요?</strong> 자동으로 패스되고 상대가 계속 둡니다.</li>
-                        <li><strong>AI는 얼마나 멀리 내다보나요?</strong> 모든 난이도가 한 수 앞만 봅니다. 쉬움은 무작위로 두고, 보통과 어려움은 칸의 위치와 뒤집는 돌 수, 기동력을 함께 계산해서 가장 좋아 보이는 수를 고릅니다. 낮은 난이도로 먼저 모서리·X·C칸 감각을 익히는 걸 추천합니다.</li>
+                        <li><strong>AI는 얼마나 멀리 내다보나요?</strong> 쉬움은 무작위로 두고, 보통은 한 수 앞만 봅니다. 어려움은 네 수 앞까지 읽고, 빈칸이 8개 이하로 남으면 끝까지 모두 읽습니다. 낮은 난이도로 먼저 모서리·X·C칸 감각을 익히는 걸 추천합니다.</li>
                     </ul>
                 </section>
             </div>
@@ -227,10 +228,11 @@
                     <p>In AI games you play Black and move first, and the AI plays White.</p>
                     <ul class="rule-list">
                         <li><strong>Easy</strong> picks one of its legal moves completely at random. It often walks right past an open corner, which makes it a good partner for learning where the corners, X-squares, and C-squares are.</li>
-                        <li><strong>Normal</strong> and <strong>Hard</strong> score every legal move. The score adds up the square's position value, the number of discs flipped, and mobility: how many moves the AI would have afterward minus how many you would have. Normal picks at random from the top three, while Hard always takes the top move.</li>
+                        <li><strong>Normal</strong> looks only one move ahead. It scores each legal move by adding the square's position value, the number of discs flipped, and mobility after the move (how many moves it would have minus how many you would have), then picks at random from the top three.</li>
+                        <li><strong>Hard</strong> reads four moves ahead, alternating its moves and yours. Once 8 or fewer empty squares remain, it reads all the way to the end and finds the move that leaves it with the most discs.</li>
                     </ul>
-                    <p>The position table puts this guide's principles into numbers. A corner is worth +120, an X-square -45, a C-square -25, and the edge square two steps from a corner +20. Each flipped disc is worth 10 points on Normal but only 4 on Hard. The harder AI was deliberately made less greedy about flipping, the same idea as "flipping less is better" above.</p>
-                    <p>It has a clear weak spot too. The AI judges only its own move. It counts how many moves you'll have afterward, but doesn't check whether one of them is a corner. So it sometimes plays an ordinary square, not an X or C, that still opens a path to a corner for you. Get in the habit of checking whether a corner has opened up after every AI move, and even against Hard you'll get the first shot at a corner more often than you'd expect.</p>
+                    <p>The position table the AI uses to evaluate the board puts this guide's principles into numbers. A corner is worth +120, an X-square -45, a C-square -25, and the edge square two steps from a corner +20. Hard also checks one more thing: once a corner is occupied, it drops the penalty for the X- and C-squares next to it. After someone owns that corner, those squares no longer hand it away.</p>
+                    <p>In 200-game AI-vs-AI matches, Hard beat both Normal and Easy in over 99% of games, and Normal beat Easy about 87% of the time. Because Normal looks only one move ahead, it often plays an ordinary square that still opens a path to a corner for you. Check whether a corner has opened up after every AI move, and Normal is very beatable. Hard makes that mistake far less often. Its evaluation only covers position values and mobility, though, so it never counts stable discs, the ones that can never be flipped. Edge battles that are decided more than four moves out are the place to look for an edge against Hard.</p>
                 </section>
 
                 <section class="info-section">
@@ -255,7 +257,7 @@
                         <li><strong>Are Reversi and Othello the same game?</strong> Nearly identical. Othello is a trademarked name for a standardized starting position and rule set.</li>
                         <li><strong>Can I come back from way behind?</strong> Yes. Corners and precise endgame counting frequently flip the result dramatically in just one or two moves.</li>
                         <li><strong>What if I have no legal move?</strong> You pass automatically and your opponent continues.</li>
-                        <li><strong>How far ahead does the AI think?</strong> Every level looks just one move ahead. Easy plays at random, while Normal and Hard weigh square position, discs flipped, and mobility together to pick the move that looks best. Start on a lower difficulty to build a feel for corners and X/C squares first.</li>
+                        <li><strong>How far ahead does the AI think?</strong> Easy plays at random and Normal looks just one move ahead. Hard reads four moves ahead, and once 8 or fewer empty squares remain, it reads all the way to the end. Start on a lower difficulty to build a feel for corners and X/C squares first.</li>
                     </ul>
                 </section>
             </div>

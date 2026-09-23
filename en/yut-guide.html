@@ -168,6 +168,17 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>오목보드 윷놀이 AI는 어떻게 두나</h2>
+                    <p>AI 대전에서는 사람이 빨강으로 먼저 하고 AI가 파랑을 잡습니다. AI는 윷이나 모가 나오면 계속 던져서 결과를 모두 모은 다음, 하나씩 골라 말을 움직입니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>쉬움</strong>은 모은 결과와 말의 조합 중 하나를 무작위로 고릅니다. 잡을 수 있는 말을 그냥 지나치기도 합니다.</li>
+                        <li><strong>보통</strong>은 그 자리에서 가장 이득이 커 보이는 수를 둡니다. 완주, 잡기, 많이 전진하기 순으로 점수를 크게 줍니다. 다만 내가 다음 차례에 그 말을 잡을 수 있는지는 따지지 않습니다.</li>
+                        <li><strong>어려움</strong>은 수를 둔 뒤의 판 전체를 평가합니다. 지름길을 반영한 실제 남은 거리로 계산해서 모서리나 중앙에 정확히 멈추는 수를 높게 치고, 내가 다음에 한 번 던져서 AI의 말을 잡을 확률도 계산합니다. 위에서 설명한 확률(두 칸 앞 37.5%, 세 칸 앞 25%)이 그대로 들어가고, 업힌 말은 잡히면 여러 개를 한꺼번에 잃으니 그만큼 더 조심합니다.</li>
+                    </ul>
+                    <p>AI끼리 4,000판씩 붙여 보면 어려움이 보통을 약 70%, 보통이 쉬움을 약 78% 이깁니다. 윷놀이는 운의 비중이 커서 어려움 AI라도 매번 이기지는 못합니다. 어려움 AI에도 한계는 있습니다. 내 다음 차례의 윷 한 번만 계산하고, 윷이나 모가 나와 이어지는 추가 던지기까지는 보지 않습니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
                         <li><strong>윷/모가 계속 나오면?</strong> 나올 때마다 계속 추가로 던질 수 있습니다. 운이 좋으면 한 차례에 크게 전진합니다.</li>
@@ -245,6 +256,17 @@
                     <p><strong>Don't dump every result on one mal. Distribute them to fit the situation.</strong> Big results (Yut, Mo) are usually best spent on a mal still far from home, while small results (Do) work well finishing off a mal that's almost there.</p>
                     <p><strong>Think carefully before stacking.</strong> It's fast, but costly if captured, so save it for stretches of the board where the capture risk is genuinely low.</p>
                     <p><strong>Don't panic when you roll Backdo.</strong> If one of your mal on the board is about to be within an opponent's capturing range, moving it back one space can sometimes be exactly the escape you need.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard's Yut Nori AI Plays</h2>
+                    <p>In AI games you play Red and go first, and the AI plays Blue. The AI keeps throwing while it rolls Yut or Mo, collects all its results, and then uses them one at a time to move its mal.</p>
+                    <ul class="rule-list">
+                        <li><strong>Easy</strong> picks a random pairing of result and mal. It sometimes walks right past a mal it could have captured.</li>
+                        <li><strong>Normal</strong> plays whatever looks best right now, scoring finishing highest, then capturing, then moving far. It doesn't check whether you could capture that mal on your next turn.</li>
+                        <li><strong>Hard</strong> evaluates the whole board after each candidate move. It measures real distance to home with the shortcuts included, so it values landing exactly on a corner or the center, and it calculates the chance that your next single throw captures one of its mal. The odds from above (37.5% two spaces ahead, 25% three spaces ahead) feed straight into it, and since a captured stack loses several mal at once, it treats stacks with extra care.</li>
+                    </ul>
+                    <p>In 4,000-game AI-vs-AI matches, Hard beats Normal about 70% of the time and Normal beats Easy about 78% of the time. Yut Nori leans heavily on luck, so even the Hard AI doesn't win every game. Hard has its limits too: it only considers your next single throw, not the extra throws that follow a Yut or Mo.</p>
                 </section>
 
                 <section class="info-section">
