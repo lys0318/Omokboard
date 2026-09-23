@@ -117,6 +117,7 @@ for (const slug of slugs) {
   en = en.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');     // 기존 hreflang 제거
   en = en.replace(/(<link rel="canonical"[^>]*>)/, `$1\n${hreflang(slug)}`);   // 올바른 hreflang 재주입
   en = en.replace('<html lang="ko">', '<html lang="en">');
+  en = en.replace(/placeholder="예: /g, 'placeholder="e.g. '); // 속성값은 한/영 span으로 감쌀 수 없어서 여기서 바꾼다
   const m = META[slug];
   en = en.replace(/<title>[\s\S]*?<\/title>/, `<title>${m.t}</title>`);
   en = en.replace(/(<meta name="description" content=")[^"]*(">)/, `$1${m.d}$2`);

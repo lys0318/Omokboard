@@ -135,7 +135,7 @@
         </nav>
 
         <header>
-            <h1>틱택토</h1>
+            <h1><span class="ko-only">틱택토</span><span class="en-only" style="display:none;">Tic-Tac-Toe</span></h1>
             <p class="subtitle">Tic-Tac-Toe · <span class="ko-only">3×3 · 얼티메이트</span><span class="en-only" style="display:none;">Classic &amp; Ultimate</span></p>
         </header>
 
@@ -150,7 +150,7 @@
                             <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                         </span>
                     </div>
-                    <div class="status-center"><div class="status-message" id="ttt-status">X 차례</div></div>
+                    <div class="status-center"><div class="status-message" id="ttt-status"><span class="ko-only">X 차례</span><span class="en-only" style="display:none;">X's turn</span></div></div>
                     <div class="player" id="ttt-player-o">
                         <div class="ttt-mark" style="background:#3b82f6;"></div>
                         <span class="player-name" id="ttt-o-label">O</span>
@@ -184,7 +184,7 @@
                             <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                         </span>
                     </div>
-                    <div class="status-center"><div class="status-message" id="uttt-status">X 차례</div></div>
+                    <div class="status-center"><div class="status-message" id="uttt-status"><span class="ko-only">X 차례</span><span class="en-only" style="display:none;">X's turn</span></div></div>
                     <div class="player" id="uttt-player-o">
                         <div class="ttt-mark" style="background:#3b82f6;"></div>
                         <span class="player-name" id="uttt-o-label">O</span>
@@ -240,7 +240,7 @@
     <!-- 변형 선택 -->
     <div id="variant-overlay" class="game-mode-overlay">
         <div class="game-mode-card">
-            <h2 class="mode-title">틱택토</h2>
+            <h2 class="mode-title"><span class="ko-only">틱택토</span><span class="en-only" style="display:none;">Tic-Tac-Toe</span></h2>
             <p class="mode-subtitle"><span class="ko-only">어떤 틱택토를 즐길까요?</span><span class="en-only" style="display:none;">Which Tic-Tac-Toe?</span></p>
             <div class="mode-buttons">
                 <button class="mode-btn" id="variant-classic">
@@ -372,7 +372,7 @@
 
     <!-- 승리 오버레이 -->
     <div id="ttt-win-overlay" class="overlay hidden">
-        <div class="modal"><h2 id="ttt-win-title">승리!</h2><p id="ttt-win-desc"></p>
+        <div class="modal"><h2 id="ttt-win-title"><span class="ko-only">승리!</span><span class="en-only" style="display:none;">Victory!</span></h2><p id="ttt-win-desc"></p>
             <button id="ttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
             <div id="online-endgame" class="hidden">
                 <div class="online-endgame-actions" style="display:flex;gap:0.6rem;justify-content:center;">
@@ -388,7 +388,7 @@
         </div>
     </div>
     <div id="uttt-win-overlay" class="overlay hidden">
-        <div class="modal"><h2 id="uttt-win-title">승리!</h2><p id="uttt-win-desc"></p>
+        <div class="modal"><h2 id="uttt-win-title"><span class="ko-only">승리!</span><span class="en-only" style="display:none;">Victory!</span></h2><p id="uttt-win-desc"></p>
             <button id="uttt-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
             <div id="uttt-online-endgame" class="hidden">
                 <div class="online-endgame-actions" style="display:flex;gap:0.6rem;justify-content:center;">

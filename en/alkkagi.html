@@ -107,7 +107,7 @@
         </nav>
 
         <header>
-            <h1>알까기</h1>
+            <h1><span class="ko-only">알까기</span><span class="en-only" style="display:none;">Alkkagi</span></h1>
             <p class="subtitle" id="ak-subtitle" data-i18n="ak.subtitle.classic">구슬을 튕겨 상대를 밀어내세요</p>
         </header>
 
@@ -115,7 +115,7 @@
             <div class="game-info">
                 <div class="player black active" id="ak-player-red">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ff7070,#b91c1c);border-radius:50%;width:20px;height:20px;"></div>
-                    <span class="player-name"><span data-i18n="ak.red">빨강</span> <span id="ak-red-count">5</span>개</span>
+                    <span class="player-name"><span data-i18n="ak.red">빨강</span> <span id="ak-red-count">5</span><span class="ko-only">개</span><span class="en-only" style="display:none;"> left</span></span>
                     <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
@@ -125,7 +125,7 @@
                 </div>
                 <div class="player white" id="ak-player-blue">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);border-radius:50%;width:20px;height:20px;"></div>
-                    <span class="player-name" id="ak-blue-label" data-i18n="ak.blue">파랑</span> <span id="ak-blue-count">5</span>개
+                    <span class="player-name" id="ak-blue-label" data-i18n="ak.blue">파랑</span> <span id="ak-blue-count">5</span><span class="ko-only">개</span><span class="en-only" style="display:none;"> left</span>
                     <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
@@ -135,10 +135,10 @@
             <div class="alkkagi-wrap">
                 <canvas id="alkkagi-canvas"></canvas>
                 <div class="ak-legend">
-                    <span><span class="ak-dot" style="background:#ef4444;"></span> 빨강 플레이어</span>
-                    <span><span class="ak-dot" style="background:#3b82f6;"></span> 파랑 플레이어</span>
+                    <span><span class="ak-dot" style="background:#ef4444;"></span> <span class="ko-only">빨강 플레이어</span><span class="en-only" style="display:none;">Red player</span></span>
+                    <span><span class="ak-dot" style="background:#3b82f6;"></span> <span class="ko-only">파랑 플레이어</span><span class="en-only" style="display:none;">Blue player</span></span>
                 </div>
-                <p style="font-size:0.8rem;color:var(--text-muted);text-align:center;">구슬 클릭 후 드래그 방향의 반대로 발사됩니다</p>
+                <p style="font-size:0.8rem;color:var(--text-muted);text-align:center;"><span class="ko-only">구슬 클릭 후 드래그 방향의 반대로 발사됩니다</span><span class="en-only" style="display:none;">Click a marble and drag. It launches the opposite way.</span></p>
             </div>
 
             <div class="controls" style="margin-top:0.5rem;">
@@ -196,7 +196,7 @@
     <!-- Mode Overlay -->
     <div id="ak-mode-overlay" class="game-mode-overlay">
         <div class="game-mode-card">
-            <h2 class="mode-title">알까기</h2>
+            <h2 class="mode-title"><span class="ko-only">알까기</span><span class="en-only" style="display:none;">Alkkagi</span></h2>
             <div id="ak-step-variant">
                 <p class="mode-subtitle" data-i18n="ak.variant.select">게임 방식을 선택하세요</p>
                 <div class="mode-buttons">
@@ -252,7 +252,7 @@
             </div>
             <div id="ak-step-online-join" class="hidden">
                 <p class="mode-subtitle"><span class="ko-only">방 코드를 입력하세요</span><span class="en-only" style="display:none;">Enter the room code</span></p>
-                <input id="join-code-input" placeholder="예: K7RM92" maxlength="6"
+                <input id="join-code-input" placeholder="e.g. K7RM92" maxlength="6"
                        style="width:100%;min-height:48px;padding:0 0.9rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;text-align:center;font-size:1.1rem;letter-spacing:0.1em;margin-bottom:0.5rem;">
                 <p id="join-code-error" style="min-height:1.3em;color:#f87171;font-size:0.85rem;margin-bottom:0.75rem;"></p>
                 <button id="join-code-confirm" class="btn primary" style="min-height:48px;width:100%;">
@@ -287,7 +287,7 @@
     <!-- Win Overlay -->
     <div id="ak-win-overlay" class="overlay hidden">
         <div class="modal">
-            <h2 id="ak-win-title">승리!</h2>
+            <h2 id="ak-win-title"><span class="ko-only">승리!</span><span class="en-only" style="display:none;">Victory!</span></h2>
             <p id="ak-win-desc"></p>
             <button class="btn primary large" id="ak-modal-reset" data-i18n="btn.replay">다시 하기</button>
             <div id="online-endgame" class="hidden">
