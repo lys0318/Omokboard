@@ -58,7 +58,7 @@
       "name": "Can I beat the Hard AI?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. It plays perfectly, so the best possible outcome is a draw. Practice forks against Easy or Normal instead."
+        "text": "Not in classic Tic-Tac-Toe. The classic Hard AI plays perfectly, so the best possible outcome is a draw. The Ultimate Hard AI can be beaten. Practice forks against Easy or Normal instead."
       }
     },
     {
@@ -91,6 +91,14 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "Classic only cares about where you play. Ultimate also cares about where that move sends your opponent next."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the Ultimate Hard AI perfect too?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It reads only six moves ahead, so it can definitely be beaten."
       }
     }
   ]
@@ -146,6 +154,17 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>오목보드 틱택토 AI는 어떻게 두나</h2>
+                    <p>AI 대전에서는 사람이 X로 먼저 두고 AI가 O를 잡습니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>쉬움</strong>은 빈칸 중 하나를 완전히 무작위로 고릅니다.</li>
+                        <li><strong>보통</strong>은 매 수마다 절반의 확률로 아무 칸에나 두고, 나머지 절반은 어려움과 똑같이 완벽한 수를 둡니다.</li>
+                        <li><strong>어려움</strong>은 남은 모든 경우의 수를 끝까지 계산합니다. 틱택토는 경우의 수가 적어서 이게 가능하고, 그래서 어려움 AI는 절대 지지 않습니다.</li>
+                    </ul>
+                    <p>보통 AI를 이기는 요령은 포크를 미리 준비해 두는 것입니다. 첫 수를 모서리에 두면 포크를 만들 기회가 많아지는데, 보통 AI는 매 수 절반 확률로 엉뚱한 곳에 두기 때문에 그 준비를 막지 못하는 순간이 자주 옵니다. 어려움 AI를 상대로는 위의 방어 순서를 그대로 따라서 무승부를 지키는 연습을 하면 됩니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
                         <li>첫 수를 변(가장자리 가운데)에 둬서 시작부터 주도권을 내주는 경우</li>
@@ -158,7 +177,7 @@
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
                         <li><strong>먼저 두면 무조건 유리한가요?</strong> 네, X(선공)가 약간 유리합니다. 그래도 상대가 정확히 두면 무승부입니다.</li>
-                        <li><strong>AI 어려움은 이길 수 있나요?</strong> 어려움 AI는 완벽하게 두기 때문에 이길 수 없고 최선은 무승부입니다. 쉬움·보통에서 포크 연습을 해보세요.</li>
+                        <li><strong>AI 어려움은 이길 수 있나요?</strong> 기본 틱택토의 어려움 AI는 완벽하게 두기 때문에 이길 수 없고 최선은 무승부입니다. 얼티메이트의 어려움 AI는 이길 수 있습니다. 쉬움·보통에서 포크 연습을 해보세요.</li>
                         <li><strong>항상 비기는데 재미가 있나요?</strong> 사람끼리 두면 실수가 나오기 마련이라 포크로 그 실수를 응징하는 재미가 있습니다.</li>
                     </ul>
                 </section>
@@ -180,11 +199,22 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>얼티메이트 AI는 어떻게 두나</h2>
+                    <ul class="rule-list">
+                        <li><strong>쉬움</strong>은 둘 수 있는 칸 중 하나를 무작위로 고릅니다.</li>
+                        <li><strong>보통</strong>은 매 수 25% 확률로 아무 칸에나 두고, 나머지는 세 수 앞까지 읽습니다.</li>
+                        <li><strong>어려움</strong>은 자기 수와 내 응수를 번갈아 여섯 수 앞까지 읽습니다. 아무 보드에나 둘 수 있는 차례에는 유망한 수 12개만 추려서 봅니다.</li>
+                    </ul>
+                    <p>판을 평가할 때 AI는 큰 보드의 자리마다 가중치를 둡니다. 중앙 보드가 4, 모서리 보드가 3, 변 보드가 2로, 위에서 설명한 "중앙 보드가 가장 중요하다"는 원칙이 그대로 들어 있습니다. 기본판과 달리 얼티메이트는 경우의 수가 너무 많아서 끝까지 계산할 수 없습니다. 그래서 어려움 AI도 완벽하지 않고, 여섯 수보다 멀리 내다봐야 보이는 계획은 알아채지 못합니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>얼티메이트 자주 묻는 질문</h2>
                     <ul class="rule-list">
                         <li><strong>작은 보드가 비기면요?</strong> 그 보드는 누구의 것도 아니며 큰 보드 줄에는 쓰이지 않습니다.</li>
                         <li><strong>왜 일부러 보드를 내주나요?</strong> 상대를 계속 불리한 보드로 보내 주도권을 쥐기 위한 고급 전략입니다.</li>
                         <li><strong>기본 틱택토와 가장 큰 차이는?</strong> 기본은 한 수의 위치만 보지만, 얼티메이트는 그 수가 상대를 어디로 보내는지까지 봐야 합니다.</li>
+                        <li><strong>얼티메이트 어려움 AI도 완벽한가요?</strong> 아닙니다. 여섯 수 앞까지만 읽기 때문에 충분히 이길 수 있습니다.</li>
                     </ul>
                 </section>
             </div>
@@ -228,6 +258,17 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>How Omokboard's Tic-Tac-Toe AI Plays</h2>
+                    <p>In AI games you play X and move first, and the AI plays O.</p>
+                    <ul class="rule-list">
+                        <li><strong>Easy</strong> picks an empty square completely at random.</li>
+                        <li><strong>Normal</strong> plays a random square half the time on each move. The other half, it plays a perfect move, just like Hard.</li>
+                        <li><strong>Hard</strong> calculates every remaining possibility all the way to the end. Tic-Tac-Toe is small enough for that, which is why the Hard AI never loses.</li>
+                    </ul>
+                    <p>The trick against Normal is to keep a fork in preparation. Opening in a corner gives you more chances to build one, and since Normal plays somewhere random half the time, it often fails to stop your setup. Against Hard, practice following the defensive order above to hold the draw.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
                         <li>Opening on an edge and giving away the initiative from move one.</li>
@@ -240,7 +281,7 @@
                     <h2>FAQ</h2>
                     <ul class="rule-list">
                         <li><strong>Does going first guarantee an edge?</strong> Yes, X has a slight advantage, but with correct play from both sides it still ends in a draw.</li>
-                        <li><strong>Can I beat the Hard AI?</strong> No. It plays perfectly, so the best possible outcome is a draw. Practice forks against Easy or Normal instead.</li>
+                        <li><strong>Can I beat the Hard AI?</strong> Not in classic Tic-Tac-Toe. The classic Hard AI plays perfectly, so the best possible outcome is a draw. The Ultimate Hard AI can be beaten. Practice forks against Easy or Normal instead.</li>
                         <li><strong>Is it still fun if it always ends in a draw?</strong> Against another person, mistakes happen naturally, and punishing them with a fork is exactly where the fun lives.</li>
                     </ul>
                 </section>
@@ -262,11 +303,22 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>How the Ultimate AI Plays</h2>
+                    <ul class="rule-list">
+                        <li><strong>Easy</strong> picks a legal cell at random.</li>
+                        <li><strong>Normal</strong> plays a random cell 25% of the time and otherwise reads three moves ahead.</li>
+                        <li><strong>Hard</strong> reads six moves ahead, alternating its moves and yours. On turns where it may play in any board, it considers only the 12 most promising moves.</li>
+                    </ul>
+                    <p>When it evaluates a position, the AI weights each spot on the big board: 4 for the center board, 3 for corner boards, and 2 for edge boards. That's the "center board matters most" principle from above, in numbers. Unlike the classic game, Ultimate has far too many possibilities to calculate to the end, so even the Hard AI isn't perfect. It can't see a plan that only pays off more than six moves out.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>Ultimate FAQ</h2>
                     <ul class="rule-list">
                         <li><strong>What happens if a small board draws?</strong> It belongs to neither player and can't be used to complete a line on the big board.</li>
                         <li><strong>Why would anyone give a board away on purpose?</strong> It's an advanced tactic: sacrificing one board to keep forcing your opponent into unfavorable boards afterward.</li>
                         <li><strong>What's the biggest difference from the classic version?</strong> Classic only cares about where you play. Ultimate also cares about where that move sends your opponent next.</li>
+                        <li><strong>Is the Ultimate Hard AI perfect too?</strong> No. It reads only six moves ahead, so it can definitely be beaten.</li>
                     </ul>
                 </section>
             </div>

@@ -121,8 +121,8 @@
                     <ul class="rule-list">
                         <li><strong>목표:</strong> 같은 숫자 타일을 합쳐 2048 타일을 만들면 승리합니다.</li>
                         <li><strong>이동:</strong> 방향키(또는 스와이프)를 누르면 모든 타일이 그 방향 끝까지 밀립니다.</li>
-                        <li><strong>합치기:</strong> 같은 숫자의 타일 두 개가 만나면 하나로 합쳐지며 값이 두 배가 됩니다. 한 번의 이동에서 같은 타일이 두 번 합쳐지지는 않습니다.</li>
-                        <li><strong>새 타일:</strong> 이동할 때마다 빈 칸 중 하나에 2(90%) 또는 4(10%)가 새로 등장합니다.</li>
+                        <li><strong>합치기:</strong> 같은 숫자의 타일 두 개가 만나면 하나로 합쳐지며 값이 두 배가 됩니다. 한 번의 이동에서 같은 타일이 두 번 합쳐지지는 않습니다. 한 줄에 같은 숫자가 세 개 있으면 미는 방향 쪽 두 개가 먼저 합쳐져서, [2, 2, 2]를 왼쪽으로 밀면 [4, 2]가 됩니다.</li>
+                        <li><strong>새 타일:</strong> 이동할 때마다 빈 칸 중 하나에 2(90%) 또는 4(10%)가 새로 등장합니다. 타일이 하나도 움직이지 않는 방향은 이동으로 치지 않아서 새 타일도 나오지 않습니다.</li>
                         <li><strong>종료:</strong> 더 이상 밀 수도, 합칠 수도 없는 상태가 되면 게임이 끝납니다.</li>
                     </ul>
                 </section>
@@ -149,8 +149,10 @@
                 </section>
 
                 <section class="info-section">
-                    <h2>점수의 원리: 왜 큰 타일을 늦게 합쳐야 유리할까</h2>
-                    <p>2048은 두 타일을 합칠 때마다 <strong>합쳐진 값만큼 점수</strong>가 오릅니다(예: 1024+1024를 합치면 2048점 획득). 즉 작은 타일 여러 개를 그때그때 합치는 것보다, 큰 타일 두 개를 한 번에 합치는 한 방이 훨씬 큰 점수를 줍니다. 그래서 고수는 작은 타일을 성급하게 없애기보다, <strong>같은 값의 큰 타일 두 개가 만들어질 때까지 참고 모으는</strong> 쪽을 택합니다. 조급하게 합치기보다 큰 그림에서 어떤 타일을 언제 합칠지 계획하는 것이 점수를 극대화하는 핵심입니다.</p>
+                    <h2>점수의 원리: 합치는 시점은 점수를 바꾸지 않는다</h2>
+                    <p>두 타일을 합칠 때마다 새로 생긴 타일의 값만큼 점수가 오릅니다. 1024 두 개를 합치면 2048점을 얻는 식입니다. 그래서 "큰 타일끼리 늦게 합쳐야 점수가 크다"고 생각하기 쉬운데, 계산해 보면 그렇지 않습니다. 2에서 시작해 2048 타일 하나를 만들려면 합치기를 1,023번 해야 하고, 그동안 얻는 점수는 언제 어떤 순서로 합치든 20,480점으로 똑같습니다. 타일마다 점수가 정해져 있는 셈입니다.</p>
+                    <p>점수를 바꾸는 건 두 가지뿐입니다. 하나는 처음부터 4로 나온 타일입니다. 이 타일은 2 두 개를 합쳐 만든 게 아니라서 그 4점을 받지 못합니다. 새 타일의 10%가 4로 나오기 때문에, 2048 타일 하나를 완성할 즈음이면 평균 370점쯤 덜 쌓입니다. 다른 하나는 얼마나 오래 버티느냐입니다. 점수를 올리는 방법은 판을 정리된 상태로 오래 유지해서 더 큰 타일을 더 많이 만드는 것뿐이고, 코너 전략과 스네이크 패턴이 중요한 이유도 여기에 있습니다.</p>
+                    <p>그러니 점수 때문에 합치기를 참을 필요는 없습니다. 합칠 수 있는데도 참는다면, 그 이유는 점수가 아니라 정렬을 지키기 위해서여야 합니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -189,8 +191,8 @@
                     <ul class="rule-list">
                         <li><strong>Goal:</strong> Merge tiles to create the 2048 tile and win.</li>
                         <li><strong>Move:</strong> Press an arrow key (or swipe) and every tile slides to that edge.</li>
-                        <li><strong>Merge:</strong> Two tiles with the same number merge into one, doubling the value. A tile can only merge once per move.</li>
-                        <li><strong>New tile:</strong> After every move, a new 2 (90%) or 4 (10%) appears in an empty cell.</li>
+                        <li><strong>Merge:</strong> Two tiles with the same number merge into one, doubling the value. A tile can only merge once per move. If a row has three matching tiles, the two closest to the direction you push merge first, so sliding [2, 2, 2] left gives [4, 2].</li>
+                        <li><strong>New tile:</strong> After every move, a new 2 (90%) or 4 (10%) appears in an empty cell. A direction where no tile moves doesn't count as a move, so no new tile appears.</li>
                         <li><strong>Game over:</strong> The game ends when the board is full and no more merges are possible.</li>
                     </ul>
                 </section>
@@ -217,8 +219,10 @@
                 </section>
 
                 <section class="info-section">
-                    <h2>The Scoring Math: Why Waiting to Merge Big Tiles Pays Off</h2>
-                    <p>Every merge adds <strong>the value of the resulting tile</strong> to your score (merge two 1024s and you gain 2048 points). That means one merge of two large tiles is worth far more than merging small tiles one at a time. Strong players resist clearing small tiles too eagerly and instead <strong>wait until two equal large tiles line up</strong> before merging. Planning which tiles to combine and when, rather than merging on impulse, is what actually maximizes your score.</p>
+                    <h2>The Scoring Math: When You Merge Doesn't Change Your Score</h2>
+                    <p>Every merge adds the value of the new tile to your score, so merging two 1024s earns 2048 points. That makes it tempting to think big tiles should be merged late for a bigger score, but the math says otherwise. Building a single 2048 tile up from 2s takes 1,023 merges, and those merges are worth 20,480 points no matter when or in what order you make them. In effect, every tile comes with a fixed score.</p>
+                    <p>Only two things change your score. The first is tiles that spawn as 4s. They were never built from two 2s, so you never collect those 4 points. Since 10% of new tiles are 4s, by the time you finish a 2048 tile you've banked about 370 fewer points on average. The second is how long you survive. The only way to raise your score is to keep the board organized long enough to build more and bigger tiles, which is exactly why the corner method and the snake pattern matter.</p>
+                    <p>So there's no need to hold off on a merge for the sake of points. If you do hold off on a merge you could make, the reason should be keeping your order intact, not the score.</p>
                 </section>
 
                 <section class="info-section">

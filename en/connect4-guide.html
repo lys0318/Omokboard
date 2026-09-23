@@ -141,6 +141,17 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>오목보드 사목의 판과 AI</h2>
+                    <p>오목보드의 사목은 오목과 같은 15×15 바둑판에서 둡니다. 판이 넓어서 가장자리에 몰릴 일이 적고, 사실상 어디서든 4목을 노릴 수 있습니다. AI 대전에서는 사람이 빨강으로 먼저 두고 AI가 노랑을 잡습니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>쉬움</strong>은 한 수 앞만 봅니다. 자기 공격에 좋은 자리와 내 공격을 막는 자리에 점수를 매긴 뒤 상위 다섯 곳 중 하나를 무작위로 고릅니다. 그래서 내가 다음 수에 4를 완성할 수 있는 자리를 그냥 두기도 합니다.</li>
+                        <li><strong>보통</strong>은 자기 수와 내 응수까지 두 수 앞을 읽습니다. 바로 이길 수 있는 자리는 놓치지 않고, 내가 다음 수에 4를 완성할 자리는 반드시 막습니다.</li>
+                        <li><strong>어려움</strong>은 네 수 앞까지 읽습니다. 수를 읽어 내려가는 단계마다 유망한 자리 12곳만 추려서 깊게 봅니다.</li>
+                    </ul>
+                    <p>오목과 같은 방식의 AI인데 목표가 하나 짧다 보니, 사목에서는 같은 네 수가 훨씬 멀리 보는 셈입니다. 오목에서 네 수는 열린 3이 5목이 되는 거리 정도지만, 사목에서는 열린 2가 4목으로 완성되는 거리까지 닿습니다. 한 방향으로만 미는 공격이 어려움 AI에게 잘 통하지 않는 이유입니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
                         <li>내 3개 만들기에 몰두하다 상대의 3개·4개를 놓치는 경우</li>
@@ -206,6 +217,17 @@
                     <p><strong>Just starting out?</strong> Focus on building three of your own stones near the center. Winning matters less right now than feeling, firsthand, just how dangerous an open three really is.</p>
                     <p><strong>Getting comfortable?</strong> Build the habit of containing threats at your opponent's open-two stage. Judging "there's still time" with Omok instincts will already be too late here.</p>
                     <p><strong>Want to go further?</strong> Focus on completing your double threat before your opponent does. The Hard AI reads and blocks double threats accurately, so attacking in a single direction rarely works against it.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Omokboard's Connect 4 Board and AI</h2>
+                    <p>Omokboard's Connect 4 is played on the same 15×15 board as Omok. The board is wide enough that you rarely get pushed against an edge, so a four can be built almost anywhere. In AI games you play Red and move first, and the AI plays Yellow.</p>
+                    <ul class="rule-list">
+                        <li><strong>Easy</strong> looks only one move ahead. It scores each spot for its own attack and for blocking yours, then picks at random from the top five. That's why it sometimes leaves open a spot where you can complete a four next move.</li>
+                        <li><strong>Normal</strong> reads two moves ahead: its move and your reply. It never misses a spot where it can win right away, and it always blocks a four you could complete next move.</li>
+                        <li><strong>Hard</strong> reads four moves ahead. As it searches deeper, it keeps only the 12 most promising spots at each step.</li>
+                    </ul>
+                    <p>It's the same kind of AI as Omok's, but because the goal is one stone shorter, the same four moves reach much further in Connect 4. In Omok, four moves covers roughly the distance from an open three to five in a row. In Connect 4, it reaches all the way from an open two to a finished four. That's why attacks that only push in one direction rarely work against the Hard AI.</p>
                 </section>
 
                 <section class="info-section">

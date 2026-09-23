@@ -129,6 +129,15 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>오목보드 지뢰찾기의 판은 이렇게 만들어집니다</h2>
+                    <p>지뢰는 게임을 시작할 때가 아니라 첫 클릭 직후에 깔립니다. 이때 클릭한 칸과 그 주변 8칸을 빼고 나머지 칸 중에서 무작위로 고릅니다. 그래서 첫 칸은 항상 숫자 0이고, 첫 클릭에서 늘 넓은 영역이 한꺼번에 열립니다.</p>
+                    <p>반대로 지뢰 배치는 완전히 무작위라서, 추측 없이 풀 수 있는 판만 골라 주지는 않습니다. 어쩔 수 없이 찍어야 하는 상황이 가끔 나오는 건 실력 문제가 아니라 판 자체가 그렇게 생긴 것입니다.</p>
+                    <p>지뢰 밀도는 쉬움 12.3%(81칸 중 10개), 보통 13.9%(144칸 중 20개), 어려움 15.6%(256칸 중 40개)입니다. 오목보드의 어려움은 윈도우 지뢰찾기의 중급(16×16, 지뢰 40개)과 같은 설정이고, 고급(30×16, 지뢰 99개, 20.6%)보다는 여유가 있습니다.</p>
+                    <p>조작에서 알아둘 점도 있습니다. 숫자를 눌러 주변 칸을 한 번에 여는 기능은 없어서, 안전하다고 확정한 칸도 하나씩 눌러 열어야 합니다. 깃발은 승리 조건과 상관없어서 안전한 칸만 다 열면 깃발 없이도 이깁니다. 화면의 💣 숫자는 전체 지뢰 수에서 꽂은 깃발 수를 뺀 값이라, 깃발을 잘못 꽂으면 이 숫자도 함께 틀어집니다.</p>
+                    <p>정말 찍어야 할 때는 숫자와 붙어 있지 않은 칸이 지뢰일 확률을 대략 계산해 보세요. 남은 지뢰 수를 아직 안 연 칸 수로 나누면 됩니다. 숫자 옆 칸이 지뢰일 확률이 이보다 높아 보인다면, 숫자와 떨어진 칸을 여는 편이 낫습니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
                         <li>깃발을 전혀 쓰지 않고 암산만으로 진행하다가 실수로 지뢰를 클릭하는 경우</li>
@@ -190,6 +199,15 @@
                 <section class="info-section">
                     <h2>Tips to Improve</h2>
                     <p>Clearing corners and edges first usually leaves you with more cells you can confirm outright, which keeps things moving smoothly. When a moment feels genuinely uncertain, resist the urge to click right away. Sweep back through the two number rules once more to check whether some cell you overlooked is actually already provably safe. Do this consistently and you'll find that truly "must-guess" moments are far rarer than they first seem.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard's Minesweeper Boards Are Made</h2>
+                    <p>Mines are placed right after your first click, not when the game starts. They go at random into any cell except the one you clicked and its 8 neighbors. So your first cell is always a 0, and your first click always opens up a wide area at once.</p>
+                    <p>On the other hand, mine placement is completely random, so the game doesn't pick only boards that can be solved without guessing. When you occasionally have no choice but to guess, it isn't a skill problem. The board is simply built that way.</p>
+                    <p>Mine density is 12.3% on Easy (10 in 81 cells), 13.9% on Normal (20 in 144), and 15.6% on Hard (40 in 256). Omokboard's Hard uses the same setup as Windows Minesweeper's Intermediate (16×16, 40 mines), and it's more forgiving than Expert (30×16, 99 mines, 20.6%).</p>
+                    <p>There are a couple of controls worth knowing. There's no way to click a number to open all its neighbors at once, so even cells you've confirmed are safe have to be opened one at a time. Flags don't count toward winning, so opening every safe cell wins even without a single flag. The 💣 count on screen is the total number of mines minus the flags you've placed, so a misplaced flag throws that number off too.</p>
+                    <p>When you truly have to guess, roughly estimate the chance that a cell not touching any number is a mine: divide the remaining mines by the number of unopened cells. If the cells next to a number look more likely than that to hold a mine, you're better off opening a cell away from the numbers.</p>
                 </section>
 
                 <section class="info-section">

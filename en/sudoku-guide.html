@@ -58,7 +58,7 @@
       "name": "What changes between difficulty levels?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Fewer starting clues means a harder puzzle."
+        "text": "Easy starts with 45 given numbers, Normal with 36, and Hard with 30. Fewer clues means a harder puzzle, but since difficulty is set only by clue count, puzzles at the same level can still feel different."
       }
     },
     {
@@ -74,7 +74,7 @@
       "name": "Do I really need pencil marks?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Not for easy puzzles. But once three or more overlapping candidates start piling up, tracking them purely in your head gets difficult fast, and that's the point to start writing them down."
+        "text": "Not for easy puzzles. But once three or more overlapping candidates start piling up, tracking them purely in your head gets difficult fast, and that's the point to start writing them down. Omokboard has no note feature, so use paper."
       }
     }
   ]
@@ -120,13 +120,21 @@
 
                 <section class="info-section">
                     <h2>한 단계 더: 연필 표시와 숨은 단일</h2>
-                    <p>퍼즐이 복잡해지면 머릿속 계산만으로는 한계가 옵니다. 이럴 때 쓰는 게 연필 표시(후보 메모)입니다. 각 빈칸에 가능한 후보 숫자를 작게 적어두면 막혀 있던 길이 눈에 보이기 시작합니다.</p>
+                    <p>퍼즐이 복잡해지면 머릿속 계산만으로는 한계가 옵니다. 이럴 때 쓰는 게 연필 표시(후보 메모)입니다. 각 빈칸에 가능한 후보 숫자를 작게 적어두면 막혀 있던 길이 눈에 보이기 시작합니다. 오목보드 스도쿠에는 후보 메모 기능이 따로 없으니, 어려운 퍼즐은 종이에 후보를 적어가며 푸는 걸 추천합니다.</p>
                     <p>여기서 한 걸음 더 나가면 숨은 단일이 있습니다. 어떤 칸에 후보가 여러 개 남아 있더라도 그 행·열·박스 전체를 놓고 봤을 때 특정 숫자가 들어갈 수 있는 칸이 그 칸 하나뿐이라면 바로 확정할 수 있습니다. 짝(Pair) 기법도 유용합니다. 같은 두 후보만 가진 칸이 한 줄에 두 개 있다면 그 줄의 다른 칸에서는 그 두 숫자를 후보에서 지워버릴 수 있습니다.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>대결 모드: 속도가 곧 실력입니다</h2>
                     <p>오목보드의 대결 모드는 같은 퍼즐을 두고 번갈아 정답 칸을 채우는 방식입니다. 더 많이 맞힌 쪽이 이깁니다. 오답을 두면 그 칸은 그대로 비워지고 차례만 상대에게 넘어가니 애매한 칸에 모험을 걸기보다 확실한 칸부터 빠르게 차지하는 쪽이 유리합니다. 단일 후보처럼 이론의 여지가 없는 칸을 먼저 선점하고 여러 후보가 남은 칸은 여유가 생겼을 때 천천히 파고드는 게 실전 요령입니다.</p>
+                    <p>대결 AI는 사람처럼 풀지 않습니다. 매 차례 빈칸 하나를 무작위로 고르고, 난이도별로 정해진 확률로 정답을 맞힙니다. 그 확률이 쉬움 50%, 보통 78%, 어려움 95%입니다. 정답이든 오답이든 한 번에 한 칸씩 번갈아 두니까, 어려움 AI를 이기려면 대략 내 정답률이 95%보다 높아야 합니다. 대결에서는 확실한 칸만 고르는 습관이 그대로 승률이 됩니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>오목보드 스도쿠 퍼즐은 이렇게 만들어집니다</h2>
+                    <p>퍼즐은 매번 새로 만듭니다. 먼저 규칙에 맞게 81칸을 모두 채운 완성판을 무작위로 만들고, 칸을 무작위 순서로 하나씩 지워 나갑니다. 칸 하나를 지울 때마다 정답이 여전히 하나뿐인지 검사해서, 답이 둘 이상 생기면 그 칸은 지우지 않고 되돌립니다. 이렇게 처음 주어지는 숫자가 쉬움 45개, 보통 36개, 어려움 30개가 되는 것을 목표로 지웁니다.</p>
+                    <p>난이도를 힌트 개수로만 나누기 때문에 같은 난이도 안에서도 체감은 조금씩 다릅니다. 어떤 보통 퍼즐은 스캐닝만으로 풀리고, 어떤 퍼즐은 숨은 단일이 있어야 풀립니다. 한 판이 유난히 막힌다고 해서 실력 탓만 할 필요는 없습니다.</p>
+                    <p>혼자 풀기에서는 정답과 다른 숫자를 넣으면 바로 빨간색으로 표시됩니다. 틀린 숫자 위에 추론을 쌓아 올리다 판 전체가 꼬이는 일은 없지만, 이걸 믿고 숫자를 하나씩 넣어보며 풀면 실력은 늘지 않습니다. 빨간색은 검산용으로만 쓰세요. "오늘의 퍼즐"은 날짜를 바탕으로 퍼즐을 만들기 때문에 같은 날짜라면 누구에게나 같은 퍼즐이 나오고, 난이도는 보통입니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -149,9 +157,9 @@
                     <h2>자주 묻는 질문</h2>
                     <ul class="rule-list">
                         <li><strong>찍어야 풀리는 퍼즐도 있나요?</strong> 오목보드는 유일해 퍼즐만 내므로 논리만으로 풀립니다.</li>
-                        <li><strong>난이도 차이는?</strong> 처음 주어지는 힌트(숫자) 개수가 적을수록 어렵습니다.</li>
+                        <li><strong>난이도 차이는?</strong> 처음 주어지는 숫자가 쉬움 45개, 보통 36개, 어려움 30개입니다. 힌트가 적을수록 어렵지만, 힌트 개수로만 나누기 때문에 같은 난이도 안에서도 체감은 다를 수 있습니다.</li>
                         <li><strong>대결에서 오답을 내면?</strong> 그 칸은 비어 있고 차례가 상대에게 넘어갑니다. 나중에 다시 도전할 수 있습니다.</li>
-                        <li><strong>연필 표시가 꼭 필요한가요?</strong> 쉬운 퍼즐은 없어도 되지만 후보가 3개 이상 겹치기 시작하면 머릿속으로만 추적하기 어려워집니다. 막히기 시작했다면 그때부터 적어보세요.</li>
+                        <li><strong>연필 표시가 꼭 필요한가요?</strong> 쉬운 퍼즐은 없어도 되지만 후보가 3개 이상 겹치기 시작하면 머릿속으로만 추적하기 어려워집니다. 막히기 시작했다면 그때부터 적어보세요. 오목보드에는 메모 기능이 없으니 종이를 쓰면 됩니다.</li>
                     </ul>
                 </section>
             </div>
@@ -185,13 +193,21 @@
 
                 <section class="info-section">
                     <h2>One Level Up: Pencil Marks and Hidden Singles</h2>
-                    <p>Once a puzzle gets complicated, mental tracking alone starts to break down. That's where pencil marks come in: jotting down every possible candidate in each empty cell in small numbers, so a path that was invisible before suddenly becomes clear.</p>
+                    <p>Once a puzzle gets complicated, mental tracking alone starts to break down. That's where pencil marks come in: jotting down every possible candidate in each empty cell in small numbers, so a path that was invisible before suddenly becomes clear. Omokboard's Sudoku has no built-in note feature, so for hard puzzles, jot your candidates down on paper as you go.</p>
                     <p>From there, hidden singles take it a step further. Even if a cell still has several candidates written in, if a particular digit can only go in that one cell across its entire row, column, or box, you can confirm it right there. Pairs are useful too: if two cells in the same unit share exactly the same two candidates, you can eliminate those two digits from every other cell in that unit.</p>
                 </section>
 
                 <section class="info-section">
                     <h2>Duel Mode: Speed Is the Skill</h2>
                     <p>Omokboard's duel mode has both players race to claim correct cells on the same puzzle, and whoever claims more cells wins. A wrong answer just leaves the cell empty and passes the turn, so grabbing certain cells fast beats gambling on ambiguous ones. Claim naked singles (the cells with zero room for doubt) first, and save cells with multiple lingering candidates for when you have more breathing room.</p>
+                    <p>The duel AI doesn't solve the puzzle the way a person does. Each turn it picks an empty cell at random and gets it right with a fixed probability: 50% on Easy, 78% on Normal, and 95% on Hard. Right or wrong, each side fills one cell per turn, so to beat the Hard AI your accuracy needs to be roughly above 95%. In duels, the habit of choosing only certain cells turns directly into wins.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard's Sudoku Puzzles Are Made</h2>
+                    <p>Every puzzle is generated fresh. First a complete, valid 81-cell grid is filled in at random. Then cells are removed one by one in random order. After each removal, the generator checks that the puzzle still has exactly one solution, and if a removal would allow two or more, that cell is put back. It keeps removing until the puzzle is down to a target of 45 given numbers on Easy, 36 on Normal, and 30 on Hard.</p>
+                    <p>Since difficulty is set only by the number of clues, puzzles at the same level can feel a little different. One Normal puzzle might fall to scanning alone, while another needs a hidden single. If one board feels unusually stubborn, it isn't necessarily your skill.</p>
+                    <p>In solo play, any number that doesn't match the solution turns red right away. That means a wrong digit can't quietly tangle the whole board, but if you lean on it by trying numbers one at a time, your skills won't grow. Use the red only as a check. The "Daily" puzzle is generated from the date, so everyone gets the same puzzle on the same date, at Normal difficulty.</p>
                 </section>
 
                 <section class="info-section">
@@ -214,9 +230,9 @@
                     <h2>FAQ</h2>
                     <ul class="rule-list">
                         <li><strong>Do any puzzles require guessing?</strong> No. Omokboard only serves puzzles with a single unique solution, so logic alone always gets you there.</li>
-                        <li><strong>What changes between difficulty levels?</strong> Fewer starting clues means a harder puzzle.</li>
+                        <li><strong>What changes between difficulty levels?</strong> Easy starts with 45 given numbers, Normal with 36, and Hard with 30. Fewer clues means a harder puzzle, but since difficulty is set only by clue count, puzzles at the same level can still feel different.</li>
                         <li><strong>What happens if I answer wrong in duel mode?</strong> The cell stays empty and your turn passes. You can try again later.</li>
-                        <li><strong>Do I really need pencil marks?</strong> Not for easy puzzles. But once three or more overlapping candidates start piling up, tracking them purely in your head gets difficult fast, and that's the point to start writing them down.</li>
+                        <li><strong>Do I really need pencil marks?</strong> Not for easy puzzles. But once three or more overlapping candidates start piling up, tracking them purely in your head gets difficult fast, and that's the point to start writing them down. Omokboard has no note feature, so use paper.</li>
                     </ul>
                 </section>
             </div>

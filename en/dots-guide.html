@@ -67,7 +67,7 @@
       "name": "Can the game end in a tie?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "If the total number of boxes is even, a draw is possible."
+        "text": "Not on Omokboard. The board has 25 boxes, an odd number, so a tie can't happen. Ties are only possible on boards with an even number of boxes."
       }
     },
     {
@@ -130,6 +130,16 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>오목보드 점잇기의 판과 AI</h2>
+                    <p>오목보드의 점잇기는 점 6×6개로 이루어진 판에서 둡니다. 칸은 25개, 그을 수 있는 선은 모두 60개입니다. 칸 수가 홀수라서 비기는 일이 없고, 13칸을 먼저 가져가면 남은 판과 상관없이 승부가 정해집니다. AI 대전에서는 사람이 빨강으로 먼저 두고 AI가 파랑을 잡습니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>쉬움</strong>은 그을 수 있는 선 중 하나를 완전히 무작위로 고릅니다. 세 번째 변도 아무렇지 않게 만들어 줍니다.</li>
+                        <li><strong>보통</strong>과 <strong>어려움</strong>은 선마다 점수를 매깁니다. 칸을 완성하면 크게 더하고, 세 번째 변을 만들거나 내가 바로 먹을 수 있는 칸을 남기면 뺍니다. 어려움은 이 감점을 1.4배 더 무겁게 매기고 항상 1등 수를 고르며, 보통은 상위 네 수 중 무작위로 고릅니다.</li>
+                    </ul>
+                    <p>이 AI는 한 수 앞만 보기 때문에 체인이라는 개념이 없습니다. 먹을 수 있는 칸이 보이면 거의 항상 먹고, 더블 크로스처럼 마지막 두 칸을 일부러 남기는 판단은 하지 않습니다. 그래서 위에서 설명한 운영이 AI를 상대로 그대로 통합니다. 짧은 체인을 먼저 내주고, AI가 긴 체인을 열 수밖에 없는 순간을 기다렸다가 더블 크로스로 주도권을 계속 붙잡으세요. 체인이 여러 개 남은 후반일수록 어려움 AI와의 차이가 벌어지기 쉽습니다.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>자주 하는 실수</h2>
                     <ul class="rule-list">
                         <li>눈앞의 칸 하나를 먹으려다 세 번째 변을 만들어서 오히려 훨씬 큰 체인을 상대에게 넘겨주는 경우</li>
@@ -150,7 +160,7 @@
                     <ul class="rule-list">
                         <li><strong>칸을 완성하면 무조건 한 번 더 두나요?</strong> 네. 연속 완성되면 계속 추가 턴을 얻습니다.</li>
                         <li><strong>꼭 칸을 먹어야 하나요?</strong> 의무는 아닙니다. 더블 크로스처럼 일부러 안 먹는 것이 더 유리할 때가 많습니다.</li>
-                        <li><strong>비기기도 하나요?</strong> 전체 칸 수가 짝수라면 동점이 나올 수 있습니다.</li>
+                        <li><strong>비기기도 하나요?</strong> 오목보드에서는 비기지 않습니다. 판의 칸이 25개로 홀수라서 동점이 나올 수 없습니다. 칸 수가 짝수인 판에서만 비길 수 있습니다.</li>
                         <li><strong>체인이 여러 개면 어떤 순서로 내줘야 하나요?</strong> 기본은 짧은 체인부터입니다. 짧은 체인을 먼저 내주고 긴 체인은 최대한 나중까지 아껴서 상대가 긴 체인을 여는 쪽이 되도록 유도하세요.</li>
                     </ul>
                 </section>
@@ -194,6 +204,16 @@
                 </section>
 
                 <section class="info-section">
+                    <h2>Omokboard's Dots and Boxes Board and AI</h2>
+                    <p>Omokboard's Dots and Boxes is played on a 6×6 grid of dots. That makes 25 boxes and 60 lines in total. With an odd number of boxes, a tie is impossible, and whoever claims 13 boxes has won no matter how the rest of the board goes. In AI games you play Red and move first, and the AI plays Blue.</p>
+                    <ul class="rule-list">
+                        <li><strong>Easy</strong> picks one of the open lines completely at random. It happily draws third sides for you.</li>
+                        <li><strong>Normal</strong> and <strong>Hard</strong> score each line. Completing a box adds a lot, while drawing a third side or leaving a box you could take right away subtracts. Hard weighs those penalties 1.4 times as heavily and always plays its top move, while Normal picks at random from the top four.</li>
+                    </ul>
+                    <p>Because this AI looks only one move ahead, it has no concept of chains. When it sees a box it can take, it almost always takes it, and it never deliberately leaves the last two boxes the way a double-cross does. So the approach described above works against it as written. Give away short chains first, wait for the moment the AI has no choice but to open a long chain, and keep control with double-crosses. The gap with the Hard AI tends to widen in the endgame, when several chains are left.</p>
+                </section>
+
+                <section class="info-section">
                     <h2>Common Mistakes</h2>
                     <ul class="rule-list">
                         <li>Grabbing one box in front of you, but in doing so, creating a third side that hands over a much bigger chain.</li>
@@ -214,7 +234,7 @@
                     <ul class="rule-list">
                         <li><strong>Does completing a box always earn another turn?</strong> Yes, and chaining several completions in a row just keeps extending your turn.</li>
                         <li><strong>Do I have to take an available box?</strong> No. Declining one, as in the double-cross, is often the better move.</li>
-                        <li><strong>Can the game end in a tie?</strong> If the total number of boxes is even, a draw is possible.</li>
+                        <li><strong>Can the game end in a tie?</strong> Not on Omokboard. The board has 25 boxes, an odd number, so a tie can't happen. Ties are only possible on boards with an even number of boxes.</li>
                         <li><strong>If there are several chains, what order should I give them away in?</strong> As a rule, shortest first. Give up short chains early and hold onto the long ones as long as possible, so your opponent ends up being the one forced to open them.</li>
                     </ul>
                 </section>
