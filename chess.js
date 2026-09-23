@@ -3,72 +3,7 @@ const PIECE_UNICODE = {
     bK:'♚', bQ:'♛', bR:'♜', bB:'♝', bN:'♞', bP:'♟'
 };
 
-const PIECE_VALUE = { p:100, n:320, b:330, r:500, q:900, k:20000 };
-
-// Piece-square tables (white's perspective; black reads reversed)
-const PST = {
-    p: [
-        [ 0,  0,  0,  0,  0,  0,  0,  0],
-        [50, 50, 50, 50, 50, 50, 50, 50],
-        [10, 10, 20, 30, 30, 20, 10, 10],
-        [ 5,  5, 10, 25, 25, 10,  5,  5],
-        [ 0,  0,  0, 20, 20,  0,  0,  0],
-        [ 5, -5,-10,  0,  0,-10, -5,  5],
-        [ 5, 10, 10,-20,-20, 10, 10,  5],
-        [ 0,  0,  0,  0,  0,  0,  0,  0]
-    ],
-    n: [
-        [-50,-40,-30,-30,-30,-30,-40,-50],
-        [-40,-20,  0,  0,  0,  0,-20,-40],
-        [-30,  0, 10, 15, 15, 10,  0,-30],
-        [-30,  5, 15, 20, 20, 15,  5,-30],
-        [-30,  0, 15, 20, 20, 15,  0,-30],
-        [-30,  5, 10, 15, 15, 10,  5,-30],
-        [-40,-20,  0,  5,  5,  0,-20,-40],
-        [-50,-40,-30,-30,-30,-30,-40,-50]
-    ],
-    b: [
-        [-20,-10,-10,-10,-10,-10,-10,-20],
-        [-10,  0,  0,  0,  0,  0,  0,-10],
-        [-10,  0,  5, 10, 10,  5,  0,-10],
-        [-10,  5,  5, 10, 10,  5,  5,-10],
-        [-10,  0, 10, 10, 10, 10,  0,-10],
-        [-10, 10, 10, 10, 10, 10, 10,-10],
-        [-10,  5,  0,  0,  0,  0,  5,-10],
-        [-20,-10,-10,-10,-10,-10,-10,-20]
-    ],
-    r: [
-        [ 0,  0,  0,  0,  0,  0,  0,  0],
-        [ 5, 10, 10, 10, 10, 10, 10,  5],
-        [-5,  0,  0,  0,  0,  0,  0, -5],
-        [-5,  0,  0,  0,  0,  0,  0, -5],
-        [-5,  0,  0,  0,  0,  0,  0, -5],
-        [-5,  0,  0,  0,  0,  0,  0, -5],
-        [-5,  0,  0,  0,  0,  0,  0, -5],
-        [ 0,  0,  0,  5,  5,  0,  0,  0]
-    ],
-    q: [
-        [-20,-10,-10, -5, -5,-10,-10,-20],
-        [-10,  0,  0,  0,  0,  0,  0,-10],
-        [-10,  0,  5,  5,  5,  5,  0,-10],
-        [ -5,  0,  5,  5,  5,  5,  0, -5],
-        [  0,  0,  5,  5,  5,  5,  0, -5],
-        [-10,  5,  5,  5,  5,  5,  0,-10],
-        [-10,  0,  5,  0,  0,  0,  0,-10],
-        [-20,-10,-10, -5, -5,-10,-10,-20]
-    ],
-    k: [
-        [-30,-40,-40,-50,-50,-40,-40,-30],
-        [-30,-40,-40,-50,-50,-40,-40,-30],
-        [-30,-40,-40,-50,-50,-40,-40,-30],
-        [-30,-40,-40,-50,-50,-40,-40,-30],
-        [-20,-30,-30,-40,-40,-30,-30,-20],
-        [-10,-20,-20,-20,-20,-20,-20,-10],
-        [ 20, 20,  0,  0,  0,  0, 20, 20],
-        [ 20, 30, 10,  0,  0, 10, 30, 20]
-    ]
-};
-
+// PIECE_VALUE·PST는 chess-ai.js에 있다(탐색 엔진과 같은 표를 쓴다).
 const FILE_MAP = { a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7 };
 
 class ChessGame {
@@ -307,64 +242,20 @@ class ChessGame {
             return pool[Math.floor(Math.random() * pool.length)].m;
         }
 
-        const depth = this.difficulty === 'hard' ? 3 : 2;
-        let best = null, bestScore = -Infinity, alpha = -Infinity;
-
-        const ordered = this.orderMoves(moves);
-
-        for (const move of ordered) {
+        // 보통: 2수 앞. 어려움: 3~4수 앞 + 잡는 수 끝까지(quiescence). 계산은 chess-ai.js 엔진이 한다.
+        const ranked = this.difficulty === 'hard'
+            ? ChessAI.rank(this.chess.fen(), 4, true, 3, 1000)  // 3수는 항상, 4수는 1초 안에 끝날 때만
+            : ChessAI.rank(this.chess.fen(), 2, false);
+        const toMove = r => moves.find(m => m.from === r.from && m.to === r.to && (!m.promotion || m.promotion === 'q'));
+        // 엔진은 반복을 모르니, 이기고 있을 때 3회 반복 무승부로 끝내는 수는 건너뛴다.
+        for (const r of ranked) {
+            const move = toMove(r);
             this.chess.move(move);
-            const score = this.minimax(depth - 1, alpha, Infinity, 1);
+            const repeats = this.chess.in_threefold_repetition();
             this.chess.undo();
-            if (score > bestScore) { bestScore = score; best = move; }
-            alpha = Math.max(alpha, bestScore);
+            if (!repeats || r.score <= 0) return move;
         }
-        return best;
-    }
-
-    minimax(depth, alpha, beta, ply) {
-        if (depth === 0 || this.chess.game_over()) return this.evalBoard(ply);
-
-        const moves = this.orderMoves(this.chess.moves({ verbose: true }));
-        const maximizing = this.chess.turn() === 'b';
-
-        if (maximizing) {
-            let maxScore = -Infinity;
-            for (const move of moves) {
-                this.chess.move(move);
-                maxScore = Math.max(maxScore, this.minimax(depth - 1, alpha, beta, ply + 1));
-                this.chess.undo();
-                alpha = Math.max(alpha, maxScore);
-                if (beta <= alpha) break;
-            }
-            return maxScore;
-        } else {
-            let minScore = Infinity;
-            for (const move of moves) {
-                this.chess.move(move);
-                minScore = Math.min(minScore, this.minimax(depth - 1, alpha, beta, ply + 1));
-                this.chess.undo();
-                beta = Math.min(beta, minScore);
-                if (beta <= alpha) break;
-            }
-            return minScore;
-        }
-    }
-
-    orderMoves(moves) {
-        return [...moves].sort((a, b) => this.moveOrderScore(b) - this.moveOrderScore(a));
-    }
-
-    moveOrderScore(move) {
-        let score = 0;
-        if (move.captured) {
-            score += 10000 + (PIECE_VALUE[move.captured] || 0) * 10 - (PIECE_VALUE[move.piece] || 0);
-        }
-        if (move.flags && move.flags.includes('p')) score += 9000;
-        if (move.san && move.san.includes('#')) score += 20000;
-        else if (move.san && move.san.includes('+')) score += 2500;
-        if (move.to === 'd4' || move.to === 'e4' || move.to === 'd5' || move.to === 'e5') score += 40;
-        return score;
+        return toMove(ranked[0]);
     }
 
     evalBoard(ply = 0) {

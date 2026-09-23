@@ -298,6 +298,10 @@ class DotsGame {
         const moves = this.getAvailableMoves();
         if (!moves.length) return null;
         if (this.difficulty === 'easy') return moves[Math.floor(Math.random() * moves.length)];
+        if (this.difficulty === 'hard') {
+            const endgame = this.endgameMove(moves);
+            if (endgame) return endgame;
+        }
 
         const scored = moves.map(move => ({ ...move, score: this.scoreMove(move) }))
             .sort((a, b) => b.score - a.score);
@@ -307,6 +311,146 @@ class DotsGame {
             return pool[Math.floor(Math.random() * pool.length)];
         }
         return scored[0];
+    }
+
+    // ─── 어려움 AI: 끝내기 체인 계산 ─────────────────────────────
+    // 안전한 수(세 번째 변을 안 만드는 수)가 남아 있으면 null을 돌려 기존 점수 방식에 맡긴다.
+    // 안전한 수가 떨어지면 남은 칸들은 체인(양 끝이 판 바깥)과 고리로 나뉘는데, 이때
+    // 어떤 걸 먼저 열어줄지, 먹는 중인 줄의 마지막 칸을 넘겨줄지(더블 크로스)를 표준 체인 계산으로 정한다.
+    // ponytail: 갈림길(변이 3~4개 빈 칸)이 섞인 모양은 계산하지 않고 기존 방식으로 둔다.
+    endgameMove(moves) {
+        const open3 = b => !this.boxes[b.r][b.c] && this.countBoxSides(b.r, b.c) === 3;
+        const completes = m => this.adjacentBoxes(m).some(open3);
+        const third = m => this.adjacentBoxes(m).some(b => !this.boxes[b.r][b.c] && this.countBoxSides(b.r, b.c) === 2);
+        const captures = moves.filter(completes);
+        const hasSafe = moves.some(m => !completes(m) && !third(m));
+        const key = b => b.r * this.BOXES + b.c;
+        const memo = new Map();
+
+        if (captures.length) {
+            if (hasSafe) return captures[0]; // 먹고 나서도 안전한 수가 있으니 공짜로 먹는다
+            for (const m of captures) {
+                const { seg, bothEnds } = this.traceCapture(this.adjacentBoxes(m).find(open3));
+                const give = bothEnds ? 4 : 2; // 한쪽 끝 체인은 마지막 2칸, 양쪽 끝(열린 고리 등)은 마지막 4칸을 넘긴다
+                if (seg.length !== give) continue;
+                const rest = this.chainsAndLoops(new Set(seg.map(key)));
+                if (!rest) continue;
+                const f = this.openerValue(rest, memo);
+                // 다 먹으면 내가 나머지를 열어야 하고(give + f), 넘겨주면 상대가 연다(-give - f)
+                if (-give - f > give + f) return this.doubleDealLine(seg, bothEnds);
+            }
+            return captures[0];
+        }
+        if (hasSafe) return null;
+
+        const comps = this.chainsAndLoops(new Set());
+        if (!comps || !comps.length) return null;
+        let best = null, bestV = -Infinity;
+        comps.forEach((c, i) => {
+            const v = this.openValue(c, this.openerValue(comps.filter((_, j) => j !== i), memo));
+            if (v > bestV) { bestV = v; best = c; }
+        });
+        return this.openingLine(best);
+    }
+
+    // 칸의 네 변: [선, 그 변 너머의 칸(판 바깥이면 null)]
+    boxEdges(r, c) {
+        const B = this.BOXES;
+        return [
+            [{ type: 'h', r, c }, r > 0 ? { r: r - 1, c } : null],
+            [{ type: 'h', r: r + 1, c }, r < B - 1 ? { r: r + 1, c } : null],
+            [{ type: 'v', r, c }, c > 0 ? { r, c: c - 1 } : null],
+            [{ type: 'v', r, c: c + 1 }, c < B - 1 ? { r, c: c + 1 } : null]
+        ];
+    }
+
+    openEdges(r, c) {
+        return this.boxEdges(r, c).filter(([line]) => !this.isLineTaken(line));
+    }
+
+    // 먹을 수 있는 칸 a에서 빈 변을 따라 이어진 칸들. bothEnds: 반대쪽 끝도 바로 먹을 수 있는 칸인지
+    traceCapture(a) {
+        const B = this.BOXES, seg = [a], seen = new Set([a.r * B + a.c]);
+        for (let cur = a; ;) {
+            const next = this.openEdges(cur.r, cur.c).map(([, nb]) => nb).find(nb => nb && !seen.has(nb.r * B + nb.c));
+            if (!next) return { seg, bothEnds: false };
+            const deg = this.openEdges(next.r, next.c).length;
+            if (deg > 2) return { seg, bothEnds: false }; // 갈림길 앞에서 멈춘다
+            seg.push(next); seen.add(next.r * B + next.c);
+            if (deg === 1) return { seg, bothEnds: true };
+            cur = next;
+        }
+    }
+
+    // skip에 없는 남은 칸들을 체인·고리로 나눈다. 모든 칸의 빈 변이 정확히 2개가 아니면 null(계산 불가)
+    chainsAndLoops(skip) {
+        const B = this.BOXES, seen = new Set(skip), out = [];
+        for (let r = 0; r < B; r++) {
+            for (let c = 0; c < B; c++) {
+                if (this.boxes[r][c] || seen.has(r * B + c)) continue;
+                const stack = [{ r, c }], boxes = [];
+                let ground = 0;
+                seen.add(r * B + c);
+                while (stack.length) {
+                    const b = stack.pop();
+                    boxes.push(b);
+                    const open = this.openEdges(b.r, b.c);
+                    if (open.length !== 2) return null;
+                    for (const [, nb] of open) {
+                        if (!nb) { ground++; continue; }
+                        const k = nb.r * B + nb.c;
+                        if (skip.has(k)) return null;
+                        if (!seen.has(k)) { seen.add(k); stack.push(nb); }
+                    }
+                }
+                out.push({ type: ground ? 'chain' : 'loop', len: boxes.length, boxes });
+            }
+        }
+        return out;
+    }
+
+    // 체인·고리 c를 열어줬을 때 연 쪽의 순이득. f: 나머지를 다음에 열어야 하는 쪽의 순이득
+    openValue(c, f) {
+        const takeAll = -(c.len + f); // 상대가 다 먹고 나머지를 연다
+        if (c.type === 'loop') return Math.min(takeAll, 8 - c.len + f); // 상대가 4칸을 넘기고 주도권 유지
+        if (c.len >= 3) return Math.min(takeAll, 4 - c.len + f);         // 상대가 2칸을 넘기고 주도권 유지
+        return takeAll; // 1·2칸 체인은 가운데를 그어 열면 넘겨받을 수 없다
+    }
+
+    // 체인·고리 목록에서 열어야 하는 쪽이 최선으로 얻는 순이득
+    openerValue(comps, memo) {
+        if (!comps.length) return 0;
+        const k = comps.map(c => c.type[0] + c.len).sort().join(',');
+        if (memo.has(k)) return memo.get(k);
+        let best = -Infinity;
+        comps.forEach((c, i) => {
+            best = Math.max(best, this.openValue(c, this.openerValue(comps.filter((_, j) => j !== i), memo)));
+        });
+        memo.set(k, best);
+        return best;
+    }
+
+    // 더블 크로스: 한쪽 끝 체인은 2번째 칸의 바깥쪽 변, 양쪽 끝은 2·3번째 칸 사이 변을 그어 두 칸짜리 묶음을 넘긴다
+    doubleDealLine(seg, bothEnds) {
+        const same = (a, b) => a && b && a.r === b.r && a.c === b.c;
+        const p = seg[1];
+        const edge = this.openEdges(p.r, p.c).find(([, nb]) => (bothEnds ? same(nb, seg[2]) : !same(nb, seg[0])));
+        return edge[0];
+    }
+
+    // 체인·고리를 여는 선: 2칸 체인은 가운데 선(넘겨받기 방지), 긴 체인은 끝 선, 고리는 아무 선
+    openingLine(comp) {
+        const [x, y] = comp.boxes;
+        if (comp.type === 'chain' && comp.len === 2) {
+            return this.openEdges(x.r, x.c).find(([, nb]) => nb && nb.r === y.r && nb.c === y.c)[0];
+        }
+        if (comp.type === 'chain') {
+            for (const b of comp.boxes) {
+                const edge = this.openEdges(b.r, b.c).find(([, nb]) => !nb);
+                if (edge) return edge[0];
+            }
+        }
+        return this.openEdges(x.r, x.c)[0][0];
     }
 
     scoreMove(move) {

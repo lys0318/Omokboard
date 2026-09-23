@@ -165,10 +165,11 @@
                     <p>AI 대전에서는 사람이 백으로 먼저 두고 AI가 흑을 잡습니다. 난이도별로 생각하는 방식이 꽤 다릅니다.</p>
                     <ul class="rule-list">
                         <li><strong>쉬움</strong>은 둘 수 있는 모든 수를 한 수 앞까지만 평가한 뒤, 가장 좋은 40%를 일부러 빼고 나머지 중에서 무작위로 고릅니다. 그래서 기물을 공짜로 내주는 일도 자주 있습니다. 기물이 어떻게 움직이는지 익히는 상대로 알맞습니다.</li>
-                        <li><strong>보통</strong>은 자기 수와 내 응수까지 두 수 앞을 읽습니다. 바로 잡히는 기물은 잘 지키지만, 내가 두 수에 걸쳐 준비하는 포크나 핀은 미리 보지 못합니다.</li>
-                        <li><strong>어려움</strong>은 자기 수, 내 응수, 다시 자기 수까지 세 수 앞을 읽습니다. 기물 점수에 더해 기물이 놓인 자리와 움직일 수 있는 칸 수까지 따지기 때문에 기물을 활발하게 쓰는 편입니다.</li>
+                        <li><strong>보통</strong>은 자기 수와 내 응수까지 두 수 앞을 읽고, 기물 점수와 기물이 놓인 자리의 점수로 판단합니다. 바로 잡히는 기물은 잘 지키지만, 내가 두 수에 걸쳐 준비하는 포크나 핀은 미리 보지 못합니다.</li>
+                        <li><strong>어려움</strong>은 세 수 앞까지는 항상 읽고, 1초 안에 끝나면 네 수 앞까지 읽습니다. 그리고 수읽기가 끝나는 지점에서 기물 교환이 진행 중이면 잡는 수가 더 없을 때까지 이어서 계산합니다. 교환 도중에 계산을 끊어서 기물을 공짜로 내주는 실수(수평선 효과)를 막기 위해서입니다.</li>
                     </ul>
-                    <p>어려움 AI에도 뚜렷한 약점이 있습니다. 세 수째에서 계산을 그냥 멈추기 때문에, 기물을 주고받는 교환이 아직 끝나지 않은 상태에서 판단이 끝나 버릴 때가 있습니다. 연속 교환이 걸린 자리나, 기물을 하나 내준 다음 포크로 되찾는 수순처럼 네 수 이상 내다봐야 보이는 공격에 약합니다.</p>
+                    <p>이 계산은 체스 규칙 라이브러리 대신, AI 전용으로 따로 만든 가벼운 계산기가 합니다. 규칙 라이브러리는 수를 하나 만들 때마다 기보 표기와 체크메이트 여부까지 계산해서 느리기 때문입니다. 예전 어려움 AI는 한 수를 두는 데 6~18초씩 걸렸는데, 지금은 1초 안팎입니다. 계산기가 만드는 수가 정확한지는 체스 프로그램들이 쓰는 표준 검증값(perft)과, 무작위로 둔 대국의 국면 4만여 개에서 규칙 라이브러리와 결과가 똑같은지로 확인했습니다.</p>
+                    <p>어려움 AI에도 약점은 있습니다. 판단 기준이 기물 점수와 위치 점수뿐이라, 킹 주변이 얼마나 안전한지나 겹친 폰·고립된 폰 같은 폰 구조는 따로 따지지 않습니다. 킹을 향한 장기적인 공격이나 폰 구조의 약점을 오래 파고드는 운영에 약한 편이고, 네 수보다 멀리서 완성되는 전술은 보지 못합니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -262,10 +263,11 @@
                     <p>In AI games you play White and move first, and the AI plays Black. Each difficulty level thinks in a noticeably different way.</p>
                     <ul class="rule-list">
                         <li><strong>Easy</strong> scores every legal move just one move deep, then deliberately throws out the best 40% and picks at random from the rest. It gives away pieces for free fairly often, which makes it a good partner for learning how the pieces move.</li>
-                        <li><strong>Normal</strong> reads two moves ahead: its move and your reply. It protects pieces that are about to be taken, but it can't see a fork or pin you set up over two moves.</li>
-                        <li><strong>Hard</strong> reads three moves ahead: its move, your reply, and its next move. Beyond piece values it also weighs where each piece stands and how many squares it can reach, so it tends to keep its pieces active.</li>
+                        <li><strong>Normal</strong> reads two moves ahead, its move and your reply, judging positions by piece values and square values. It protects pieces that are about to be taken, but it can't see a fork or pin you set up over two moves.</li>
+                        <li><strong>Hard</strong> always reads three moves ahead, and goes to four when that finishes within a second. Wherever its reading stops, if a trade is still in progress it keeps calculating until there are no captures left. That prevents the classic mistake of stopping mid-trade and handing over a piece for free (the horizon effect).</li>
                     </ul>
-                    <p>The Hard AI has a clear weak spot. It simply stops calculating at the third move, so sometimes it judges a position while a trade is still half finished. It struggles with attacks you can only see four or more moves out, like a run of exchanges or giving up a piece and winning it back with a fork.</p>
+                    <p>This calculation isn't done by the chess rules library but by a lightweight calculator built just for the AI. The rules library works out the move notation and whether each move is checkmate every time it generates a move, which makes it slow. The old Hard AI took 6 to 18 seconds per move; now it takes about a second. The calculator's move generation was checked against the standard verification counts chess programs use (perft) and against the rules library on more than 40,000 positions from random games, with identical results.</p>
+                    <p>Hard still has weak spots. It judges positions only by piece values and square values, so it doesn't separately consider king safety or pawn structure, like doubled or isolated pawns. It tends to struggle against a slow attack on its king or a long squeeze on a pawn weakness, and it can't see tactics that land more than four moves out.</p>
                 </section>
 
                 <section class="info-section">

@@ -133,9 +133,11 @@
                     <p>오목보드의 점잇기는 점 6×6개로 이루어진 판에서 둡니다. 칸은 25개, 그을 수 있는 선은 모두 60개입니다. 칸 수가 홀수라서 비기는 일이 없고, 13칸을 먼저 가져가면 남은 판과 상관없이 승부가 정해집니다. AI 대전에서는 사람이 빨강으로 먼저 두고 AI가 파랑을 잡습니다.</p>
                     <ul class="rule-list">
                         <li><strong>쉬움</strong>은 그을 수 있는 선 중 하나를 완전히 무작위로 고릅니다. 세 번째 변도 아무렇지 않게 만들어 줍니다.</li>
-                        <li><strong>보통</strong>과 <strong>어려움</strong>은 선마다 점수를 매깁니다. 칸을 완성하면 크게 더하고, 세 번째 변을 만들거나 내가 바로 먹을 수 있는 칸을 남기면 뺍니다. 어려움은 이 감점을 1.4배 더 무겁게 매기고 항상 1등 수를 고르며, 보통은 상위 네 수 중 무작위로 고릅니다.</li>
+                        <li><strong>보통</strong>은 선마다 점수를 매깁니다. 칸을 완성하면 크게 더하고, 세 번째 변을 만들거나 내가 바로 먹을 수 있는 칸을 남기면 뺀 뒤, 상위 네 수 중 무작위로 고릅니다.</li>
+                        <li><strong>어려움</strong>은 안전한 수가 남아 있는 동안은 보통과 같은 점수 방식으로 두되, 감점을 1.4배 무겁게 매기고 항상 1등 수를 고릅니다. 안전한 수가 모두 떨어지는 끝내기부터는 계산 방식이 완전히 바뀝니다.</li>
                     </ul>
-                    <p>이 AI는 한 수 앞만 보기 때문에 체인이라는 개념이 없습니다. 먹을 수 있는 칸이 보이면 거의 항상 먹고, 더블 크로스처럼 마지막 두 칸을 일부러 남기는 판단은 하지 않습니다. 그래서 위에서 설명한 운영이 AI를 상대로 그대로 통합니다. 짧은 체인을 먼저 내주고, AI가 긴 체인을 열 수밖에 없는 순간을 기다렸다가 더블 크로스로 주도권을 계속 붙잡으세요. 체인이 여러 개 남은 후반일수록 어려움 AI와의 차이가 벌어지기 쉽습니다.</p>
+                    <p>끝내기에서 어려움 AI는 남은 칸들을 체인과 고리로 나눈 뒤, 이 가이드에서 설명한 계산을 그대로 합니다. 어떤 체인이나 고리를 먼저 열어줘야 손해가 가장 적은지 가능한 순서를 모두 따져보고, 2칸 체인은 가운데 선을 그어 열어서 상대가 더블 크로스를 못 하게 합니다. 반대로 내가 열어준 체인을 먹을 때는, 다 먹는 게 나은지 마지막 2칸(고리라면 4칸)을 넘겨주고 주도권을 가져오는 게 나은지를 계산해서 더블 크로스를 씁니다. AI끼리 대국시켜 보면 어려움 AI는 한 판에 평균 한 번 넘게 더블 크로스를 쓰고, 이 계산이 없던 예전 어려움 AI를 약 87% 이깁니다.</p>
+                    <p>한계도 있습니다. 빈 변이 3~4개 남은 칸(갈림길)이 섞여 있으면 체인 계산을 하지 않고 기존 점수 방식으로 둡니다. 또 안전한 수가 남아 있는 중반에는 끝내기에서 누가 먼저 열게 될지를 미리 계산하지 않아서, 체인 개수를 일부러 맞춰 가는 고급 운영에는 약합니다. 중반에 체인 수를 조절해 AI가 먼저 열 수밖에 없게 만드는 것이 어려움 AI를 이기는 길입니다.</p>
                 </section>
 
                 <section class="info-section">
@@ -207,9 +209,11 @@
                     <p>Omokboard's Dots and Boxes is played on a 6×6 grid of dots. That makes 25 boxes and 60 lines in total. With an odd number of boxes, a tie is impossible, and whoever claims 13 boxes has won no matter how the rest of the board goes. In AI games you play Red and move first, and the AI plays Blue.</p>
                     <ul class="rule-list">
                         <li><strong>Easy</strong> picks one of the open lines completely at random. It happily draws third sides for you.</li>
-                        <li><strong>Normal</strong> and <strong>Hard</strong> score each line. Completing a box adds a lot, while drawing a third side or leaving a box you could take right away subtracts. Hard weighs those penalties 1.4 times as heavily and always plays its top move, while Normal picks at random from the top four.</li>
+                        <li><strong>Normal</strong> scores each line. Completing a box adds a lot, while drawing a third side or leaving a box you could take right away subtracts. It then picks at random from the top four.</li>
+                        <li><strong>Hard</strong> uses the same scoring as Normal while safe moves remain, but weighs the penalties 1.4 times as heavily and always plays its top move. Once safe moves run out and the endgame begins, it switches to a completely different calculation.</li>
                     </ul>
-                    <p>Because this AI looks only one move ahead, it has no concept of chains. When it sees a box it can take, it almost always takes it, and it never deliberately leaves the last two boxes the way a double-cross does. So the approach described above works against it as written. Give away short chains first, wait for the moment the AI has no choice but to open a long chain, and keep control with double-crosses. The gap with the Hard AI tends to widen in the endgame, when several chains are left.</p>
+                    <p>In the endgame, the Hard AI splits the remaining boxes into chains and loops and runs exactly the calculation this guide describes. It considers every order in which the chains and loops could be opened to find the one that costs it least, and it opens a 2-box chain with the middle line so you can't double-cross it. When it's taking a chain you opened, it calculates whether to take everything or hand back the last 2 boxes (4 for a loop) to keep control, and double-crosses when that's better. In AI-vs-AI games, Hard double-crosses more than once per game on average and beats the old Hard AI, which didn't have this calculation, about 87% of the time.</p>
+                    <p>It has limits. If the board includes boxes with three or four open sides (junctions), it skips the chain calculation and falls back to its usual scoring. And during the middlegame, while safe moves remain, it doesn't plan ahead for who will have to open first in the endgame, so it's weak against the advanced play of steering the number of chains on purpose. Adjusting the chain count in the middlegame so the AI is forced to open first is the way to beat Hard.</p>
                 </section>
 
                 <section class="info-section">
