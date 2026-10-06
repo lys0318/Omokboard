@@ -2,12 +2,17 @@
   "name": "omokboard",
   "compatibility_date": "2026-07-20",
   "main": "./worker/index.js",
-  "workers_dev": true,
+  // workers.dev 주소는 끈다: 사이트 사본이 다른 주소로 열리지 않게(정본은 omokboard.com)
+  "workers_dev": false,
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // www → omokboard.com 301을 워커에서 하려면 모든 요청이 워커를 먼저 거쳐야 한다.
+    // ponytail: 정적 파일 요청도 워커 호출로 집계된다(무료 한도 하루 10만). 방문자가 하루 수천 명을
+    // 넘으면 이 줄을 지우고 Cloudflare 대시보드의 Redirect Rule로 www를 옮길 것.
+    "run_worker_first": true
   },
   "durable_objects": {
     "bindings": [{ "name": "ROOM", "class_name": "RoomDO" }]

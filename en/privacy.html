@@ -18,12 +18,12 @@
       gtag('config', 'G-CSJW29VD6X');
     </script>
     <title>Privacy Policy | Omokboard</title>
-    <meta name="description" content="Omokboard privacy policy: what we collect, how it is used, and third-party services.">
+    <meta name="description" content="How Omokboard handles access logs, Google Analytics statistics, online play data, browser storage, and Google AdSense and Kakao AdFit advertising cookies.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="오목보드">
     <meta property="og:title" content="Privacy Policy | Omokboard">
-    <meta property="og:description" content="Omokboard privacy policy: what we collect, how it is used, and third-party services.">
+    <meta property="og:description" content="How Omokboard handles access logs, Google Analytics statistics, online play data, browser storage, and Google AdSense and Kakao AdFit advertising cookies.">
     <meta property="og:url" content="https://omokboard.com/en/privacy">
     <meta property="og:image" content="https://omokboard.com/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -31,13 +31,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://omokboard.com/og-image.png">
     <meta name="twitter:title" content="Privacy Policy | Omokboard">
-    <meta name="twitter:description" content="Omokboard privacy policy: what we collect, how it is used, and third-party services.">
+    <meta name="twitter:description" content="How Omokboard handles access logs, Google Analytics statistics, online play data, browser storage, and Google AdSense and Kakao AdFit advertising cookies.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css?v=13">
     <link rel="stylesheet" href="/subpage.css?v=2">
-    <script src="/lang.js?v=9"></script>
+    <script src="/lang.js?v=10"></script>
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -48,105 +48,161 @@
         <header class="subpage-header">
             <a href="/en/" class="back-link">← <span class="ko-only">게임으로 돌아가기</span><span class="en-only" style="display:none;">Back to Games</span></a>
             <h1><span class="ko-only">개인정보처리방침</span><span class="en-only" style="display:none;">Privacy Policy</span></h1>
-            <p class="subtitle"><span class="ko-only">최종 수정일: 2025년 6월 1일</span><span class="en-only" style="display:none;">Last updated: June 1, 2025</span></p>
+            <p class="subtitle"><span class="ko-only">최종 수정일: 2026년 10월 7일</span><span class="en-only" style="display:none;">Last updated: October 7, 2026</span></p>
         </header>
 
         <main class="subpage-main">
         <div class="ko-only">
             <section class="info-section">
                 <h2>1. 개요</h2>
-                <p>오목보드(이하 "본 서비스")은 이용자의 개인정보를 소중히 여기며, 「개인정보 보호법」 및 관련 법령에 따라 이용자의 개인정보를 보호하고 있습니다. 본 방침은 본 서비스가 어떤 정보를 수집하고, 어떻게 사용하는지 안내합니다.</p>
+                <p>오목보드(omokboard.com, 이하 "사이트")는 개발자 한 명이 운영하는 무료 웹 게임 사이트입니다. 회원가입이나 로그인이 없고, 이름·이메일·전화번호처럼 개인을 알아볼 수 있는 정보를 직접 입력받지 않습니다. 이 방침은 사이트를 이용하는 동안 자동으로 처리되는 정보와, 사이트가 사용하는 제3자 서비스를 「개인정보 보호법」 등 관련 법령에 맞춰 안내합니다.</p>
             </section>
 
             <section class="info-section">
-                <h2>2. 수집하는 정보</h2>
-                <p>본 서비스는 기본적으로 이용자의 개인정보를 직접 수집하지 않습니다. 단, 다음과 같은 정보가 자동으로 수집될 수 있습니다.</p>
+                <h2>2. 자동으로 처리되는 정보</h2>
                 <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
-                    <li><strong>접속 로그:</strong> IP 주소, 브라우저 종류, 방문 시각 등 서버 접속 정보 (호스팅 서비스에 의해 자동 수집)</li>
-                    <li><strong>쿠키 및 유사 기술:</strong> Google AdSense 등 제3자 광고 서비스가 활성화된 경우, 해당 서비스는 쿠키를 사용하여 광고 개인화에 활용할 수 있습니다.</li>
+                    <li><strong>접속 기록:</strong> 사이트를 호스팅하는 Cloudflare가 서버 운영과 보안을 위해 IP 주소, 브라우저 종류, 요청 시각 같은 접속 정보를 처리합니다.</li>
+                    <li><strong>이용 통계:</strong> Google Analytics(GA4)로 방문한 페이지, 기기·브라우저 종류, 대략적인 지역, 그리고 게임 시작·모드 선택·난이도 선택·다시 시작 같은 게임 이용 이벤트를 수집합니다. 사이트 개선에만 사용하며, 이 과정에서 쿠키가 쓰입니다.</li>
+                    <li><strong>온라인 대전:</strong> 방 코드로 대전할 때 방 코드, 게임 종류, 지금까지 둔 수(판 상태), 자리를 확인하는 무작위 토큰이 Cloudflare 서버에 저장됩니다. 이름이나 채팅은 주고받지 않습니다. 방은 마지막 입장 또는 재접속 시점부터 30분이 지나면 자동으로 삭제됩니다.</li>
+                    <li><strong>광고:</strong> 아래 4항의 광고 서비스가 쿠키를 사용합니다.</li>
                 </ul>
             </section>
 
             <section class="info-section">
-                <h2>3. 정보의 이용 목적</h2>
-                <p>수집된 정보는 다음 목적으로만 사용됩니다.</p>
+                <h2>3. 브라우저에 저장하는 정보</h2>
+                <p>아래 정보는 이용자의 브라우저에만 저장되고 서버로 보내지 않습니다.</p>
                 <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
-                    <li>서비스의 정상적인 운영 및 유지 보수</li>
-                    <li>이용 통계 분석 및 서비스 개선</li>
-                    <li>관련 법령 준수</li>
+                    <li><strong>2048 최고 점수:</strong> 브라우저의 로컬 저장소(localStorage)에 저장되며, 브라우저 데이터를 지우기 전까지 남습니다.</li>
+                    <li><strong>온라인 대전 자리 확인 토큰:</strong> 새로고침 후에도 같은 자리로 돌아오도록 세션 저장소(sessionStorage)에 저장되며, 탭을 닫으면 지워집니다.</li>
                 </ul>
             </section>
 
             <section class="info-section">
-                <h2>4. 제3자 서비스</h2>
-                <p>본 서비스는 다음과 같은 제3자 서비스를 이용할 수 있으며, 각 서비스의 개인정보처리방침이 별도로 적용됩니다.</p>
+                <h2>4. 광고와 쿠키</h2>
+                <p>이 사이트는 Google AdSense와 카카오 애드핏 광고를 게재합니다.</p>
                 <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
-                    <li><strong>Google AdSense:</strong> 광고 게재 목적으로 사용될 수 있으며, Google은 쿠키를 통해 이용자의 관심사 기반 광고를 제공할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 개인정보처리방침</a>을 참고하세요.</li>
-                    <li><strong>Google Fonts:</strong> 폰트 로딩 시 Google 서버에 요청이 발생합니다.</li>
+                    <li>Google을 비롯한 제3자 공급업체는 쿠키를 사용하여, 이용자가 이 사이트나 다른 웹사이트를 이전에 방문한 기록을 바탕으로 광고를 게재합니다.</li>
+                    <li>Google은 광고 쿠키를 사용하여, Google과 파트너가 이 사이트 및 인터넷의 다른 사이트 방문 기록을 바탕으로 이용자에게 광고를 게재할 수 있도록 합니다.</li>
+                    <li>이용자는 <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 맞춤 광고를 해제할 수 있고, <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a>에서 다른 제3자 공급업체의 맞춤 광고 쿠키를 해제할 수 있습니다.</li>
+                    <li>Google이 이 정보를 사용하는 방식은 <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">Google 파트너 사이트 데이터 사용 안내</a>에서 확인할 수 있습니다.</li>
+                    <li>카카오 애드핏 광고에는 <a href="https://www.kakao.com/policy/privacy" target="_blank" rel="noopener noreferrer">카카오 개인정보처리방침</a>이 적용됩니다.</li>
                 </ul>
-                <p style="margin-top: 0.8rem;">Google 맞춤 광고를 비활성화하려면 <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google 광고 설정</a>에서 변경하실 수 있습니다.</p>
             </section>
 
             <section class="info-section">
-                <h2>5. 쿠키 관리</h2>
-                <p>이용자는 브라우저 설정을 통해 쿠키 저장을 거부하거나 삭제할 수 있습니다. 단, 쿠키를 거부하면 일부 서비스 기능이 제한될 수 있습니다.</p>
+                <h2>5. 그 밖의 외부 리소스</h2>
+                <p>아래 리소스를 불러올 때 이용자의 브라우저가 해당 서버에 직접 요청하며, 이 과정에서 IP 주소 같은 접속 정보가 전달됩니다.</p>
                 <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
-                    <li>Chrome: 설정 → 개인정보 및 보안 → 쿠키 및 기타 사이트 데이터</li>
+                    <li><strong>Google Fonts:</strong> 사이트 글꼴</li>
+                    <li><strong>cdnjs(Cloudflare):</strong> 체스 페이지의 규칙 판정 라이브러리</li>
+                </ul>
+                <p style="margin-top: 0.8rem;">각 서비스에는 해당 회사의 개인정보처리방침이 적용됩니다. Google 서비스는 <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 개인정보처리방침</a>을 참고하세요.</p>
+            </section>
+
+            <section class="info-section">
+                <h2>6. 쿠키 관리</h2>
+                <p>브라우저 설정에서 쿠키 저장을 거부하거나 삭제할 수 있습니다. 쿠키를 거부해도 게임은 그대로 이용할 수 있습니다.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li>Chrome: 설정 → 개인정보 및 보안 → 서드 파티 쿠키</li>
                     <li>Firefox: 설정 → 개인 정보 및 보안 → 쿠키 및 사이트 데이터</li>
-                    <li>Safari: 환경설정 → 개인정보 보호 → 쿠키 및 웹사이트 데이터</li>
+                    <li>Safari: 설정 → 개인정보 보호 → 웹사이트 데이터 관리</li>
                 </ul>
             </section>
 
             <section class="info-section">
-                <h2>6. 개인정보의 보유 및 파기</h2>
-                <p>본 서비스는 이용자의 개인정보를 목적이 달성된 후 즉시 파기하며, 관련 법령에 의해 보존이 필요한 경우 해당 기간 동안 안전하게 보관합니다.</p>
+                <h2>7. 보유 기간</h2>
+                <p>온라인 대전 방 정보는 위에 적은 대로 30분이 지나면 자동으로 삭제됩니다. 접속 기록과 이용 통계는 Cloudflare와 Google의 보관 정책에 따르고, 브라우저에 저장한 정보는 이용자가 지울 때까지 남습니다.</p>
             </section>
 
             <section class="info-section">
-                <h2>7. 이용자의 권리</h2>
-                <p>이용자는 언제든지 자신의 개인정보에 대한 열람, 수정, 삭제를 요청할 수 있습니다. 관련 문의는 아래 연락처로 보내주세요.</p>
-            </section>
-
-            <section class="info-section">
-                <h2>8. 개인정보 보호 책임자</h2>
-                <p>개인정보 처리에 관한 문의 및 불만 접수는 아래 이메일로 연락해 주세요.</p>
-                <p class="contact-email">&#128231; <span data-contact-email data-user="omokboard" data-domain="gmail.com"></span></p>
+                <h2>8. 문의</h2>
+                <p>개인정보 처리에 관한 문의나 요청은 아래 이메일로 보내주세요.</p>
+                <p class="contact-email">&#128231; <span data-contact-email data-user="omokboard" data-domain="gmail.com">omokboard [at] gmail.com</span></p>
             </section>
 
             <section class="info-section">
                 <h2>9. 방침 변경</h2>
-                <p>본 개인정보처리방침은 법령 또는 서비스 변경에 따라 수정될 수 있으며, 변경 시 본 페이지를 통해 공지합니다. 최종 수정일은 페이지 상단에 표시됩니다.</p>
+                <p>사용하는 서비스가 바뀌면 이 방침을 고치고, 페이지 상단의 최종 수정일을 바꿉니다.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li>2026년 10월 7일: 실제로 사용하는 서비스(Google Analytics, 카카오 애드핏, Cloudflare, 브라우저 저장소)를 모두 적고 광고 쿠키 안내를 보강했습니다.</li>
+                </ul>
             </section>
         </div>
 
         <div class="en-only" style="display:none;">
             <section class="info-section">
                 <h2>1. Overview</h2>
-                <p>Omokboard ("the Service") values your privacy and handles your information in accordance with applicable privacy laws. This policy explains what information we collect and how we use it.</p>
+                <p>Omokboard (omokboard.com, "the site") is a free web game site run by a single developer. There are no accounts or logins, and the site never asks you to enter information that identifies you, like a name, email address, or phone number. This policy explains the information that is processed automatically while you use the site, and the third-party services the site uses.</p>
             </section>
+
             <section class="info-section">
-                <h2>2. Information We Collect</h2>
-                <p>We do not directly collect personal information. The following may be collected automatically:</p>
-                <ul class="rule-list" style="list-style:disc;padding-left:1.2rem;">
-                    <li><strong>Access logs:</strong> IP address, browser type, visit time (collected by the hosting service).</li>
-                    <li><strong>Analytics:</strong> Page views and usage statistics via Google Analytics (anonymized).</li>
+                <h2>2. Information Processed Automatically</h2>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li><strong>Access logs:</strong> Cloudflare, which hosts the site, processes connection information such as IP address, browser type, and request time to run and secure its servers.</li>
+                    <li><strong>Usage statistics:</strong> Google Analytics (GA4) collects the pages you visit, your device and browser type, your approximate region, and game events such as starting a game, choosing a mode or difficulty, and restarting. This is used only to improve the site, and it uses cookies.</li>
+                    <li><strong>Online play:</strong> When you play by room code, the room code, game type, moves played so far (board state), and a random token that identifies your seat are stored on Cloudflare servers. No names or chat are exchanged. A room is deleted automatically 30 minutes after the last join or reconnect.</li>
+                    <li><strong>Advertising:</strong> The ad services in section 4 use cookies.</li>
                 </ul>
             </section>
+
             <section class="info-section">
-                <h2>3. Third-Party Services</h2>
-                <ul class="rule-list" style="list-style:disc;padding-left:1.2rem;">
-                    <li><strong>Google Analytics:</strong> Tracks site usage. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>.</li>
-                    <li><strong>Google Fonts:</strong> Font files are loaded from Google servers.</li>
+                <h2>3. Information Stored in Your Browser</h2>
+                <p>The following is stored only in your browser and is never sent to our servers.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li><strong>2048 best score:</strong> stored in your browser's local storage (localStorage) until you clear your browser data.</li>
+                    <li><strong>Online play seat token:</strong> stored in session storage (sessionStorage) so a refresh returns you to the same seat, and cleared when you close the tab.</li>
                 </ul>
             </section>
+
             <section class="info-section">
-                <h2>4. Contact</h2>
-                <p>For privacy-related inquiries, please contact us at:</p>
-                <p class="contact-email">&#128231; <span data-contact-email data-user="omokboard" data-domain="gmail.com"></span></p>
+                <h2>4. Advertising and Cookies</h2>
+                <p>This site shows ads from Google AdSense and Kakao AdFit.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li>Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this website or other websites.</li>
+                    <li>Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to this site and/or other sites on the Internet.</li>
+                    <li>You may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener noreferrer">Google Ads Settings</a>, and opt out of other third-party vendors' cookies for personalized advertising at <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a>.</li>
+                    <li>You can read how Google uses this information in <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener noreferrer">How Google uses information from sites that use its services</a>.</li>
+                    <li>Kakao AdFit ads are covered by the <a href="https://www.kakao.com/policy/privacy" target="_blank" rel="noopener noreferrer">Kakao Privacy Policy</a>.</li>
+                </ul>
             </section>
+
             <section class="info-section">
-                <h2>5. Policy Changes</h2>
-                <p>This policy may be updated from time to time. Changes will be posted on this page with a revised date.</p>
+                <h2>5. Other External Resources</h2>
+                <p>When these resources load, your browser requests them directly from the provider's servers, which passes along connection information such as your IP address.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li><strong>Google Fonts:</strong> the site's fonts</li>
+                    <li><strong>cdnjs (Cloudflare):</strong> the rules library used on the Chess page</li>
+                </ul>
+                <p style="margin-top: 0.8rem;">Each service is covered by its own company's privacy policy. For Google services, see the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>.</p>
+            </section>
+
+            <section class="info-section">
+                <h2>6. Managing Cookies</h2>
+                <p>You can block or delete cookies in your browser settings. The games still work with cookies turned off.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li>Chrome: Settings → Privacy and security → Third-party cookies</li>
+                    <li>Firefox: Settings → Privacy &amp; Security → Cookies and Site Data</li>
+                    <li>Safari: Settings → Privacy → Manage Website Data</li>
+                </ul>
+            </section>
+
+            <section class="info-section">
+                <h2>7. Retention</h2>
+                <p>Online play rooms are deleted automatically after 30 minutes, as described above. Access logs and usage statistics follow Cloudflare's and Google's retention policies, and anything stored in your browser stays until you clear it.</p>
+            </section>
+
+            <section class="info-section">
+                <h2>8. Contact</h2>
+                <p>For privacy questions or requests, please email:</p>
+                <p class="contact-email">&#128231; <span data-contact-email data-user="omokboard" data-domain="gmail.com">omokboard [at] gmail.com</span></p>
+            </section>
+
+            <section class="info-section">
+                <h2>9. Changes to This Policy</h2>
+                <p>When the services the site uses change, this policy is updated and the "Last updated" date at the top of the page changes.</p>
+                <ul class="rule-list" style="list-style: disc; padding-left: 1.2rem;">
+                    <li>October 7, 2026: Listed every service the site actually uses (Google Analytics, Kakao AdFit, Cloudflare, browser storage) and expanded the advertising cookie notice.</li>
+                </ul>
             </section>
         </div>
 
@@ -163,7 +219,7 @@
                 <span class="footer-sep">·</span>
                 <a href="contact" data-i18n="footer.contact">문의</a>
             </nav>
-            <p class="footer-copy" data-i18n="footer.copy">&copy; 2025 오목보드. All rights reserved.</p>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 오목보드. All rights reserved.</p>
         </footer>
     </div>
 </body>

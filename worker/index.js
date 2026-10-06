@@ -5,6 +5,12 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // www는 정본 주소로 301 (같은 사이트가 두 주소로 색인되지 않게)
+    if (url.hostname === 'www.omokboard.com') {
+      url.hostname = 'omokboard.com';
+      return Response.redirect(url.toString(), 301);
+    }
+
     // /api 외의 경로는 정적 자산이 처리한다.
     if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
 

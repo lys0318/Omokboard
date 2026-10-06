@@ -1,0 +1,192 @@
+{
+  "2048": {
+    "published": "2026-07-06",
+    "modified": "2026-09-23",
+    "hash": "20c616d4cf7a08b39892f37babffb4d446eeef52"
+  },
+  "index": {
+    "published": "2026-03-17",
+    "modified": "2026-09-22",
+    "hash": "c8a5956a47e0685c9f617fe7c5dfc61f9824dd12"
+  },
+  "omok": {
+    "published": "2026-04-21",
+    "modified": "2026-09-24",
+    "hash": "9a86454d3cef108def925493ea893149f35854a1"
+  },
+  "connect4": {
+    "published": "2026-04-21",
+    "modified": "2026-09-24",
+    "hash": "1beb41387f5660da4f1c385a66d007ca7d62e4df"
+  },
+  "reversi": {
+    "published": "2026-04-25",
+    "modified": "2026-09-24",
+    "hash": "5b0eb26dfc0f03b6f5ae3dd95aab08c13e992810"
+  },
+  "dots": {
+    "published": "2026-04-26",
+    "modified": "2026-09-24",
+    "hash": "8e8704e88c56123ff579807b742aeb49a1831f8b"
+  },
+  "chess": {
+    "published": "2026-04-21",
+    "modified": "2026-09-24",
+    "hash": "a5bdc901c429a1e0f2ad8ba80d2532a018ae9952"
+  },
+  "alkkagi": {
+    "published": "2026-04-21",
+    "modified": "2026-09-24",
+    "hash": "ce759cd23685aefebed48cf668ffeb4ed69c1470"
+  },
+  "yut": {
+    "published": "2026-06-17",
+    "modified": "2026-09-24",
+    "hash": "4f81fd070dcc3b4e8084cd7ba5ed88d80d2b5325"
+  },
+  "sudoku": {
+    "published": "2026-06-17",
+    "modified": "2026-09-24",
+    "hash": "8fda6cc1508fdf92e250111139269a64d231665e"
+  },
+  "tictactoe": {
+    "published": "2026-06-17",
+    "modified": "2026-09-24",
+    "hash": "8095357c05257ee5bdb3ef4709a3147146e75bce"
+  },
+  "guides": {
+    "published": "2026-04-26",
+    "modified": "2026-09-23",
+    "hash": "54d8712cbd8ed688f8c2cf65edf84a4b55403012"
+  },
+  "omok-guide": {
+    "published": "2026-04-26",
+    "modified": "2026-09-23",
+    "hash": "a275eda521f7150acdaf2facef22bc8ad1953afe"
+  },
+  "connect4-guide": {
+    "published": "2026-04-26",
+    "modified": "2026-09-23",
+    "hash": "8e8af33dd52b378f2fc4b5a629845b0b49d1b1a4"
+  },
+  "reversi-guide": {
+    "published": "2026-04-26",
+    "modified": "2026-09-24",
+    "hash": "2c646b22ed9db9a9d16d7ad9aac6152e1c029fee"
+  },
+  "dots-guide": {
+    "published": "2026-04-26",
+    "modified": "2026-09-24",
+    "hash": "cf56218e1fd01e89b732c7c80a981ed26e546637"
+  },
+  "chess-guide": {
+    "published": "2026-04-26",
+    "modified": "2026-09-24",
+    "hash": "06f34460eec1684f551fadab9772a25f56fe5739"
+  },
+  "alkkagi-guide": {
+    "published": "2026-04-26",
+    "modified": "2026-09-23",
+    "hash": "1d4ba9e4520ce08b8716705efa8340d399026fc5"
+  },
+  "yut-guide": {
+    "published": "2026-06-17",
+    "modified": "2026-09-24",
+    "hash": "33f4df3639c8c8c30f03ea23555b72fe7817121c"
+  },
+  "sudoku-guide": {
+    "published": "2026-06-17",
+    "modified": "2026-09-23",
+    "hash": "c16d4ed7ab12cdfbdac26d4487540664ec1d79ec"
+  },
+  "tictactoe-guide": {
+    "published": "2026-06-17",
+    "modified": "2026-09-23",
+    "hash": "d488d82222fe5fa7b7cd61a2f556c76745fd2238"
+  },
+  "minesweeper": {
+    "published": "2026-07-06",
+    "modified": "2026-09-24",
+    "hash": "ba575f6597436366cb7a0734eaea70de188439bf"
+  },
+  "ladder": {
+    "published": "2026-07-06",
+    "modified": "2026-09-23",
+    "hash": "36b74d06c4c4cfe092f4433891c7c76f372cfd14"
+  },
+  "minesweeper-guide": {
+    "published": "2026-07-07",
+    "modified": "2026-09-23",
+    "hash": "30276e8d51a4725e27ea90ede9029c9dab066eff"
+  },
+  "2048-guide": {
+    "published": "2026-07-07",
+    "modified": "2026-09-23",
+    "hash": "8d2cff30439bcc274e54ae5cf21c41d398ae24fd"
+  },
+  "ladder-guide": {
+    "published": "2026-07-07",
+    "modified": "2026-09-23",
+    "hash": "6178816c233a8d34a5bac54276b3080fd441cd61"
+  },
+  "ladder-uses": {
+    "published": "2026-07-16",
+    "modified": "2026-09-23",
+    "hash": "2317775678840609197b87673176d2d9aca5a6d7"
+  },
+  "korean-games": {
+    "published": "2026-07-16",
+    "modified": "2026-09-23",
+    "hash": "0c2c76f4f764790ba40f81eb276798be5326a9d0"
+  },
+  "free-board-games": {
+    "published": "2026-07-16",
+    "modified": "2026-09-23",
+    "hash": "51af8f303f59ccea5a2d898a59ad9bc2df78ba4d"
+  },
+  "brain-training": {
+    "published": "2026-09-01",
+    "modified": "2026-09-23",
+    "hash": "4c9659ac2b75f0be0eefab8a616682d9a30eb6c7"
+  },
+  "game-recommendations": {
+    "published": "2026-09-01",
+    "modified": "2026-09-23",
+    "hash": "640dde9743c992d0a2c2fffd240c476991d46567"
+  },
+  "omok-history": {
+    "published": "2026-09-07",
+    "modified": "2026-09-23",
+    "hash": "1e054fa7be47c1f96cc04049f1a357b3199c5491"
+  },
+  "online-play-guide": {
+    "published": "2026-09-07",
+    "modified": "2026-10-07",
+    "hash": "74a0cd4f6da2504daef7947ffe424369178685a5"
+  },
+  "chess-openings": {
+    "published": "2026-09-07",
+    "modified": "2026-09-23",
+    "hash": "b894810c7beefb888de262330ba93ed62d66a05e"
+  },
+  "board-games-for-kids": {
+    "published": "2026-09-07",
+    "modified": "2026-09-23",
+    "hash": "bfd33bb01ef351cbb54d5dcdd6bbd57263dd56a5"
+  },
+  "about": {
+    "published": "2026-04-21",
+    "modified": "2026-10-07",
+    "hash": "c92e5d6e4c88dfea804dd941bd3f2bceca5ddb16"
+  },
+  "contact": {
+    "published": "2026-04-26",
+    "modified": "2026-10-07",
+    "hash": "8c014708c5472f0b398b4f26c2ca8fb07d99027b"
+  },
+  "privacy": {
+    "published": "2026-04-21",
+    "modified": "2026-10-07",
+    "hash": "9b6ecf3dbd42eff571befb07df920de145a1b02e"
+  }
+}

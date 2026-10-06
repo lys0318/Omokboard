@@ -47,6 +47,27 @@
 - [2048](https://omokboard.com/en/2048): merge tiles to reach 2048
 - [Ladder Game (Amidakuji)](https://omokboard.com/en/ladder): random ladder to assign results
 
+## 읽을거리 (한국어)
+
+- [오목의 역사와 기원](https://omokboard.com/omok-history): 오목·고모쿠·렌주의 차이와 자유 규칙에서 흑이 유리한 이유
+- [온라인 대전 이용 가이드](https://omokboard.com/online-play-guide): 6자리 방 코드로 친구와 대전하는 법, 재접속·재대결, 지원 게임 8종
+- [체스 오프닝 기초](https://omokboard.com/chess-openings): 오프닝 3원칙과 이탈리안 게임·런던 시스템 등 대표 오프닝
+- [아이와 함께하는 보드게임](https://omokboard.com/board-games-for-kids): 4세부터 13세 이상까지 나이대별 추천 게임
+- [한국 전통 놀이](https://omokboard.com/korean-games): 윷놀이와 알까기의 유래·문화·규칙
+- [상황별 게임 추천](https://omokboard.com/game-recommendations): 혼자·둘이서·여럿이·짧게 등 상황별 게임 고르기
+- [두뇌 게임과 인지 능력](https://omokboard.com/brain-training): 게임마다 실제로 쓰이는 사고 능력
+- [사다리타기 활용법](https://omokboard.com/ladder-uses): 벌칙·팀 나누기·순서 정하기
+- [무료 온라인 보드게임 12종](https://omokboard.com/free-board-games): 12종 게임 비교와 고르는 법
+
+## Guides and Articles (English)
+
+- [Game guides](https://omokboard.com/en/guides): rules, beginner strategy, and how the AI plays for each of the 12 games
+- [History and Origins of Omok](https://omokboard.com/en/omok-history): how Omok, Gomoku, and Renju differ, and why the first player has the edge
+- [Online Play Guide](https://omokboard.com/en/online-play-guide): playing a friend by 6-character room code, reconnecting, and rematching
+- [Chess Openings for Beginners](https://omokboard.com/en/chess-openings): the three opening principles and common openings
+- [Board Games to Play With Kids](https://omokboard.com/en/board-games-for-kids): game picks by age
+- [Korean Traditional Games](https://omokboard.com/en/korean-games): the history and rules of Yut Nori and Alkkagi
+
 ## 사이트 정보
 
 - [게임 가이드 모음](https://omokboard.com/guides)

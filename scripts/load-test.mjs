@@ -9,7 +9,7 @@
 //   4) 방마다 양쪽이 "진짜 동시에" 재대결을 눌러 레이스 컨디션(blockConcurrencyWhile) 재검증
 //   5) 결과 집계 및 리포트 출력
 
-const HOST = process.env.LOAD_TEST_HOST || 'omokboard.lys03.workers.dev';
+const HOST = process.env.LOAD_TEST_HOST || 'omokboard.com'; // workers.dev 주소는 꺼져 있다
 const ROOM_COUNT = parseInt(process.argv[2] || '60', 10);
 const MOVES_PER_PLAYER = 4; // 방마다 흑/백 각 4수 = 총 8수
 
