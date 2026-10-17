@@ -105,18 +105,18 @@
 <body>
     <div class="app-container">
         <nav class="game-nav">
-            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
-            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
-            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
-            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
-            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
-            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
-            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
-            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
-            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>
-            <a href="minesweeper" class="game-nav-item active" data-i18n="nav.mine">지뢰찾기</a>
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">Omok</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">Connect 4</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">Reversi</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">Dots &amp; Boxes</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">Chess</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">Alkkagi</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">Yut Nori</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">Sudoku</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">Tic-Tac-Toe</a>
+            <a href="minesweeper" class="game-nav-item active" data-i18n="nav.mine">Minesweeper</a>
             <a href="2048" class="game-nav-item" data-i18n="nav.2048">2048</a>
-            <a href="ladder" class="game-nav-item" data-i18n="nav.ladder">사다리타기</a>
+            <a href="ladder" class="game-nav-item" data-i18n="nav.ladder">Ladder Game</a>
             <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
         </nav>
 
@@ -137,7 +137,7 @@
 
             <div class="mine-toolbar">
                 <button id="mine-flag-toggle" class="btn secondary flag-toggle">🚩 <span class="ko-only">깃발 모드</span><span class="en-only" style="display:none;">Flag Mode</span></button>
-                <button id="mine-reset-btn" class="btn primary" data-i18n="btn.restart">게임 재시작</button>
+                <button id="mine-reset-btn" class="btn primary" data-i18n="btn.restart">Restart</button>
                 <button class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
             </div>
         </main>
@@ -145,12 +145,12 @@
         <script src="/adfit.js?v=1"></script>
 
         <section class="game-how-to">
-            <h3 data-i18n="howto.title">게임 방법</h3>
+            <h3 data-i18n="howto.title">How to Play</h3>
             <ul>
-                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">지뢰가 없는 칸을 모두 열면 승리, 지뢰를 클릭하면 패배</span><span class="en-only" style="display:none;">Open every safe cell to win. Clicking a mine ends the game</span></li>
-                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">칸을 클릭해 열고, 숫자는 주변 8칸의 지뢰 개수를 뜻합니다. 우클릭(또는 깃발 모드 켜고 클릭)으로 지뢰로 의심되는 칸에 깃발을 꽂으세요</span><span class="en-only" style="display:none;">Click to open a cell; numbers show how many mines are in the 8 surrounding cells. Right-click (or turn on Flag Mode and tap) to flag a suspected mine</span></li>
+                <li><strong data-i18n="howto.goal">Goal:</strong> <span class="ko-only">지뢰가 없는 칸을 모두 열면 승리, 지뢰를 클릭하면 패배</span><span class="en-only" style="display:none;">Open every safe cell to win. Clicking a mine ends the game</span></li>
+                <li><strong data-i18n="howto.controls">Controls:</strong> <span class="ko-only">칸을 클릭해 열고, 숫자는 주변 8칸의 지뢰 개수를 뜻합니다. 우클릭(또는 깃발 모드 켜고 클릭)으로 지뢰로 의심되는 칸에 깃발을 꽂으세요</span><span class="en-only" style="display:none;">Click to open a cell; numbers show how many mines are in the 8 surrounding cells. Right-click (or turn on Flag Mode and tap) to flag a suspected mine</span></li>
                 <li><strong class="ko-only">첫 클릭:</strong><strong class="en-only" style="display:none;">First click:</strong> <span class="ko-only">첫 클릭은 항상 안전하며, 주변까지 지뢰가 배치되지 않습니다</span><span class="en-only" style="display:none;">Your first click is always safe. Mines are placed after it, away from that spot</span></li>
-                <li><strong data-i18n="howto.tip">팁:</strong> <span class="ko-only">숫자와 열린 칸 주변의 깃발 개수를 비교하며 안전한 칸을 논리적으로 찾아내세요</span><span class="en-only" style="display:none;">Compare each number to the flags already placed around it to deduce which cells are safe</span></li>
+                <li><strong data-i18n="howto.tip">Tip:</strong> <span class="ko-only">숫자와 열린 칸 주변의 깃발 개수를 비교하며 안전한 칸을 논리적으로 찾아내세요</span><span class="en-only" style="display:none;">Compare each number to the flags already placed around it to deduce which cells are safe</span></li>
             </ul>
         </section>
 
@@ -171,17 +171,17 @@
 
         <footer>
             <nav class="footer-nav">
-                <a href="/en/" data-i18n="footer.home">홈</a>
+                <a href="/en/" data-i18n="footer.home">Home</a>
                 <span class="footer-sep">·</span>
-                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <a href="about" data-i18n="footer.about">About</a>
                 <span class="footer-sep">·</span>
-                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <a href="guides" data-i18n="footer.guides">Guides</a>
                 <span class="footer-sep">·</span>
-                <a href="contact" data-i18n="footer.contact">문의</a>
+                <a href="contact" data-i18n="footer.contact">Contact</a>
                 <span class="footer-sep">·</span>
-                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+                <a href="privacy" data-i18n="footer.privacy">Privacy Policy</a>
             </nav>
-            <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 오목보드. All rights reserved.</p>
+            <p class="footer-copy" data-i18n="footer.copy">© 2026 Omokboard. All rights reserved.</p>
         </footer>
     </div>
 
@@ -189,21 +189,21 @@
     <div id="mine-mode-overlay" class="game-mode-overlay">
         <div class="game-mode-card">
             <h2 class="mode-title"><span class="ko-only">지뢰찾기</span><span class="en-only" style="display:none;">Minesweeper</span></h2>
-            <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+            <p class="mode-subtitle" data-i18n="mode.diff">Select Difficulty</p>
             <div class="mode-buttons difficulty-buttons">
                 <button class="mode-btn" id="mine-easy-btn">
                     <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10V9"/><path d="M16.472 15a6 6 0 01-8.943 0"/><path d="M9 10V9"/><circle cx="12" cy="12" r="10"/></svg></span>
-                    <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                    <span class="mode-label" data-i18n="mode.easy">Easy</span>
                     <span class="mode-desc">9×9 · <span class="ko-only">지뢰 10개</span><span class="en-only" style="display:none;">10 mines</span></span>
                 </button>
                 <button class="mode-btn" id="mine-normal-btn">
                     <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
-                    <span class="mode-label" data-i18n="mode.normal">보통</span>
+                    <span class="mode-label" data-i18n="mode.normal">Normal</span>
                     <span class="mode-desc">12×12 · <span class="ko-only">지뢰 20개</span><span class="en-only" style="display:none;">20 mines</span></span>
                 </button>
                 <button class="mode-btn" id="mine-hard-btn">
                     <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span>
-                    <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                    <span class="mode-label" data-i18n="mode.hard">Hard</span>
                     <span class="mode-desc">16×16 · <span class="ko-only">지뢰 40개</span><span class="en-only" style="display:none;">40 mines</span></span>
                 </button>
             </div>
@@ -216,7 +216,7 @@
         <div class="modal">
             <h2 id="mine-win-title"><span class="ko-only">승리!</span><span class="en-only" style="display:none;">Victory!</span></h2>
             <p id="mine-win-desc"></p>
-            <button id="mine-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+            <button id="mine-modal-reset" class="btn primary large" data-i18n="btn.replay">Play Again</button>
         </div>
     </div>
 

@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const vm = require('vm');
 const DIR = __dirname;
 const BASE = 'https://omokboard.com/';
 
@@ -101,6 +102,14 @@ function injectFaq(html, region) {
   return ld ? html.replace('</head>', ld + '</head>') : html;
 }
 
+// data-i18n 요소는 lang.js가 화면에서 글자를 바꾸지만 HTML 원본엔 한국어가 남는다.
+// 영어판엔 lang.js 사전의 영어 문구를 미리 박아, 자바스크립트 없이 읽는 크롤러도 영어를 보게 한다.
+// (안쪽에 태그가 없는 요소만. 사전에 없는 키는 그대로 둔다)
+const I18N_EN = vm.runInNewContext('(' + fs.readFileSync(path.join(DIR, 'lang.js'), 'utf8').match(/var T = (\{[\s\S]*?\n    \});/)[1] + ')').en;
+const escHtml = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const bakeI18n = html => html.replace(/(<(\w+)\b[^>]*\sdata-i18n="([^"]+)"[^>]*>)[^<]*(<\/\2>)/g,
+  (m, open, tag, key, close) => (key in I18N_EN ? open + escHtml(I18N_EN[key]) + close : m));
+
 const slugs = Object.keys(META);
 const enDir = path.join(DIR, 'en');
 if (!fs.existsSync(enDir)) fs.mkdirSync(enDir);
@@ -138,7 +147,7 @@ for (const slug of slugs) {
   const isArticle = ARTICLES.has(slug);
   const image = (ko.match(/<meta property="og:image" content="([^"]*)"/) || [])[1];
   if (isArticle) {
-    ko = ko.replace(/\n[ \t]*<p class="article-meta"[\s\S]*?<\/p>/, '');
+    ko = ko.replace(/\r?\n[ \t]*<p class="article-meta"[\s\S]*?<\/p>/, ''); // \r?: CRLF 파일에 외톨이 CR을 남기지 않게
     ko = ko.replace(/(<p class="subtitle">[\s\S]*?<\/p>)/, `$1\n            ${articleMeta(d)}`);
   }
 
@@ -182,6 +191,7 @@ for (const slug of slugs) {
   en = en.replace(/(src|href)="([\w-]+\.(?:js|css))(\?[^"]*)?"/g, (mm,a,f,q) => `${a}="/${f}${q||''}"`);
   en = en.replace(/href="\/"/g, 'href="/en/"'); // 홈 링크 → 영어 홈
 
+  en = bakeI18n(en);
   fs.writeFileSync(path.join(enDir, slug + '.html'), en);
 }
 

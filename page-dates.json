@@ -7,7 +7,7 @@
   "index": {
     "published": "2026-03-17",
     "modified": "2026-10-18",
-    "hash": "66a4c2ee493125a2ce07e47d22d4f4b6c29d0605"
+    "hash": "b0fcfaae93d44232f26a3192e985d8a71c8bfa7f"
   },
   "omok": {
     "published": "2026-04-21",
@@ -42,12 +42,12 @@
   "yut": {
     "published": "2026-06-17",
     "modified": "2026-09-24",
-    "hash": "4f81fd070dcc3b4e8084cd7ba5ed88d80d2b5325"
+    "hash": "12ac16274409e324c58297f6cc9f8477dccb03eb"
   },
   "sudoku": {
     "published": "2026-06-17",
     "modified": "2026-09-24",
-    "hash": "8fda6cc1508fdf92e250111139269a64d231665e"
+    "hash": "bc3eff09a4cca5dab55fe157fabcc72442921769"
   },
   "tictactoe": {
     "published": "2026-06-17",
@@ -177,7 +177,7 @@
   "about": {
     "published": "2026-04-21",
     "modified": "2026-10-07",
-    "hash": "c92e5d6e4c88dfea804dd941bd3f2bceca5ddb16"
+    "hash": "9b940a7229080cd5d683816c5b3b17ded76e717f"
   },
   "contact": {
     "published": "2026-04-26",
