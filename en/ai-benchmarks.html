@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/en/ai-benchmarks">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/ai-benchmarks">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/ai-benchmarks">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/ai-benchmarks">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>AI Difficulty Benchmarks: Win Rates and Move Times | Omokboard</title>
+    <meta name="description" content="How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 7 games, plus the method and its limits.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="AI Difficulty Benchmarks: Win Rates and Move Times | Omokboard">
+    <meta property="og:description" content="How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 7 games, plus the method and its limits.">
+    <meta property="og:url" content="https://omokboard.com/en/ai-benchmarks">
+    <meta property="og:image" content="https://omokboard.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og-image.png">
+    <meta name="twitter:title" content="AI Difficulty Benchmarks: Win Rates and Move Times | Omokboard">
+    <meta name="twitter:description" content="How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 7 games, plus the method and its limits.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css?v=13">
+    <link rel="stylesheet" href="/subpage.css?v=2">
+    <style>
+        .cmp-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table.cmp { width: 100%; border-collapse: collapse; min-width: 460px; font-size: 0.95rem; }
+        table.cmp th, table.cmp td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        table.cmp th { color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+        table.cmp td a { color: var(--accent-blue); font-weight: 700; text-decoration: none; white-space: nowrap; }
+        table.cmp tr:last-child td { border-bottom: none; }
+        .info-section pre { background: rgba(255,255,255,0.06); padding: 0.8rem 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; }
+    </style>
+    <script src="/lang.js?v=10"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I beat the Hard AI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. These are AI vs AI results. In Connect 4 and Omok you always move first against the AI, and Connect 4 in particular favors the first player, so an accurate double threat can beat Hard. Tic-Tac-Toe Hard, however, is built never to lose, so a draw is the best you can get."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the number of games differ by game?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each game takes a different amount of time. Chess Hard needs about 0.6 s per move, so we played 20 games per matchup; a game of Yut Nori finishes quickly, so we played 4,000."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the AI take longer on screen than in these tables?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The real game adds a deliberate pause so you can follow the AI's move with your eyes. The tables show only the calculation time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When will you measure again?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Whenever the AI changes, we rerun the same scripts and update the numbers and the measurement date on this page."
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "AI Difficulty Benchmarks: Win Rates and Move Times",
+  "description": "How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 7 games, plus the method and its limits.",
+  "inLanguage": "en",
+  "datePublished": "2026-10-18",
+  "dateModified": "2026-10-18",
+  "mainEntityOfPage": "https://omokboard.com/en/ai-benchmarks",
+  "image": "https://omokboard.com/og-image.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Omokboard",
+    "url": "https://omokboard.com/en/about"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Omokboard",
+    "url": "https://omokboard.com/en/"
+  }
+}
+    </script>
+</head>
+
+<body>
+    <div class="subpage-container">
+        <header class="subpage-header">
+            <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
+            <h1><span class="ko-only">AI 난이도 실측 기록</span><span class="en-only" style="display:none;">AI Difficulty Benchmarks</span></h1>
+            <p class="subtitle"><span class="ko-only">쉬움·보통·어려움이 실제로 얼마나 다른지, AI끼리 대국시켜 잰 숫자</span><span class="en-only" style="display:none;">How different Easy, Normal, and Hard really are, measured by making the AIs play each other</span></p>
+            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-10-18">2026년 10월 18일</time> · 수정 <time datetime="2026-10-18">2026년 10월 18일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-10-18">October 18, 2026</time> · Updated <time datetime="2026-10-18">October 18, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
+        </header>
+
+        <main class="subpage-main">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>한눈에 보기</h2>
+                    <p>2026년 10월 18일, AI가 있는 7개 게임(틱택토는 기본·얼티메이트 두 모드)에서 난이도끼리 직접 대국을 시켰습니다. <strong>모든 게임에서 어려움은 보통을, 보통은 쉬움을 이겼습니다.</strong> 리버시·점잇기·얼티메이트 틱택토·체스에서는 어려움이 보통에게 한 판도 지지 않았습니다.</p>
+                    <p style="margin-top:0.6rem;">차이가 작은 곳도 있었습니다. 사목은 난이도보다 누가 먼저 두느냐가 승부를 갈랐고(어려움 대 보통 20판 중 19판을 선공이 이김), 윷놀이는 운의 비중이 커서 어려움도 보통에게 10판 중 3판꼴로 졌습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>어떻게 쟀나</h2>
+                    <ul class="rule-list">
+                        <li><strong>실제 게임 코드 그대로:</strong> 사이트에 올라가 있는 게임 파일에서 AI 부분을 그대로 불러와, 화면 없이 AI끼리 대국시켰습니다. 측정용으로 따로 만든 AI가 아닙니다.</li>
+                        <li><strong>선공은 번갈아:</strong> 두 난이도가 판마다 선공과 후공을 바꿔 맡습니다. 먼저 두는 쪽의 이점이 한쪽 난이도에만 몰리지 않게 하기 위해서입니다.</li>
+                        <li><strong>같은 대국 반복 막기:</strong> 오목·사목은 처음 2수를 판 가운데 근처에 무작위로 두고, 체스는 처음 4수(양쪽 2수씩)를 무작위로 둔 뒤 AI에게 넘깁니다. 나머지 게임은 AI 자체의 무작위 선택이나 윷 던지기 같은 운 요소 때문에 판마다 진행이 달라집니다.</li>
+                        <li><strong>체스 판정:</strong> 200수(양쪽 100수씩)까지 끝나지 않으면 기물 점수(폰 1, 나이트·비숍 3, 룩 5, 퀸 9)가 3점 이상 앞선 쪽을 승리로, 아니면 무승부로 셉니다.</li>
+                        <li><strong>승률 계산:</strong> 무승부는 반 판 승리로 셉니다. 예를 들어 20판에서 12승 1무 7패면 승률은 (12 + 0.5) ÷ 20 = 62.5%입니다.</li>
+                        <li><strong>측정 환경:</strong> 2026년 10월 18일, 노트북 CPU(Intel Core i7-14650HX)와 Node.js 24에서 쟀습니다. 계산 시간은 이 환경 기준이라 휴대폰에서는 몇 배 더 걸릴 수 있습니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>게임별 승률</h2>
+                    <p>왼쪽 난이도가 오른쪽 난이도를 상대로 거둔 승률입니다. 괄호 안은 실제 승·무·패입니다.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>게임</th><th>어려움 vs 보통</th><th>보통 vs 쉬움</th><th>어려움 vs 쉬움</th><th>대결마다</th></tr></thead>
+                            <tbody>
+                                <tr><td><a href="omok">오목</a></td><td>65.0% (13승 7패)</td><td>100% (20승)</td><td>100% (20승)</td><td>20판</td></tr>
+                                <tr><td><a href="connect4">사목</a></td><td>55.0% (11승 9패)</td><td>90.0% (18승 2패)</td><td>80.0% (16승 4패)</td><td>20판</td></tr>
+                                <tr><td><a href="tictactoe">틱택토</a></td><td>76.3% (21승 19무)</td><td>71.3% (24승 9무 7패)</td><td>96.3% (37승 3무)</td><td>40판</td></tr>
+                                <tr><td><a href="tictactoe">얼티메이트 틱택토</a></td><td>100% (20승)</td><td>100% (20승)</td><td>100% (20승)</td><td>20판</td></tr>
+                                <tr><td><a href="reversi">리버시</a></td><td>100%</td><td>86.0%</td><td>99.5%</td><td>200판</td></tr>
+                                <tr><td><a href="dots">점잇기</a></td><td>100%</td><td>99.8%</td><td>100%</td><td>1,000판</td></tr>
+                                <tr><td><a href="yut">윷놀이</a></td><td>69.4%</td><td>75.3%</td><td>84.6%</td><td>4,000판</td></tr>
+                                <tr><td><a href="chess">체스</a></td><td>100% (20승)</td><td>100% (20승)</td><td>100% (20승)</td><td>20판</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;font-size:0.9rem;color:var(--text-muted);">리버시·점잇기·윷놀이는 판 수가 많아 승률만 기록했습니다. 점잇기와 윷놀이는 규칙상 무승부가 없습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>한 수 계산 시간</h2>
+                    <p>AI가 한 수를 고르는 데 걸린 순수 계산 시간입니다. 실제 게임 화면에서는 AI가 너무 빨리 두면 수를 따라가기 어려워서, 여기에 일부러 기다리는 시간(오목 기준 쉬움 1.2초, 보통 0.5초, 어려움 0.1초)을 더합니다.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>게임</th><th>쉬움 평균</th><th>보통 평균</th><th>어려움 평균</th><th>어려움 95%가 이 안에</th><th>어려움 최대</th></tr></thead>
+                            <tbody>
+                                <tr><td>오목</td><td>0.2ms</td><td>14ms</td><td>241ms</td><td>746ms</td><td>2.1초</td></tr>
+                                <tr><td>사목</td><td>0.1ms</td><td>5ms</td><td>82ms</td><td>191ms</td><td>267ms</td></tr>
+                                <tr><td>얼티메이트 틱택토</td><td>0.0ms</td><td>1.6ms</td><td>72ms</td><td>160ms</td><td>263ms</td></tr>
+                                <tr><td>리버시</td><td>-</td><td>-</td><td>20ms</td><td>-</td><td>258ms</td></tr>
+                                <tr><td>체스</td><td>73ms</td><td>12ms</td><td>616ms</td><td>1.0초</td><td>1.3초</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;font-size:0.9rem;color:var(--text-muted);">틱택토·점잇기·윷놀이는 시간을 따로 재지 않았습니다. 체스 쉬움이 보통보다 오래 걸리는 것은, 쉬움은 둘 수 있는 모든 수를 규칙 판정용 라이브러리로 하나씩 평가하고 보통·어려움은 AI 전용으로 만든 빠른 계산기를 쓰기 때문입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>숫자에서 보이는 것</h2>
+                    <ul class="rule-list">
+                        <li><strong>틱택토 어려움은 80판 동안 한 번도 지지 않았습니다.</strong> 매 수 끝까지 계산하기 때문입니다. 틱택토는 양쪽이 실수 없이 두면 무승부로 끝나는 게임이라 <a href="https://en.wikipedia.org/wiki/Tic-tac-toe" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);font-size:0.85em;">[출처: 위키백과]</a>, 어려움을 상대로는 비기는 것이 최선입니다. 보통도 매 수 절반의 확률로 끝까지 계산하고 두기 때문에 어려움과의 40판 중 19판이 무승부였습니다.</li>
+                        <li><strong>사목은 선공이 거의 다 이깁니다.</strong> 어려움 대 보통 20판 중 19판을 먼저 둔 쪽이 이겼습니다. 어려움은 먼저 둔 20판(보통·쉬움 상대)을 모두 이겼지만, 나중에 두면 보통에게 10판 중 1판, 쉬움에게도 10판 중 6판밖에 이기지 못했습니다. 오목보드의 AI 대전에서는 사람이 늘 먼저 두므로, 이중 위협을 정확히 만들면 어려움도 이길 수 있습니다. 공격 요령은 <a href="connect4-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">사목 공략</a>에 있습니다.</li>
+                        <li><strong>오목도 선공이 유리하지만 사목만큼은 아닙니다.</strong> 어려움 대 보통에서 어려움은 먼저 둔 10판 중 8판, 나중에 둔 10판 중 5판을 이겼습니다. AI 대전에서 AI는 늘 나중에 두는 백을 잡습니다. 선공이 유리한 이유는 <a href="omok-history" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">오목의 역사와 기원</a>에서 다룹니다.</li>
+                        <li><strong>윷놀이는 실력 차가 승률로 덜 드러납니다.</strong> 4,000판에서 어려움은 보통에게 69.4%, 쉬움에게 84.6%를 이겼습니다. 둘 수 있는 말을 무작위로 고르는 쉬움도 어려움에게 100판 중 15판꼴로 이긴다는 뜻입니다. 윷을 던지는 운이 그만큼 큽니다.</li>
+                        <li><strong>체스 어려움은 한 수에 평균 0.6초입니다.</strong> 3수 앞은 항상 읽고, 4수 앞은 1초 안에 끝날 때만 읽습니다. AI 전용 계산기가 규칙을 틀리지 않는지는 체스 프로그램들이 쓰는 표준 검증(perft)으로 확인했습니다. 시작 국면에서 4수까지 가능한 경우의 수 197,281개, 복잡한 검증용 국면(Kiwipete)에서 3수까지 97,862개가 기준값과 정확히 일치했습니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>난이도마다 AI가 실제로 하는 일</h2>
+                    <p>숫자의 차이는 아래 설정에서 나옵니다. 모두 게임 코드에 적힌 그대로입니다.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>게임</th><th>쉬움</th><th>보통</th><th>어려움</th></tr></thead>
+                            <tbody>
+                                <tr><td><a href="omok">오목</a>·<a href="connect4">사목</a></td><td>한 수 앞 점수 상위 5곳 중 무작위 (수비는 절반만 반영)</td><td>2수 앞까지 탐색</td><td>4수 앞까지 탐색 (단계마다 후보 12곳)</td></tr>
+                                <tr><td><a href="tictactoe">틱택토</a></td><td>빈칸 무작위</td><td>절반은 무작위, 절반은 끝까지 계산</td><td>매 수 끝까지 계산</td></tr>
+                                <tr><td><a href="tictactoe">얼티메이트 틱택토</a></td><td>무작위</td><td>25%는 무작위, 나머지는 3수 앞 탐색</td><td>6수 앞 탐색</td></tr>
+                                <tr><td><a href="reversi">리버시</a></td><td>둘 수 있는 곳 중 무작위</td><td>한 수 앞 점수 상위 3곳 중 무작위</td><td>4수 앞 탐색, 빈칸 8개 이하면 끝까지 계산</td></tr>
+                                <tr><td><a href="dots">점잇기</a></td><td>무작위</td><td>점수 상위 4개 중 무작위</td><td>최고 점수 수 + 막판 체인 계산(더블 크로스)</td></tr>
+                                <tr><td><a href="yut">윷놀이</a></td><td>둘 수 있는 말 중 무작위</td><td>완주·잡기·전진 점수가 가장 높은 수</td><td>상대가 다음에 내 말을 잡을 확률까지 계산</td></tr>
+                                <tr><td><a href="chess">체스</a></td><td>한 수 평가 하위 60% 중 무작위</td><td>2수 앞 탐색</td><td>3수 앞 탐색(1초 안에 끝나면 4수) + 잡고 잡히는 수는 최대 8수 더</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="info-section">
+                    <h2>이 숫자로 알 수 없는 것</h2>
+                    <ul class="rule-list">
+                        <li><strong>사람 상대 승률이 아닙니다.</strong> AI끼리 둔 결과라서, 어려움 AI가 사람에게 몇 % 이기는지는 알려 주지 않습니다. 사람은 AI가 놓치는 장기 계획을 세우기도 하고, AI가 절대 하지 않는 실수를 하기도 합니다.</li>
+                        <li><strong>판 수가 적은 게임은 오차가 큽니다.</strong> 20판 결과는 같은 측정을 다시 하면 몇 판씩 달라질 수 있습니다. 윷놀이(4,000판)와 점잇기(1,000판)는 판 수가 많아 비교적 안정적입니다.</li>
+                        <li><strong>알까기와 스도쿠 대결은 재지 않았습니다.</strong> 알까기는 구슬 충돌과 미끄러짐까지 물리 계산을 통째로 돌려야 해서 이번 측정에서 뺐고, 스도쿠 대결 AI는 정답을 맞힐 확률(쉬움 50%, 보통 78%, 어려움 95%)이 코드에 정해져 있어 대국으로 잴 필요가 없습니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>직접 재현하기</h2>
+                    <p>측정 스크립트는 모두 공개돼 있습니다. 저장소를 받아 아래 명령을 실행하면 같은 방식으로 다시 잴 수 있습니다. 무작위 요소가 있어 숫자는 조금씩 달라집니다.</p>
+                    <pre>node scripts/ai-benchmark.mjs        # 오목·사목·틱택토·얼티메이트·체스
+node scripts/yut-ai-check.mjs 4000   # 윷놀이
+node scripts/reversi-ai-check.mjs 200
+node scripts/dots-ai-check.mjs 1000
+node scripts/chess-ai-check.mjs      # 체스 수 생성 검증(perft)</pre>
+                    <p>스크립트: <a href="https://github.com/lys0318/Omokboard/tree/main/scripts" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">github.com/lys0318/Omokboard/scripts</a></p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>어려움 AI를 이길 수 있나요?</strong> 네. 이 기록은 AI끼리 둔 결과입니다. 사목과 오목은 AI 대전에서 사람이 늘 먼저 두고, 사목은 특히 선공이 유리해서 이중 위협을 정확히 만들면 어려움도 이길 수 있습니다. 다만 틱택토 어려움은 지지 않도록 만들어져 있어 비기는 것이 최선입니다.</li>
+                        <li><strong>게임마다 판 수가 다른 이유는 무엇인가요?</strong> 한 판에 걸리는 시간이 달라서입니다. 체스 어려움은 한 수에 평균 0.6초가 걸려 대결마다 20판을 뒀고, 윷놀이는 한 판이 금방 끝나 4,000판을 뒀습니다.</li>
+                        <li><strong>화면에서 AI가 이 표보다 늦게 두는 이유는 무엇인가요?</strong> 사람이 AI의 수를 눈으로 따라갈 수 있도록 실제 게임에는 일부러 기다리는 시간을 넣었습니다. 표의 시간은 그 대기를 뺀 순수 계산 시간입니다.</li>
+                        <li><strong>숫자는 언제 다시 재나요?</strong> AI를 고치면 같은 스크립트로 다시 재고, 이 페이지의 숫자와 측정일을 함께 바꿉니다.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>At a Glance</h2>
+                    <p>On October 18, 2026, we had each difficulty level play the others in all 7 Omokboard games that have an AI (Tic-Tac-Toe counted as two modes, Classic and Ultimate). <strong>In every game, Hard beat Normal and Normal beat Easy.</strong> In Reversi, Dots and Boxes, Ultimate Tic-Tac-Toe, and Chess, Hard did not lose a single game to Normal.</p>
+                    <p style="margin-top:0.6rem;">Some gaps were small. In Connect 4, moving first mattered more than difficulty (the first player won 19 of 20 Hard vs Normal games), and Yut Nori has so much luck that Hard still lost about 3 in 10 games to Normal.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How We Measured</h2>
+                    <ul class="rule-list">
+                        <li><strong>The real game code:</strong> We loaded the AI straight from the game files the site serves and had the AIs play each other without a screen. It is not a separate AI built for testing.</li>
+                        <li><strong>Alternating first move:</strong> The two difficulty levels swap who moves first every game, so the first-move advantage doesn't pile up on one side.</li>
+                        <li><strong>No repeated games:</strong> In Omok and Connect 4 the first 2 moves are placed at random near the center, and in Chess the first 4 moves (2 per side) are random, before the AIs take over. The other games vary on their own, through the AI's random choices or luck such as the yut throw.</li>
+                        <li><strong>Chess adjudication:</strong> If a game isn't over after 200 moves (100 per side), the side ahead by 3 or more points of material (pawn 1, knight and bishop 3, rook 5, queen 9) wins; otherwise it's a draw.</li>
+                        <li><strong>Win rate:</strong> A draw counts as half a win. For example, 12 wins, 1 draw, and 7 losses out of 20 is (12 + 0.5) ÷ 20 = 62.5%.</li>
+                        <li><strong>Setup:</strong> Measured on October 18, 2026 on a laptop CPU (Intel Core i7-14650HX) with Node.js 24. Times are for this machine; on a phone they can be several times longer.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Win Rates by Game</h2>
+                    <p>The win rate of the level on the left against the level on the right. Actual wins, draws, and losses are in parentheses.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Game</th><th>Hard vs Normal</th><th>Normal vs Easy</th><th>Hard vs Easy</th><th>Games each</th></tr></thead>
+                            <tbody>
+                                <tr><td><a href="omok">Omok</a></td><td>65.0% (13W 7L)</td><td>100% (20W)</td><td>100% (20W)</td><td>20</td></tr>
+                                <tr><td><a href="connect4">Connect 4</a></td><td>55.0% (11W 9L)</td><td>90.0% (18W 2L)</td><td>80.0% (16W 4L)</td><td>20</td></tr>
+                                <tr><td><a href="tictactoe">Tic-Tac-Toe</a></td><td>76.3% (21W 19D)</td><td>71.3% (24W 9D 7L)</td><td>96.3% (37W 3D)</td><td>40</td></tr>
+                                <tr><td><a href="tictactoe">Ultimate Tic-Tac-Toe</a></td><td>100% (20W)</td><td>100% (20W)</td><td>100% (20W)</td><td>20</td></tr>
+                                <tr><td><a href="reversi">Reversi</a></td><td>100%</td><td>86.0%</td><td>99.5%</td><td>200</td></tr>
+                                <tr><td><a href="dots">Dots and Boxes</a></td><td>100%</td><td>99.8%</td><td>100%</td><td>1,000</td></tr>
+                                <tr><td><a href="yut">Yut Nori</a></td><td>69.4%</td><td>75.3%</td><td>84.6%</td><td>4,000</td></tr>
+                                <tr><td><a href="chess">Chess</a></td><td>100% (20W)</td><td>100% (20W)</td><td>100% (20W)</td><td>20</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;font-size:0.9rem;color:var(--text-muted);">Reversi, Dots and Boxes, and Yut Nori ran many games, so only the win rate was recorded. Dots and Boxes and Yut Nori cannot end in a draw.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Time per Move</h2>
+                    <p>Pure calculation time for the AI to pick one move. In the real game a short pause is added on top so you can follow the AI's move (in Omok: 1.2 s on Easy, 0.5 s on Normal, 0.1 s on Hard).</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Game</th><th>Easy avg</th><th>Normal avg</th><th>Hard avg</th><th>Hard, 95% within</th><th>Hard max</th></tr></thead>
+                            <tbody>
+                                <tr><td>Omok</td><td>0.2 ms</td><td>14 ms</td><td>241 ms</td><td>746 ms</td><td>2.1 s</td></tr>
+                                <tr><td>Connect 4</td><td>0.1 ms</td><td>5 ms</td><td>82 ms</td><td>191 ms</td><td>267 ms</td></tr>
+                                <tr><td>Ultimate Tic-Tac-Toe</td><td>0.0 ms</td><td>1.6 ms</td><td>72 ms</td><td>160 ms</td><td>263 ms</td></tr>
+                                <tr><td>Reversi</td><td>-</td><td>-</td><td>20 ms</td><td>-</td><td>258 ms</td></tr>
+                                <tr><td>Chess</td><td>73 ms</td><td>12 ms</td><td>616 ms</td><td>1.0 s</td><td>1.3 s</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;font-size:0.9rem;color:var(--text-muted);">Tic-Tac-Toe, Dots and Boxes, and Yut Nori were not timed. Chess Easy is slower than Normal because Easy scores every legal move with the rules library, while Normal and Hard use a fast calculator written just for the AI.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>What the Numbers Show</h2>
+                    <ul class="rule-list">
+                        <li><strong>Tic-Tac-Toe Hard never lost in 80 games.</strong> It calculates every move to the end. Tic-Tac-Toe is a draw when both sides play perfectly <a href="https://en.wikipedia.org/wiki/Tic-tac-toe" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);font-size:0.85em;">[Source: Wikipedia]</a>, so against Hard a draw is the best you can do. Normal also calculates to the end on about half of its moves, which is why 19 of its 40 games against Hard were draws.</li>
+                        <li><strong>In Connect 4, the first player almost always wins.</strong> The side that moved first won 19 of 20 Hard vs Normal games. Hard won all 20 games where it moved first (against Normal and Easy), but moving second it won only 1 of 10 against Normal and 6 of 10 against Easy. Against the AI on Omokboard you always move first, so an accurate double threat is enough to beat Hard. See the <a href="connect4-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Connect 4 guide</a> for how.</li>
+                        <li><strong>Omok also favors the first player, but less than Connect 4.</strong> Against Normal, Hard won 8 of 10 games moving first and 5 of 10 moving second. In AI games the AI always plays White, which moves second. <a href="omok-history" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">The History and Origins of Omok</a> explains why moving first helps.</li>
+                        <li><strong>In Yut Nori, skill shows less in the win rate.</strong> Over 4,000 games Hard beat Normal 69.4% of the time and Easy 84.6%. So Easy, which picks a legal move at random, still beats Hard about 15 times in 100. That's how much the yut throw matters.</li>
+                        <li><strong>Chess Hard averages 0.6 s per move.</strong> It always reads 3 moves ahead, and 4 when that finishes within 1 second. We checked that the AI's calculator never gets the rules wrong with perft, the standard test chess programs use: it counted exactly 197,281 positions 4 moves deep from the starting position, and 97,862 positions 3 moves deep from a tricky test position (Kiwipete), both matching the reference values.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>What the AI Actually Does at Each Level</h2>
+                    <p>The gaps above come from these settings, exactly as written in the game code.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Game</th><th>Easy</th><th>Normal</th><th>Hard</th></tr></thead>
+                            <tbody>
+                                <tr><td><a href="omok">Omok</a> and <a href="connect4">Connect 4</a></td><td>Random pick from the top 5 one-move scores (defense counts half)</td><td>Searches 2 moves ahead</td><td>Searches 4 moves ahead (12 candidate spots per step)</td></tr>
+                                <tr><td><a href="tictactoe">Tic-Tac-Toe</a></td><td>Random empty square</td><td>Half random, half calculated to the end</td><td>Every move calculated to the end</td></tr>
+                                <tr><td><a href="tictactoe">Ultimate Tic-Tac-Toe</a></td><td>Random</td><td>25% random, otherwise searches 3 moves ahead</td><td>Searches 6 moves ahead</td></tr>
+                                <tr><td><a href="reversi">Reversi</a></td><td>Random legal move</td><td>Random pick from the top 3 one-move scores</td><td>Searches 4 moves ahead, to the end with 8 or fewer empty squares</td></tr>
+                                <tr><td><a href="dots">Dots and Boxes</a></td><td>Random</td><td>Random pick from the top 4 scores</td><td>Best-scoring move plus endgame chain counting (the double-cross)</td></tr>
+                                <tr><td><a href="yut">Yut Nori</a></td><td>Random legal piece</td><td>Highest score for finishing, capturing, and advancing</td><td>Also weighs the chance the opponent captures next throw</td></tr>
+                                <tr><td><a href="chess">Chess</a></td><td>Random pick from the weaker 60% of moves</td><td>Searches 2 moves ahead</td><td>Searches 3 moves ahead (4 if done within 1 s), plus up to 8 more moves of captures</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="info-section">
+                    <h2>What These Numbers Can't Tell You</h2>
+                    <ul class="rule-list">
+                        <li><strong>They aren't win rates against people.</strong> These are AI vs AI results, so they don't say how often Hard beats a human. People make long-term plans the AI misses, and also make mistakes the AI never would.</li>
+                        <li><strong>Games with few rounds have a wide margin of error.</strong> A 20-game result can shift by a few games if measured again. Yut Nori (4,000 games) and Dots and Boxes (1,000 games) are fairly stable.</li>
+                        <li><strong>Alkkagi and Sudoku Duel were not measured.</strong> Alkkagi would need the whole collision and sliding physics simulation, so we left it out this time. The Sudoku Duel AI's chance of a correct answer (Easy 50%, Normal 78%, Hard 95%) is fixed in the code, so there is nothing to measure by playing.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Reproduce It Yourself</h2>
+                    <p>All the measurement scripts are public. Clone the repository and run the commands below to measure the same way. Because of the random elements, the numbers will vary a little.</p>
+                    <pre>node scripts/ai-benchmark.mjs        # Omok, Connect 4, Tic-Tac-Toe, Ultimate, Chess
+node scripts/yut-ai-check.mjs 4000   # Yut Nori
+node scripts/reversi-ai-check.mjs 200
+node scripts/dots-ai-check.mjs 1000
+node scripts/chess-ai-check.mjs      # chess move generation check (perft)</pre>
+                    <p>Scripts: <a href="https://github.com/lys0318/Omokboard/tree/main/scripts" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">github.com/lys0318/Omokboard/scripts</a></p>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>Can I beat the Hard AI?</strong> Yes. These are AI vs AI results. In Connect 4 and Omok you always move first against the AI, and Connect 4 in particular favors the first player, so an accurate double threat can beat Hard. Tic-Tac-Toe Hard, however, is built never to lose, so a draw is the best you can get.</li>
+                        <li><strong>Why does the number of games differ by game?</strong> Each game takes a different amount of time. Chess Hard needs about 0.6 s per move, so we played 20 games per matchup; a game of Yut Nori finishes quickly, so we played 4,000.</li>
+                        <li><strong>Why does the AI take longer on screen than in these tables?</strong> The real game adds a deliberate pause so you can follow the AI's move with your eyes. The tables show only the calculation time.</li>
+                        <li><strong>When will you measure again?</strong> Whenever the AI changes, we rerun the same scripts and update the numbers and the measurement date on this page.</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+    <script src="/adfit.js?v=1"></script>
+        <footer class="subpage-footer">
+            <nav class="footer-nav">
+                <a href="/en/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

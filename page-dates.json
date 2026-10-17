@@ -6,8 +6,8 @@
   },
   "index": {
     "published": "2026-03-17",
-    "modified": "2026-09-22",
-    "hash": "c8a5956a47e0685c9f617fe7c5dfc61f9824dd12"
+    "modified": "2026-10-18",
+    "hash": "66a4c2ee493125a2ce07e47d22d4f4b6c29d0605"
   },
   "omok": {
     "published": "2026-04-21",
@@ -56,8 +56,8 @@
   },
   "guides": {
     "published": "2026-04-26",
-    "modified": "2026-09-23",
-    "hash": "54d8712cbd8ed688f8c2cf65edf84a4b55403012"
+    "modified": "2026-10-18",
+    "hash": "a77ab40c8cb401a99343dcde8a55eca57884322b"
   },
   "omok-guide": {
     "published": "2026-04-26",
@@ -66,13 +66,13 @@
   },
   "connect4-guide": {
     "published": "2026-04-26",
-    "modified": "2026-09-23",
-    "hash": "8e8af33dd52b378f2fc4b5a629845b0b49d1b1a4"
+    "modified": "2026-10-18",
+    "hash": "c6441efdcd5e01ed4841d0625770e3d030cff413"
   },
   "reversi-guide": {
     "published": "2026-04-26",
-    "modified": "2026-09-24",
-    "hash": "2c646b22ed9db9a9d16d7ad9aac6152e1c029fee"
+    "modified": "2026-10-18",
+    "hash": "2ac45da9b7ec9630f7ab65f6aa222dc0c1df6513"
   },
   "dots-guide": {
     "published": "2026-04-26",
@@ -81,8 +81,8 @@
   },
   "chess-guide": {
     "published": "2026-04-26",
-    "modified": "2026-09-24",
-    "hash": "06f34460eec1684f551fadab9772a25f56fe5739"
+    "modified": "2026-10-18",
+    "hash": "6eb3d62658684624e73a3743b70e39ad06e0694a"
   },
   "alkkagi-guide": {
     "published": "2026-04-26",
@@ -96,8 +96,8 @@
   },
   "sudoku-guide": {
     "published": "2026-06-17",
-    "modified": "2026-09-23",
-    "hash": "c16d4ed7ab12cdfbdac26d4487540664ec1d79ec"
+    "modified": "2026-10-18",
+    "hash": "29a6acac6fbbcc9a3ded8e1a459a4f26c3b67322"
   },
   "tictactoe-guide": {
     "published": "2026-06-17",
@@ -156,8 +156,8 @@
   },
   "omok-history": {
     "published": "2026-09-07",
-    "modified": "2026-09-23",
-    "hash": "1e054fa7be47c1f96cc04049f1a357b3199c5491"
+    "modified": "2026-10-18",
+    "hash": "a448c6236425dc9a12ebc616ffb921ef440ee03e"
   },
   "online-play-guide": {
     "published": "2026-09-07",
@@ -188,5 +188,10 @@
     "published": "2026-04-21",
     "modified": "2026-10-07",
     "hash": "9b6ecf3dbd42eff571befb07df920de145a1b02e"
+  },
+  "ai-benchmarks": {
+    "published": "2026-10-18",
+    "modified": "2026-10-18",
+    "hash": "e3408458063546ce452e32be9d7b0af4ee8559f9"
   }
 }
