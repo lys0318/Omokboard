@@ -605,6 +605,21 @@ h1 {
 }
 .game-how-to li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 0.22em; }
 
+/* 게임 아래 공략 본문 (윷놀이·알까기) */
+.game-article { width: 100%; max-width: var(--board-size); color: var(--text-muted); line-height: 1.75; font-size: 0.93rem; }
+.game-article .info-section {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+}
+.game-article h2 { font-size: 1.2rem; color: var(--text-main); margin-bottom: 0.6rem; letter-spacing: 0; }
+.game-article p + p { margin-top: 0.6rem; }
+.game-article strong { color: var(--text-main); }
+.game-article a { color: var(--accent-blue); font-weight: 700; text-decoration: none; }
+.game-article .rule-list { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
+
 /* Generic mode overlay for all games */
 .game-mode-overlay {
     position: fixed;

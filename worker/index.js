@@ -1,6 +1,13 @@
 import { generateCode } from './code.js';
 export { RoomDO } from './room.js';
 
+// 합친 글: 옛 경로 → 새 경로
+const MOVED = {
+  '/yut-guide': '/yut',
+  '/alkkagi-guide': '/alkkagi',
+  '/korean-games': '/yut',
+};
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -8,6 +15,14 @@ export default {
     // www는 정본 주소로 301 (같은 사이트가 두 주소로 색인되지 않게)
     if (url.hostname === 'www.omokboard.com') {
       url.hostname = 'omokboard.com';
+      return Response.redirect(url.toString(), 301);
+    }
+
+    // 다른 페이지로 합친 글의 옛 주소는 내용이 옮겨 간 곳으로 301 (영어판 /en/ 접두어 유지)
+    const en = url.pathname.startsWith('/en/') ? '/en' : '';
+    const movedTo = MOVED[url.pathname.slice(en.length).replace(/\.html$/, '')];
+    if (movedTo) {
+      url.pathname = en + movedTo;
       return Response.redirect(url.toString(), 301);
     }
 

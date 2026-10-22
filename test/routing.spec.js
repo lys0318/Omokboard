@@ -25,6 +25,16 @@ describe('라우팅', () => {
     expect(res.headers.get('location')).toBe('https://omokboard.com/omok-guide?x=1');
   });
 
+  it('합친 글의 옛 주소는 옮겨 간 곳으로 301 (영어판·.html 포함)', async () => {
+    for (const [from, to] of [
+      ['/yut-guide', '/yut'], ['/en/alkkagi-guide', '/en/alkkagi'], ['/korean-games.html', '/yut'],
+    ]) {
+      const res = await SELF.fetch('https://omokboard.com' + from + '?x=1', { redirect: 'manual' });
+      expect(res.status).toBe(301);
+      expect(res.headers.get('location')).toBe('https://omokboard.com' + to + '?x=1');
+    }
+  });
+
   it('정본 주소의 페이지는 리다이렉트 없이 그대로', async () => {
     const res = await SELF.fetch('https://omokboard.com/omok-guide', { redirect: 'manual' });
     expect(res.status).toBe(200);

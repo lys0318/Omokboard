@@ -6,8 +6,8 @@
   },
   "index": {
     "published": "2026-03-17",
-    "modified": "2026-10-22",
-    "hash": "da47e8c7d444ae7ed3e15ee821e67bef0429ef7f"
+    "modified": "2026-10-23",
+    "hash": "aea8bfa756b717fd168700988655f45f29bf6258"
   },
   "omok": {
     "published": "2026-04-21",
@@ -36,13 +36,13 @@
   },
   "alkkagi": {
     "published": "2026-04-21",
-    "modified": "2026-09-24",
-    "hash": "ce759cd23685aefebed48cf668ffeb4ed69c1470"
+    "modified": "2026-10-23",
+    "hash": "3626b26a26359c065a7135fce8a11f6df4df39a6"
   },
   "yut": {
     "published": "2026-06-17",
-    "modified": "2026-09-24",
-    "hash": "12ac16274409e324c58297f6cc9f8477dccb03eb"
+    "modified": "2026-10-23",
+    "hash": "739547cac107711b419c15b793b03c62554f5626"
   },
   "sudoku": {
     "published": "2026-06-17",
@@ -56,8 +56,8 @@
   },
   "guides": {
     "published": "2026-04-26",
-    "modified": "2026-10-22",
-    "hash": "d2b6ee8d20c3af97b941556f606abf14494d4409"
+    "modified": "2026-10-23",
+    "hash": "37fe9ea8dc05b63346996625503ca98b8af5d2e0"
   },
   "omok-guide": {
     "published": "2026-04-26",
@@ -83,16 +83,6 @@
     "published": "2026-04-26",
     "modified": "2026-10-22",
     "hash": "98037ebec370a2e9de25685bcb1b6d99619b867f"
-  },
-  "alkkagi-guide": {
-    "published": "2026-04-26",
-    "modified": "2026-10-22",
-    "hash": "ed9850050603470427cd7ef743c11289d422e5c9"
-  },
-  "yut-guide": {
-    "published": "2026-06-17",
-    "modified": "2026-09-24",
-    "hash": "33f4df3639c8c8c30f03ea23555b72fe7817121c"
   },
   "sudoku-guide": {
     "published": "2026-06-17",
@@ -133,11 +123,6 @@
     "published": "2026-07-16",
     "modified": "2026-09-23",
     "hash": "2317775678840609197b87673176d2d9aca5a6d7"
-  },
-  "korean-games": {
-    "published": "2026-07-16",
-    "modified": "2026-09-23",
-    "hash": "0c2c76f4f764790ba40f81eb276798be5326a9d0"
   },
   "free-board-games": {
     "published": "2026-07-16",
@@ -201,7 +186,7 @@
   },
   "alkkagi-friction": {
     "published": "2026-10-22",
-    "modified": "2026-10-22",
-    "hash": "07a632b523b07083ab58f613c76b331de5747ba7"
+    "modified": "2026-10-23",
+    "hash": "7b16d033042dab8035608f69c95afb2dd3abc324"
   }
 }

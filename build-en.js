@@ -35,8 +35,6 @@ const META = {
   'reversi-guide':  { t:'Reversi (Othello) Strategy Guide | Omokboard', d:'Learn Reversi strategy: corners, X/C squares, mobility, and endgame counting.' },
   'dots-guide':     { t:'Dots and Boxes Strategy Guide | Omokboard', d:'Learn Dots and Boxes: safe moves, chains, the double-cross, and parity.' },
   'chess-guide':    { t:'Chess Rules & Basics Guide | Omokboard', d:'Learn chess piece moves, special rules, opening principles, and tactics (fork, pin, skewer).' },
-  'alkkagi-guide':  { t:'Alkkagi Guide & Tips | Omokboard', d:'Learn Alkkagi: controls, power control, angles, and safe positioning.' },
-  'yut-guide':      { t:'Yut Nori Rules & Strategy Guide | Omokboard', d:'Learn Yut Nori: Do/Gae/Geol/Yut/Mo, shortcuts, capturing, stacking, and winning strategy.' },
   'sudoku-guide':   { t:'How to Solve Sudoku - Guide | Omokboard', d:'Learn Sudoku techniques: scanning, naked singles, hidden singles, and pencil marks.' },
   'tictactoe-guide':{ t:'Tic-Tac-Toe Strategy (Classic & Ultimate) | Omokboard', d:'Learn Tic-Tac-Toe strategy: forks, the never-lose order, and Ultimate Tic-Tac-Toe rules and tactics.' },
   minesweeper:      { t:'Minesweeper - Free Online Game | Omokboard', d:'Play free online Minesweeper. Three difficulty levels, safe first click guaranteed. Right-click or Flag Mode to mark mines. No install.' },
@@ -46,7 +44,6 @@ const META = {
   '2048-guide':        { t:'2048 Strategy Guide | Omokboard', d:'Learn the 2048 corner strategy and tile-ordering tricks for a high score.' },
   'ladder-guide':      { t:'Ladder Game Guide (Amidakuji) | Omokboard', d:'Learn how the ladder game works, why it is always fair, and when to use it.' },
   'ladder-uses':       { t:'Ladder Game Uses: Penalties, Teams & Order | Omokboard', d:'Use a ladder game (Amidakuji) to fairly decide penalties, team splits, who pays, and cleanup or presentation order. Free, no install.' },
-  'korean-games':      { t:'Korean Traditional Games: Yut Nori & Alkkagi | Omokboard', d:'The history, culture, and rules of Korean traditional games Yut Nori and Alkkagi. Play them free online, no install.' },
   'free-board-games':  { t:'Free Online Board Games: 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser, with no install and no sign-up. Compare and pick one to play.' },
   'brain-training':    { t:'Brain Games and Cognitive Skills | Omokboard', d:'What each Omokboard game actually trains: pattern recognition, logical deduction, planning ahead, spatial organization, risk management, and hand-eye feel.' },
   'game-recommendations': { t:'Game Recommendations by Situation | Omokboard', d:'Which Omokboard game fits your situation: solo training, playing with kids, head-to-head with a friend, holidays, a quick 5 minutes, or going deep.' },
@@ -118,7 +115,7 @@ if (!fs.existsSync(enDir)) fs.mkdirSync(enDir);
 
 // 글 페이지: 작성일·수정일·작성자를 보여주고 Article 구조화 데이터를 단다
 const ARTICLES = new Set(slugs.filter(s => /-guide$/.test(s)).concat([
-  'omok-history', 'chess-openings', 'board-games-for-kids', 'korean-games',
+  'omok-history', 'chess-openings', 'board-games-for-kids',
   'game-recommendations', 'brain-training', 'ladder-uses', 'free-board-games', 'ai-benchmarks',
   'chess-ai-speed', 'alkkagi-friction'
 ]));
