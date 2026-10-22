@@ -7,7 +7,7 @@
   "index": {
     "published": "2026-03-17",
     "modified": "2026-10-23",
-    "hash": "aea8bfa756b717fd168700988655f45f29bf6258"
+    "hash": "ad89932b13456cc1a47b29eeb3716034377b8c84"
   },
   "omok": {
     "published": "2026-04-21",
@@ -57,7 +57,7 @@
   "guides": {
     "published": "2026-04-26",
     "modified": "2026-10-23",
-    "hash": "37fe9ea8dc05b63346996625503ca98b8af5d2e0"
+    "hash": "4e2b5296c0381e8bcc80ed3d84afa29835166e34"
   },
   "omok-guide": {
     "published": "2026-04-26",
@@ -81,8 +81,8 @@
   },
   "chess-guide": {
     "published": "2026-04-26",
-    "modified": "2026-10-22",
-    "hash": "98037ebec370a2e9de25685bcb1b6d99619b867f"
+    "modified": "2026-10-23",
+    "hash": "6611a83fafc6e29439eee936e74ecb7aa1a00553"
   },
   "sudoku-guide": {
     "published": "2026-06-17",
@@ -116,28 +116,13 @@
   },
   "ladder-guide": {
     "published": "2026-07-07",
-    "modified": "2026-09-23",
-    "hash": "6178816c233a8d34a5bac54276b3080fd441cd61"
-  },
-  "ladder-uses": {
-    "published": "2026-07-16",
-    "modified": "2026-09-23",
-    "hash": "2317775678840609197b87673176d2d9aca5a6d7"
+    "modified": "2026-10-23",
+    "hash": "eabdcdf765924b4e9495d8ce077ba5d1677d35fd"
   },
   "free-board-games": {
     "published": "2026-07-16",
-    "modified": "2026-09-23",
-    "hash": "51af8f303f59ccea5a2d898a59ad9bc2df78ba4d"
-  },
-  "brain-training": {
-    "published": "2026-09-01",
-    "modified": "2026-09-23",
-    "hash": "4c9659ac2b75f0be0eefab8a616682d9a30eb6c7"
-  },
-  "game-recommendations": {
-    "published": "2026-09-01",
-    "modified": "2026-09-23",
-    "hash": "640dde9743c992d0a2c2fffd240c476991d46567"
+    "modified": "2026-10-23",
+    "hash": "b3753ac54756eeffc81cba584983fc92af5be8ad"
   },
   "omok-history": {
     "published": "2026-09-07",
@@ -148,16 +133,6 @@
     "published": "2026-09-07",
     "modified": "2026-10-07",
     "hash": "74a0cd4f6da2504daef7947ffe424369178685a5"
-  },
-  "chess-openings": {
-    "published": "2026-09-07",
-    "modified": "2026-09-23",
-    "hash": "b894810c7beefb888de262330ba93ed62d66a05e"
-  },
-  "board-games-for-kids": {
-    "published": "2026-09-07",
-    "modified": "2026-09-23",
-    "hash": "bfd33bb01ef351cbb54d5dcdd6bbd57263dd56a5"
   },
   "about": {
     "published": "2026-04-21",

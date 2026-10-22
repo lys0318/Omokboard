@@ -13,7 +13,7 @@ const CHECKS = [
   ['/omok',                '오목 게임'],
   ['/chess',               '체스'],
   ['/free-board-games',    '무료 온라인 보드게임'],
-  ['/ladder-uses',         '사다리타기 활용법'],
+  ['/ladder-guide',        '회식·모임 벌칙 정하기'],
   ['/yut',                 '오목보드 윷은 얼마나 자주 나올까'],
   ['/en/omok',             'Omok'],
   ['/en/',                 'Omokboard'],

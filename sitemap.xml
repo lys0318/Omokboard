@@ -98,7 +98,7 @@
   </url>
   <url>
     <loc>https://omokboard.com/chess-guide</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -140,31 +140,13 @@
   </url>
   <url>
     <loc>https://omokboard.com/ladder-guide</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://omokboard.com/ladder-uses</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://omokboard.com/free-board-games</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omokboard.com/brain-training</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omokboard.com/game-recommendations</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -181,12 +163,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://omokboard.com/chess-openings</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://omokboard.com/ai-benchmarks</loc>
     <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -201,12 +177,6 @@
   <url>
     <loc>https://omokboard.com/alkkagi-friction</loc>
     <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omokboard.com/board-games-for-kids</loc>
-    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -326,7 +296,7 @@
   </url>
   <url>
     <loc>https://omokboard.com/en/chess-guide</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -368,31 +338,13 @@
   </url>
   <url>
     <loc>https://omokboard.com/en/ladder-guide</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://omokboard.com/en/ladder-uses</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://omokboard.com/en/free-board-games</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omokboard.com/en/brain-training</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omokboard.com/en/game-recommendations</loc>
-    <lastmod>2026-09-23</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -409,12 +361,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://omokboard.com/en/chess-openings</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://omokboard.com/en/ai-benchmarks</loc>
     <lastmod>2026-10-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -429,12 +375,6 @@
   <url>
     <loc>https://omokboard.com/en/alkkagi-friction</loc>
     <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://omokboard.com/en/board-games-for-kids</loc>
-    <lastmod>2026-09-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

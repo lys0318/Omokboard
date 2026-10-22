@@ -28,6 +28,7 @@ describe('라우팅', () => {
   it('합친 글의 옛 주소는 옮겨 간 곳으로 301 (영어판·.html 포함)', async () => {
     for (const [from, to] of [
       ['/yut-guide', '/yut'], ['/en/alkkagi-guide', '/en/alkkagi'], ['/korean-games.html', '/yut'],
+      ['/brain-training', '/free-board-games'], ['/en/chess-openings', '/en/chess-guide'], ['/ladder-uses', '/ladder-guide'],
     ]) {
       const res = await SELF.fetch('https://omokboard.com' + from + '?x=1', { redirect: 'manual' });
       expect(res.status).toBe(301);

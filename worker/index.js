@@ -6,6 +6,11 @@ const MOVED = {
   '/yut-guide': '/yut',
   '/alkkagi-guide': '/alkkagi',
   '/korean-games': '/yut',
+  '/game-recommendations': '/free-board-games',
+  '/board-games-for-kids': '/free-board-games',
+  '/brain-training': '/free-board-games',
+  '/ladder-uses': '/ladder-guide',
+  '/chess-openings': '/chess-guide',
 };
 
 export default {

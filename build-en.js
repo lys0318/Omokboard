@@ -43,17 +43,12 @@ const META = {
   'minesweeper-guide': { t:'Minesweeper Guide - Reading Numbers | Omokboard', d:'Learn Minesweeper number logic, flag tips, and how to solve without guessing.' },
   '2048-guide':        { t:'2048 Strategy Guide | Omokboard', d:'Learn the 2048 corner strategy and tile-ordering tricks for a high score.' },
   'ladder-guide':      { t:'Ladder Game Guide (Amidakuji) | Omokboard', d:'Learn how the ladder game works, why it is always fair, and when to use it.' },
-  'ladder-uses':       { t:'Ladder Game Uses: Penalties, Teams & Order | Omokboard', d:'Use a ladder game (Amidakuji) to fairly decide penalties, team splits, who pays, and cleanup or presentation order. Free, no install.' },
-  'free-board-games':  { t:'Free Online Board Games: 12 to Play, No Install | Omokboard', d:'A roundup of 12 free online board games playable instantly in the browser, with no install and no sign-up. Compare and pick one to play.' },
-  'brain-training':    { t:'Brain Games and Cognitive Skills | Omokboard', d:'What each Omokboard game actually trains: pattern recognition, logical deduction, planning ahead, spatial organization, risk management, and hand-eye feel.' },
-  'game-recommendations': { t:'Game Recommendations by Situation | Omokboard', d:'Which Omokboard game fits your situation: solo training, playing with kids, head-to-head with a friend, holidays, a quick 5 minutes, or going deep.' },
+  'free-board-games':  { t:'Free Online Board Games: 12 to Play, No Install | Omokboard', d:'12 free online board games you can play instantly in the browser, no install or sign-up. Compare them, then pick by situation, by age, or by the thinking skill each one uses.' },
   'omok-history':      { t:'The History and Origins of Omok (Gomoku) | Omokboard', d:'Where Omok came from, why the first player wins under free-style rules, and how Renju’s forbidden moves (double-three, double-four, overline) balance the game.' },
   'online-play-guide': { t:'Online Play Guide: Play Friends with a Room Code | Omokboard', d:'How to create a room, share the code, reconnect after a drop, and rematch. Which of Omokboard’s games support online play, with no sign-up required.' },
-  'chess-openings':    { t:'Chess Openings for Beginners | Omokboard', d:'The three opening principles (center, development, king safety), plus the Italian Game, London System, Sicilian Defense, French Defense, and common beginner mistakes.' },
   'ai-benchmarks':     { t:'AI Difficulty Benchmarks: Win Rates and Move Times | Omokboard', d:'How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 7 games, plus the method and its limits.' },
   'chess-ai-speed':    { t:'Why the Chess AI Took Up to 40 Seconds a Move, and How I Fixed It | Omokboard', d:'Omokboard’s Hard chess AI averaged 5 seconds per move and nearly 40 at worst. The rules library was the bottleneck; a separate AI calculator brought it to 0.6 seconds, verified with perft.' },
   'alkkagi-friction':  { t:'Tuning Alkkagi Friction: When Marbles Slid Twice Across the Board | Omokboard', d:'The first Alkkagi build let a hard flick slide 2.37 times the board width. How the friction went from 0.984 to 0.960, the playing tips it created, and how online play keeps both screens in sync.' },
-  'board-games-for-kids': { t:'Board Games to Play With Kids by Age | Omokboard', d:'Which Omokboard games fit ages 4 to 13+, why playing together on one screen matters, and what parents should know: no sign-up, no chat, no payments.' },
   about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games. Play the AI, a friend on the same device, or a friend online by room code, with nothing to install.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard about bugs, mistakes in a guide, AI difficulty, new game ideas, or privacy and advertising questions, plus what details help with a bug report.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'How Omokboard handles access logs, Google Analytics statistics, online play data, browser storage, and Google AdSense and Kakao AdFit advertising cookies.' }
@@ -115,8 +110,7 @@ if (!fs.existsSync(enDir)) fs.mkdirSync(enDir);
 
 // 글 페이지: 작성일·수정일·작성자를 보여주고 Article 구조화 데이터를 단다
 const ARTICLES = new Set(slugs.filter(s => /-guide$/.test(s)).concat([
-  'omok-history', 'chess-openings', 'board-games-for-kids',
-  'game-recommendations', 'brain-training', 'ladder-uses', 'free-board-games', 'ai-benchmarks',
+  'omok-history', 'free-board-games', 'ai-benchmarks',
   'chess-ai-speed', 'alkkagi-friction'
 ]));
 const koDate = d => { const [y, m, dd] = d.split('-').map(Number); return `${y}년 ${m}월 ${dd}일`; };
