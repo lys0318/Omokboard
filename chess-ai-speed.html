@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/chess-ai-speed">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/chess-ai-speed">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/chess-ai-speed">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/chess-ai-speed">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>체스 AI가 한 수에 40초까지 걸리던 이유와 고친 방법 - 오목보드</title>
+    <meta name="description" content="오목보드 체스 어려움 AI는 한 수에 평균 5초, 길게는 40초 가까이 걸렸습니다. 규칙 라이브러리를 탐색에 쓴 것이 원인이었고, AI 전용 계산기를 따로 만들어 평균 0.6초로 줄였습니다. 정확성은 perft로 검증했습니다.">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="체스 AI가 한 수에 40초까지 걸리던 이유와 고친 방법 - 오목보드">
+    <meta property="og:description" content="규칙 라이브러리 대신 AI 전용 계산기를 만들어 체스 AI의 한 수를 평균 0.6초로 줄인 개발 일지.">
+    <meta property="og:url" content="https://omokboard.com/chess-ai-speed">
+    <meta property="og:image" content="https://omokboard.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og-image.png">
+    <meta name="twitter:title" content="체스 AI가 한 수에 40초까지 걸리던 이유와 고친 방법 - 오목보드">
+    <meta name="twitter:description" content="체스 AI의 한 수를 평균 0.6초로 줄인 개발 일지.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=13">
+    <link rel="stylesheet" href="subpage.css?v=2">
+    <style>
+        .cmp-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table.cmp { width: 100%; border-collapse: collapse; min-width: 360px; font-size: 0.95rem; }
+        table.cmp th, table.cmp td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        table.cmp th { color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+        table.cmp tr:last-child td { border-bottom: none; }
+    </style>
+    <script src="lang.js?v=10"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "체스 AI가 한 수에 40초까지 걸리던 이유와 고친 방법",
+  "description": "오목보드 체스 어려움 AI는 한 수에 평균 5초, 길게는 40초 가까이 걸렸습니다. 규칙 라이브러리를 탐색에 쓴 것이 원인이었고, AI 전용 계산기를 따로 만들어 평균 0.6초로 줄였습니다. 정확성은 perft로 검증했습니다.",
+  "inLanguage": "ko",
+  "datePublished": "2026-10-22",
+  "dateModified": "2026-10-22",
+  "mainEntityOfPage": "https://omokboard.com/chess-ai-speed",
+  "image": "https://omokboard.com/og-image.png",
+  "author": {
+    "@type": "Organization",
+    "name": "오목보드",
+    "url": "https://omokboard.com/about"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "오목보드",
+    "url": "https://omokboard.com/"
+  }
+}
+    </script>
+</head>
+
+<body>
+    <div class="subpage-container">
+        <header class="subpage-header">
+            <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
+            <h1><span class="ko-only">체스 AI가 한 수에 40초까지 걸리던 이유</span><span class="en-only" style="display:none;">Why the Chess AI Took Up to 40 Seconds a Move</span></h1>
+            <p class="subtitle"><span class="ko-only">개발 일지: 느렸던 원인, 고친 방법, 그리고 고친 계산기를 검증한 방법</span><span class="en-only" style="display:none;">Dev log: what was slow, how I fixed it, and how I checked the fix</span></p>
+            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-10-22">2026년 10월 22일</time> · 수정 <time datetime="2026-10-22">2026년 10월 22일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-10-22">October 22, 2026</time> · Updated <time datetime="2026-10-22">October 22, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
+        </header>
+
+        <main class="subpage-main">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>요약</h2>
+                    <p>오목보드 <a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">체스</a>의 어려움 AI는 2026년 9월까지 한 수를 두는 데 평균 5초, 길게는 40초 가까이 걸렸습니다. 지금은 평균 0.6초, 가장 오래 걸려도 1.3초입니다(2026년 10월 18일, 782수 측정). 무엇이 느렸고 어떻게 고쳤는지, 그리고 고친 계산기가 규칙을 틀리지 않는지 어떻게 확인했는지 정리합니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>얼마나 느렸나</h2>
+                    <p>AI끼리 대국을 시켜 한 수 계산 시간을 쟀습니다(2026년 9월 24일, 노트북 CPU와 Node.js 기준. 기존 어려움은 6판 기준).</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>버전</th><th>평균</th><th>최대</th></tr></thead>
+                            <tbody>
+                                <tr><td>기존 어려움 (3수 탐색)</td><td>5.2초</td><td>39.9초</td></tr>
+                                <tr><td>기존 보통 (2수 탐색)</td><td>0.8초</td><td>5.3초</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;">휴대폰은 이보다 몇 배 느립니다. AI 차례가 되면 화면이 멈춘 것처럼 보이는 상태였습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>원인: 규칙 라이브러리를 탐색에 쓴 것</h2>
+                    <p>체스 규칙 판정에는 chess.js(0.10.3)라는 라이브러리를 씁니다. 사람이 둔 수가 합법인지, 체크메이트인지 판단하는 데는 충분히 빠릅니다. 문제는 AI가 수를 고를 때도 같은 라이브러리로 판을 수천에서 수만 번 펼쳐 봤다는 점입니다.</p>
+                    <p style="margin-top:0.6rem;">이 라이브러리는 둘 수 있는 수 목록을 만들 때마다, 수마다 기보 표기(Nf3, Qxe5+ 같은 것)를 만들고 그 표기에 붙일 체크·체크메이트 여부까지 확인합니다. 체크메이트를 확인하려면 다시 둘 수 있는 수를 전부 만들어 봐야 하니, 탐색 한 번에 같은 계산이 수십만 번 반복됐습니다. 기존 AI는 판 평가에 "둘 수 있는 수의 개수"까지 넣어서, 판 하나를 평가할 때마다 수 목록을 또 만들었습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>첫 시도는 오히려 더 느려졌다</h2>
+                    <p>기존 어려움 AI에는 약점이 하나 더 있었습니다. 3수째에서 계산을 그냥 끊기 때문에, 기물을 주고받는 교환이 진행 중인 상태로 판단을 내려 기물을 공짜로 내주곤 했습니다. 체스 프로그램에서 수평선 효과라고 부르는 문제입니다.</p>
+                    <p style="margin-top:0.6rem;">그래서 먼저 "잡는 수가 남아 있으면 이어서 계산하는" 기능을 같은 라이브러리 위에 붙였는데, 한 중반 국면에서 한 수 계산이 65초(65,740ms) 걸렸습니다. 느린 부품 위에 계산을 더 얹은 셈이었습니다. 강하게 만들려면 먼저 빠르게 만들어야 했습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>해결: AI 전용 계산기를 따로 만든다</h2>
+                    <p>역할을 나눴습니다. "어디에 둘지" 계산은 새로 만든 가벼운 계산기(chess-ai.js)가 하고, 실제 착수와 규칙 판정(3회 반복, 50수 규칙 등)은 지금처럼 chess.js가 합니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>판 표현:</strong> 0x88 방식을 씁니다. 128칸 배열에 판을 담아, 기물이 판 밖으로 나갔는지를 비트 연산 한 번으로 걸러내는 고전적인 방법입니다.</li>
+                        <li><strong>합법 수만, 표기 없이:</strong> 둘 수 있는 수만 만들고 기보 표기는 만들지 않습니다.</li>
+                        <li><strong>깊이는 시간에 맞춰:</strong> 어려움은 3수 앞은 항상 읽고, 4수 앞은 1초 안에 끝날 때만 씁니다. 기기가 느리면 3수로, 빠르면 4수로 둡니다.</li>
+                        <li><strong>교환은 끝까지:</strong> 계산이 끝나는 지점에서 기물 교환이 진행 중이면 잡는 수가 없을 때까지(최대 8수) 이어서 계산합니다. 수평선 효과를 막는 장치입니다.</li>
+                        <li><strong>이기고 있으면 반복하지 않기:</strong> 새 계산기는 같은 국면이 반복되는지 모르기 때문에, 이기고 있을 때 3회 반복 무승부가 되는 수는 chess.js로 확인해서 건너뜁니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>새 계산기가 규칙을 틀리지 않는지 확인한 방법</h2>
+                    <p>계산기가 합법 수를 하나라도 빠뜨리거나 잘못 만들면 AI가 반칙을 두게 됩니다. 두 가지로 확인했습니다.</p>
+                    <p style="margin-top:0.6rem;"><strong>1. perft:</strong> 체스 프로그램들이 쓰는 검증법입니다. 정해진 국면에서 정해진 수만큼 둘 수 있는 모든 경우의 수를 세어, 널리 알려진 기준값과 비교합니다. 한 칸이라도 틀리면 숫자가 달라집니다.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>국면</th><th>깊이</th><th>기준값</th><th>결과</th></tr></thead>
+                            <tbody>
+                                <tr><td>시작 국면</td><td>4수</td><td>197,281</td><td>일치</td></tr>
+                                <tr><td>Kiwipete (캐슬링·앙파상·핀이 섞인 검증용 국면)</td><td>3수</td><td>97,862</td><td>일치</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;"><strong>2. 규칙 라이브러리와 대조:</strong> 무작위로 둔 대국에서 나온 국면 43,614개마다 새 계산기와 chess.js가 센 합법 수 개수를 비교했습니다. 하나도 다르지 않았습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>결과</h2>
+                    <p>고친 직후(2026년 9월 24일) AI끼리 둔 결과입니다.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>대결</th><th>결과</th></tr></thead>
+                            <tbody>
+                                <tr><td>새 어려움 vs 기존 어려움</td><td>8판 7승 1무</td></tr>
+                                <tr><td>새 어려움 vs 새 보통</td><td>20판 19승 1무</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;">같은 날 새 어려움의 한 수 계산은 평균 0.6초, 최대 1.04초였습니다. 2026년 10월 18일에 대결마다 20판씩 다시 쟀을 때는 새 어려움이 새 보통을 20판 모두 이겼고, 한 수 계산은 평균 0.6초, 최대 1.3초였습니다. 전체 결과는 <a href="ai-benchmarks" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">AI 난이도 실측 기록</a>에 있습니다.</p>
+                    <p style="margin-top:0.6rem;">대가도 있었습니다. 새 계산기는 판을 기물 점수와 위치 점수로만 평가합니다. "둘 수 있는 수의 개수" 항목을 뺐더니, 새 보통은 기존 보통과 20판을 둬서 1승 15무 4패로 조금 약해졌습니다. 대신 기존 보통이 가끔 5초 넘게 멈추던 일은 없어졌습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>아직 남은 약점</h2>
+                    <p>평가 기준이 단순해서 킹 주변의 안전이나 겹친 폰·고립된 폰 같은 폰 구조를 따로 따지지 않습니다. 킹을 향한 느린 공격이나 폰 구조의 약점을 오래 파고드는 운영에 약하고, 네 수보다 멀리서 완성되는 전술은 보지 못합니다. 어려움 AI를 이기고 싶다면 이 방향을 노려 보세요. 기본 전술은 <a href="chess-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">체스 공략</a>에 정리해 두었습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>직접 확인하기</h2>
+                    <ul class="rule-list">
+                        <li><strong>검증 스크립트:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/scripts/chess-ai-check.mjs" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">scripts/chess-ai-check.mjs</a> (perft)</li>
+                        <li><strong>대국 측정:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/scripts/ai-benchmark.mjs" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">scripts/ai-benchmark.mjs</a></li>
+                        <li><strong>AI 전용 계산기:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/chess-ai.js" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">chess-ai.js</a></li>
+                        <li><strong>바뀐 코드:</strong> <a href="https://github.com/lys0318/Omokboard/commit/b04051d" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">커밋 b04051d</a> (2026-09-24)</li>
+                    </ul>
+                    <p style="margin-top:0.8rem;"><a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">체스 바로 하기 →</a></p>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>Summary</h2>
+                    <p>Until September 2026, the Hard AI in Omokboard's <a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Chess</a> took an average of 5 seconds per move, and close to 40 seconds at worst. Now it averages 0.6 seconds and never took longer than 1.3 seconds (measured over 782 moves on October 18, 2026). Here is what was slow, how I fixed it, and how I checked that the new calculator never breaks the rules.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Slow It Was</h2>
+                    <p>I had the AIs play each other and timed each move (September 24, 2026, on a laptop CPU with Node.js; the old Hard figures come from 6 games).</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Version</th><th>Average</th><th>Max</th></tr></thead>
+                            <tbody>
+                                <tr><td>Old Hard (3-move search)</td><td>5.2 s</td><td>39.9 s</td></tr>
+                                <tr><td>Old Normal (2-move search)</td><td>0.8 s</td><td>5.3 s</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;">Phones are several times slower than this. When it was the AI's turn, the screen looked frozen.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The Cause: Searching With the Rules Library</h2>
+                    <p>Chess rules on Omokboard are handled by a library called chess.js (0.10.3). It's plenty fast for checking whether your move is legal or whether the game is checkmate. The problem was that the AI used the same library to play out positions thousands or tens of thousands of times while choosing a move.</p>
+                    <p style="margin-top:0.6rem;">Every time this library lists the legal moves, it builds the notation for each one (like Nf3 or Qxe5+) and checks whether that move gives check or checkmate. Checking for checkmate means generating every legal move again, so a single search repeated the same work hundreds of thousands of times. On top of that, the old AI counted "how many moves are available" when scoring a position, which built the move list yet again for every position it scored.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The First Attempt Made It Slower</h2>
+                    <p>The old Hard AI had another weakness. It simply stopped calculating at the third move, so it sometimes judged a position in the middle of a trade and gave a piece away for free. Chess programmers call this the horizon effect.</p>
+                    <p style="margin-top:0.6rem;">So I first added "keep calculating while captures remain" on top of the same library, and one middlegame position took 65 seconds (65,740 ms) for a single move. I had stacked more work on top of a slow part. Before the AI could get stronger, it had to get faster.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The Fix: A Separate Calculator Just for the AI</h2>
+                    <p>I split the job in two. A new, lightweight calculator (chess-ai.js) decides where to move, while chess.js still plays the actual move and handles the rules (threefold repetition, the 50-move rule, and so on).</p>
+                    <ul class="rule-list">
+                        <li><strong>Board representation:</strong> It uses the 0x88 scheme, a classic trick that stores the board in a 128-square array so a single bitwise operation tells whether a piece has left the board.</li>
+                        <li><strong>Legal moves only, no notation:</strong> It generates only the legal moves and never builds move notation.</li>
+                        <li><strong>Depth that fits the time:</strong> Hard always reads 3 moves ahead and uses a 4-move search only when it finishes within 1 second. A slow device plays at 3 moves, a fast one at 4.</li>
+                        <li><strong>Finish the trade:</strong> If a trade is still in progress where the search ends, it keeps calculating until there are no captures left (up to 8 more moves). This is what stops the horizon effect.</li>
+                        <li><strong>Don't repeat when winning:</strong> The new calculator doesn't know about repeated positions, so when the AI is ahead it uses chess.js to skip any move that would allow a threefold-repetition draw.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>How I Checked the Calculator Gets the Rules Right</h2>
+                    <p>If the calculator misses a legal move or invents an illegal one, the AI plays illegal chess. I checked it two ways.</p>
+                    <p style="margin-top:0.6rem;"><strong>1. Perft:</strong> This is the standard test chess programs use. It counts every possible sequence of moves to a set depth from a set position and compares the total with well-known reference values. A single wrong move changes the number.</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Position</th><th>Depth</th><th>Reference</th><th>Result</th></tr></thead>
+                            <tbody>
+                                <tr><td>Starting position</td><td>4 moves</td><td>197,281</td><td>Match</td></tr>
+                                <tr><td>Kiwipete (a test position mixing castling, en passant, and pins)</td><td>3 moves</td><td>97,862</td><td>Match</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;"><strong>2. Cross-checking with the rules library:</strong> For each of 43,614 positions taken from randomly played games, I compared the number of legal moves counted by the new calculator and by chess.js. Not one differed.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Results</h2>
+                    <p>AI vs AI results right after the fix (September 24, 2026):</p>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Matchup</th><th>Result</th></tr></thead>
+                            <tbody>
+                                <tr><td>New Hard vs Old Hard</td><td>8 games: 7 wins, 1 draw</td></tr>
+                                <tr><td>New Hard vs New Normal</td><td>20 games: 19 wins, 1 draw</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;">That day, New Hard averaged 0.6 seconds per move, with a maximum of 1.04 seconds. When I measured again on October 18, 2026, with 20 games per matchup, New Hard won all 20 games against New Normal and averaged 0.6 seconds per move, with a maximum of 1.3 seconds. The full results are in <a href="ai-benchmarks" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">AI Difficulty Benchmarks</a>.</p>
+                    <p style="margin-top:0.6rem;">It came at a cost. The new calculator scores a position only by piece values and square values. Without the "number of available moves" term, New Normal went 1 win, 15 draws, and 4 losses in 20 games against Old Normal, so it got slightly weaker. In exchange, the occasional 5-second freezes from Old Normal are gone.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Weak Spots That Remain</h2>
+                    <p>The scoring is simple, so it doesn't separately consider king safety or pawn structure, such as doubled or isolated pawns. It struggles against a slow attack on its king or a long squeeze on a pawn weakness, and it can't see tactics that land more than four moves out. If you want to beat the Hard AI, aim there. Basic tactics are in the <a href="chess-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Chess guide</a>.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Check It Yourself</h2>
+                    <ul class="rule-list">
+                        <li><strong>Verification script:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/scripts/chess-ai-check.mjs" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">scripts/chess-ai-check.mjs</a> (perft)</li>
+                        <li><strong>Game measurements:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/scripts/ai-benchmark.mjs" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">scripts/ai-benchmark.mjs</a></li>
+                        <li><strong>The AI calculator:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/chess-ai.js" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">chess-ai.js</a></li>
+                        <li><strong>The change:</strong> <a href="https://github.com/lys0318/Omokboard/commit/b04051d" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">commit b04051d</a> (2026-09-24)</li>
+                    </ul>
+                    <p style="margin-top:0.8rem;"><a href="chess" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Chess now →</a></p>
+                </section>
+            </div>
+        </main>
+
+    <script src="adfit.js?v=1"></script>
+        <footer class="subpage-footer">
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="chess" data-i18n="nav.chess">체스</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

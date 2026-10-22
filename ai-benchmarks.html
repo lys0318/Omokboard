@@ -96,7 +96,7 @@
   "description": "오목보드 AI의 쉬움·보통·어려움은 실제로 얼마나 다를까요? 오목·체스·리버시 등 7개 게임에서 AI끼리 대국시켜 잰 승률과 한 수 계산 시간, 측정 방법과 한계를 공개합니다.",
   "inLanguage": "ko",
   "datePublished": "2026-10-18",
-  "dateModified": "2026-10-18",
+  "dateModified": "2026-10-22",
   "mainEntityOfPage": "https://omokboard.com/ai-benchmarks",
   "image": "https://omokboard.com/og-image.png",
   "author": {
@@ -119,7 +119,7 @@
             <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
             <h1><span class="ko-only">AI 난이도 실측 기록</span><span class="en-only" style="display:none;">AI Difficulty Benchmarks</span></h1>
             <p class="subtitle"><span class="ko-only">쉬움·보통·어려움이 실제로 얼마나 다른지, AI끼리 대국시켜 잰 숫자</span><span class="en-only" style="display:none;">How different Easy, Normal, and Hard really are, measured by making the AIs play each other</span></p>
-            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-10-18">2026년 10월 18일</time> · 수정 <time datetime="2026-10-18">2026년 10월 18일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-10-18">October 18, 2026</time> · Updated <time datetime="2026-10-18">October 18, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
+            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-10-18">2026년 10월 18일</time> · 수정 <time datetime="2026-10-22">2026년 10월 22일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-10-18">October 18, 2026</time> · Updated <time datetime="2026-10-22">October 22, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
         </header>
 
         <main class="subpage-main">
@@ -188,7 +188,7 @@
                         <li><strong>사목은 선공이 거의 다 이깁니다.</strong> 어려움 대 보통 20판 중 19판을 먼저 둔 쪽이 이겼습니다. 어려움은 먼저 둔 20판(보통·쉬움 상대)을 모두 이겼지만, 나중에 두면 보통에게 10판 중 1판, 쉬움에게도 10판 중 6판밖에 이기지 못했습니다. 오목보드의 AI 대전에서는 사람이 늘 먼저 두므로, 이중 위협을 정확히 만들면 어려움도 이길 수 있습니다. 공격 요령은 <a href="connect4-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">사목 공략</a>에 있습니다.</li>
                         <li><strong>오목도 선공이 유리하지만 사목만큼은 아닙니다.</strong> 어려움 대 보통에서 어려움은 먼저 둔 10판 중 8판, 나중에 둔 10판 중 5판을 이겼습니다. AI 대전에서 AI는 늘 나중에 두는 백을 잡습니다. 선공이 유리한 이유는 <a href="omok-history" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">오목의 역사와 기원</a>에서 다룹니다.</li>
                         <li><strong>윷놀이는 실력 차가 승률로 덜 드러납니다.</strong> 4,000판에서 어려움은 보통에게 69.4%, 쉬움에게 84.6%를 이겼습니다. 둘 수 있는 말을 무작위로 고르는 쉬움도 어려움에게 100판 중 15판꼴로 이긴다는 뜻입니다. 윷을 던지는 운이 그만큼 큽니다.</li>
-                        <li><strong>체스 어려움은 한 수에 평균 0.6초입니다.</strong> 3수 앞은 항상 읽고, 4수 앞은 1초 안에 끝날 때만 읽습니다. AI 전용 계산기가 규칙을 틀리지 않는지는 체스 프로그램들이 쓰는 표준 검증(perft)으로 확인했습니다. 시작 국면에서 4수까지 가능한 경우의 수 197,281개, 복잡한 검증용 국면(Kiwipete)에서 3수까지 97,862개가 기준값과 정확히 일치했습니다.</li>
+                        <li><strong>체스 어려움은 한 수에 평균 0.6초입니다.</strong> 3수 앞은 항상 읽고, 4수 앞은 1초 안에 끝날 때만 읽습니다. AI 전용 계산기가 규칙을 틀리지 않는지는 체스 프로그램들이 쓰는 표준 검증(perft)으로 확인했습니다. 시작 국면에서 4수까지 가능한 경우의 수 197,281개, 복잡한 검증용 국면(Kiwipete)에서 3수까지 97,862개가 기준값과 정확히 일치했습니다. 속도를 고친 과정은 <a href="chess-ai-speed" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">개발 일지</a>에 있습니다.</li>
                     </ul>
                 </section>
 
@@ -307,7 +307,7 @@ node scripts/chess-ai-check.mjs      # 체스 수 생성 검증(perft)</pre>
                         <li><strong>In Connect 4, the first player almost always wins.</strong> The side that moved first won 19 of 20 Hard vs Normal games. Hard won all 20 games where it moved first (against Normal and Easy), but moving second it won only 1 of 10 against Normal and 6 of 10 against Easy. Against the AI on Omokboard you always move first, so an accurate double threat is enough to beat Hard. See the <a href="connect4-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Connect 4 guide</a> for how.</li>
                         <li><strong>Omok also favors the first player, but less than Connect 4.</strong> Against Normal, Hard won 8 of 10 games moving first and 5 of 10 moving second. In AI games the AI always plays White, which moves second. <a href="omok-history" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">The History and Origins of Omok</a> explains why moving first helps.</li>
                         <li><strong>In Yut Nori, skill shows less in the win rate.</strong> Over 4,000 games Hard beat Normal 69.4% of the time and Easy 84.6%. So Easy, which picks a legal move at random, still beats Hard about 15 times in 100. That's how much the yut throw matters.</li>
-                        <li><strong>Chess Hard averages 0.6 s per move.</strong> It always reads 3 moves ahead, and 4 when that finishes within 1 second. We checked that the AI's calculator never gets the rules wrong with perft, the standard test chess programs use: it counted exactly 197,281 positions 4 moves deep from the starting position, and 97,862 positions 3 moves deep from a tricky test position (Kiwipete), both matching the reference values.</li>
+                        <li><strong>Chess Hard averages 0.6 s per move.</strong> It always reads 3 moves ahead, and 4 when that finishes within 1 second. We checked that the AI's calculator never gets the rules wrong with perft, the standard test chess programs use: it counted exactly 197,281 positions 4 moves deep from the starting position, and 97,862 positions 3 moves deep from a tricky test position (Kiwipete), both matching the reference values. How the speed was fixed is in the <a href="chess-ai-speed" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">dev log</a>.</li>
                     </ul>
                 </section>
 

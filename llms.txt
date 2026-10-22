@@ -50,6 +50,8 @@
 ## 읽을거리 (한국어)
 
 - [AI 난이도 실측 기록](https://omokboard.com/ai-benchmarks): 7개 게임에서 AI끼리 대국시켜 잰 난이도별 승률과 한 수 계산 시간, 측정 방법(1차 자료)
+- [개발 일지: 체스 AI가 한 수에 40초까지 걸리던 이유](https://omokboard.com/chess-ai-speed): 규칙 라이브러리 병목, AI 전용 계산기, perft 검증, 전후 측정값
+- [개발 일지: 알까기 마찰 계수를 고르기까지](https://omokboard.com/alkkagi-friction): 마찰 0.984→0.960, 미끄러지는 거리 계산, 온라인 동기화 방식
 - [오목의 역사와 기원](https://omokboard.com/omok-history): 오목·고모쿠·렌주의 차이와 자유 규칙에서 흑이 유리한 이유
 - [온라인 대전 이용 가이드](https://omokboard.com/online-play-guide): 6자리 방 코드로 친구와 대전하는 법, 재접속·재대결, 지원 게임 8종
 - [체스 오프닝 기초](https://omokboard.com/chess-openings): 오프닝 3원칙과 이탈리안 게임·런던 시스템 등 대표 오프닝
@@ -64,6 +66,8 @@
 
 - [Game guides](https://omokboard.com/en/guides): rules, beginner strategy, and how the AI plays for each of the 12 games
 - [AI Difficulty Benchmarks](https://omokboard.com/en/ai-benchmarks): win rates and per-move times by difficulty in 7 games, measured AI vs AI (first-party data)
+- [Dev Log: Why the Chess AI Took Up to 40 Seconds a Move](https://omokboard.com/en/chess-ai-speed): the rules-library bottleneck, a separate AI calculator, perft verification, before/after timings
+- [Dev Log: Tuning Alkkagi's Friction](https://omokboard.com/en/alkkagi-friction): friction 0.984 to 0.960, slide-distance math, how online play stays in sync
 - [History and Origins of Omok](https://omokboard.com/en/omok-history): how Omok, Gomoku, and Renju differ, and why the first player has the edge
 - [Online Play Guide](https://omokboard.com/en/online-play-guide): playing a friend by 6-character room code, reconnecting, and rematching
 - [Chess Openings for Beginners](https://omokboard.com/en/chess-openings): the three opening principles and common openings

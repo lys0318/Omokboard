@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/en/alkkagi-friction">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/alkkagi-friction">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/alkkagi-friction">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/alkkagi-friction">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>Tuning Alkkagi Friction: When Marbles Slid Twice Across the Board | Omokboard</title>
+    <meta name="description" content="The first Alkkagi build let a hard flick slide 2.37 times the board width. How the friction went from 0.984 to 0.960, the playing tips it created, and how online play keeps both screens in sync.">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="Tuning Alkkagi Friction: When Marbles Slid Twice Across the Board | Omokboard">
+    <meta property="og:description" content="The first Alkkagi build let a hard flick slide 2.37 times the board width. How the friction went from 0.984 to 0.960, the playing tips it created, and how online play keeps both screens in sync.">
+    <meta property="og:url" content="https://omokboard.com/en/alkkagi-friction">
+    <meta property="og:image" content="https://omokboard.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og-image.png">
+    <meta name="twitter:title" content="Tuning Alkkagi Friction: When Marbles Slid Twice Across the Board | Omokboard">
+    <meta name="twitter:description" content="The first Alkkagi build let a hard flick slide 2.37 times the board width. How the friction went from 0.984 to 0.960, the playing tips it created, and how online play keeps both screens in sync.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css?v=13">
+    <link rel="stylesheet" href="/subpage.css?v=2">
+    <style>
+        .cmp-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table.cmp { width: 100%; border-collapse: collapse; min-width: 460px; font-size: 0.95rem; }
+        table.cmp th, table.cmp td { text-align: left; padding: 0.6rem 0.7rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        table.cmp th { color: var(--text-muted); font-weight: 600; white-space: nowrap; }
+        table.cmp tr:last-child td { border-bottom: none; }
+    </style>
+    <script src="/lang.js?v=10"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tuning Alkkagi Friction: When Marbles Slid Twice Across the Board",
+  "description": "The first Alkkagi build let a hard flick slide 2.37 times the board width. How the friction went from 0.984 to 0.960, the playing tips it created, and how online play keeps both screens in sync.",
+  "inLanguage": "en",
+  "datePublished": "2026-10-22",
+  "dateModified": "2026-10-22",
+  "mainEntityOfPage": "https://omokboard.com/en/alkkagi-friction",
+  "image": "https://omokboard.com/og-image.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Omokboard",
+    "url": "https://omokboard.com/en/about"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Omokboard",
+    "url": "https://omokboard.com/en/"
+  }
+}
+    </script>
+</head>
+
+<body>
+    <div class="subpage-container">
+        <header class="subpage-header">
+            <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
+            <h1><span class="ko-only">알까기 마찰 계수를 고르기까지</span><span class="en-only" style="display:none;">Tuning Alkkagi's Friction</span></h1>
+            <p class="subtitle"><span class="ko-only">개발 일지: 구슬이 판 두 배를 미끄러지던 문제와 그 해결</span><span class="en-only" style="display:none;">Dev log: when marbles slid twice across the board, and the fix</span></p>
+            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-10-22">2026년 10월 22일</time> · 수정 <time datetime="2026-10-22">2026년 10월 22일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-10-22">October 22, 2026</time> · Updated <time datetime="2026-10-22">October 22, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
+        </header>
+
+        <main class="subpage-main">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>가장 까다로웠던 게임</h2>
+                    <p>오목보드의 12가지 게임 중 만들기 가장 까다로웠던 것은 <a href="alkkagi" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">알까기</a>였습니다. 규칙은 단순한데, 화면 속 구슬이 "알까기답게" 미끄러지도록 만드는 게 어려웠습니다. 그 핵심이 마찰 계수 하나였습니다.</p>
+                    <p style="margin-top:0.6rem;">어릴 때 학교 쉬는 시간에 교실에서 바둑판을 펴 놓고 하던 놀이라, 손끝에 남은 감각과 화면 속 구슬이 다르게 움직이면 바로 어색하게 느껴졌습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>구슬은 어떻게 멈추나</h2>
+                    <p>오목보드 알까기는 화면을 한 번 그릴 때(프레임)마다 구슬을 속도만큼 옮기고, 속도에 마찰 계수를 곱해 줄입니다. 속도가 정해진 값(멈춤 기준) 아래로 떨어지면 멈춥니다. 가장 세게 튕긴 구슬의 처음 속도는 프레임당 20픽셀이고, 구슬이 움직일 수 있는 판의 폭은 524픽셀입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>처음 값은 너무 미끄러웠다</h2>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>설정</th><th>마찰 계수</th><th>멈춤 기준</th><th>최대 힘으로 친 구슬이 가는 거리</th><th>멈출 때까지</th></tr></thead>
+                            <tbody>
+                                <tr><td>처음 버전</td><td>0.984</td><td>0.12</td><td>1,243픽셀 (판 폭의 2.37배)</td><td>318프레임, 약 5.3초</td></tr>
+                                <tr><td>2026-06-08 이후</td><td>0.960</td><td>0.20</td><td>495픽셀 (판 폭의 0.94배)</td><td>113프레임, 약 1.9초</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;">시간은 1초에 60번 그리는 화면 기준입니다. 처음 값에서는 한 번 세게 치면 구슬이 판을 두 번 넘게 가로지를 만큼 미끄러졌고, 멈출 때까지 5초 넘게 기다려야 했습니다. 이러면 조준이 의미가 없어지고, 판 위의 구슬이 대부분 한 번에 밖으로 나갑니다.</p>
+                    <p style="margin-top:0.6rem;">마찰을 프레임당 1.6% 감속에서 4% 감속으로 바꾸자, 가장 세게 쳐도 판을 거의 가로지르는 지점에서 멈추게 됐습니다. 너무 빨리 서면 튕기는 손맛이 없고, 너무 오래 미끄러지면 조준이 의미가 없어서 그 사이 값을 찾는 게 가장 오래 걸렸습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>이 값이 만든 플레이 요령</h2>
+                    <ul class="rule-list">
+                        <li><strong>판 폭의 10분의 1만 당겨도 최대 힘입니다.</strong> 당긴 거리에 0.38을 곱한 값이 속도가 되고 20에서 더 오르지 않으니, 52.6픽셀(판 폭의 10%)부터는 더 당겨도 세지지 않습니다. 길게 당기는 건 힘이 아니라 방향을 정밀하게 잡는 용도입니다.</li>
+                        <li><strong>먼 알일수록 힘이 빠집니다.</strong> 내 구슬이 굴러가는 동안 계속 느려지므로, 판 폭의 절반쯤 굴러간 뒤에 맞히면 판 한가운데 있던 상대 알은 테두리까지 가기 전에 멈추기 쉽습니다. 먼 알을 무리하게 노리기보다 가까운 알부터 정리하는 게 유리한 이유입니다.</li>
+                    </ul>
+                    <p style="margin-top:0.6rem;">힘 조절과 각도에 대한 더 자세한 요령은 <a href="alkkagi-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">알까기 공략</a>에 정리했습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>온라인 대전에서 같은 결과가 나오게</h2>
+                    <p>온라인 대전에서는 내가 쏜 구슬이 상대 화면에서도 똑같이 움직여야 합니다. 그래서 물리 계산에 무작위 값을 쓰지 않고, 화면 크기와 상관없이 560×560 크기의 가상 판에서 계산합니다.</p>
+                    <p style="margin-top:0.6rem;">쏜 쪽은 어느 구슬을 어느 방향과 세기로 쳤는지와 함께, 자기 화면에서 구슬이 모두 멈춘 뒤의 위치도 보냅니다. 받는 쪽은 같은 샷을 그대로 재생해서 움직임을 보여 주고, 구슬이 멈추면 쏜 쪽이 보낸 최종 위치로 맞춥니다. 같은 계산이라 원래 결과가 같아야 하지만, 소수점 계산의 아주 작은 차이가 쌓여 판정이 갈리는 일이 없도록 쏜 쪽의 결과를 기준으로 삼은 것입니다.</p>
+                    <p style="margin-top:0.6rem;">이 방식 때문에 생긴 버그도 있었습니다. 다른 게임은 상대의 수가 도착하면 바로 반영이 끝나는데, 알까기는 구슬이 굴러가는 몇 초 동안 재생이 이어집니다. 그런데 차례를 확인하는 코드가 재생이 끝나기 전에 한 번만 실행돼서, 내 차례가 와도 드래그가 먹지 않았습니다. 구슬이 완전히 멈춘 뒤에 차례를 다시 확인하도록 2026년 9월 6일에 고쳤습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>그 뒤에 더한 것</h2>
+                    <p>2026년 8월 3일에는 판 가운데에 고정 장애물 3개를 세로로 둔 익스트림 모드를 추가했습니다. 장애물도 구슬끼리 부딪힐 때와 같은 반발 계수(0.9)로 구슬을 튕겨냅니다. 장애물을 이용한 공략은 <a href="alkkagi-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">알까기 공략</a>의 익스트림 모드 항목에 있습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>직접 확인하기</h2>
+                    <ul class="rule-list">
+                        <li><strong>물리 코드:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/alkkagi.js" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">alkkagi.js</a> (파일 맨 위 FRICTION, MIN_SPEED, MAX_LAUNCH)</li>
+                        <li><strong>마찰을 바꾼 커밋:</strong> <a href="https://github.com/lys0318/Omokboard/commit/f31c830" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">f31c830</a> (2026-06-08)</li>
+                        <li><strong>익스트림 모드 추가:</strong> <a href="https://github.com/lys0318/Omokboard/commit/f907971" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">f907971</a> (2026-08-03)</li>
+                        <li><strong>온라인 차례 버그 수정:</strong> <a href="https://github.com/lys0318/Omokboard/commit/a4eb611" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">a4eb611</a> (2026-09-06)</li>
+                    </ul>
+                    <p style="margin-top:0.8rem;"><a href="alkkagi" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">알까기 바로 하기 →</a></p>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>The Hardest Game to Build</h2>
+                    <p>Of the 12 games on Omokboard, <a href="alkkagi" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Alkkagi</a> was the hardest to build. The rules are simple, but getting the marbles on screen to slide the way alkkagi marbles should was not. It came down to a single number: the friction coefficient.</p>
+                    <p style="margin-top:0.6rem;">I grew up playing it during school breaks on a Go board spread out in the classroom, so whenever the marbles on screen moved differently from what my fingertips remembered, it felt wrong right away.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How a Marble Stops</h2>
+                    <p>On every frame the screen draws, Omokboard's Alkkagi moves each marble by its speed, then multiplies the speed by the friction coefficient. Once the speed drops below a set threshold, the marble stops. A full-power flick starts at 20 pixels per frame, and the area a marble can move across is 524 pixels wide.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The First Value Was Far Too Slippery</h2>
+                    <div class="cmp-wrap">
+                        <table class="cmp">
+                            <thead><tr><th>Setting</th><th>Friction</th><th>Stop threshold</th><th>Full-power slide distance</th><th>Time to stop</th></tr></thead>
+                            <tbody>
+                                <tr><td>First version</td><td>0.984</td><td>0.12</td><td>1,243 px (2.37× the board width)</td><td>318 frames, about 5.3 s</td></tr>
+                                <tr><td>Since 2026-06-08</td><td>0.960</td><td>0.20</td><td>495 px (0.94× the board width)</td><td>113 frames, about 1.9 s</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top:0.6rem;">Times assume a 60 Hz screen. With the first value, a hard flick slid more than twice across the board, and you had to wait over 5 seconds for it to stop. That makes aiming pointless, and most marbles on the board fly off in a single shot.</p>
+                    <p style="margin-top:0.6rem;">Changing friction from a 1.6% slowdown per frame to 4% made even the hardest shot stop just short of crossing the whole board. Stop too soon and the flick has no feel; slide too long and aiming stops mattering. Finding the value in between took the longest.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>The Playing Tips This Value Created</h2>
+                    <ul class="rule-list">
+                        <li><strong>Pulling back a tenth of the board already gives full power.</strong> Speed is the pull distance times 0.38, capped at 20, so anything past 52.6 pixels (10% of the board width) adds no power. A long pull is for aiming precisely, not for hitting harder.</li>
+                        <li><strong>Distant targets get hit more softly.</strong> Your marble keeps slowing as it rolls, so if it travels about half the board before it connects, a target from the middle of the board usually stops before reaching the edge. That's why clearing nearby marbles first tends to beat reaching for distant ones.</li>
+                    </ul>
+                    <p style="margin-top:0.6rem;">More on power and angles is in the <a href="alkkagi-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Alkkagi guide</a>.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Getting the Same Result in Online Play</h2>
+                    <p>In online play, the marble I shoot has to move the same way on my opponent's screen. So the physics uses no random values, and it runs on a fixed 560×560 virtual board regardless of screen size.</p>
+                    <p style="margin-top:0.6rem;">The shooter sends which marble was flicked, in what direction and how hard, along with where every marble ended up once they all stopped on the shooter's screen. The receiver replays the same shot to show the movement, then snaps the marbles to the final positions the shooter sent. It's the same calculation, so the result should already match, but treating the shooter's result as the reference makes sure tiny floating-point differences can never pile up and change the outcome.</p>
+                    <p style="margin-top:0.6rem;">This design also caused a bug. In the other games, an opponent's move is applied the moment it arrives, but in Alkkagi the replay keeps going for the few seconds the marbles are rolling. The code that checks whose turn it is ran only once, before the replay ended, so even when it was my turn, dragging did nothing. On September 6, 2026, I fixed it to check the turn again once the marbles have fully stopped.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>What Came Later</h2>
+                    <p>On August 3, 2026, I added Extreme mode, which places three fixed obstacles in a vertical line in the middle of the board. The obstacles bounce marbles back with the same restitution (0.9) used when marbles hit each other. Tips for using the obstacles are in the Extreme mode section of the <a href="alkkagi-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Alkkagi guide</a>.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Check It Yourself</h2>
+                    <ul class="rule-list">
+                        <li><strong>Physics code:</strong> <a href="https://github.com/lys0318/Omokboard/blob/main/alkkagi.js" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">alkkagi.js</a> (FRICTION, MIN_SPEED, and MAX_LAUNCH at the top of the file)</li>
+                        <li><strong>The friction change:</strong> <a href="https://github.com/lys0318/Omokboard/commit/f31c830" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">f31c830</a> (2026-06-08)</li>
+                        <li><strong>Extreme mode:</strong> <a href="https://github.com/lys0318/Omokboard/commit/f907971" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">f907971</a> (2026-08-03)</li>
+                        <li><strong>Online turn bug fix:</strong> <a href="https://github.com/lys0318/Omokboard/commit/a4eb611" target="_blank" rel="noopener noreferrer" style="color:var(--accent-blue);text-decoration:none;">a4eb611</a> (2026-09-06)</li>
+                    </ul>
+                    <p style="margin-top:0.8rem;"><a href="alkkagi" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Play Alkkagi now →</a></p>
+                </section>
+            </div>
+        </main>
+
+    <script src="/adfit.js?v=1"></script>
+        <footer class="subpage-footer">
+            <nav class="footer-nav">
+                <a href="/en/" data-i18n="footer.home">Home</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">Guides</a>
+                <span class="footer-sep">·</span>
+                <a href="alkkagi" data-i18n="nav.ak">Alkkagi</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">Privacy Policy</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">© 2026 Omokboard. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+
+</html>

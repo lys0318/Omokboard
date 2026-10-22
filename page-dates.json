@@ -6,8 +6,8 @@
   },
   "index": {
     "published": "2026-03-17",
-    "modified": "2026-10-18",
-    "hash": "b0fcfaae93d44232f26a3192e985d8a71c8bfa7f"
+    "modified": "2026-10-22",
+    "hash": "da47e8c7d444ae7ed3e15ee821e67bef0429ef7f"
   },
   "omok": {
     "published": "2026-04-21",
@@ -56,8 +56,8 @@
   },
   "guides": {
     "published": "2026-04-26",
-    "modified": "2026-10-18",
-    "hash": "a77ab40c8cb401a99343dcde8a55eca57884322b"
+    "modified": "2026-10-22",
+    "hash": "d2b6ee8d20c3af97b941556f606abf14494d4409"
   },
   "omok-guide": {
     "published": "2026-04-26",
@@ -81,13 +81,13 @@
   },
   "chess-guide": {
     "published": "2026-04-26",
-    "modified": "2026-10-18",
-    "hash": "6eb3d62658684624e73a3743b70e39ad06e0694a"
+    "modified": "2026-10-22",
+    "hash": "98037ebec370a2e9de25685bcb1b6d99619b867f"
   },
   "alkkagi-guide": {
     "published": "2026-04-26",
-    "modified": "2026-09-23",
-    "hash": "1d4ba9e4520ce08b8716705efa8340d399026fc5"
+    "modified": "2026-10-22",
+    "hash": "ed9850050603470427cd7ef743c11289d422e5c9"
   },
   "yut-guide": {
     "published": "2026-06-17",
@@ -191,7 +191,17 @@
   },
   "ai-benchmarks": {
     "published": "2026-10-18",
-    "modified": "2026-10-18",
-    "hash": "e3408458063546ce452e32be9d7b0af4ee8559f9"
+    "modified": "2026-10-22",
+    "hash": "947736b229c80ec6e1c384454fbbb9974480a664"
+  },
+  "chess-ai-speed": {
+    "published": "2026-10-22",
+    "modified": "2026-10-22",
+    "hash": "219699f4ab5a2f29e70cb544bc1c54e7d828c6a0"
+  },
+  "alkkagi-friction": {
+    "published": "2026-10-22",
+    "modified": "2026-10-22",
+    "hash": "07a632b523b07083ab58f613c76b331de5747ba7"
   }
 }

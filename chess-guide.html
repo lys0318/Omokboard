@@ -88,7 +88,7 @@
   "description": "체스 초보자를 위한 기본 규칙, 기물 가치, 체크와 체크메이트, 초반 운영 팁을 정리했습니다. 온라인 체스를 쉽게 시작해보세요.",
   "inLanguage": "ko",
   "datePublished": "2026-04-26",
-  "dateModified": "2026-10-18",
+  "dateModified": "2026-10-22",
   "mainEntityOfPage": "https://omokboard.com/chess-guide",
   "image": "https://omokboard.com/og-image.png",
   "author": {
@@ -111,7 +111,7 @@
             <a href="guides" class="back-link">← <span class="ko-only">공략 모음으로 돌아가기</span><span class="en-only" style="display:none;">Back to Guides</span></a>
             <h1><span class="ko-only">체스 공략</span><span class="en-only" style="display:none;">Chess Guide</span></h1>
             <p class="subtitle"><span class="ko-only">기물 가치와 체크메이트 이해하기</span><span class="en-only" style="display:none;">Understand piece value and checkmate</span></p>
-            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-04-26">2026년 4월 26일</time> · 수정 <time datetime="2026-10-18">2026년 10월 18일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-04-26">April 26, 2026</time> · Updated <time datetime="2026-10-18">October 18, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
+            <p class="article-meta" style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"><span class="ko-only">작성 <time datetime="2026-04-26">2026년 4월 26일</time> · 수정 <time datetime="2026-10-22">2026년 10월 22일</time> · <a href="about" style="color:var(--accent-blue);text-decoration:none;">오목보드 운영자</a></span><span class="en-only" style="display:none;">Published <time datetime="2026-04-26">April 26, 2026</time> · Updated <time datetime="2026-10-22">October 22, 2026</time> · By <a href="about" style="color:var(--accent-blue);text-decoration:none;">the Omokboard developer</a></span></p>
         </header>
 
         <main class="subpage-main">
@@ -191,7 +191,7 @@
                         <li><strong>보통</strong>은 자기 수와 내 응수까지 두 수 앞을 읽고, 기물 점수와 기물이 놓인 자리의 점수로 판단합니다. 바로 잡히는 기물은 잘 지키지만, 내가 두 수에 걸쳐 준비하는 포크나 핀은 미리 보지 못합니다.</li>
                         <li><strong>어려움</strong>은 세 수 앞까지는 항상 읽고, 1초 안에 끝나면 네 수 앞까지 읽습니다. 그리고 수읽기가 끝나는 지점에서 기물 교환이 진행 중이면 잡는 수가 더 없을 때까지 이어서 계산합니다. 교환 도중에 계산을 끊어서 기물을 공짜로 내주는 실수(수평선 효과)를 막기 위해서입니다.</li>
                     </ul>
-                    <p>이 계산은 체스 규칙 라이브러리 대신, AI 전용으로 따로 만든 가벼운 계산기가 합니다. 규칙 라이브러리는 수를 하나 만들 때마다 기보 표기와 체크메이트 여부까지 계산해서 느리기 때문입니다. 예전 어려움 AI는 한 수를 두는 데 6~18초씩 걸렸는데, 지금은 1초 안팎입니다. 계산기가 만드는 수가 정확한지는 체스 프로그램들이 쓰는 표준 검증값(perft)과, 무작위로 둔 대국의 국면 4만여 개에서 규칙 라이브러리와 결과가 똑같은지로 확인했습니다.</p>
+                    <p>이 계산은 체스 규칙 라이브러리 대신, AI 전용으로 따로 만든 가벼운 계산기가 합니다. 규칙 라이브러리는 수를 하나 만들 때마다 기보 표기와 체크메이트 여부까지 계산해서 느리기 때문입니다. 예전 어려움 AI는 한 수를 두는 데 평균 5초, 길게는 40초 가까이 걸렸는데, 지금은 평균 0.6초입니다(자세한 과정은 <a href="chess-ai-speed" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">개발 일지</a>). 계산기가 만드는 수가 정확한지는 체스 프로그램들이 쓰는 표준 검증값(perft)과, 무작위로 둔 대국의 국면 4만여 개에서 규칙 라이브러리와 결과가 똑같은지로 확인했습니다.</p>
                     <p>어려움 AI에도 약점은 있습니다. 판단 기준이 기물 점수와 위치 점수뿐이라, 킹 주변이 얼마나 안전한지나 겹친 폰·고립된 폰 같은 폰 구조는 따로 따지지 않습니다. 킹을 향한 장기적인 공격이나 폰 구조의 약점을 오래 파고드는 운영에 약한 편이고, 네 수보다 멀리서 완성되는 전술은 보지 못합니다.</p>
                 </section>
 
@@ -289,7 +289,7 @@
                         <li><strong>Normal</strong> reads two moves ahead, its move and your reply, judging positions by piece values and square values. It protects pieces that are about to be taken, but it can't see a fork or pin you set up over two moves.</li>
                         <li><strong>Hard</strong> always reads three moves ahead, and goes to four when that finishes within a second. Wherever its reading stops, if a trade is still in progress it keeps calculating until there are no captures left. That prevents the classic mistake of stopping mid-trade and handing over a piece for free (the horizon effect).</li>
                     </ul>
-                    <p>This calculation isn't done by the chess rules library but by a lightweight calculator built just for the AI. The rules library works out the move notation and whether each move is checkmate every time it generates a move, which makes it slow. The old Hard AI took 6 to 18 seconds per move; now it takes about a second. The calculator's move generation was checked against the standard verification counts chess programs use (perft) and against the rules library on more than 40,000 positions from random games, with identical results.</p>
+                    <p>This calculation isn't done by the chess rules library but by a lightweight calculator built just for the AI. The rules library works out the move notation and whether each move is checkmate every time it generates a move, which makes it slow. The old Hard AI averaged 5 seconds per move and took close to 40 seconds at worst; now it averages 0.6 seconds (the full story is in the <a href="chess-ai-speed" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">dev log</a>). The calculator's move generation was checked against the standard verification counts chess programs use (perft) and against the rules library on more than 40,000 positions from random games, with identical results.</p>
                     <p>Hard still has weak spots. It judges positions only by piece values and square values, so it doesn't separately consider king safety or pawn structure, like doubled or isolated pawns. It tends to struggle against a slow attack on its king or a long squeeze on a pawn weakness, and it can't see tactics that land more than four moves out.</p>
                 </section>
 
