@@ -12,47 +12,47 @@
   "omok": {
     "published": "2026-04-21",
     "modified": "2026-09-24",
-    "hash": "9a86454d3cef108def925493ea893149f35854a1"
+    "hash": "441901d1f7a13137117d4c03c70a0832b004a0eb"
   },
   "connect4": {
     "published": "2026-04-21",
     "modified": "2026-09-24",
-    "hash": "1beb41387f5660da4f1c385a66d007ca7d62e4df"
+    "hash": "2f6ab086ebea88a93587ea198db759fa5079357a"
   },
   "reversi": {
     "published": "2026-04-25",
     "modified": "2026-09-24",
-    "hash": "5b0eb26dfc0f03b6f5ae3dd95aab08c13e992810"
+    "hash": "a86a3b971bea486ebd892ba9c9d0bc0ea112c5c0"
   },
   "dots": {
     "published": "2026-04-26",
     "modified": "2026-09-24",
-    "hash": "8e8704e88c56123ff579807b742aeb49a1831f8b"
+    "hash": "9862a748df5ffea6830e45995ce959819ade6fd9"
   },
   "chess": {
     "published": "2026-04-21",
     "modified": "2026-09-24",
-    "hash": "a5bdc901c429a1e0f2ad8ba80d2532a018ae9952"
+    "hash": "5dc90ec0744dbe05c68d47fde006bafeb43d8486"
   },
   "alkkagi": {
     "published": "2026-04-21",
     "modified": "2026-10-23",
-    "hash": "3626b26a26359c065a7135fce8a11f6df4df39a6"
+    "hash": "e0abef2f3ca6971f6fafc473db6f149288e72377"
   },
   "yut": {
     "published": "2026-06-17",
     "modified": "2026-10-23",
-    "hash": "739547cac107711b419c15b793b03c62554f5626"
+    "hash": "88bed7de731b09b9553da337d2836662c1316087"
   },
   "sudoku": {
     "published": "2026-06-17",
     "modified": "2026-09-24",
-    "hash": "bc3eff09a4cca5dab55fe157fabcc72442921769"
+    "hash": "5d3d22d4de4b2cb84457c0ed6e7a45bf9b35b42f"
   },
   "tictactoe": {
     "published": "2026-06-17",
     "modified": "2026-09-24",
-    "hash": "8095357c05257ee5bdb3ef4709a3147146e75bce"
+    "hash": "20de7b3e6c842270a313673725ee4eba043bf67d"
   },
   "guides": {
     "published": "2026-04-26",
@@ -97,12 +97,12 @@
   "minesweeper": {
     "published": "2026-07-06",
     "modified": "2026-09-24",
-    "hash": "ba575f6597436366cb7a0734eaea70de188439bf"
+    "hash": "0959b2ad9053267bb2357d59df82f3bef5e763cd"
   },
   "ladder": {
     "published": "2026-07-06",
     "modified": "2026-09-23",
-    "hash": "36b74d06c4c4cfe092f4433891c7c76f372cfd14"
+    "hash": "acff30e69a563b8b94133ca429b65c56880aeb2f"
   },
   "minesweeper-guide": {
     "published": "2026-07-07",

@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v=13">
+    <link rel="stylesheet" href="/style.css?v=15">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -115,7 +115,21 @@
             <p class="subtitle">Amidakuji · <span class="ko-only">무작위로 결과를 정해보세요</span><span class="en-only" style="display:none;">Randomly decide who gets what</span></p>
         </header>
 
-        <main>
+        <main class="game-stage">
+    <div id="ladder-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">사다리타기</span><span class="en-only" style="display:none;">Ladder Game</span></h2>
+            <p class="mode-subtitle"><span class="ko-only">인원을 선택하세요</span><span class="en-only" style="display:none;">Choose the number of players</span></p>
+            <div class="mode-buttons difficulty-buttons ladder-count-buttons">
+                <button class="mode-btn" data-n="2"><span class="mode-label">2<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="3"><span class="mode-label">3<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="4"><span class="mode-label">4<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="5"><span class="mode-label">5<span class="ko-only">명</span></span></button>
+                <button class="mode-btn" data-n="6"><span class="mode-label">6<span class="ko-only">명</span></span></button>
+            </div>
+            <a href="/en/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+        </div>
+    </div>
             <div class="status-message" id="ladder-status"><span class="ko-only">빈칸에 입력 후 눌러 결과를 확인하세요</span><span class="en-only" style="display:none;">Fill in a box, then tap it to reveal the result</span></div>
 
             <div class="ladder-stage">
@@ -180,20 +194,6 @@
     </div>
 
     <!-- Count Overlay -->
-    <div id="ladder-mode-overlay" class="game-mode-overlay">
-        <div class="game-mode-card">
-            <h2 class="mode-title"><span class="ko-only">사다리타기</span><span class="en-only" style="display:none;">Ladder Game</span></h2>
-            <p class="mode-subtitle"><span class="ko-only">인원을 선택하세요</span><span class="en-only" style="display:none;">Choose the number of players</span></p>
-            <div class="mode-buttons difficulty-buttons ladder-count-buttons">
-                <button class="mode-btn" data-n="2"><span class="mode-label">2<span class="ko-only">명</span></span></button>
-                <button class="mode-btn" data-n="3"><span class="mode-label">3<span class="ko-only">명</span></span></button>
-                <button class="mode-btn" data-n="4"><span class="mode-label">4<span class="ko-only">명</span></span></button>
-                <button class="mode-btn" data-n="5"><span class="mode-label">5<span class="ko-only">명</span></span></button>
-                <button class="mode-btn" data-n="6"><span class="mode-label">6<span class="ko-only">명</span></span></button>
-            </div>
-            <a href="/en/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
-        </div>
-    </div>
 
     <script src="/lang.js?v=11"></script>
     <script src="/ladder.js?v=6"></script>
