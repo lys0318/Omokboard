@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=13">
-    <script src="lang.js?v=10"></script>
+    <script src="lang.js?v=11"></script>
     <style>
         .hub-container {
             width: 100%;
@@ -47,7 +47,7 @@
             align-items: center;
             gap: 2.5rem;
         }
-        .hub-header { text-align: center; animation: fadeInDown 0.8s ease-out; }
+        .hub-header { width: 100%; text-align: center; animation: fadeInDown 0.8s ease-out; }
         .hub-header h1 {
             font-size: 3.5rem;
             font-weight: 800;
@@ -296,6 +296,12 @@
             color: var(--text-muted);
             font-size: 0.85rem;
             line-height: 1.55;
+        }
+
+        /* 좁은 화면에선 언어 버튼을 제목 위 줄로 올린다 (영어 제목 "Omokboard"와 겹치지 않게) */
+        @media (max-width: 720px) {
+            .hub-header { padding-top: 2.4rem; }
+            .hub-header .hub-lang-btn { top: 0; }
         }
 
         @media (max-width: 500px) {

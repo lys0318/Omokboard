@@ -16,6 +16,7 @@
             'mode.hard': '어려움', 'mode.hard.desc': '실력 발휘', 'mode.hard.ak': '정밀 조준',
             'game.win': '승리!', 'game.lose': '패배...', 'game.draw': '무승부',
             'game.confirmLeaveMidGame': '게임을 종료하고 나가시겠습니까?',
+            'game.confirmLangSwitch': '언어를 바꾸면 진행 중인 게임이 처음부터 다시 시작됩니다. 바꿀까요?',
             'game.draw.msg': '무승부입니다!', 'game.draw.full': '보드가 가득 찼습니다.',
             'game.ai.thinking': 'AI 생각중...', 'game.close': '치열한 승부였네요.',
             'omok.black': '흑돌 (Black)', 'omok.white': '백돌 (White)',
@@ -151,6 +152,7 @@
             'mode.hard': 'Hard', 'mode.hard.desc': 'Show your skills', 'mode.hard.ak': 'Precise aiming',
             'game.win': 'Victory!', 'game.lose': 'Defeat...', 'game.draw': 'Draw',
             'game.confirmLeaveMidGame': 'End the game and leave?',
+            'game.confirmLangSwitch': 'Switching languages restarts the current game. Switch anyway?',
             'game.draw.msg': "It's a draw!", 'game.draw.full': 'The board is full.',
             'game.ai.thinking': 'AI is thinking...', 'game.close': 'What a close match!',
             'omok.black': 'Black', 'omok.white': 'White',
@@ -318,8 +320,18 @@
         renderContactEmails();
     }
 
-    // EN/한국어 버튼 → 같은 페이지의 다른 언어 URL로 이동 (/omok ↔ /en/omok)
+    // 게임 중인가: 모드 선택 창이 모두 닫혀 있으면 판이 진행 중이다(2048은 모드 창이 없어 점수로 본다).
+    // ponytail: 게임이 끝난 뒤에도 모드 창은 닫혀 있어서 그때도 확인을 묻는다. 게임별 종료 상태까지 보려면 여기서 따로 확인.
+    function inGame() {
+        var modes = document.querySelectorAll('.game-mode-overlay, #mode-overlay');
+        if (modes.length) return Array.prototype.every.call(modes, function (el) { return el.classList.contains('hidden'); });
+        return !!(window.g2048Game && window.g2048Game.score > 0);
+    }
+
+    // EN/한국어 버튼 → 같은 페이지의 다른 언어 URL로 이동 (/omok ↔ /en/omok).
+    // 다른 주소의 페이지를 새로 여는 것이라 진행 중인 판은 처음부터 다시 시작된다 → 게임 중이면 먼저 묻는다.
     function toggleLang() {
+        if (inGame() && !confirm(t('game.confirmLangSwitch'))) return;
         var p = location.pathname;
         var target;
         if (p === '/en' || p.indexOf('/en/') === 0) {

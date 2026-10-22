@@ -34,7 +34,6 @@ class AlkkagiGame {
 
         this.initAudio();
         this.resize();
-        window.addEventListener('resize', () => this.resize());
         this.bindEvents();
     }
 
@@ -122,10 +121,8 @@ class AlkkagiGame {
         this.H = BOARD_SIZE;   // fixed game coordinates so mobile and desktop play identically
         this.canvas.width  = this.W;
         this.canvas.height = this.H;
-        const displaySize = Math.max(280, Math.min(window.innerWidth - 32, BOARD_SIZE));
-        this.canvas.style.width = displaySize + 'px';
-        this.canvas.style.height = displaySize + 'px';
-
+        // 화면에 보이는 크기는 CSS(부모 너비, 최대 560px)가 정한다. innerWidth로 정하면
+        // 모바일에서 내용이 넘칠 때 innerWidth가 화면보다 커져 판이 오히려 더 커진다.
         this.draw();
     }
 
