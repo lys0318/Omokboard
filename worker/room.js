@@ -1,3 +1,5 @@
+import * as BB from './baseball.mjs';
+
 const GRACE_MS = 120_000; // 재접속 유예 2분
 const ROOM_TTL_MS = 1_800_000; // 방 유지 30분
 const TURN_TIME_MS = 30_000; // 턴 제한 시간 (로컬/AI 모드와 동일)
@@ -50,6 +52,7 @@ export class RoomDO {
     }
     if (msg.type === 'move') return this.onMove(ws, msg);
     if (msg.type === 'throw') return this.onThrow(ws, msg);
+    if (msg.type === 'secret' || msg.type === 'guess') return this.onBaseball(ws, msg);
     if (msg.type === 'leave') return this.onLeave(ws);
     if (msg.type === 'rematch') return this.onRematch(ws);
   }
@@ -116,14 +119,59 @@ export class RoomDO {
     await this.rescheduleAlarm();
   }
 
+  // 숫자야구 전용: 비밀 숫자는 서버만 안다. 공개 상태(state)와 다른 키(secrets)에 저장하고,
+  // 양쪽에는 판정 결과만 보낸다(끝났을 때만 양쪽 숫자 공개). 판정·승패 규칙은 baseball.mjs.
+  // 두 사람이 거의 동시에 숫자를 정해도 준비 표시가 덮어써지지 않게 blockConcurrencyWhile로 묶는다.
+  async onBaseball(ws, msg) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    const out = await this.ctx.blockConcurrencyWhile(async () => {
+      const room = await this.ctx.storage.get(['gameId', 'status', 'turn', 'seq', 'state', 'secrets']);
+      if (room.get('gameId') !== BB.GAME_ID) return null;
+      const state = room.get('state');
+      const seq = room.get('seq') ?? 0;
+      const turn = room.get('turn');
+      const secrets = room.get('secrets') ?? {};
+      const reject = (reason) => ({ self: true, msg: { type: 'rejected', reason, state, seq, turn } });
+      if (!color || room.get('status') !== 'playing') return reject('NOT_PLAYING');
+
+      if (msg.type === 'secret') {
+        const r = BB.applySecret(state, color, msg.secret, !!secrets[color]);
+        if (r.error) return reject(r.error);
+        const nextTurn = r.turn ?? turn;
+        await this.ctx.storage.put({
+          state: r.state, secrets: { ...secrets, [color]: msg.secret }, turn: nextTurn, lastActivityAt: Date.now(),
+        });
+        return { msg: { type: 'bb_ready', color, state: r.state, turn: nextTurn, seq } };
+      }
+
+      if (msg.seq !== seq + 1) return reject('SEQ_MISMATCH');
+      if (color !== turn) return reject('NOT_YOUR_TURN');
+      const r = BB.applyGuess(state, color, msg.guess, secrets);
+      if (r.error) return reject(r.error);
+      const nextSeq = seq + 1;
+      const nextTurn = r.turn ?? turn;
+      await this.ctx.storage.put({ state: r.state, seq: nextSeq, turn: nextTurn, lastActivityAt: Date.now() });
+      const last = r.state.history[r.state.history.length - 1];
+      const reveal = r.state.phase === 'over' ? { secrets } : {};
+      return { msg: { type: 'bb_guess', ...last, state: r.state, turn: nextTurn, seq: nextSeq, ...reveal } };
+    });
+    if (!out) return;
+    if (out.self) this.send(ws, out.msg);
+    else this.broadcast(out.msg);
+    await this.rescheduleAlarm();
+  }
+
   // 대국 종료 후 "나가기": 접속 끊김(재접속 유예)과 달리 자리를 즉시 비운다.
   // 남은 플레이어는 새 상대를 기다리는 대기방으로 돌아간다(같은 방 코드 유지).
   async onLeave(ws) {
     const { color } = ws.deserializeAttachment() ?? {};
     if (!color) return;
 
-    const players = await this.ctx.storage.get('players');
+    const room = await this.ctx.storage.get(['players', 'gameId', 'state']);
+    const players = room.get('players');
     if (players) players[color] = null; // 자리 즉시 비움 — webSocketClose가 유예 처리를 하지 않도록
+    // 숫자야구는 새 상대가 와도 같은 자릿수로 시작해야 하므로 자릿수를 남긴다.
+    const bb = room.get('gameId') === BB.GAME_ID;
 
     await this.ctx.storage.put({
       players,
@@ -131,7 +179,8 @@ export class RoomDO {
       turn: 'black',
       seq: 0,
       occupied: [],
-      state: null,
+      state: bb ? BB.initialState(room.get('state')?.digits) : null,
+      secrets: {},
       rematchReady: {},
       graceDeadline: null,
       turnDeadline: null,
@@ -153,31 +202,37 @@ export class RoomDO {
     const { color } = ws.deserializeAttachment() ?? {};
     if (!color) return;
 
-    const bothReady = await this.ctx.blockConcurrencyWhile(async () => {
-      const room = await this.ctx.storage.get(['rematchReady', 'players', 'gameId']);
+    const started = await this.ctx.blockConcurrencyWhile(async () => {
+      const room = await this.ctx.storage.get(['rematchReady', 'players', 'gameId', 'state']);
       const players = room.get('players');
       const ready = { ...(room.get('rematchReady') ?? {}), [color]: true };
       const bothReady = !!(players?.black && players?.white && ready.black && ready.white);
 
       if (bothReady) {
+        // 숫자야구: 자릿수는 그대로, 선공은 판마다 바꾸고, 지난 판 숫자는 지운다.
+        const bb = room.get('gameId') === BB.GAME_ID;
+        const prev = room.get('state');
+        const first = bb && prev?.first === 'black' ? 'white' : 'black';
+        const state = bb ? BB.initialState(prev?.digits, first) : null;
         await this.ctx.storage.put({
           status: 'playing',
-          turn: 'black',
+          turn: first,
           seq: 0,
           occupied: [],
-          state: null,
+          state,
+          secrets: {},
           rematchReady: {},
           turnDeadline: TURN_TIMER_GAMES.has(room.get('gameId')) ? Date.now() + TURN_TIME_MS : null,
           lastActivityAt: Date.now(),
         });
-      } else {
-        await this.ctx.storage.put({ rematchReady: ready });
+        return { turn: first, state: state ?? undefined };
       }
-      return bothReady;
+      await this.ctx.storage.put({ rematchReady: ready });
+      return null;
     });
 
-    if (bothReady) {
-      this.broadcast({ type: 'rematch_start', turn: 'black' });
+    if (started) {
+      this.broadcast({ type: 'rematch_start', ...started });
       return;
     }
     for (const other of this.ctx.getWebSockets()) {
@@ -283,7 +338,7 @@ export class RoomDO {
     // 거의 동시에 접속할 때 get→put 사이에 서로 끼어들어 상대의 좌석 배정을
     // 덮어쓸 수 있다(부하 테스트로 실제 재현됨) — blockConcurrencyWhile로 묶는다.
     const result = await this.ctx.blockConcurrencyWhile(async () => {
-      const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'players', 'gameId']);
+      const room = await this.ctx.storage.get(['status', 'turn', 'seq', 'state', 'players', 'gameId', 'secrets']);
       const players = room.get('players');
       let color = null;
 
@@ -314,6 +369,7 @@ export class RoomDO {
       return {
         color, seatToken, status, wasPaused,
         state: room.get('state'), seq: room.get('seq'), turn: room.get('turn'),
+        secret: (room.get('secrets') ?? {})[color], // 숫자야구: 재접속한 사람에게 자기 숫자만
       };
     });
 
@@ -322,7 +378,7 @@ export class RoomDO {
       ws.close(1008, result.error);
       return;
     }
-    const { color, seatToken, status, wasPaused, state, seq, turn } = result;
+    const { color, seatToken, status, wasPaused, state, seq, turn, secret } = result;
 
     // 같은 좌석에 이미 붙어 있는 소켓은 닫는다. 나중 연결이 이긴다.
     // (모바일에서 새로고침을 반복하면 유령 소켓이 남는다)
@@ -344,6 +400,7 @@ export class RoomDO {
       state,
       seq,
       turn, // 턴은 서버가 권위를 갖는다 (state.turn은 착수 시점 값이라 밀림)
+      secret, // 숫자야구만 값이 있다 (다른 게임은 undefined라 JSON에서 빠진다)
     });
 
     // 정원이 찼으면 먼저 와서 기다리던 쪽에도 시작을 알린다.
@@ -385,7 +442,8 @@ export class RoomDO {
       // 대부분의 게임은 고정된 시작 상태라 필요 없지만, 알까기의 익스트림
       // 장애물처럼 방장이 시작 전에 고른 설정은 첫 수 전에도 입장한 쪽에
       // 전달돼야 한다 — 없으면 기존 게임과 동일하게 null.
-      state: initialState ?? null,
+      // 숫자야구는 클라이언트가 보낸 값 중 자릿수만 쓴다(단계·기록은 서버가 정한다).
+      state: gameId === BB.GAME_ID ? BB.initialState(initialState?.digits) : (initialState ?? null),
       players: { black: { token, connected: false }, white: null },
       lastActivityAt: Date.now(),
       roomExpiresAt: Date.now() + ROOM_TTL_MS,

@@ -45,6 +45,12 @@
         session.seq += 1;
         try { session.ws.send(JSON.stringify({ type: 'throw', seq: session.seq })); } catch { /* no-op */ }
       };
+      // 서버가 판정하는 게임 전용 메시지(숫자야구의 secret/guess). withSeq면 차례를 쓰는 행동이라 seq를 올린다.
+      session.send = (type, payload, withSeq) => {
+        if (withSeq) session.seq += 1;
+        const msg = withSeq ? { type, seq: session.seq, ...payload } : { type, ...payload };
+        try { session.ws.send(JSON.stringify(msg)); } catch { /* no-op */ }
+      };
 
       return session;
     },
@@ -115,7 +121,8 @@
         session.graceUntil = 0;
         if (msg.token) store.setItem(tokenKey(session.code), msg.token);
         // state.turn은 착수 시점(턴 전환 전) 값이라 한 수 밀린다. 서버 turn으로 덮어쓴다.
-        if (msg.state) adapter.restore(game, { ...msg.state, turn: msg.turn || msg.state.turn });
+        // secret: 숫자야구에서 재접속한 사람에게만 오는 자기 숫자 (다른 게임은 없음)
+        if (msg.state) adapter.restore(game, { ...msg.state, turn: msg.turn || msg.state.turn, secret: msg.secret });
         bindLocalMoves(session);
         ui.onCode(session.code, shareUrl(session.code));
         ui.onColor(msg.color);
@@ -195,6 +202,8 @@
       case 'rematch_start':
         session.seq = 0;
         game.resetGame();
+        // 숫자야구처럼 서버가 새 판 상태(자릿수·선공)를 정해 주는 게임
+        if (msg.state) adapter.restore(game, { ...msg.state, turn: msg.turn });
         ui.onRematchStart();
         updateInput(session);
         break;
@@ -203,6 +212,13 @@
         session.closedByUs = true;
         ui.onError(msg.code);
         break;
+
+      default:
+        // 서버가 판정하는 게임 전용 메시지(숫자야구 bb_ready/bb_guess)는 어댑터가 처리한다.
+        if (!adapter.onMessage) break;
+        if (msg.seq != null) session.seq = msg.seq;
+        adapter.onMessage(game, msg);
+        updateInput(session);
     }
   }
 

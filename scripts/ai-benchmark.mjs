@@ -126,7 +126,53 @@ function match(play, sides, a, b, n) {
   return res;
 }
 
+// ── 숫자야구: 혼자 맞히기 평균 시도 횟수, AI끼리 대결(번갈아 부르고, 선공이 맞히면 후공에게 마지막 한 번) ──
+function runBaseball(games = 1000) {
+  const ctx = vm.createContext({ Math });
+  vm.runInContext(strip(read('number-baseball.js')) + '\nglobalThis.__B = BaseballCore;', ctx);
+  const B = ctx.__B;
+  const solve = (level, digits) => {
+    const secret = B.randomCode(digits), history = [];
+    for (;;) {
+      const guess = timed(`baseball${digits}:${level}`, () => B.aiGuess(level, digits, history));
+      const r = B.score(secret, guess);
+      history.push({ guess, ...r });
+      if (r.strikes === digits) return history.length;
+    }
+  };
+  for (const digits of [3, 4]) {
+    for (const level of ['easy', 'normal', 'hard']) {
+      let total = 0, worst = 0;
+      for (let i = 0; i < games; i++) { const t = solve(level, digits); total += t; worst = Math.max(worst, t); }
+      console.log(`baseball  ${digits}자리 ${level.padEnd(6)} 평균 ${(total / games).toFixed(2)}번, 최대 ${worst}번 (${games}판)`);
+    }
+    const duel = (diff, first) => { // diff = { A, B } → 'A' | 'B' | 'draw'
+      const secret = { A: B.randomCode(digits), B: B.randomCode(digits) }, hist = { A: [], B: [] };
+      const other = (s) => (s === 'A' ? 'B' : 'A');
+      for (let turn = first, final = false; ;) {
+        const guess = B.aiGuess(diff[turn], digits, hist[turn]);
+        const r = B.score(secret[other(turn)], guess);
+        hist[turn].push({ guess, ...r });
+        const hit = r.strikes === digits;
+        if (final) return hit ? 'draw' : first;
+        if (hit && turn === first) final = true;
+        else if (hit) return turn;
+        turn = other(turn);
+      }
+    };
+    for (const [a, b] of [['hard', 'normal'], ['normal', 'easy'], ['hard', 'easy']]) {
+      const res = [0, 0, 0];
+      for (let i = 0; i < games; i++) {
+        const r = duel({ A: a, B: b }, i % 2 ? 'B' : 'A');
+        res[r === 'A' ? 0 : r === 'draw' ? 1 : 2]++;
+      }
+      console.log(`baseball  ${digits}자리 ${a.padEnd(6)} vs ${b.padEnd(6)} ${res[0]}승 ${res[1]}무 ${res[2]}패 (${games}판)`);
+    }
+  }
+}
+
 const want = process.argv.slice(2);
+if (!want.length || want.includes('baseball')) runBaseball();
 const games = {
   omok: () => [gomokuGame(load(['script.js'], 'OmokGame'), 15, ['black', 'white'], 'omok'), ['black', 'white'], 20],
   connect4: () => [gomokuGame(load(['connect4.js'], 'Connect4'), 15, ['red', 'yellow'], 'connect4'), ['red', 'yellow'], 20],

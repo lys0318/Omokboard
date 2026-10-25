@@ -12,6 +12,7 @@ const CHECKS = [
   ['/',                    '오목보드'],
   ['/omok',                '오목 게임'],
   ['/chess',               '체스'],
+  ['/number-baseball',     '숫자야구'],
   ['/free-board-games',    '무료 온라인 보드게임'],
   ['/ladder-guide',        '회식·모임 벌칙 정하기'],
   ['/yut',                 '오목보드 윷은 얼마나 자주 나올까'],

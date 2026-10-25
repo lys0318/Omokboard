@@ -1,6 +1,6 @@
 # 오목보드 (Omokboard)
 
-> 설치 없이 브라우저에서 바로 즐기는 무료 온라인 보드게임 모음. 오목·체스·리버시 등 12종을 AI 대전 또는 2인 대전으로 플레이. 한국어와 영어 지원. Free online board games playable instantly in the browser — no install, no login. 12 games with AI and 2-player modes.
+> 설치 없이 브라우저에서 바로 즐기는 무료 온라인 보드게임 모음. 오목·체스·리버시 등 13종을 AI 대전 또는 2인 대전으로 플레이. 한국어와 영어 지원. Free online board games playable instantly in the browser — no install, no login. 13 games with AI and 2-player modes.
 
 ## 게임 (한국어)
 
@@ -11,6 +11,7 @@
 - [체스](https://omokboard.com/chess): 상대 킹을 체크메이트로 몰면 승리
 - [알까기](https://omokboard.com/alkkagi): 구슬을 튕겨 상대 구슬을 보드 밖으로 밀어내는 한국 전통 게임
 - [윷놀이](https://omokboard.com/yut): 도·개·걸·윷·모를 던져 말 4개를 먼저 완주
+- [숫자야구](https://omokboard.com/number-baseball): 1~9 중 서로 다른 숫자로 된 3·4자리 숫자를 스트라이크·볼 판정으로 맞히기. 혼자·AI 대결·온라인(서버 판정)
 - [스도쿠](https://omokboard.com/sudoku): 유일해가 보장된 9×9 숫자 퍼즐, 난이도별 및 1:1·AI 대결 모드
 - [틱택토](https://omokboard.com/tictactoe): 기본 3×3과 9개 보드의 얼티메이트 틱택토
 - [지뢰찾기](https://omokboard.com/minesweeper): 지뢰를 피해 칸을 여는 퍼즐, 쉬움·보통·어려움 3단계
@@ -41,6 +42,7 @@
 - [Chess](https://omokboard.com/en/chess): checkmate the opponent's king
 - [Alkkagi](https://omokboard.com/en/alkkagi): flick stones to knock opponents off the board (Korean traditional game)
 - [Yut Nori](https://omokboard.com/en/yut): throw yut sticks to race four tokens home (Korean traditional game)
+- [Number Baseball (Bulls and Cows)](https://omokboard.com/en/number-baseball): crack a hidden 3- or 4-digit number from strike and ball clues; solo, vs AI, or online
 - [Sudoku](https://omokboard.com/en/sudoku): fill the 9×9 grid, unique-solution puzzles
 - [Tic-Tac-Toe](https://omokboard.com/en/tictactoe): classic 3×3 and Ultimate Tic-Tac-Toe
 - [Minesweeper](https://omokboard.com/en/minesweeper): clear the grid without hitting mines
@@ -49,17 +51,17 @@
 
 ## 읽을거리 (한국어)
 
-- [AI 난이도 실측 기록](https://omokboard.com/ai-benchmarks): 7개 게임에서 AI끼리 대국시켜 잰 난이도별 승률과 한 수 계산 시간, 측정 방법(1차 자료)
+- [AI 난이도 실측 기록](https://omokboard.com/ai-benchmarks): 8개 게임에서 AI끼리 대국시켜 잰 난이도별 승률과 한 수 계산 시간, 측정 방법(1차 자료)
 - [개발 일지: 체스 AI가 한 수에 40초까지 걸리던 이유](https://omokboard.com/chess-ai-speed): 규칙 라이브러리 병목, AI 전용 계산기, perft 검증, 전후 측정값
 - [개발 일지: 알까기 마찰 계수를 고르기까지](https://omokboard.com/alkkagi-friction): 마찰 0.984→0.960, 미끄러지는 거리 계산, 온라인 동기화 방식
 - [오목의 역사와 기원](https://omokboard.com/omok-history): 오목·고모쿠·렌주의 차이와 자유 규칙에서 흑이 유리한 이유
-- [온라인 대전 이용 가이드](https://omokboard.com/online-play-guide): 6자리 방 코드로 친구와 대전하는 법, 재접속·재대결, 지원 게임 8종
-- [무료 온라인 보드게임 12종](https://omokboard.com/free-board-games): 12종 비교, 상황별·나이별 추천, 게임마다 쓰는 사고 능력
+- [온라인 대전 이용 가이드](https://omokboard.com/online-play-guide): 6자리 방 코드로 친구와 대전하는 법, 재접속·재대결, 지원 게임 9종
+- [무료 온라인 보드게임 13종](https://omokboard.com/free-board-games): 13종 비교, 상황별·나이별 추천, 게임마다 쓰는 사고 능력
 
 ## Guides and Articles (English)
 
-- [Game guides](https://omokboard.com/en/guides): rules, beginner strategy, and how the AI plays for each of the 12 games
-- [AI Difficulty Benchmarks](https://omokboard.com/en/ai-benchmarks): win rates and per-move times by difficulty in 7 games, measured AI vs AI (first-party data)
+- [Game guides](https://omokboard.com/en/guides): rules, beginner strategy, and how the AI plays for each of the 13 games
+- [AI Difficulty Benchmarks](https://omokboard.com/en/ai-benchmarks): win rates and per-move times by difficulty in 8 games, measured AI vs AI (first-party data)
 - [Dev Log: Why the Chess AI Took Up to 40 Seconds a Move](https://omokboard.com/en/chess-ai-speed): the rules-library bottleneck, a separate AI calculator, perft verification, before/after timings
 - [Dev Log: Tuning Alkkagi's Friction](https://omokboard.com/en/alkkagi-friction): friction 0.984 to 0.960, slide-distance math, how online play stays in sync
 - [History and Origins of Omok](https://omokboard.com/en/omok-history): how Omok, Gomoku, and Renju differ, and why the first player has the edge

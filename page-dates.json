@@ -6,8 +6,8 @@
   },
   "index": {
     "published": "2026-03-17",
-    "modified": "2026-10-23",
-    "hash": "ad89932b13456cc1a47b29eeb3716034377b8c84"
+    "modified": "2026-10-25",
+    "hash": "cf14d2c058be4a36c74280961d5ada24d81d457d"
   },
   "omok": {
     "published": "2026-04-21",
@@ -56,8 +56,8 @@
   },
   "guides": {
     "published": "2026-04-26",
-    "modified": "2026-10-23",
-    "hash": "4e2b5296c0381e8bcc80ed3d84afa29835166e34"
+    "modified": "2026-10-25",
+    "hash": "8e809c8c3aab384383dc9322e413652be2c66fdb"
   },
   "omok-guide": {
     "published": "2026-04-26",
@@ -121,8 +121,8 @@
   },
   "free-board-games": {
     "published": "2026-07-16",
-    "modified": "2026-10-23",
-    "hash": "b3753ac54756eeffc81cba584983fc92af5be8ad"
+    "modified": "2026-10-25",
+    "hash": "6b38386f93a18ab29244baaf34384ca55454d211"
   },
   "omok-history": {
     "published": "2026-09-07",
@@ -131,13 +131,13 @@
   },
   "online-play-guide": {
     "published": "2026-09-07",
-    "modified": "2026-10-07",
-    "hash": "74a0cd4f6da2504daef7947ffe424369178685a5"
+    "modified": "2026-10-25",
+    "hash": "a364e23e7a1da48c0810e46c3e950fe6ddc7ee31"
   },
   "about": {
     "published": "2026-04-21",
-    "modified": "2026-10-07",
-    "hash": "9b940a7229080cd5d683816c5b3b17ded76e717f"
+    "modified": "2026-10-25",
+    "hash": "f17eb7e3dedfb3b3c54437b352de9b70b207e537"
   },
   "contact": {
     "published": "2026-04-26",
@@ -151,8 +151,8 @@
   },
   "ai-benchmarks": {
     "published": "2026-10-18",
-    "modified": "2026-10-22",
-    "hash": "947736b229c80ec6e1c384454fbbb9974480a664"
+    "modified": "2026-10-25",
+    "hash": "730b486a3fbe4fe30e04a76af3b631acb4f780f3"
   },
   "chess-ai-speed": {
     "published": "2026-10-22",
@@ -161,7 +161,12 @@
   },
   "alkkagi-friction": {
     "published": "2026-10-22",
-    "modified": "2026-10-23",
-    "hash": "7b16d033042dab8035608f69c95afb2dd3abc324"
+    "modified": "2026-10-25",
+    "hash": "2b1a97d3ff6c0860ea5f5af14e0d3825234f63b6"
+  },
+  "number-baseball": {
+    "published": "2026-10-25",
+    "modified": "2026-10-25",
+    "hash": "ad6918d091afe93924810a02cbcc751589794367"
   }
 }

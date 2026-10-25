@@ -17,25 +17,25 @@
       gtag('js', new Date());
       gtag('config', 'G-CSJW29VD6X');
     </script>
-    <title>오목보드 - 무료 온라인 보드게임 12종 | 오목·체스·2048</title>
-    <meta name="description" content="오목, 사목, 리버시, 점잇기, 체스, 알까기, 윷놀이, 스도쿠, 틱택토, 지뢰찾기, 2048, 사다리타기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임 사이트. AI 대전과 2인 대전 지원.">
+    <title>오목보드 - 무료 온라인 보드게임 13종 | 오목·체스·2048</title>
+    <meta name="description" content="오목, 사목, 리버시, 점잇기, 체스, 알까기, 윷놀이, 스도쿠, 숫자야구, 틱택토, 지뢰찾기, 2048, 사다리타기를 브라우저에서 무료로 즐기세요. 설치 없이 바로 플레이하는 온라인 보드게임 사이트. AI 대전과 2인 대전 지원.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="오목보드">
-    <meta property="og:title" content="오목보드 - 무료 온라인 보드게임 12종">
-    <meta property="og:description" content="오목, 사목, 리버시, 체스, 윷놀이, 스도쿠, 지뢰찾기, 2048 등 12종을 무료로. 설치 없이 바로 플레이하세요.">
+    <meta property="og:title" content="오목보드 - 무료 온라인 보드게임 13종">
+    <meta property="og:description" content="오목, 사목, 리버시, 체스, 윷놀이, 스도쿠, 지뢰찾기, 2048 등 13종을 무료로. 설치 없이 바로 플레이하세요.">
     <meta property="og:url" content="https://omokboard.com/">
     <meta property="og:image" content="https://omokboard.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://omokboard.com/og-image.png">
-    <meta name="twitter:title" content="오목보드 - 무료 온라인 보드게임 12종">
+    <meta name="twitter:title" content="오목보드 - 무료 온라인 보드게임 13종">
     <meta name="twitter:description" content="오목, 사목, 리버시, 체스, 윷놀이, 스도쿠, 지뢰찾기, 2048를 무료로 즐기세요.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=15">
-    <script src="lang.js?v=11"></script>
+    <script src="lang.js?v=12"></script>
     <style>
         .hub-container {
             width: 100%;
@@ -56,23 +56,26 @@
         }
         .hub-header p { color: var(--text-muted); font-size: 1.05rem; margin-top: 0.4rem; }
 
+        .game-groups { width: 100%; display: flex; flex-direction: column; gap: 1.75rem; }
+        .game-group-title { font-size: 1.05rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.02em; margin-bottom: 0.75rem; }
         .game-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.25rem;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1rem;
             width: 100%;
         }
         .game-card {
+            min-width: 0;
             background: rgba(255,255,255,0.04);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1.25rem;
-            padding: 1.5rem;
+            border-radius: 1rem;
+            padding: 0.9rem;
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 0.7rem;
             transition: all 0.25s;
             animation: fadeIn 0.8s ease-out;
         }
@@ -224,12 +227,13 @@
 
         .game-card-info { text-align: center; }
         .game-card-name {
-            font-size: 1.4rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: var(--text-main);
             margin-bottom: 0.3rem;
         }
-        .game-card-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .game-card-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; }
+        .game-card-desc br, .game-card-desc br ~ span { display: none; }
         .play-badge {
             display: inline-block;
             background: var(--accent-blue);
@@ -305,7 +309,9 @@
         }
 
         @media (max-width: 500px) {
-            .game-cards { grid-template-columns: 1fr; }
+            .game-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; } /* minmax(0,…): 고정 폭 미니 그림이 칸을 밀어내지 않게 */
+            .game-card { padding: 0.7rem; }
+            .play-badge { padding: 0.3rem 0.9rem; font-size: 0.8rem; }
             .hub-header h1 { font-size: 2.5rem; }
         }
     </style>
@@ -322,7 +328,7 @@
           "@id": "https://omokboard.com/#website",
           "url": "https://omokboard.com/",
           "name": "오목보드",
-          "description": "오목, 사목, 리버시, 점잇기, 체스, 알까기, 윷놀이, 스도쿠, 틱택토, 지뢰찾기, 2048, 사다리타기를 무료로 즐기는 온라인 보드게임 사이트",
+          "description": "오목, 사목, 리버시, 점잇기, 체스, 알까기, 윷놀이, 스도쿠, 숫자야구, 틱택토, 지뢰찾기, 2048, 사다리타기를 무료로 즐기는 온라인 보드게임 사이트",
           "inLanguage": "ko"
         },
         {
@@ -340,7 +346,8 @@
             { "@type": "ListItem", "position": 9, "name": "틱택토", "url": "https://omokboard.com/tictactoe" },
             { "@type": "ListItem", "position": 10, "name": "지뢰찾기", "url": "https://omokboard.com/minesweeper" },
             { "@type": "ListItem", "position": 11, "name": "2048", "url": "https://omokboard.com/2048" },
-            { "@type": "ListItem", "position": 12, "name": "사다리타기", "url": "https://omokboard.com/ladder" }
+            { "@type": "ListItem", "position": 12, "name": "사다리타기", "url": "https://omokboard.com/ladder" },
+            { "@type": "ListItem", "position": 13, "name": "숫자야구", "url": "https://omokboard.com/number-baseball" }
           ]
         }
       ]
@@ -355,240 +362,262 @@
             <p data-i18n="index.subtitle">설치 없이 브라우저에서 바로 즐기는 무료 온라인 보드게임</p>
         </header>
 
-        <div class="game-cards">
-
-            <!-- 오목 -->
-            <a href="omok" class="game-card">
-                <div class="game-card-visual">
-                    <div class="mini-omok">
-                        <div class="mini-omok-grid">
-                            <div class="mini-dot"></div><div class="mini-dot b"></div><div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot"></div>
-                            <div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot b"></div><div class="mini-dot"></div><div class="mini-dot"></div>
-                            <div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot b"></div><div class="mini-dot"></div>
-                            <div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot"></div><div class="mini-dot b"></div>
-                            <div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot"></div>
+        <div class="game-groups">
+            <section class="game-group">
+                <h2 class="game-group-title"><span class="ko-only">한국 전통 놀이</span><span class="en-only" style="display:none;">Korean Traditional Games</span></h2>
+                <div class="game-cards">
+                <!-- 윷놀이 -->
+                <a href="yut" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#c8883a,#8a5a24);display:flex;align-items:center;justify-content:center;gap:8px;">
+                            <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#f0d9b5 50%,#5a3c1e 50%);"></div>
+                            <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#5a3c1e 50%,#f0d9b5 50%);"></div>
+                            <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#f0d9b5 50%,#5a3c1e 50%);"></div>
+                            <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#f0d9b5 50%,#5a3c1e 50%);"></div>
                         </div>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.omok">오목</div>
-                    <div class="game-card-desc"><span data-i18n="index.omok.desc">5개를 먼저 연속으로 놓으면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 사목 -->
-            <a href="connect4" class="game-card">
-                <div class="game-card-visual">
-                    <div class="mini-c4">
-                        <div class="mini-c4-row">
-                            <div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole"></div>
-                        </div>
-                        <div class="mini-c4-row">
-                            <div class="mini-c4-hole"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole"></div>
-                        </div>
-                        <div class="mini-c4-row">
-                            <div class="mini-c4-hole r"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole r"></div>
-                        </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.yut">윷놀이</div>
+                        <div class="game-card-desc"><span class="ko-only">윷을 던져 말 4개를 먼저 완주</span><span class="en-only" style="display:none;">Throw yut, finish 4 mal first</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.c4">사목</div>
-                    <div class="game-card-desc"><span data-i18n="index.c4.desc">4개를 먼저 연속으로 놓으면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 리버시 -->
-            <a href="reversi" class="game-card">
-                <div class="game-card-visual">
-                    <div class="mini-reversi">
-                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div>
-                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc w"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"></div>
-                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div>
-                        <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc w"></div></div><div class="mini-rev-cell"></div>
-                    </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.reversi">리버시</div>
-                    <div class="game-card-desc"><span data-i18n="index.reversi.desc">상대 돌을 뒤집어 더 많이 차지하세요</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 점잇기 -->
-            <a href="dots" class="game-card">
-                <div class="game-card-visual">
-                    <div class="mini-dots">
-                        <div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
-                        <div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell"></div>
-                        <div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell"></div>
-                        <div class="mini-dots-cell"></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
-                    </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.dots">점잇기</div>
-                    <div class="game-card-desc"><span data-i18n="index.dots.desc">선을 이어 네모를 차지하세요</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 체스 -->
-            <a href="chess" class="game-card">
-                <div class="game-card-visual">
-                    <div class="mini-chess">
-                        <div class="mini-chess-sq dark">♜</div><div class="mini-chess-sq light">♞</div><div class="mini-chess-sq dark">♝</div><div class="mini-chess-sq light">♛</div><div class="mini-chess-sq dark">♚</div>
-                        <div class="mini-chess-sq light">♟</div><div class="mini-chess-sq dark">♟</div><div class="mini-chess-sq light">♟</div><div class="mini-chess-sq dark">♟</div><div class="mini-chess-sq light">♟</div>
-                        <div class="mini-chess-sq dark"></div><div class="mini-chess-sq light"></div><div class="mini-chess-sq dark"></div><div class="mini-chess-sq light"></div><div class="mini-chess-sq dark"></div>
-                        <div class="mini-chess-sq light">♙</div><div class="mini-chess-sq dark">♙</div><div class="mini-chess-sq light">♙</div><div class="mini-chess-sq dark">♙</div><div class="mini-chess-sq light">♙</div>
-                    </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.chess">체스</div>
-                    <div class="game-card-desc"><span data-i18n="index.chess.desc">킹을 체크메이트로 몰면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 알까기 -->
-            <a href="alkkagi" class="game-card">
-                <div class="game-card-visual">
-                    <div class="mini-alkkagi">
-                        <div class="mini-marble-group">
-                            <div class="mini-marble r"></div>
-                            <div class="mini-marble r"></div>
-                            <div class="mini-marble r"></div>
-                        </div>
-                        <div style="color:rgba(255,255,255,0.15);font-size:1.5rem;">⟺</div>
-                        <div class="mini-marble-group">
-                            <div class="mini-marble b2"></div>
-                            <div class="mini-marble b2"></div>
-                            <div class="mini-marble b2"></div>
+                </a>
+                <!-- 알까기 -->
+                <a href="alkkagi" class="game-card">
+                    <div class="game-card-visual">
+                        <div class="mini-alkkagi">
+                            <div class="mini-marble-group">
+                                <div class="mini-marble r"></div>
+                                <div class="mini-marble r"></div>
+                                <div class="mini-marble r"></div>
+                            </div>
+                            <div style="color:rgba(255,255,255,0.15);font-size:1.5rem;">⟺</div>
+                            <div class="mini-marble-group">
+                                <div class="mini-marble b2"></div>
+                                <div class="mini-marble b2"></div>
+                                <div class="mini-marble b2"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.ak">알까기</div>
-                    <div class="game-card-desc"><span data-i18n="index.ak.desc">구슬을 튕겨 상대를 보드 밖으로</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 윷놀이 -->
-            <a href="yut" class="game-card">
-                <div class="game-card-visual">
-                    <div style="width:100%;height:100%;background:linear-gradient(135deg,#c8883a,#8a5a24);display:flex;align-items:center;justify-content:center;gap:8px;">
-                        <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#f0d9b5 50%,#5a3c1e 50%);"></div>
-                        <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#5a3c1e 50%,#f0d9b5 50%);"></div>
-                        <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#f0d9b5 50%,#5a3c1e 50%);"></div>
-                        <div style="width:11px;height:48px;border-radius:6px;background:linear-gradient(90deg,#f0d9b5 50%,#5a3c1e 50%);"></div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.ak">알까기</div>
+                        <div class="game-card-desc"><span data-i18n="index.ak.desc">구슬을 튕겨 상대를 보드 밖으로</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
                     </div>
+                </a>
                 </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.yut">윷놀이</div>
-                    <div class="game-card-desc"><span class="ko-only">윷을 던져 말 4개를 먼저 완주</span><span class="en-only" style="display:none;">Throw yut, finish 4 mal first</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 스도쿠 -->
-            <a href="sudoku" class="game-card">
-                <div class="game-card-visual">
-                    <div style="width:100%;height:100%;background:linear-gradient(135deg,#f3e2c0,#deae6c);display:grid;grid-template-columns:repeat(3,1fr);place-items:center;color:#2f2117;font-weight:800;font-size:1.15rem;font-family:'Outfit',sans-serif;">
-                        <span>5</span><span>3</span><span></span><span></span><span>7</span><span></span><span>9</span><span></span><span>1</span>
+            </section>
+            <section class="game-group">
+                <h2 class="game-group-title"><span class="ko-only">두뇌 대결</span><span class="en-only" style="display:none;">Head-to-Head Strategy</span></h2>
+                <div class="game-cards">
+                <!-- 오목 -->
+                <a href="omok" class="game-card">
+                    <div class="game-card-visual">
+                        <div class="mini-omok">
+                            <div class="mini-omok-grid">
+                                <div class="mini-dot"></div><div class="mini-dot b"></div><div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot"></div>
+                                <div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot b"></div><div class="mini-dot"></div><div class="mini-dot"></div>
+                                <div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot b"></div><div class="mini-dot"></div>
+                                <div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot"></div><div class="mini-dot b"></div>
+                                <div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot"></div><div class="mini-dot w"></div><div class="mini-dot"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.sudoku">스도쿠</div>
-                    <div class="game-card-desc"><span class="ko-only">숫자로 채우는 논리 퍼즐</span><span class="en-only" style="display:none;">Fill the logic number puzzle</span><br><span class="ko-only">1인 · 대결(AI)</span><span class="en-only" style="display:none;">Solo · Duel (AI)</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 틱택토 -->
-            <a href="tictactoe" class="game-card">
-                <div class="game-card-visual">
-                    <div style="width:100%;height:100%;background:linear-gradient(135deg,#2b2118,#1b1512);display:grid;grid-template-columns:repeat(3,1fr);place-items:center;font-weight:800;font-size:1.5rem;">
-                        <span style="color:#ef4444;">X</span><span style="color:#3b82f6;">O</span><span style="color:#ef4444;">X</span>
-                        <span></span><span style="color:#ef4444;">X</span><span></span>
-                        <span style="color:#3b82f6;">O</span><span></span><span style="color:#3b82f6;">O</span>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.omok">오목</div>
+                        <div class="game-card-desc"><span data-i18n="index.omok.desc">5개를 먼저 연속으로 놓으면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.ttt">틱택토</div>
-                    <div class="game-card-desc"><span class="ko-only">3개를 먼저 이으면 승리</span><span class="en-only" style="display:none;">Get three in a row</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 지뢰찾기 -->
-            <a href="minesweeper" class="game-card">
-                <div class="game-card-visual">
-                    <div style="width:100%;height:100%;background:#2b2118;display:grid;grid-template-columns:repeat(4,1fr);place-items:center;font-weight:800;font-size:1rem;">
-                        <span style="color:#60a5fa;">1</span><span></span><span style="color:#4ade80;">2</span><span>🚩</span>
-                        <span></span><span style="color:#f87171;">3</span><span>💣</span><span style="color:#a78bfa;">4</span>
-                        <span style="color:#60a5fa;">1</span><span></span><span></span><span style="color:#4ade80;">2</span>
-                        <span>🚩</span><span style="color:#f87171;">3</span><span></span><span></span>
+                </a>
+                <!-- 체스 -->
+                <a href="chess" class="game-card">
+                    <div class="game-card-visual">
+                        <div class="mini-chess">
+                            <div class="mini-chess-sq dark">♜</div><div class="mini-chess-sq light">♞</div><div class="mini-chess-sq dark">♝</div><div class="mini-chess-sq light">♛</div><div class="mini-chess-sq dark">♚</div>
+                            <div class="mini-chess-sq light">♟</div><div class="mini-chess-sq dark">♟</div><div class="mini-chess-sq light">♟</div><div class="mini-chess-sq dark">♟</div><div class="mini-chess-sq light">♟</div>
+                            <div class="mini-chess-sq dark"></div><div class="mini-chess-sq light"></div><div class="mini-chess-sq dark"></div><div class="mini-chess-sq light"></div><div class="mini-chess-sq dark"></div>
+                            <div class="mini-chess-sq light">♙</div><div class="mini-chess-sq dark">♙</div><div class="mini-chess-sq light">♙</div><div class="mini-chess-sq dark">♙</div><div class="mini-chess-sq light">♙</div>
+                        </div>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.mine">지뢰찾기</div>
-                    <div class="game-card-desc"><span class="ko-only">지뢰를 피해 모든 칸을 여세요</span><span class="en-only" style="display:none;">Clear every safe cell</span><br><span class="ko-only">난이도 3단계</span><span class="en-only" style="display:none;">3 difficulty levels</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 2048 -->
-            <a href="2048" class="game-card">
-                <div class="game-card-visual">
-                    <div style="width:100%;height:100%;background:#334155;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:6px;padding:10px;">
-                        <div style="background:#f2b179;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.3rem;">8</div>
-                        <div style="background:#edcf72;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.2rem;">128</div>
-                        <div style="background:#eee4da;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#3f3a34;font-weight:800;font-size:1.3rem;">2</div>
-                        <div style="background:#f65e3b;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.3rem;">64</div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.chess">체스</div>
+                        <div class="game-card-desc"><span data-i18n="index.chess.desc">킹을 체크메이트로 몰면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
                     </div>
-                </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.2048">2048</div>
-                    <div class="game-card-desc"><span class="ko-only">타일을 합쳐 2048을 만드세요</span><span class="en-only" style="display:none;">Merge tiles to reach 2048</span><br><span class="ko-only">최고 기록 저장</span><span class="en-only" style="display:none;">Best score saved</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
-                </div>
-            </a>
-
-            <!-- 사다리타기 -->
-            <a href="ladder" class="game-card">
-                <div class="game-card-visual">
-                    <div style="width:100%;height:100%;background:linear-gradient(135deg,#2b2118,#1b1512);display:flex;align-items:center;justify-content:space-around;padding:14px 22px;position:relative;">
-                        <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
-                        <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
-                        <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
-                        <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
-                        <div style="position:absolute;left:22px;right:calc(50% + 3px);top:38%;height:3px;background:rgba(250,204,21,0.7);"></div>
-                        <div style="position:absolute;left:calc(50% + 3px);right:22px;top:62%;height:3px;background:rgba(250,204,21,0.7);"></div>
+                </a>
+                <!-- 리버시 -->
+                <a href="reversi" class="game-card">
+                    <div class="game-card-visual">
+                        <div class="mini-reversi">
+                            <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"></div>
+                            <div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc w"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"></div>
+                            <div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div><div class="mini-rev-cell"><div class="mini-rev-disc b"></div></div>
+                            <div class="mini-rev-cell"></div><div class="mini-rev-cell"></div><div class="mini-rev-cell"><div class="mini-rev-disc w"></div></div><div class="mini-rev-cell"></div>
+                        </div>
                     </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.reversi">리버시</div>
+                        <div class="game-card-desc"><span data-i18n="index.reversi.desc">상대 돌을 뒤집어 더 많이 차지하세요</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 사목 -->
+                <a href="connect4" class="game-card">
+                    <div class="game-card-visual">
+                        <div class="mini-c4">
+                            <div class="mini-c4-row">
+                                <div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole"></div>
+                            </div>
+                            <div class="mini-c4-row">
+                                <div class="mini-c4-hole"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole"></div>
+                            </div>
+                            <div class="mini-c4-row">
+                                <div class="mini-c4-hole r"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole r"></div><div class="mini-c4-hole y"></div><div class="mini-c4-hole r"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.c4">사목</div>
+                        <div class="game-card-desc"><span data-i18n="index.c4.desc">4개를 먼저 연속으로 놓으면 승리</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 점잇기 -->
+                <a href="dots" class="game-card">
+                    <div class="game-card-visual">
+                        <div class="mini-dots">
+                            <div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
+                            <div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell"></div>
+                            <div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell h v"><span></span></div><div class="mini-dots-cell"></div>
+                            <div class="mini-dots-cell"></div><div class="mini-dots-cell h"><span></span></div><div class="mini-dots-cell v"><span></span></div><div class="mini-dots-cell"></div>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.dots">점잇기</div>
+                        <div class="game-card-desc"><span data-i18n="index.dots.desc">선을 이어 네모를 차지하세요</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 틱택토 -->
+                <a href="tictactoe" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#2b2118,#1b1512);display:grid;grid-template-columns:repeat(3,1fr);place-items:center;font-weight:800;font-size:1.5rem;">
+                            <span style="color:#ef4444;">X</span><span style="color:#3b82f6;">O</span><span style="color:#ef4444;">X</span>
+                            <span></span><span style="color:#ef4444;">X</span><span></span>
+                            <span style="color:#3b82f6;">O</span><span></span><span style="color:#3b82f6;">O</span>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.ttt">틱택토</div>
+                        <div class="game-card-desc"><span class="ko-only">3개를 먼저 이으면 승리</span><span class="en-only" style="display:none;">Get three in a row</span><br><span data-i18n="index.pvp">AI 대전 · 2인 대전</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
                 </div>
-                <div class="game-card-info">
-                    <div class="game-card-name" data-i18n="nav.ladder">사다리타기</div>
-                    <div class="game-card-desc"><span class="ko-only">무작위 사다리로 결과를 정하세요</span><span class="en-only" style="display:none;">Randomly decide with a ladder</span><br><span class="ko-only">인원 2~6명</span><span class="en-only" style="display:none;">2–6 players</span></div>
-                    <span class="play-badge" data-i18n="index.play">플레이 →</span>
+            </section>
+            <section class="game-group">
+                <h2 class="game-group-title"><span class="ko-only">혼자 하는 퍼즐·도구</span><span class="en-only" style="display:none;">Solo Puzzles &amp; Tools</span></h2>
+                <div class="game-cards">
+                <!-- 숫자야구 -->
+                <a href="number-baseball" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#2b2118,#1b1512);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+                            <div style="display:flex;gap:6px;">
+                                <span style="width:30px;height:36px;border-radius:6px;background:#3a2c22;border:2px solid #bd4c20;display:grid;place-items:center;font-weight:800;font-size:1.2rem;color:#f3ece2;">3</span>
+                                <span style="width:30px;height:36px;border-radius:6px;background:#3a2c22;border:2px solid #5a4636;display:grid;place-items:center;font-weight:800;font-size:1.2rem;color:#f3ece2;">8</span>
+                                <span style="width:30px;height:36px;border-radius:6px;background:#3a2c22;border:2px solid #5a4636;display:grid;place-items:center;font-weight:800;font-size:1.2rem;color:#f3ece2;">1</span>
+                            </div>
+                            <div style="display:flex;gap:4px;font-size:0.75rem;font-weight:700;color:#fff;">
+                                <span style="background:#1f7a45;border-radius:4px;padding:1px 6px;">1S</span><span style="background:#9a6408;border-radius:4px;padding:1px 6px;">2B</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.baseball">숫자야구</div>
+                        <div class="game-card-desc"><span class="ko-only">스트라이크·볼로 숫자 맞히기</span><span class="en-only" style="display:none;">Crack the number with clues</span><br><span class="ko-only">혼자 · AI 대결 · 온라인</span><span class="en-only" style="display:none;">Solo · vs AI · Online</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 스도쿠 -->
+                <a href="sudoku" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#f3e2c0,#deae6c);display:grid;grid-template-columns:repeat(3,1fr);place-items:center;color:#2f2117;font-weight:800;font-size:1.15rem;font-family:'Outfit',sans-serif;">
+                            <span>5</span><span>3</span><span></span><span></span><span>7</span><span></span><span>9</span><span></span><span>1</span>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.sudoku">스도쿠</div>
+                        <div class="game-card-desc"><span class="ko-only">숫자로 채우는 논리 퍼즐</span><span class="en-only" style="display:none;">Fill the logic number puzzle</span><br><span class="ko-only">1인 · 대결(AI)</span><span class="en-only" style="display:none;">Solo · Duel (AI)</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 지뢰찾기 -->
+                <a href="minesweeper" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:#2b2118;display:grid;grid-template-columns:repeat(4,1fr);place-items:center;font-weight:800;font-size:1rem;">
+                            <span style="color:#60a5fa;">1</span><span></span><span style="color:#4ade80;">2</span><span>🚩</span>
+                            <span></span><span style="color:#f87171;">3</span><span>💣</span><span style="color:#a78bfa;">4</span>
+                            <span style="color:#60a5fa;">1</span><span></span><span></span><span style="color:#4ade80;">2</span>
+                            <span>🚩</span><span style="color:#f87171;">3</span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.mine">지뢰찾기</div>
+                        <div class="game-card-desc"><span class="ko-only">지뢰를 피해 모든 칸을 여세요</span><span class="en-only" style="display:none;">Clear every safe cell</span><br><span class="ko-only">난이도 3단계</span><span class="en-only" style="display:none;">3 difficulty levels</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 2048 -->
+                <a href="2048" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:#334155;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:6px;padding:10px;">
+                            <div style="background:#f2b179;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.3rem;">8</div>
+                            <div style="background:#edcf72;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.2rem;">128</div>
+                            <div style="background:#eee4da;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#3f3a34;font-weight:800;font-size:1.3rem;">2</div>
+                            <div style="background:#f65e3b;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.3rem;">64</div>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.2048">2048</div>
+                        <div class="game-card-desc"><span class="ko-only">타일을 합쳐 2048을 만드세요</span><span class="en-only" style="display:none;">Merge tiles to reach 2048</span><br><span class="ko-only">최고 기록 저장</span><span class="en-only" style="display:none;">Best score saved</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
+                <!-- 사다리타기 -->
+                <a href="ladder" class="game-card">
+                    <div class="game-card-visual">
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#2b2118,#1b1512);display:flex;align-items:center;justify-content:space-around;padding:14px 22px;position:relative;">
+                            <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
+                            <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
+                            <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
+                            <div style="width:3px;height:56px;background:rgba(255,255,255,0.4);"></div>
+                            <div style="position:absolute;left:22px;right:calc(50% + 3px);top:38%;height:3px;background:rgba(250,204,21,0.7);"></div>
+                            <div style="position:absolute;left:calc(50% + 3px);right:22px;top:62%;height:3px;background:rgba(250,204,21,0.7);"></div>
+                        </div>
+                    </div>
+                    <div class="game-card-info">
+                        <div class="game-card-name" data-i18n="nav.ladder">사다리타기</div>
+                        <div class="game-card-desc"><span class="ko-only">무작위 사다리로 결과를 정하세요</span><span class="en-only" style="display:none;">Randomly decide with a ladder</span><br><span class="ko-only">인원 2~6명</span><span class="en-only" style="display:none;">2–6 players</span></div>
+                        <span class="play-badge" data-i18n="index.play">플레이 →</span>
+                    </div>
+                </a>
                 </div>
-            </a>
-
+            </section>
         </div>
 
         <section class="guide-strip">
             <div class="ko-only">
                 <h2>오목보드는 이런 곳이에요</h2>
-                <p>오목, 체스, 윷놀이처럼 오래 사랑받아 온 보드게임 12가지를 브라우저에서 바로 할 수 있게 모아둔 무료 사이트입니다. 앱 설치나 회원가입 없이 PC와 스마트폰 어디서든 열립니다.</p>
+                <p>오목, 체스, 윷놀이처럼 오래 사랑받아 온 보드게임 13가지를 브라우저에서 바로 할 수 있게 모아둔 무료 사이트입니다. 앱 설치나 회원가입 없이 PC와 스마트폰 어디서든 열립니다.</p>
                 <p>혼자일 때는 AI와 대결하거나 스도쿠, 지뢰찾기, 2048 같은 퍼즐을 풀면 됩니다. 옆에 친구가 있으면 한 기기로 번갈아 두는 2인 대전을, 멀리 있는 친구와는 6자리 방 코드로 연결하는 온라인 대전을 고르세요. 온라인 대전은 오목, 사목, 리버시, 점잇기, 체스, 틱택토, 알까기, 윷놀이에서 할 수 있습니다.</p>
-                <p>12가지 게임 모두 규칙과 초보 전략을 정리한 공략이 있습니다. 처음 해보는 게임이라면 한 판 두기 전에 잠깐 읽어보세요. 사람들이 보통 어디서 막히는지 알고 시작하면 훨씬 덜 헤맵니다.</p>
+                <p>13가지 게임 모두 규칙과 초보 전략을 정리한 공략이 있습니다. 처음 해보는 게임이라면 한 판 두기 전에 잠깐 읽어보세요. 사람들이 보통 어디서 막히는지 알고 시작하면 훨씬 덜 헤맵니다.</p>
                 <a href="guides">공략 모음 보기 →</a>
             </div>
             <div class="en-only" style="display:none;">
                 <h2>What Omokboard Is</h2>
                 <p>Omokboard is a free site that gathers 12 long-loved board games, like Omok, Chess, and Yut Nori, so you can play them right in your browser. There is no app to install and no account to create, and it works the same on a PC or a phone.</p>
                 <p>On your own, you can play against the AI or work through puzzles like Sudoku, Minesweeper, and 2048. With a friend next to you, pick 2-player mode and take turns on one device. With a friend somewhere else, use online play and connect with a 6-character room code. Online play works in Omok, Connect 4, Reversi, Dots and Boxes, Chess, Tic-Tac-Toe, Alkkagi, and Yut Nori.</p>
-                <p>All 12 games have a guide covering the rules and beginner strategy. If a game is new to you, give it a quick read before your first round. Knowing where people usually get stuck saves you a lot of fumbling.</p>
+                <p>All 13 games have a guide covering the rules and beginner strategy. If a game is new to you, give it a quick read before your first round. Knowing where people usually get stuck saves you a lot of fumbling.</p>
                 <a href="guides">Browse all guides →</a>
             </div>
         </section>
@@ -599,7 +628,7 @@
                 <a class="home-read" href="ai-benchmarks"><strong><span class="ko-only">AI 난이도 실측 기록</span><span class="en-only" style="display:none;">AI Difficulty Benchmarks</span></strong><span class="home-read-desc"><span class="ko-only">쉬움, 보통, 어려움이 실제로 얼마나 다른지 AI끼리 대국시켜 쟀습니다.</span><span class="en-only" style="display:none;">How different Easy, Normal, and Hard really are, measured AI vs AI.</span></span></a>
                 <a class="home-read" href="chess-ai-speed"><strong><span class="ko-only">개발 일지: 체스 AI 속도</span><span class="en-only" style="display:none;">Dev Log: Chess AI Speed</span></strong><span class="home-read-desc"><span class="ko-only">한 수에 40초까지 걸리던 체스 AI를 평균 0.6초로 줄인 과정.</span><span class="en-only" style="display:none;">How the chess AI went from up to 40 seconds a move to 0.6 on average.</span></span></a>
                 <a class="home-read" href="alkkagi-friction"><strong><span class="ko-only">개발 일지: 알까기 마찰</span><span class="en-only" style="display:none;">Dev Log: Alkkagi Friction</span></strong><span class="home-read-desc"><span class="ko-only">구슬이 판 두 배를 미끄러지던 알까기의 마찰 계수를 고친 이야기.</span><span class="en-only" style="display:none;">Fixing Alkkagi marbles that slid twice across the board.</span></span></a>
-                <a class="home-read" href="free-board-games"><strong><span class="ko-only">무료 보드게임 12종 고르기</span><span class="en-only" style="display:none;">Choosing From 12 Free Board Games</span></strong><span class="home-read-desc"><span class="ko-only">상황별, 나이별 추천과 게임마다 쓰는 사고 능력까지 한 번에.</span><span class="en-only" style="display:none;">Picks by situation and age, plus the skills each game uses.</span></span></a>
+                <a class="home-read" href="free-board-games"><strong><span class="ko-only">무료 보드게임 13종 고르기</span><span class="en-only" style="display:none;">Choosing From 12 Free Board Games</span></strong><span class="home-read-desc"><span class="ko-only">상황별, 나이별 추천과 게임마다 쓰는 사고 능력까지 한 번에.</span><span class="en-only" style="display:none;">Picks by situation and age, plus the skills each game uses.</span></span></a>
                 <a class="home-read" href="omok-history"><strong><span class="ko-only">오목의 역사와 기원</span><span class="en-only" style="display:none;">History and Origins of Omok</span></strong><span class="home-read-desc"><span class="ko-only">오목, 고모쿠, 렌주는 뭐가 다른지, 왜 먼저 두는 흑이 유리한지 정리했습니다.</span><span class="en-only" style="display:none;">How Omok, Gomoku, and Renju differ, and why the first player has the edge.</span></span></a>
                 <a class="home-read" href="online-play-guide"><strong><span class="ko-only">온라인 대전 이용 가이드</span><span class="en-only" style="display:none;">Online Play Guide</span></strong><span class="home-read-desc"><span class="ko-only">방 만들기부터 재접속, 재대결까지 방 코드로 친구와 즐기는 법.</span><span class="en-only" style="display:none;">Creating a room, reconnecting, and rematching with a friend by room code.</span></span></a>
             </div>

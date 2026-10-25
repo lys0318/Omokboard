@@ -19,7 +19,7 @@ const bodyText = h => (h.split('<body')[1] || '')
 
 // 영어 제목/설명 (페이지별)
 const META = {
-  index:            { t:'Omokboard - Free Online Board Games | Omok, Chess, Sudoku & More', d:'Play 12 free online board games: Omok (Gomoku), Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, Tic-Tac-Toe, Minesweeper, 2048, and a Ladder Game. No install. Play vs AI or 2-player.' },
+  index:            { t:'Omokboard - Free Online Board Games | Omok, Chess, Sudoku & More', d:'Play 13 free online board games: Omok (Gomoku), Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, Number Baseball, Tic-Tac-Toe, Minesweeper, 2048, and a Ladder Game. No install. Play vs AI or 2-player.' },
   omok:             { t:'Omok (Gomoku) - Free Online Five in a Row | Omokboard', d:'Play free online Omok (Gomoku). Connect five stones in a row to win. Play vs AI (easy/normal/hard) or 2-player, no install.' },
   connect4:         { t:'Connect 4 - Free Online Four in a Row | Omokboard', d:'Play free online Connect 4 (four in a row), a free-placement variant. Play vs AI or 2-player, no install.' },
   reversi:          { t:'Reversi (Othello) - Free Online | Omokboard', d:'Play free online Reversi / Othello. Flip discs to own the most squares. Play vs AI or 2-player, no install.' },
@@ -28,8 +28,9 @@ const META = {
   alkkagi:          { t:'Alkkagi - Free Online Korean Marble-Flicking Game | Omokboard', d:'Play free online Alkkagi, the Korean flicking game. Knock your opponent off the board. Play vs AI or 2-player.' },
   yut:              { t:'Yut Nori - Free Online Korean Board Game | Omokboard', d:'Play free online Yut Nori. Throw the yut sticks and race all four mal home first. Play vs AI or 2-player, no install.' },
   sudoku:           { t:'Sudoku - Free Online (Solo & Duel) | Omokboard', d:'Play free online Sudoku with unique-solution puzzles. Solo mode plus a 1v1 / AI duel mode. No install.' },
+  'number-baseball': { t:'Number Baseball (Bulls and Cows) - Free Online | Omokboard', d:'Play free online Number Baseball (Bulls and Cows): crack a hidden 3- or 4-digit number from strike and ball clues. Solo, vs AI, or online by room code. No install.' },
   tictactoe:        { t:'Tic-Tac-Toe - Free Online (Classic & Ultimate) | Omokboard', d:'Play free online Tic-Tac-Toe, both classic 3×3 and Ultimate Tic-Tac-Toe. Play vs AI or 2-player, no install.' },
-  guides:           { t:'Board Game Guides | Omokboard', d:'Rules and beginner strategy for Omok, Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, and Tic-Tac-Toe.' },
+  guides:           { t:'Board Game Guides | Omokboard', d:'Rules and beginner strategy for Omok, Connect 4, Reversi, Dots and Boxes, Chess, Alkkagi, Yut Nori, Sudoku, Number Baseball, and Tic-Tac-Toe.' },
   'omok-guide':     { t:'Omok (Gomoku) Rules & Strategy Guide | Omokboard', d:'Learn Omok rules, threat shapes (open three and four), opening play, double threats, and defense order.' },
   'connect4-guide': { t:'Connect 4 Rules & Strategy Guide | Omokboard', d:'Learn Connect 4 rules and strategy: open threes, double threats, and defense in four-in-a-row.' },
   'reversi-guide':  { t:'Reversi (Othello) Strategy Guide | Omokboard', d:'Learn Reversi strategy: corners, X/C squares, mobility, and endgame counting.' },
@@ -43,13 +44,13 @@ const META = {
   'minesweeper-guide': { t:'Minesweeper Guide - Reading Numbers | Omokboard', d:'Learn Minesweeper number logic, flag tips, and how to solve without guessing.' },
   '2048-guide':        { t:'2048 Strategy Guide | Omokboard', d:'Learn the 2048 corner strategy and tile-ordering tricks for a high score.' },
   'ladder-guide':      { t:'Ladder Game Guide (Amidakuji) | Omokboard', d:'Learn how the ladder game works, why it is always fair, and when to use it.' },
-  'free-board-games':  { t:'Free Online Board Games: 12 to Play, No Install | Omokboard', d:'12 free online board games you can play instantly in the browser, no install or sign-up. Compare them, then pick by situation, by age, or by the thinking skill each one uses.' },
+  'free-board-games':  { t:'Free Online Board Games: 13 to Play, No Install | Omokboard', d:'13 free online board games you can play instantly in the browser, no install or sign-up. Compare them, then pick by situation, by age, or by the thinking skill each one uses.' },
   'omok-history':      { t:'The History and Origins of Omok (Gomoku) | Omokboard', d:'Where Omok came from, why the first player wins under free-style rules, and how Renju’s forbidden moves (double-three, double-four, overline) balance the game.' },
   'online-play-guide': { t:'Online Play Guide: Play Friends with a Room Code | Omokboard', d:'How to create a room, share the code, reconnect after a drop, and rematch. Which of Omokboard’s games support online play, with no sign-up required.' },
-  'ai-benchmarks':     { t:'AI Difficulty Benchmarks: Win Rates and Move Times | Omokboard', d:'How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 7 games, plus the method and its limits.' },
+  'ai-benchmarks':     { t:'AI Difficulty Benchmarks: Win Rates and Move Times | Omokboard', d:'How different are Easy, Normal, and Hard on Omokboard? Win rates and per-move times measured by making the AIs play each other in 8 games, plus the method and its limits.' },
   'chess-ai-speed':    { t:'Why the Chess AI Took Up to 40 Seconds a Move, and How I Fixed It | Omokboard', d:'Omokboard’s Hard chess AI averaged 5 seconds per move and nearly 40 at worst. The rules library was the bottleneck; a separate AI calculator brought it to 0.6 seconds, verified with perft.' },
   'alkkagi-friction':  { t:'Tuning Alkkagi Friction: When Marbles Slid Twice Across the Board | Omokboard', d:'The first Alkkagi build let a hard flick slide 2.37 times the board width. How the friction went from 0.984 to 0.960, the playing tips it created, and how online play keeps both screens in sync.' },
-  about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 12 games. Play the AI, a friend on the same device, or a friend online by room code, with nothing to install.' },
+  about:            { t:'About | Omokboard', d:'Omokboard is a free online board game site with 13 games. Play the AI, a friend on the same device, or a friend online by room code, with nothing to install.' },
   contact:          { t:'Contact | Omokboard', d:'Contact Omokboard about bugs, mistakes in a guide, AI difficulty, new game ideas, or privacy and advertising questions, plus what details help with a bug report.' },
   privacy:          { t:'Privacy Policy | Omokboard', d:'How Omokboard handles access logs, Google Analytics statistics, online play data, browser storage, and Google AdSense and Kakao AdFit advertising cookies.' }
 };

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/number-baseball">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/number-baseball">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/number-baseball">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/number-baseball">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>숫자야구 게임 - 무료 온라인 숫자야구 (3자리·4자리, AI 대결) - 오목보드</title>
+    <meta name="description" content="무료 온라인 숫자야구. 컴퓨터가 숨긴 숫자를 맞히는 혼자 하기, 서로 숫자를 숨기고 겨루는 AI 대결과 방 코드 온라인 대전. 3자리·4자리, 설치 없이 바로 플레이.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="숫자야구 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 숫자야구. 혼자 하기, AI 대결, 온라인 대전. 3자리·4자리.">
+    <meta property="og:url" content="https://omokboard.com/number-baseball">
+    <meta property="og:image" content="https://omokboard.com/og/number-baseball.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og/number-baseball.png">
+    <meta name="twitter:title" content="숫자야구 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 숫자야구. 혼자 하기, AI 대결, 온라인 대전.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=15">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        .bb-board { width: min(92vw, 420px); display: flex; flex-direction: column; gap: 0.7rem; }
+        .bb-slots { display: flex; gap: 0.6rem; justify-content: center; }
+        .bb-slot {
+            width: 3.4rem; height: 4rem; border-radius: 0.6rem;
+            background: #3a2c22; border: 2px solid #5a4636;
+            display: grid; place-items: center;
+            font-size: 2rem; font-weight: 800; color: var(--text-main);
+        }
+        .bb-slot.on { border-color: var(--accent); }
+        .bb-pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+        .bb-key {
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-main); font-family: inherit; font-size: 1.6rem; font-weight: 700;
+            padding: 0.6rem 0; border-radius: 0.6rem; cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .bb-key:hover:not(:disabled) { background: rgba(189,76,32,0.25); transform: translateY(-2px); }
+        .bb-key:disabled { opacity: 0.35; cursor: default; }
+        .bb-del { color: var(--text-muted); }
+        #bb-ok { width: 100%; min-height: 3rem; font-size: 1.1rem; }
+        #bb-ok:disabled { opacity: 0.45; cursor: default; }
+        #bb-info { color: var(--text-muted); font-size: 0.95rem; text-align: center; min-height: 1.4em; }
+        .bb-hist { width: min(92vw, 420px); display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
+        .bb-hist.duel { grid-template-columns: 1fr 1fr; }
+        .bb-hist .bb-col.opp { display: none; }
+        .bb-hist.duel .bb-col.opp { display: block; }
+        .bb-col h3 { font-size: 0.8rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.4rem; display: none; }
+        .bb-hist.duel .bb-col h3 { display: block; }
+        .bb-col ol { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; padding: 0; margin: 0; }
+        .bb-col li {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.04); border-radius: 0.5rem; padding: 0.4rem 0.7rem;
+        }
+        .bb-col li b { letter-spacing: 0.25em; font-size: 1.1rem; color: var(--text-main); }
+        .bb-badge { display: inline-block; border-radius: 0.35rem; padding: 0.05rem 0.45rem; font-size: 0.85rem; font-weight: 700; color: #fff; margin-left: 0.25rem; }
+        .bb-s { background: #1f7a45; }
+        .bb-b { background: #9a6408; }
+        .bb-out { background: #5e534a; }
+        .bb-hit { background: var(--accent); }
+        .bb-table-wrap { overflow-x: auto; margin: 0.6rem 0; }
+        .bb-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .bb-table th, .bb-table td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .bb-table th { color: var(--text-muted); font-weight: 600; }
+        .bb-table tr:last-child td { border-bottom: none; }
+        @media (max-width: 480px) {
+            .bb-hist.duel { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "VideoGame",
+          "name": "숫자야구 게임",
+          "description": "무료 온라인 숫자야구. 컴퓨터가 숨긴 숫자를 맞히는 혼자 하기, 서로 숫자를 숨기고 겨루는 AI 대결과 방 코드 온라인 대전. 3자리·4자리 지원.",
+          "url": "https://omokboard.com/number-baseball",
+          "image": "https://omokboard.com/og/number-baseball.png",
+          "inLanguage": "ko",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Web Browser",
+          "gamePlatform": "Web Browser",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+          "publisher": { "@type": "Organization", "name": "오목보드", "url": "https://omokboard.com/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "오목보드", "item": "https://omokboard.com/" },
+            { "@type": "ListItem", "position": 2, "name": "숫자야구 게임", "item": "https://omokboard.com/number-baseball" }
+          ]
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "0은 쓰지 않나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "오목보드 숫자야구는 1~9만 씁니다. 그래서 3자리는 504가지, 4자리는 3,024가지입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "같은 숫자를 두 번 써도 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아니요. 숨기는 숫자도, 부르는 숫자도 자리마다 서로 다른 숫자여야 합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "몇 번 만에 맞히면 잘한 건가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "3자리 기준으로 오목보드 어려움 AI가 평균 4.7번, 가장 오래 걸려도 6번에 맞힙니다. 6번 안쪽으로 맞혔다면 AI 어려움과 비슷한 실력입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "최고 기록은 어디에 저장되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "혼자 하기의 최고 기록은 자릿수별로 지금 쓰는 브라우저에만 저장됩니다. 계정이 없어서 다른 기기와 공유되지 않습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "온라인에서 상대가 내 숫자를 볼 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아니요. 내 숫자는 서버에만 저장되고, 상대에게는 판정 결과만 갑니다. 게임이 끝나면 양쪽 숫자가 공개됩니다."
+      }
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="number-baseball" class="game-nav-item active" data-i18n="nav.baseball">숫자야구</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>            <a href="minesweeper" class="game-nav-item" data-i18n="nav.mine">지뢰찾기</a>
+            <a href="2048" class="game-nav-item" data-i18n="nav.2048">2048</a>
+            <a href="ladder" class="game-nav-item" data-i18n="nav.ladder">사다리타기</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1><span class="ko-only">숫자야구</span><span class="en-only" style="display:none;">Number Baseball</span></h1>
+            <p class="subtitle">Bulls and Cows · <span class="ko-only">숨겨진 숫자를 스트라이크와 볼로 맞히기</span><span class="en-only" style="display:none;">Crack the hidden number with strikes and balls</span></p>
+        </header>
+
+        <main class="game-stage">
+    <div id="bb-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">숫자야구</span><span class="en-only" style="display:none;">Number Baseball</span></h2>
+            <div id="bb-step-mode">
+                <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="bb-solo-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">혼자 하기</span><span class="en-only" style="display:none;">Solo</span></span>
+                        <span class="mode-desc"><span class="ko-only">컴퓨터 숫자 맞히기</span><span class="en-only" style="display:none;">Crack the computer</span></span>
+                    </button>
+                    <button class="mode-btn" id="bb-ai-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
+                        <span class="mode-desc"><span class="ko-only">서로 숫자 숨기고 대결</span><span class="en-only" style="display:none;">Hide and race the AI</span></span>
+                    </button>
+                    <button class="mode-btn" id="bb-online-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></span>
+                        <span class="mode-desc"><span class="ko-only">방 코드로 초대</span><span class="en-only" style="display:none;">Invite by room code</span></span>
+                    </button>
+                </div>
+                <a href="/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+            </div>
+            <div id="bb-step-online" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="online-create-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 생성</span><span class="en-only" style="display:none;">Create Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">새 방을 만들고 코드 공유</span><span class="en-only" style="display:none;">Make a room and share the code</span></span>
+                    </button>
+                    <button class="mode-btn" onclick="window.baseballGame.showStep('bb-step-online-join')">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 입장</span><span class="en-only" style="display:none;">Join Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">코드를 입력해 입장</span><span class="en-only" style="display:none;">Enter a code to join</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" onclick="window.baseballGame.showStep('bb-step-mode')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+            <div id="bb-step-online-join" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">방 코드를 입력하세요</span><span class="en-only" style="display:none;">Enter the room code</span></p>
+                <input id="join-code-input" placeholder="예: K7RM92" maxlength="6"
+                       style="width:100%;min-height:48px;padding:0 0.9rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;text-align:center;font-size:1.1rem;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                <p id="join-code-error" style="min-height:1.3em;color:#f87171;font-size:0.85rem;margin-bottom:0.75rem;"></p>
+                <button id="join-code-confirm" class="btn primary" style="min-height:48px;width:100%;">
+                    <span class="ko-only">입장하기</span><span class="en-only" style="display:none;">Join</span>
+                </button>
+                <button class="mode-back-btn" onclick="window.baseballGame.showStep('bb-step-online')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+            <div id="bb-step-digits" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">몇 자리로 할까요?</span><span class="en-only" style="display:none;">How many digits?</span></p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="bb-d3-btn">
+                        <span class="mode-label"><span class="ko-only">3자리</span><span class="en-only" style="display:none;">3 digits</span></span>
+                        <span class="mode-desc"><span class="ko-only">기본 · 504가지</span><span class="en-only" style="display:none;">Classic · 504 codes</span></span>
+                    </button>
+                    <button class="mode-btn" id="bb-d4-btn">
+                        <span class="mode-label"><span class="ko-only">4자리</span><span class="en-only" style="display:none;">4 digits</span></span>
+                        <span class="mode-desc"><span class="ko-only">어려움 · 3,024가지</span><span class="en-only" style="display:none;">Harder · 3,024 codes</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" id="bb-digits-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+            <div id="bb-step-diff" class="hidden">
+                <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" id="bb-easy-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10V9"/><path d="M16.472 15a6 6 0 01-8.943 0"/><path d="M9 10V9"/><circle cx="12" cy="12" r="10"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                        <span class="mode-desc" data-i18n="mode.easy.desc">가볍게 즐기기</span>
+                    </button>
+                    <button class="mode-btn" id="bb-normal-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.normal">보통</span>
+                        <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
+                    </button>
+                    <button class="mode-btn" id="bb-hard-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                        <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" id="bb-diff-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+        </div>
+    </div>
+            <div class="game-info">
+                <div class="status-center" style="width:100%;">
+                    <div class="status-message" id="bb-status"></div>
+                    <div id="bb-info"></div>
+                </div>
+            </div>
+
+            <div class="bb-board" id="bb-board">
+                <div class="bb-slots" id="bb-slots"></div>
+                <div class="bb-pad" id="bb-pad"></div>
+                <button id="bb-ok" class="btn primary"><span class="ko-only">확인</span><span class="en-only" style="display:none;">Enter</span></button>
+            </div>
+
+            <div class="bb-hist" id="bb-hist">
+                <div class="bb-col me"><h3><span class="ko-only">내가 부른 숫자</span><span class="en-only" style="display:none;">Your guesses</span></h3><ol id="bb-hist-me"></ol></div>
+                <div class="bb-col opp"><h3><span class="ko-only">상대가 부른 숫자</span><span class="en-only" style="display:none;">Opponent guesses</span></h3><ol id="bb-hist-opp"></ol></div>
+            </div>
+
+            <div class="controls">
+                <button id="bb-reset-btn" class="btn secondary" data-i18n="btn.restart">게임 재시작</button>
+                <button id="bb-local-leave-btn" class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
+                <button id="online-leave-mid-btn" class="btn secondary hidden"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
+            </div>
+        </main>
+
+        <script src="adfit.js?v=1"></script>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">1~9 중 서로 다른 숫자로 된 숨겨진 숫자를 맞히면 승리</span><span class="en-only" style="display:none;">Find the hidden number made of different digits from 1 to 9</span></li>
+                <li><strong class="ko-only">판정:</strong><strong class="en-only" style="display:none;">Clues:</strong> <span class="ko-only">숫자와 자리가 맞으면 스트라이크(S), 숫자만 맞으면 볼(B), 하나도 없으면 아웃</span><span class="en-only" style="display:none;">Right digit in the right place is a strike (S), right digit in the wrong place is a ball (B), none at all is an out</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">숫자판을 누르거나 키보드로 입력하고 확인(Enter)</span><span class="en-only" style="display:none;">Tap the keypad or type, then press Enter</span></li>
+                <li><strong class="ko-only">대결:</strong><strong class="en-only" style="display:none;">Duel:</strong> <span class="ko-only">번갈아 부르고, 선공이 맞히면 후공에게 마지막 한 번. 둘 다 맞히면 무승부</span><span class="en-only" style="display:none;">Take turns; if the first player hits, the second gets one last try. Both hit is a draw</span></li>
+            </ul>
+        </section>
+
+        <div class="game-article">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>숫자야구, 이렇게 합니다</h2>
+                    <p>숫자야구는 상대가 숨긴 숫자를 판정만 보고 알아내는 추리 게임입니다. 숨긴 숫자는 1~9 중 서로 다른 숫자 3개(4자리를 고르면 4개)로 되어 있고, 숫자를 하나 부를 때마다 판정을 받습니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>스트라이크(S):</strong> 숫자와 자리가 모두 맞음</li>
+                        <li><strong>볼(B):</strong> 숫자는 들어 있지만 자리가 다름</li>
+                        <li><strong>아웃:</strong> 부른 숫자가 하나도 들어 있지 않음</li>
+                    </ul>
+                    <p>예를 들어 정답이 381일 때 318을 부르면, 3은 자리까지 맞아 1스트라이크, 1과 8은 숫자만 맞아 2볼이라서 "1S 2B"가 됩니다. 같은 숫자를 두 번 쓸 수 없고, 0은 쓰지 않습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>경우의 수와 첫 수의 판정</h2>
+                    <p>1~9 중 서로 다른 숫자 3개를 순서대로 고르는 방법은 9×8×7 = <strong>504가지</strong>, 4자리는 9×8×7×6 = <strong>3,024가지</strong>입니다. 첫 수는 무엇을 불러도 확률이 같습니다. 숫자와 자리의 이름만 바꾸면 모든 첫 수가 같은 모양이 되기 때문입니다.</p>
+                    <p>3자리에서 첫 수를 불렀을 때 각 판정이 나올 확률을 504가지를 모두 따져 계산하면 다음과 같습니다.</p>
+                    <div class="bb-table-wrap"><table class="bb-table">
+                        <thead><tr><th>판정</th><th>남는 후보</th><th>확률</th></tr></thead>
+                        <tbody>
+                            <tr><td>1B</td><td>180가지</td><td>35.7%</td></tr>
+                            <tr><td>아웃</td><td>120가지</td><td>23.8%</td></tr>
+                            <tr><td>1S</td><td>90가지</td><td>17.9%</td></tr>
+                            <tr><td>2B</td><td>54가지</td><td>10.7%</td></tr>
+                            <tr><td>1S 1B</td><td>36가지</td><td>7.1%</td></tr>
+                            <tr><td>2S</td><td>18가지</td><td>3.6%</td></tr>
+                            <tr><td>1S 2B</td><td>3가지</td><td>0.6%</td></tr>
+                            <tr><td>3B</td><td>2가지</td><td>0.4%</td></tr>
+                            <tr><td>정답</td><td>1가지</td><td>0.2%</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>판정 하나로 504가지가 많아야 180가지로 줄어듭니다. "아웃"은 허탈해 보이지만, 부른 세 숫자를 통째로 지워 주기 때문에 남은 여섯 숫자로 만드는 120가지만 남는 꽤 쓸모 있는 판정입니다. 4자리에서는 첫 수에 2B(27.8%)가 가장 많이 나오고, 아웃은 4.0%로 드뭅니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>이기는 요령</h2>
+                    <ul class="rule-list">
+                        <li><strong>앞의 판정과 어긋나지 않는 숫자만 부르세요.</strong> 지금까지 받은 판정을 모두 만족하는 숫자 중에서 고르기만 해도 충분히 강합니다. 이 방식으로 아무거나 고르게 해서 2,000판을 재 보니 3자리는 평균 4.83번, 가장 오래 걸려도 8번 만에 맞혔습니다.</li>
+                        <li><strong>볼은 자리를 옮겨 확인하세요.</strong> 볼이 나온 숫자는 들어 있다는 뜻이니, 다음 수에서 그 숫자를 다른 자리에 놓아 스트라이크로 바뀌는지 봅니다.</li>
+                        <li><strong>아웃은 지우는 데 쓰세요.</strong> 아웃이 나온 숫자는 어느 자리에도 없으니 머릿속에서 바로 지웁니다.</li>
+                        <li><strong>판정이 쌓이면 적어 두세요.</strong> 3~4번째 판정부터는 기억만으로 맞추기 어렵습니다. 숫자마다 "없음/어딘가 있음/이 자리"를 메모해 두면 실수가 줄어듭니다.</li>
+                        <li><strong>대결에서는 서두르지 마세요.</strong> 선공이 먼저 맞혀도 후공에게 같은 횟수의 마지막 기회가 있어서, 무리하게 찍는 것보다 확실히 줄여 가는 쪽이 유리합니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>오목보드 AI는 어떻게 두나</h2>
+                    <p><strong>쉬움</strong>은 최근 판정 2개만, <strong>보통</strong>은 최근 판정 3개만 기억하고, 그 판정에 맞는 숫자 중 하나를 고릅니다. 앞의 단서를 잊어버리는 사람처럼 두는 셈입니다. <strong>어려움</strong>은 모든 판정을 쓰고, 부른 뒤 남는 후보 수가 평균적으로 가장 적어지는 숫자를 계산해서 부릅니다.</p>
+                    <p>AI가 혼자 맞히게 해서 난이도마다 1,000판씩 잰 평균 시도 횟수입니다(2026년 10월 25일 측정).</p>
+                    <div class="bb-table-wrap"><table class="bb-table">
+                        <thead><tr><th>난이도</th><th>3자리</th><th>4자리</th></tr></thead>
+                        <tbody>
+                            <tr><td>쉬움</td><td>8.1번</td><td>11.2번</td></tr>
+                            <tr><td>보통</td><td>5.7번</td><td>6.7번</td></tr>
+                            <tr><td>어려움</td><td>4.7번 (최대 6번)</td><td>5.0번 (최대 7번)</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>대결은 운도 크게 작용합니다. AI끼리 1,000판을 붙여 보면 3자리에서 어려움이 보통을 상대로 486승 209무 305패였습니다. 다른 게임의 실측은 <a href="ai-benchmarks">AI 난이도 실측 기록</a>에 모아 두었습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>온라인 대전</h2>
+                    <p>방을 만들고 6자리 방 코드나 링크를 보내면 친구와 실시간으로 겨룰 수 있습니다. 방을 만든 쪽이 자릿수를 정하고 먼저 부르며, 다시 하기를 할 때마다 선공이 바뀝니다.</p>
+                    <p>온라인에서는 <strong>비밀 숫자를 서버만 압니다.</strong> 내가 정한 숫자는 상대 브라우저로 보내지 않고, 상대가 숫자를 부르면 서버가 판정해서 결과만 양쪽에 알려 줍니다. 그래서 개발자 도구를 열어도 상대 숫자를 볼 수 없고, 게임이 끝나야 양쪽 숫자가 공개됩니다. 방 코드 사용법은 <a href="online-play-guide">온라인 대전 가이드</a>를 참고하세요.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>0은 쓰지 않나요?</strong> 오목보드 숫자야구는 1~9만 씁니다. 그래서 3자리는 504가지, 4자리는 3,024가지입니다.</li>
+                        <li><strong>같은 숫자를 두 번 써도 되나요?</strong> 아니요. 숨기는 숫자도, 부르는 숫자도 자리마다 서로 다른 숫자여야 합니다.</li>
+                        <li><strong>몇 번 만에 맞히면 잘한 건가요?</strong> 3자리 기준으로 오목보드 어려움 AI가 평균 4.7번, 가장 오래 걸려도 6번에 맞힙니다. 6번 안쪽으로 맞혔다면 AI 어려움과 비슷한 실력입니다.</li>
+                        <li><strong>최고 기록은 어디에 저장되나요?</strong> 혼자 하기의 최고 기록은 자릿수별로 지금 쓰는 브라우저에만 저장됩니다. 계정이 없어서 다른 기기와 공유되지 않습니다.</li>
+                        <li><strong>온라인에서 상대가 내 숫자를 볼 수 있나요?</strong> 아니요. 내 숫자는 서버에만 저장되고, 상대에게는 판정 결과만 갑니다. 게임이 끝나면 양쪽 숫자가 공개됩니다.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>How to Play Number Baseball</h2>
+                    <p>Number Baseball (also known as Bulls and Cows) is a deduction game: you work out a hidden number from nothing but clues. The hidden number uses 3 different digits from 1 to 9 (or 4, if you pick 4 digits), and every guess you make earns a clue.</p>
+                    <ul class="rule-list">
+                        <li><strong>Strike (S):</strong> right digit in the right place</li>
+                        <li><strong>Ball (B):</strong> right digit in the wrong place</li>
+                        <li><strong>Out:</strong> none of your digits are in the number</li>
+                    </ul>
+                    <p>For example, if the answer is 381 and you guess 318, the 3 is in the right place (1 strike) and the 1 and 8 are in the number but in the wrong places (2 balls), so the clue is "1S 2B". No digit can repeat, and 0 is not used.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Many Codes, and What the First Guess Tells You</h2>
+                    <p>There are 9×8×7 = <strong>504</strong> ways to pick 3 different digits from 1 to 9 in order, and 9×8×7×6 = <strong>3,024</strong> for 4 digits. Every first guess is equally good: relabel the digits and positions and they all look the same.</p>
+                    <p>Here is how likely each clue is after the first guess with 3 digits, counted over all 504 codes.</p>
+                    <div class="bb-table-wrap"><table class="bb-table">
+                        <thead><tr><th>Clue</th><th>Codes left</th><th>Chance</th></tr></thead>
+                        <tbody>
+                            <tr><td>1B</td><td>180</td><td>35.7%</td></tr>
+                            <tr><td>Out</td><td>120</td><td>23.8%</td></tr>
+                            <tr><td>1S</td><td>90</td><td>17.9%</td></tr>
+                            <tr><td>2B</td><td>54</td><td>10.7%</td></tr>
+                            <tr><td>1S 1B</td><td>36</td><td>7.1%</td></tr>
+                            <tr><td>2S</td><td>18</td><td>3.6%</td></tr>
+                            <tr><td>1S 2B</td><td>3</td><td>0.6%</td></tr>
+                            <tr><td>3B</td><td>2</td><td>0.4%</td></tr>
+                            <tr><td>Hit</td><td>1</td><td>0.2%</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>One clue cuts 504 codes down to at most 180. An "out" feels like a waste, but it wipes out all three digits at once, leaving only the 120 codes made from the other six digits. With 4 digits, the most common first clue is 2B (27.8%), and an out is rare (4.0%).</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Tips for Winning</h2>
+                    <ul class="rule-list">
+                        <li><strong>Only guess numbers that fit every clue so far.</strong> That alone makes you strong. Picking any such number at random solved 3-digit codes in 4.83 guesses on average, and never more than 8, over 2,000 measured games.</li>
+                        <li><strong>Move balls around.</strong> A ball means the digit is in the number, so try it in a different position next and see if it turns into a strike.</li>
+                        <li><strong>Use outs to cross digits off.</strong> A digit that came back as an out is nowhere in the number, so drop it right away.</li>
+                        <li><strong>Write clues down as they pile up.</strong> After three or four clues, memory alone gets unreliable. Note for each digit "not in it / somewhere / this spot".</li>
+                        <li><strong>Don't rush in a duel.</strong> Even if the first player hits, the second still gets one last try, so steady narrowing beats wild guessing.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard's AI Plays</h2>
+                    <p><strong>Easy</strong> remembers only the last 2 clues and <strong>Normal</strong> only the last 3, then picks a number that fits them, a bit like a person who forgets earlier hints. <strong>Hard</strong> uses every clue and picks the number that leaves the fewest codes on average after the next clue.</p>
+                    <p>Average guesses for the AI to solve a code alone, over 1,000 games per level (measured October 25, 2026):</p>
+                    <div class="bb-table-wrap"><table class="bb-table">
+                        <thead><tr><th>Level</th><th>3 digits</th><th>4 digits</th></tr></thead>
+                        <tbody>
+                            <tr><td>Easy</td><td>8.1</td><td>11.2</td></tr>
+                            <tr><td>Normal</td><td>5.7</td><td>6.7</td></tr>
+                            <tr><td>Hard</td><td>4.7 (max 6)</td><td>5.0 (max 7)</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>Luck matters a lot in a duel. Over 1,000 AI-vs-AI games with 3 digits, Hard went 486 wins, 209 draws, and 305 losses against Normal. Measurements for the other games are in <a href="ai-benchmarks">AI Difficulty Benchmarks</a>.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Online Play</h2>
+                    <p>Create a room and send the 6-character room code or link to play a friend in real time. The room creator picks the number of digits and guesses first, and the first player switches with every rematch.</p>
+                    <p>Online, <strong>only the server knows the secret numbers.</strong> Your number is never sent to your opponent's browser. When they guess, the server judges it and sends both of you just the clue. Even opening the developer tools won't show the other number, and both numbers are revealed only when the game ends. See the <a href="online-play-guide">online play guide</a> for how room codes work.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>Is 0 used?</strong> No. Omokboard's Number Baseball uses only 1 to 9, which gives 504 codes with 3 digits and 3,024 with 4.</li>
+                        <li><strong>Can a digit repeat?</strong> No. Both the hidden number and every guess must use different digits in each position.</li>
+                        <li><strong>How many guesses is good?</strong> With 3 digits, Omokboard's Hard AI averages 4.7 guesses and never needs more than 6. If you solve it within 6, you're playing at about the Hard AI's level.</li>
+                        <li><strong>Where is my best record saved?</strong> Your solo best is saved per digit count in this browser only. There are no accounts, so it doesn't carry over to other devices.</li>
+                        <li><strong>Can my opponent see my number online?</strong> No. Your number is stored only on the server, and your opponent receives just the clues. Both numbers are revealed when the game ends.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Win Overlay -->
+    <div id="bb-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="bb-win-title"></h2>
+            <p id="bb-win-desc"></p>
+            <button id="bb-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+            <div id="online-endgame" class="hidden">
+                <div class="online-endgame-actions" style="display:flex;gap:0.6rem;justify-content:center;">
+                    <button id="online-leave-btn" class="btn secondary large">
+                        <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                    </button>
+                    <button id="online-rematch-btn" class="btn primary large">
+                        <span class="ko-only">다시하기</span><span class="en-only" style="display:none;">Rematch</span>
+                    </button>
+                </div>
+                <p id="online-endgame-status" style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;min-height:1.3em;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="room-panel" class="overlay hidden">
+        <div class="modal" style="max-width:420px;padding:2.25rem 2rem;">
+            <h2 style="font-size:1.05rem;font-weight:700;background:none;-webkit-text-fill-color:var(--text-muted);letter-spacing:0.02em;">
+                <span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span>
+            </h2>
+            <p id="room-status" style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;"></p>
+            <div id="room-code-row" class="hidden" style="margin-bottom:1.25rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;">
+                <span style="font-size:0.8rem;color:var(--text-muted);"><span class="ko-only">방 코드</span><span class="en-only" style="display:none;">Room code</span></span>
+                <strong id="room-code" style="font-size:2.25rem;letter-spacing:0.15em;line-height:1;"></strong>
+                <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">
+                    <span class="ko-only">링크 복사</span><span class="en-only" style="display:none;">Copy Link</span>
+                </button>
+            </div>
+            <div id="room-count" style="font-weight:700;font-size:1.15rem;color:var(--accent-blue);"></div>
+            <p style="margin-top:1.5rem;">
+                <a href="/" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">
+                    <span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span>
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script src="lang.js?v=12"></script>
+    <script src="number-baseball.js?v=2"></script>
+    <script src="/adapters/number-baseball.js?v=2"></script>
+    <script src="/multiplayer.js?v=5"></script>
+    <script>
+    // 온라인 대전 진입점. 숫자 정하기·부르기는 서버가 판정한다(adapters/number-baseball.js).
+    (function () {
+      const game = window.baseballGame;
+      const panel = document.getElementById("room-panel");
+      const statusEl = document.getElementById("room-status");
+      const codeRow = document.getElementById("room-code-row");
+      const codeEl = document.getElementById("room-code");
+      const countEl = document.getElementById("room-count");
+      const onlineEndgame = document.getElementById("online-endgame");
+      const modalResetBtn = document.getElementById("bb-modal-reset");
+      const rematchBtn = document.getElementById("online-rematch-btn");
+      const endgameStatusEl = document.getElementById("online-endgame-status");
+      const winOverlay = document.getElementById("bb-win-overlay");
+
+      const t = window.i18n.t;
+      const TEXT = {
+        waiting: t("online.waiting"),
+        paused: t("online.paused"),
+        finished: t("online.finished"),
+        connected: t("online.connected"),
+        reconnecting: t("online.reconnecting"),
+        opponent_left: t("online.opponentLeft"),
+        opponent_back: t("online.opponentBack"),
+      };
+      const ERR = {
+        ROOM_FULL: t("online.err.roomFull"),
+        ROOM_NOT_FOUND: t("online.err.roomNotFound"),
+        WRONG_GAME: t("online.err.wrongGame"),
+        NOT_YOUR_TURN: t("online.err.notYourTurn"),
+        SEQ_MISMATCH: t("online.err.seqMismatch"),
+        CREATE_FAILED: t("online.err.createFailed"),
+        REPLACED: t("online.err.replaced"),
+      };
+
+      let shareLink = "";
+      let mpSession = null;
+
+      const ui = {
+        onStatus(status) {
+          if (status === "playing") {
+            countEl.textContent = "2 / 2";
+            statusEl.textContent = t("online.starting");
+            setTimeout(() => panel.classList.add("hidden"), 700);
+            return;
+          }
+          if (status === "waiting") {
+            countEl.textContent = "1 / 2";
+            panel.classList.remove("hidden");
+            winOverlay.classList.add("hidden");
+          }
+          statusEl.textContent = TEXT[status] || status;
+        },
+        onCode(code, url) {
+          shareLink = url;
+          codeEl.textContent = code;
+          codeRow.classList.remove("hidden");
+          countEl.textContent = "1 / 2";
+        },
+        onError(code) {
+          statusEl.textContent = ERR[code] || code;
+          document.getElementById("join-code-error").textContent = ERR[code] || code;
+        },
+        onRematchWait() {
+          endgameStatusEl.textContent = t("online.rematchWait");
+        },
+        onRematchStart() {
+          rematchBtn.disabled = false;
+          endgameStatusEl.textContent = "";
+          winOverlay.classList.add("hidden");
+        },
+        onColor(seatColor) {
+          game.setColor(seatColor);
+        },
+      };
+
+      function doLeave() {
+        if (mpSession) mpSession.leave();
+        location.href = "/";
+      }
+
+      // digits: 방장이 고른 자릿수 (입장하는 쪽은 서버 상태에서 받는다)
+      function begin(digits) {
+        panel.classList.remove("hidden");
+        statusEl.textContent = TEXT.waiting;
+        game.digits = digits || 3;
+        game.startGame("online");
+        game.inputLocked = true;
+        document.getElementById("bb-reset-btn").classList.add("hidden");
+        document.getElementById("bb-local-leave-btn").classList.add("hidden");
+        document.getElementById("online-leave-mid-btn").classList.remove("hidden");
+        mpSession = window.Multiplayer.start({
+          gameId: "number-baseball",
+          game,
+          adapter: window.OmokboardAdapters["number-baseball"],
+          ui,
+          initialState: { digits: game.digits },
+        });
+        game.hooks.sendSecret = (secret) => mpSession.send("secret", { secret });
+        game.hooks.sendGuess = (guess) => mpSession.send("guess", { guess }, true);
+      }
+      game.hooks.onlineCreate = begin;
+
+      game.onGameOver = () => {
+        modalResetBtn.classList.add("hidden");
+        onlineEndgame.classList.remove("hidden");
+        endgameStatusEl.textContent = "";
+        rematchBtn.disabled = false;
+      };
+
+      document.getElementById("join-code-confirm").addEventListener("click", () => {
+        const code = document.getElementById("join-code-input").value.trim().toUpperCase();
+        const errEl = document.getElementById("join-code-error");
+        if (code.length !== 6) {
+          errEl.textContent = t("online.err.codeLength");
+          return;
+        }
+        location.search = "?room=" + code;
+      });
+
+      document.getElementById("room-copy").addEventListener("click", () => {
+        if (shareLink) navigator.clipboard.writeText(shareLink);
+      });
+
+      document.getElementById("online-leave-btn").addEventListener("click", doLeave);
+
+      document.getElementById("online-leave-mid-btn").addEventListener("click", () => {
+        if (!confirm(t("online.confirmLeaveMidGame"))) return;
+        doLeave();
+      });
+
+      document.getElementById("online-rematch-btn").addEventListener("click", () => {
+        if (!mpSession) return;
+        mpSession.rematch();
+        rematchBtn.disabled = true;
+        endgameStatusEl.textContent = t("online.rematchWaitingSelf");
+      });
+
+      // 링크로 들어온 경우, 실제 게임 종류를 확인한 뒤 입장한다.
+      const roomParam = new URLSearchParams(location.search).get("room");
+      if (roomParam) {
+        panel.classList.remove("hidden");
+        statusEl.textContent = TEXT.waiting;
+        fetch("/api/room/" + roomParam + "/info")
+          .then((res) => (res.ok ? res.json() : Promise.reject()))
+          .then((data) => (data.gameId === "number-baseball" ? begin() : ui.onError("WRONG_GAME")))
+          .catch(() => ui.onError("ROOM_NOT_FOUND"));
+      }
+    })();
+    </script>
+    <script src="/analytics.js?v=1" defer></script>
+</body>
+</html>
