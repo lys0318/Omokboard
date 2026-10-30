@@ -2,7 +2,7 @@
 (function () {
     var T = {
         ko: {
-            'nav.omok': '오목', 'nav.c4': '사목', 'nav.reversi': '리버시', 'nav.dots': '점잇기', 'nav.chess': '체스', 'nav.ak': '알까기',
+            'nav.omok': '오목', 'nav.c4': '사목', 'nav.reversi': '리버시', 'nav.dots': '점잇기', 'nav.chess': '체스', 'nav.ak': '알까기', 'nav.ttakji': '딱지치기',
             'nav.yut': '윷놀이', 'nav.sudoku': '스도쿠', 'nav.baseball': '숫자야구', 'nav.ttt': '틱택토',
             'nav.mine': '지뢰찾기', 'nav.2048': '2048', 'nav.ladder': '사다리타기',
             'lang.btn': 'EN',
@@ -138,7 +138,7 @@
             'online.err.codeLength': '6자리 코드를 입력하세요.',
         },
         en: {
-            'nav.omok': 'Omok', 'nav.c4': 'Connect 4', 'nav.reversi': 'Reversi', 'nav.dots': 'Dots & Boxes', 'nav.chess': 'Chess', 'nav.ak': 'Alkkagi',
+            'nav.omok': 'Omok', 'nav.c4': 'Connect 4', 'nav.reversi': 'Reversi', 'nav.dots': 'Dots & Boxes', 'nav.chess': 'Chess', 'nav.ak': 'Alkkagi', 'nav.ttakji': 'Ttakji',
             'nav.yut': 'Yut Nori', 'nav.sudoku': 'Sudoku', 'nav.baseball': 'Number Baseball', 'nav.ttt': 'Tic-Tac-Toe',
             'nav.mine': 'Minesweeper', 'nav.2048': '2048', 'nav.ladder': 'Ladder Game',
             'lang.btn': '한국어',

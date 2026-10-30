@@ -171,8 +171,40 @@ function runBaseball(games = 1000) {
   }
 }
 
+// 딱지치기: 난이도별 실제 성공률(난수까지 굴려서)과 AI끼리 대결. 규칙은 TtakjiGame.settle과 같다.
+function runTtakji(games = 1000, shots = 10000) {
+  const ctx = vm.createContext({ Math });
+  vm.runInContext(strip(read('ttakji.js')) + '\nglobalThis.__T = TtakjiCore;', ctx);
+  const T = ctx.__T;
+  const hit = (level, k) => { const s = T.aiShot(level, k); return T.resolve(k, s.x, s.y, s.power, Math.random()); };
+  for (const level of ['easy', 'normal', 'hard']) {
+    let flips = 0;
+    for (let i = 0; i < shots; i++) if (hit(level, i)) flips++;
+    console.log(`ttakji    ${level.padEnd(6)} 성공률 ${(flips / shots * 100).toFixed(1)}% (${shots}번)`);
+  }
+  const duel = (diff, first) => { // diff = { A, B } → [승자, 친 횟수]
+    const counts = { A: 5, B: 5 }, other = (s) => (s === 'A' ? 'B' : 'A');
+    for (let turn = first, k = 0, n = 1; ; k++, n++) {
+      if (!hit(diff[turn], k)) { turn = other(turn); continue; }
+      counts[other(turn)]--; counts[turn]++;
+      if (!counts[other(turn)]) return [turn, n];
+    }
+  };
+  for (const [a, b] of [['hard', 'normal'], ['normal', 'easy'], ['hard', 'easy'], ['normal', 'normal']]) {
+    let wins = 0, firstWins = 0, total = 0;
+    for (let i = 0; i < games; i++) {
+      const first = i % 2 ? 'B' : 'A', [w, n] = duel({ A: a, B: b }, first);
+      if (w === 'A') wins++;
+      if (w === first) firstWins++;
+      total += n;
+    }
+    console.log(`ttakji    ${a.padEnd(6)} vs ${b.padEnd(6)} ${wins}승 ${games - wins}패 (${games}판, 선공 승 ${firstWins}, 평균 ${(total / games).toFixed(1)}번 침)`);
+  }
+}
+
 const want = process.argv.slice(2);
 if (!want.length || want.includes('baseball')) runBaseball();
+if (!want.length || want.includes('ttakji')) runTtakji();
 const games = {
   omok: () => [gomokuGame(load(['script.js'], 'OmokGame'), 15, ['black', 'white'], 'omok'), ['black', 'white'], 20],
   connect4: () => [gomokuGame(load(['connect4.js'], 'Connect4'), 15, ['red', 'yellow'], 'connect4'), ['red', 'yellow'], 20],

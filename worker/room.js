@@ -1,4 +1,5 @@
 import * as BB from './baseball.mjs';
+import * as TJ from './ttakji.mjs';
 
 const GRACE_MS = 120_000; // 재접속 유예 2분
 const ROOM_TTL_MS = 1_800_000; // 방 유지 30분
@@ -52,6 +53,7 @@ export class RoomDO {
     }
     if (msg.type === 'move') return this.onMove(ws, msg);
     if (msg.type === 'throw') return this.onThrow(ws, msg);
+    if (msg.type === 'hit') return this.onHit(ws, msg);
     if (msg.type === 'secret' || msg.type === 'guess') return this.onBaseball(ws, msg);
     if (msg.type === 'leave') return this.onLeave(ws);
     if (msg.type === 'rematch') return this.onRematch(ws);
@@ -119,6 +121,29 @@ export class RoomDO {
     await this.rescheduleAlarm();
   }
 
+  // 딱지치기 전용: 친 위치·세기는 그대로 돌려주고 난수(0~1)만 서버가 붙인다.
+  // 뒤집혔는지는 양쪽 브라우저가 같은 식으로 계산하고, 친 쪽이 move로 다음 차례를 보낸다.
+  async onHit(ws, msg) {
+    const { color } = ws.deserializeAttachment() ?? {};
+    const room = await this.ctx.storage.get(['turn', 'seq', 'state']);
+    const seq = room.get('seq') ?? 0;
+    const turn = room.get('turn');
+
+    const reject = (reason) =>
+      this.send(ws, { type: 'rejected', reason, state: room.get('state'), seq, turn });
+
+    if (msg.seq !== seq + 1) return reject('SEQ_MISMATCH');
+    if (color !== turn) return reject('NOT_YOUR_TURN');
+    if (!TJ.isValidShot(msg.x, msg.y, msg.power)) return reject('BAD_SHOT');
+
+    const roll = crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32;
+    const nextSeq = seq + 1;
+    await this.ctx.storage.put({ seq: nextSeq, lastActivityAt: Date.now() });
+
+    this.broadcast({ type: 'hit', by: color, x: msg.x, y: msg.y, power: msg.power, roll, seq: nextSeq, turn });
+    await this.rescheduleAlarm();
+  }
+
   // 숫자야구 전용: 비밀 숫자는 서버만 안다. 공개 상태(state)와 다른 키(secrets)에 저장하고,
   // 양쪽에는 판정 결과만 보낸다(끝났을 때만 양쪽 숫자 공개). 판정·승패 규칙은 baseball.mjs.
   // 두 사람이 거의 동시에 숫자를 정해도 준비 표시가 덮어써지지 않게 blockConcurrencyWhile로 묶는다.
@@ -172,6 +197,7 @@ export class RoomDO {
     if (players) players[color] = null; // 자리 즉시 비움 — webSocketClose가 유예 처리를 하지 않도록
     // 숫자야구는 새 상대가 와도 같은 자릿수로 시작해야 하므로 자릿수를 남긴다.
     const bb = room.get('gameId') === BB.GAME_ID;
+    const tj = room.get('gameId') === TJ.GAME_ID;
 
     await this.ctx.storage.put({
       players,
@@ -179,7 +205,8 @@ export class RoomDO {
       turn: 'black',
       seq: 0,
       occupied: [],
-      state: bb ? BB.initialState(room.get('state')?.digits) : null,
+      state: bb ? BB.initialState(room.get('state')?.digits) : tj ? TJ.initialState() : null,
+      first: 'black',
       secrets: {},
       rematchReady: {},
       graceDeadline: null,
@@ -203,20 +230,24 @@ export class RoomDO {
     if (!color) return;
 
     const started = await this.ctx.blockConcurrencyWhile(async () => {
-      const room = await this.ctx.storage.get(['rematchReady', 'players', 'gameId', 'state']);
+      const room = await this.ctx.storage.get(['rematchReady', 'players', 'gameId', 'state', 'first']);
       const players = room.get('players');
       const ready = { ...(room.get('rematchReady') ?? {}), [color]: true };
       const bothReady = !!(players?.black && players?.white && ready.black && ready.white);
 
       if (bothReady) {
         // 숫자야구: 자릿수는 그대로, 선공은 판마다 바꾸고, 지난 판 숫자는 지운다.
+        // 딱지치기: 5:5로 돌아가고 선공은 판마다 바꾼다(선공은 상태 밖 first에 둔다).
         const bb = room.get('gameId') === BB.GAME_ID;
+        const tj = room.get('gameId') === TJ.GAME_ID;
         const prev = room.get('state');
-        const first = bb && prev?.first === 'black' ? 'white' : 'black';
-        const state = bb ? BB.initialState(prev?.digits, first) : null;
+        const prevFirst = bb ? prev?.first : (room.get('first') ?? 'black');
+        const first = (bb || tj) && prevFirst === 'black' ? 'white' : 'black';
+        const state = bb ? BB.initialState(prev?.digits, first) : tj ? TJ.initialState() : null;
         await this.ctx.storage.put({
           status: 'playing',
           turn: first,
+          first,
           seq: 0,
           occupied: [],
           state,
@@ -443,7 +474,8 @@ export class RoomDO {
       // 장애물처럼 방장이 시작 전에 고른 설정은 첫 수 전에도 입장한 쪽에
       // 전달돼야 한다 — 없으면 기존 게임과 동일하게 null.
       // 숫자야구는 클라이언트가 보낸 값 중 자릿수만 쓴다(단계·기록은 서버가 정한다).
-      state: gameId === BB.GAME_ID ? BB.initialState(initialState?.digits) : (initialState ?? null),
+      state: gameId === BB.GAME_ID ? BB.initialState(initialState?.digits)
+        : gameId === TJ.GAME_ID ? TJ.initialState() : (initialState ?? null),
       players: { black: { token, connected: false }, white: null },
       lastActivityAt: Date.now(),
       roomExpiresAt: Date.now() + ROOM_TTL_MS,

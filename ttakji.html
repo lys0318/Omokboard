@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://omokboard.com/ttakji">
+    <link rel="alternate" hreflang="ko" href="https://omokboard.com/ttakji">
+    <link rel="alternate" hreflang="en" href="https://omokboard.com/en/ttakji">
+    <link rel="alternate" hreflang="x-default" href="https://omokboard.com/ttakji">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CSJW29VD6X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CSJW29VD6X');
+    </script>
+    <title>딱지치기 게임 - 무료 온라인 딱지 따먹기 (AI·2인·온라인) - 오목보드</title>
+    <meta name="description" content="무료 온라인 딱지치기. 바닥에 놓인 상대 딱지의 가장자리를 노려 세게 내리쳐 뒤집으면 딴다. AI 대전(쉬움·보통·어려움), 한 화면 2인, 방 코드 온라인 대전. 설치 없이 바로 플레이.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="오목보드">
+    <meta property="og:title" content="딱지치기 게임 - 오목보드">
+    <meta property="og:description" content="무료 온라인 딱지치기. 가장자리를 노려 내리쳐 상대 딱지를 뒤집어 따기. AI 대전, 2인, 온라인 대전.">
+    <meta property="og:url" content="https://omokboard.com/ttakji">
+    <meta property="og:image" content="https://omokboard.com/og/ttakji.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://omokboard.com/og/ttakji.png">
+    <meta name="twitter:title" content="딱지치기 게임 - 오목보드">
+    <meta name="twitter:description" content="무료 온라인 딱지치기. AI 대전, 2인, 온라인 대전.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=15">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
+     crossorigin="anonymous"></script>
+    <style>
+        .tj-board { width: min(92vw, 440px); display: flex; flex-direction: column; gap: 0.7rem; }
+        .tj-counts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .tj-side {
+            display: flex; align-items: center; gap: 0.45rem; min-width: 0;
+            padding: 0.45rem 0.6rem; border-radius: 0.6rem;
+            background: rgba(255,255,255,0.04); border: 2px solid transparent;
+        }
+        .tj-side.on { border-color: var(--accent); }
+        .tj-side b { font-size: 0.9rem; white-space: nowrap; }
+        .tj-chips { display: flex; flex-wrap: wrap; gap: 3px; flex: 1; min-width: 0; }
+        .tj-chips i { width: 10px; height: 10px; border-radius: 2px; transform: rotate(8deg); }
+        #tj-side-black i { background: #d64541; }
+        #tj-side-white i { background: #3b7dd8; }
+        .tj-num { font-weight: 800; }
+        #tj-canvas { width: 100%; height: auto; aspect-ratio: 1; border-radius: 0.75rem; touch-action: manipulation; display: block; }
+        .tj-gauge { position: relative; height: 14px; border-radius: 7px; background: rgba(255,255,255,0.08); overflow: hidden; }
+        .tj-gauge::after { content: ''; position: absolute; left: 90%; top: 0; right: 0; bottom: 0; background: rgba(239,68,68,0.28); }
+        .tj-gauge-fill { height: 100%; width: 0; background: linear-gradient(90deg, #f2a97e, #bd4c20); }
+        #tj-hit-btn { width: 100%; min-height: 3rem; font-size: 1.1rem; }
+        #tj-hit-btn:disabled { opacity: 0.45; cursor: default; }
+        #tj-hit-btn.armed { background: #c0392b; }
+        #tj-info { color: var(--text-muted); font-size: 0.95rem; text-align: center; min-height: 1.4em; }
+        .tj-table-wrap { overflow-x: auto; margin: 0.6rem 0; }
+        .tj-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .tj-table th, .tj-table td { text-align: left; padding: 0.45rem 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .tj-table th { color: var(--text-muted); font-weight: 600; }
+        .tj-table tr:last-child td { border-bottom: none; }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "VideoGame",
+          "name": "딱지치기 게임",
+          "description": "무료 온라인 딱지치기. 바닥에 놓인 상대 딱지의 가장자리를 노려 내리쳐 뒤집으면 딴다. AI 대전(쉬움·보통·어려움), 한 화면 2인, 방 코드 온라인 대전.",
+          "url": "https://omokboard.com/ttakji",
+          "image": "https://omokboard.com/og/ttakji.png",
+          "inLanguage": "ko",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Web Browser",
+          "gamePlatform": "Web Browser",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+          "publisher": { "@type": "Organization", "name": "오목보드", "url": "https://omokboard.com/" }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "오목보드", "item": "https://omokboard.com/" },
+            { "@type": "ListItem", "position": 2, "name": "딱지치기 게임", "item": "https://omokboard.com/ttakji" }
+          ]
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "한가운데를 세게 쳤는데 왜 안 뒤집히나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "오목보드 판정에서 한가운데는 최대 11%입니다. 실제 딱지치기에서도 가장자리 옆을 쳐서 바람으로 뒤집듯이, 가장자리 바로 안쪽을 쳐야 확률이 높습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "딱지 밖을 쳐도 뒤집히나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "가장자리를 살짝 벗어난 정도면 바람으로 뒤집힐 수 있습니다(세기 100%에서 들뜬 변 쪽 최대 55%, 다른 변 쪽 36%). 중심에서 가장자리 거리의 1.6배보다 멀면 헛손질이라 뒤집히지 않습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "최대 확률이 100%가 아닌 이유는요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "92%로 막아 두었습니다. 가장 잘 쳐도 가끔 실패해야 지고 있는 쪽에게도 기회가 생깁니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "들뜬 변은 어떻게 알아보나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "딱지 밑 그림자를 보세요. 바닥에 붙은 세 변은 그림자가 얇고, 들뜬 변 쪽으로만 넓고 진하게 집니다. 들뜬 변 테두리는 빛을 받아 조금 밝게 보입니다. 딱지가 새로 놓일 때마다 들뜬 변이 바뀝니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "점선은 왜 쉬움에서만 보이나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "점선은 가장 잘 뒤집히는 띠를 알려 주는 연습용 표시이고, 노란 부분이 들뜬 변 쪽입니다. 보통·어려움, 2인 대전, 온라인에서는 그림자를 보고 직접 찾아야 합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "휴대폰에서도 할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네. 화면을 눌러 조준하고 치기 버튼을 두 번 누르면 됩니다. 키보드가 있으면 스페이스바로도 칠 수 있습니다."
+      }
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="game-nav">
+            <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
+            <a href="connect4" class="game-nav-item" data-i18n="nav.c4">사목</a>
+            <a href="reversi" class="game-nav-item" data-i18n="nav.reversi">리버시</a>
+            <a href="dots" class="game-nav-item" data-i18n="nav.dots">점잇기</a>
+            <a href="chess" class="game-nav-item" data-i18n="nav.chess">체스</a>
+            <a href="alkkagi" class="game-nav-item" data-i18n="nav.ak">알까기</a>
+            <a href="ttakji" class="game-nav-item active" data-i18n="nav.ttakji">딱지치기</a>
+            <a href="yut" class="game-nav-item" data-i18n="nav.yut">윷놀이</a>
+            <a href="sudoku" class="game-nav-item" data-i18n="nav.sudoku">스도쿠</a>
+            <a href="number-baseball" class="game-nav-item" data-i18n="nav.baseball">숫자야구</a>
+            <a href="tictactoe" class="game-nav-item" data-i18n="nav.ttt">틱택토</a>
+            <a href="minesweeper" class="game-nav-item" data-i18n="nav.mine">지뢰찾기</a>
+            <a href="2048" class="game-nav-item" data-i18n="nav.2048">2048</a>
+            <a href="ladder" class="game-nav-item" data-i18n="nav.ladder">사다리타기</a>
+            <button id="lang-toggle" class="lang-toggle-btn" onclick="window.toggleLang()">EN</button>
+        </nav>
+
+        <header>
+            <h1><span class="ko-only">딱지치기</span><span class="en-only" style="display:none;">Ttakji</span></h1>
+            <p class="subtitle">Ttakji · <span class="ko-only">가장자리를 노려 내리쳐 상대 딱지 뒤집기</span><span class="en-only" style="display:none;">Slam the edge and flip your opponent's tile</span></p>
+        </header>
+
+        <main class="game-stage">
+    <div id="tj-mode-overlay" class="game-mode-overlay">
+        <div class="game-mode-card">
+            <h2 class="mode-title"><span class="ko-only">딱지치기</span><span class="en-only" style="display:none;">Ttakji</span></h2>
+            <div id="tj-step-mode">
+                <p class="mode-subtitle" data-i18n="mode.select">게임 모드를 선택하세요</p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="tj-ai-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.ai">AI 대전</span>
+                        <span class="mode-desc" data-i18n="mode.ai.desc">AI와 대결</span>
+                    </button>
+                    <button class="mode-btn" id="tj-pvp-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.pvp">1:1 하기</span>
+                        <span class="mode-desc" data-i18n="mode.pvp.desc">친구와 대결</span>
+                    </button>
+                    <button class="mode-btn" id="tj-online-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></span>
+                        <span class="mode-desc"><span class="ko-only">방 코드로 초대</span><span class="en-only" style="display:none;">Invite by room code</span></span>
+                    </button>
+                </div>
+                <a href="/" class="mode-back-btn" style="margin-top:2.75rem;"><span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span></a>
+            </div>
+            <div id="tj-step-diff" class="hidden">
+                <p class="mode-subtitle" data-i18n="mode.diff">난이도를 선택하세요</p>
+                <div class="mode-buttons difficulty-buttons">
+                    <button class="mode-btn" id="tj-easy-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10V9"/><path d="M16.472 15a6 6 0 01-8.943 0"/><path d="M9 10V9"/><circle cx="12" cy="12" r="10"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.easy">쉬움</span>
+                        <span class="mode-desc"><span class="ko-only">잘 뒤집히는 곳 표시</span><span class="en-only" style="display:none;">Shows the sweet spot</span></span>
+                    </button>
+                    <button class="mode-btn" id="tj-normal-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.normal">보통</span>
+                        <span class="mode-desc" data-i18n="mode.normal.desc">적당한 도전</span>
+                    </button>
+                    <button class="mode-btn" id="tj-hard-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg></span>
+                        <span class="mode-label" data-i18n="mode.hard">어려움</span>
+                        <span class="mode-desc" data-i18n="mode.hard.desc">실력 발휘</span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" id="tj-diff-back" data-i18n="btn.back">← 뒤로</button>
+            </div>
+            <div id="tj-step-online" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span></p>
+                <div class="mode-buttons">
+                    <button class="mode-btn" id="online-create-btn">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 생성</span><span class="en-only" style="display:none;">Create Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">새 방을 만들고 코드 공유</span><span class="en-only" style="display:none;">Make a room and share the code</span></span>
+                    </button>
+                    <button class="mode-btn" onclick="window.ttakjiGame.showStep('tj-step-online-join')">
+                        <span class="mode-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg></span>
+                        <span class="mode-label"><span class="ko-only">방 입장</span><span class="en-only" style="display:none;">Join Room</span></span>
+                        <span class="mode-desc"><span class="ko-only">코드를 입력해 입장</span><span class="en-only" style="display:none;">Enter a code to join</span></span>
+                    </button>
+                </div>
+                <button class="mode-back-btn" onclick="window.ttakjiGame.showStep('tj-step-mode')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+            <div id="tj-step-online-join" class="hidden">
+                <p class="mode-subtitle"><span class="ko-only">방 코드를 입력하세요</span><span class="en-only" style="display:none;">Enter the room code</span></p>
+                <input id="join-code-input" placeholder="예: K7RM92" maxlength="6"
+                       style="width:100%;min-height:48px;padding:0 0.9rem;border-radius:0.5rem;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.25);color:var(--text-main);text-transform:uppercase;text-align:center;font-size:1.1rem;letter-spacing:0.1em;margin-bottom:0.5rem;">
+                <p id="join-code-error" style="min-height:1.3em;color:#f87171;font-size:0.85rem;margin-bottom:0.75rem;"></p>
+                <button id="join-code-confirm" class="btn primary" style="min-height:48px;width:100%;">
+                    <span class="ko-only">입장하기</span><span class="en-only" style="display:none;">Join</span>
+                </button>
+                <button class="mode-back-btn" onclick="window.ttakjiGame.showStep('tj-step-online')"><span class="ko-only">← 뒤로</span><span class="en-only" style="display:none;">← Back</span></button>
+            </div>
+        </div>
+    </div>
+            <div class="game-info">
+                <div class="status-center" style="width:100%;">
+                    <div class="status-message" id="tj-status" aria-live="polite"></div>
+                    <div id="tj-info"></div>
+                </div>
+            </div>
+
+            <div class="tj-board">
+                <div class="tj-counts">
+                    <div class="tj-side" id="tj-side-black"></div>
+                    <div class="tj-side" id="tj-side-white"></div>
+                </div>
+                <canvas id="tj-canvas" width="800" height="800"></canvas>
+                <div class="tj-gauge"><div class="tj-gauge-fill" id="tj-gauge-fill"></div></div>
+                <button id="tj-hit-btn" class="btn primary"><span class="ko-only">치기 (스페이스)</span><span class="en-only" style="display:none;">Hit (Space)</span></button>
+            </div>
+
+            <div class="controls">
+                <button id="tj-reset-btn" class="btn secondary" data-i18n="btn.restart">게임 재시작</button>
+                <button id="tj-local-leave-btn" class="btn secondary" onclick="if(confirm(window.i18n.t('game.confirmLeaveMidGame')))location.href='/'"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
+                <button id="online-leave-mid-btn" class="btn secondary hidden"><span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span></button>
+            </div>
+        </main>
+
+        <script src="adfit.js?v=1"></script>
+
+        <section class="game-how-to">
+            <h3 data-i18n="howto.title">게임 방법</h3>
+            <ul>
+                <li><strong data-i18n="howto.goal">목표:</strong> <span class="ko-only">상대 딱지 5장을 모두 뒤집어 따면 승리</span><span class="en-only" style="display:none;">Flip and take all of your opponent's tiles to win</span></li>
+                <li><strong data-i18n="howto.controls">조작:</strong> <span class="ko-only">바닥 딱지 근처를 눌러 조준하고, 치기(스페이스)로 게이지를 움직인 뒤 한 번 더 눌러 세기를 정합니다</span><span class="en-only" style="display:none;">Tap near the tile on the ground to aim, press Hit (Space) to start the gauge, then press again to set the power</span></li>
+                <li><strong class="ko-only">차례:</strong><strong class="en-only" style="display:none;">Turns:</strong> <span class="ko-only">뒤집으면 그 딱지를 따고 한 번 더, 못 뒤집으면 공수 교대</span><span class="en-only" style="display:none;">Flip it and you take it and hit again; miss and the turns switch</span></li>
+                <li><strong class="ko-only">요령:</strong><strong class="en-only" style="display:none;">Tip:</strong> <span class="ko-only">그림자가 넓게 진 들뜬 변의 가장자리 바로 안쪽을 세게</span><span class="en-only" style="display:none;">Aim just inside the lifted side, where the shadow is widest, and hit hard</span></li>
+            </ul>
+        </section>
+
+        <div class="game-article">
+            <div class="ko-only">
+                <section class="info-section">
+                    <h2>딱지치기, 이렇게 합니다</h2>
+                    <p>오목보드 딱지치기는 두 사람이 딱지를 5장씩 들고 시작합니다. 수비하는 쪽이 딱지 한 장을 바닥에 놓으면, 공격하는 쪽이 자기 딱지로 그 딱지를 내리칩니다. 바닥 딱지는 놓일 때마다 한 변이 바닥에서 살짝 들떠 있고, 그쪽으로만 그림자가 넓고 진하게 집니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>뒤집으면:</strong> 바닥 딱지를 따서 내 것으로 만들고, 상대가 다음 딱지를 놓으면 한 번 더 칩니다.</li>
+                        <li><strong>못 뒤집으면:</strong> 공수가 바뀝니다. 이번에는 내가 딱지를 놓고 상대가 칩니다.</li>
+                        <li><strong>끝:</strong> 상대 딱지를 모두 따면 이깁니다. 딴 딱지도 내 딱지가 되므로, 지고 있어도 연달아 뒤집으면 판을 뒤집을 수 있습니다.</li>
+                    </ul>
+                    <p>치는 방법은 두 단계입니다. 먼저 바닥 딱지 근처를 눌러 조준점을 찍습니다(다시 누르면 옮겨집니다). 그다음 "치기"나 스페이스바를 누르면 힘 게이지가 0%에서 100% 사이를 오가고, 한 번 더 누른 순간의 세기로 내리칩니다. 게이지는 90%를 넘으면 바늘이 두 배 넘게 빨라져서, 끝까지 꽉 채워 멈추기가 어렵습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>오목보드는 이렇게 판정한다</h2>
+                    <p>실제 딱지는 종이가 휘는 정도, 바닥, 바람에 따라 결과가 달라지지만, 화면 속에서는 그것을 모두 흉내 낼 수 없습니다. 그래서 오목보드는 <strong>친 위치와 세기로 뒤집힐 확률을 정하고, 난수 하나로 결과를 정합니다.</strong> 아래 식과 표는 실제 물리값이 아니라 오목보드가 정한 판정 규칙입니다.</p>
+                    <p>뒤집힐 확률 = 92% × 위치 점수 × 들뜬 변 보정 × 세기<sup>1.5</sup></p>
+                    <ul class="rule-list">
+                        <li><strong>위치 점수:</strong> 바닥 딱지의 중심에서 가장자리까지를 1로 잴 때, 가운데(0)는 0.12, 가장자리 바로 안쪽(0.85~1)은 1로 가장 높습니다. 가장자리를 살짝 벗어나도(1.15에서 0.6) 바람으로 뒤집힐 수 있지만, 1.6배 넘게 떨어지면 0입니다.</li>
+                        <li><strong>들뜬 변 보정:</strong> 딱지를 대각선으로 네 조각 냈을 때, 친 곳이 들뜬 변 쪽 조각(딱지 바깥으로 이어진 부분까지)이면 1, 나머지 세 변 쪽이면 0.65입니다. 같은 자리를 같은 세기로 쳐도 들뜬 변 쪽이 1.5배 넘게 잘 뒤집힙니다.</li>
+                        <li><strong>세기:</strong> 게이지 값을 1.5제곱해서 씁니다. 세기 50%는 0.35, 75%는 0.65, 100%는 1이라서 약하게 치면 확률이 크게 떨어집니다.</li>
+                        <li><strong>최대 92%:</strong> 아무리 잘 쳐도 열 번에 한 번쯤은 실패합니다.</li>
+                    </ul>
+                    <p>위치와 세기, 들뜬 변 쪽인지에 따른 뒤집힐 확률입니다(소수점 아래 반올림). 세기 90%에서 멈추면 가장자리 바로 안쪽은 들뜬 변 쪽 79%, 다른 변 쪽 51%입니다.</p>
+                    <div class="tj-table-wrap"><table class="tj-table">
+                        <thead><tr><th>친 위치 (중심~가장자리 = 1)</th><th>들뜬 변 쪽, 세기 75%</th><th>들뜬 변 쪽, 100%</th><th>다른 변 쪽, 75%</th><th>다른 변 쪽, 100%</th></tr></thead>
+                        <tbody>
+                            <tr><td>한가운데 근처 (0)</td><td>7%</td><td>11%</td><td>5%</td><td>7%</td></tr>
+                            <tr><td>가운데와 가장자리 사이 (0.5)</td><td>18%</td><td>28%</td><td>12%</td><td>18%</td></tr>
+                            <tr><td>가장자리 바로 안쪽 (0.85~1)</td><td>60%</td><td>92%</td><td>39%</td><td>60%</td></tr>
+                            <tr><td>가장자리 바로 바깥 (1.15)</td><td>36%</td><td>55%</td><td>23%</td><td>36%</td></tr>
+                            <tr><td>조금 더 바깥 (1.3)</td><td>24%</td><td>37%</td><td>16%</td><td>24%</td></tr>
+                            <tr><td>멀리 바깥 (1.6 이상)</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>바닥 딱지는 놓일 때마다 조금씩 비스듬하게(-18°~18°) 놓입니다. 가장자리는 화면의 가로세로가 아니라 딱지의 네 변을 따라 재므로, 딱지가 기운 방향에 맞춰 조준해야 합니다. 들뜬 변도 딱지가 새로 놓일 때마다 바뀝니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>잘 뒤집는 요령</h2>
+                    <ul class="rule-list">
+                        <li><strong>먼저 그림자를 본다:</strong> 바닥에 붙은 세 변은 그림자가 얇고, 들뜬 변 쪽으로만 그림자가 넓고 진하게 집니다. 들뜬 변 테두리는 빛을 받아 조금 밝습니다. 가장자리 바로 안쪽을 세기 100%로 치면 들뜬 변 쪽은 92%, 다른 변 쪽은 60%입니다.</li>
+                        <li><strong>가운데는 치지 않는다:</strong> 한가운데는 세게 쳐도 11%입니다. 변을 따라 가장자리 바로 안쪽, 딱지 폭의 바깥쪽 7~8% 띠를 노리세요. 쉬움 난이도에서는 이 띠가 점선으로 보이고, 들뜬 변 쪽은 노란 점선입니다.</li>
+                        <li><strong>모서리보다 변 가운데:</strong> 모서리는 들뜬 변과 옆 변의 경계라서, 조금만 어긋나도 옆 변 쪽으로 넘어가 확률이 0.65배가 되거나 딱지 바깥으로 벗어나기 쉽습니다.</li>
+                        <li><strong>90% 바로 앞에서 멈추기:</strong> 90%에서 멈추면 가장자리 기준 79%, 100%를 노리다 바늘이 빨라진 구간을 지나쳐 되돌아오는 것보다 안정적입니다.</li>
+                        <li><strong>빗맞아도 바깥이 낫다:</strong> 들뜬 변 쪽에서 가장자리를 살짝 넘기면(1.15) 아직 55%가 남지만, 안쪽으로 반쯤 들어가면(0.5) 28%로 떨어집니다. 애매하면 바깥쪽으로 조준하세요.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>전통 딱지치기와 다른 점</h2>
+                    <p>한국민족문화대백과사전은 딱지치기를 종이로 만든 딱지를 땅에 놓고 다른 딱지로 그 옆을 쳐서, 바닥 딱지가 뒤집히거나 정해 둔 선 밖으로 나가면 따먹는 어린이 놀이로 설명합니다. 가위바위보에서 진 쪽이 먼저 딱지를 놓고, 딱지를 칠 때 생기는 바람으로 뒤집히면 따서 계속 칠 수 있습니다. 두꺼운 종이를 사방으로 접어 만든 딱지와 그림이 인쇄된 종이를 오려 만든 딱지가 있고, 지방에 따라 '때기치기', '표치기'라고도 부릅니다. (출처: <a href="https://encykorea.aks.ac.kr/Article/E0017175" rel="noopener" target="_blank">한국민족문화대백과사전, 딱지치기</a>)</p>
+                    <p>같은 사전에 따르면 지방에 따라 선 밖으로 쳐내기, 내 딱지가 상대 딱지 밑으로 들어가면 따기, 반대로 상대 딱지 위에 얹히면 잃기 같은 규칙도 있었습니다. 오목보드는 이 가운데 가장 널리 알려진 <strong>뒤집기 한 가지만</strong> 쓰고, 순서는 가위바위보 대신 AI 대전은 판마다, 온라인은 다시 하기마다 번갈아 정합니다. 바닥에서 한쪽이 들뜬 딱지를 노리는 맛은 "들뜬 변" 규칙으로 따로 넣었습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>오목보드 AI는 어떻게 치나</h2>
+                    <p>AI도 사람과 똑같은 판정식으로 칩니다. 난이도는 들뜬 변을 알아보는지와 조준·세기가 얼마나 정확한지로 나눕니다. <strong>쉬움</strong>은 들뜬 변을 신경 쓰지 않고 딱지 위 아무 곳을 42~92% 세기로 칩니다. <strong>보통</strong>은 절반쯤만 들뜬 변을 노리고, 손 떨림이 크며 세기는 86% 안팎입니다. <strong>어려움</strong>은 늘 들뜬 변의 가장자리 바로 안쪽을 노리고, 손 떨림이 작으며 세기는 92% 안팎입니다. 차례가 오면 조준점과 게이지를 보여 준 뒤 1초쯤 지나 칩니다.</p>
+                    <p>난이도마다 10,000번씩 쳐 보게 한 실제 성공률과, AI끼리 1,000판씩 붙인 결과입니다(2026년 10월 31일, 들뜬 변 규칙으로 다시 측정, 선공은 판마다 번갈아).</p>
+                    <div class="tj-table-wrap"><table class="tj-table">
+                        <thead><tr><th>난이도</th><th>뒤집기 성공률</th></tr></thead>
+                        <tbody>
+                            <tr><td>쉬움</td><td>25.1%</td></tr>
+                            <tr><td>보통</td><td>51.3%</td></tr>
+                            <tr><td>어려움</td><td>73.6%</td></tr>
+                        </tbody>
+                    </table></div>
+                    <div class="tj-table-wrap"><table class="tj-table">
+                        <thead><tr><th>대결</th><th>결과</th><th>한 판에 친 횟수(평균)</th></tr></thead>
+                        <tbody>
+                            <tr><td>어려움 vs 보통</td><td>900승 100패</td><td>15.0번</td></tr>
+                            <tr><td>보통 vs 쉬움</td><td>979승 21패</td><td>23.7번</td></tr>
+                            <tr><td>어려움 vs 쉬움</td><td>994승 6패</td><td>11.1번</td></tr>
+                            <tr><td>보통 vs 보통</td><td>선공 557승 443패</td><td>28.8번</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>실력이 같으면 먼저 치는 쪽이 조금 유리합니다(1,000판 중 557판). 한 번 뒤집으면 계속 칠 수 있어서, 성공률이 조금만 높아도 승률은 크게 벌어집니다. 사람이라면 들뜬 변을 매번 찾아 세기 90% 바로 앞에서 멈추기만 해도 79%로, 어려움 AI보다 잘 칠 수 있습니다. 다른 게임의 실측은 <a href="ai-benchmarks">AI 난이도 실측 기록</a>에 있습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>온라인 대전</h2>
+                    <p>방을 만들고 6자리 방 코드나 링크를 보내면 친구와 실시간으로 겨룰 수 있습니다. 방을 만든 쪽(빨강)이 첫 판에 먼저 치고, 다시 하기를 할 때마다 선공이 바뀝니다.</p>
+                    <p>온라인에서는 <strong>결과를 정하는 난수를 서버가 뽑습니다.</strong> 내가 친 위치와 세기를 서버에 보내면, 서버가 난수를 붙여 양쪽 브라우저에 똑같이 돌려주고, 두 브라우저가 위의 판정식으로 같은 결과를 계산합니다. 딱지 각도와 들뜬 변도 몇 번째로 놓인 딱지인지로 정해져 있어 두 화면이 같습니다. 어느 쪽 브라우저도 난수를 고를 수 없으니 운이 공평하고, 두 화면에 같은 장면이 나옵니다. 윷놀이에서 서버가 윷가락만 던져 주는 것과 같은 방식입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>한가운데를 세게 쳤는데 왜 안 뒤집히나요?</strong> 오목보드 판정에서 한가운데는 최대 11%입니다. 실제 딱지치기에서도 가장자리 옆을 쳐서 바람으로 뒤집듯이, 가장자리 바로 안쪽을 쳐야 확률이 높습니다.</li>
+                        <li><strong>딱지 밖을 쳐도 뒤집히나요?</strong> 가장자리를 살짝 벗어난 정도면 바람으로 뒤집힐 수 있습니다(세기 100%에서 들뜬 변 쪽 최대 55%, 다른 변 쪽 36%). 중심에서 가장자리 거리의 1.6배보다 멀면 헛손질이라 뒤집히지 않습니다.</li>
+                        <li><strong>최대 확률이 100%가 아닌 이유는요?</strong> 92%로 막아 두었습니다. 가장 잘 쳐도 가끔 실패해야 지고 있는 쪽에게도 기회가 생깁니다.</li>
+                        <li><strong>들뜬 변은 어떻게 알아보나요?</strong> 딱지 밑 그림자를 보세요. 바닥에 붙은 세 변은 그림자가 얇고, 들뜬 변 쪽으로만 넓고 진하게 집니다. 들뜬 변 테두리는 빛을 받아 조금 밝게 보입니다. 딱지가 새로 놓일 때마다 들뜬 변이 바뀝니다.</li>
+                        <li><strong>점선은 왜 쉬움에서만 보이나요?</strong> 점선은 가장 잘 뒤집히는 띠를 알려 주는 연습용 표시이고, 노란 부분이 들뜬 변 쪽입니다. 보통·어려움, 2인 대전, 온라인에서는 그림자를 보고 직접 찾아야 합니다.</li>
+                        <li><strong>휴대폰에서도 할 수 있나요?</strong> 네. 화면을 눌러 조준하고 치기 버튼을 두 번 누르면 됩니다. 키보드가 있으면 스페이스바로도 칠 수 있습니다.</li>
+                    </ul>
+                </section>
+            </div>
+
+            <div class="en-only" style="display:none;">
+                <section class="info-section">
+                    <h2>How to Play Ttakji</h2>
+                    <p>Ttakji is a Korean children's game played with square tiles of folded paper. In Omokboard's version each player starts with 5 tiles. The defender puts one tile on the ground, and the attacker slams their own tile down on it. Each tile on the ground has one side lifted slightly off the ground, and only that side casts a wide, dark shadow.</p>
+                    <ul class="rule-list">
+                        <li><strong>Flip it:</strong> you take the tile on the ground, the defender puts down their next one, and you hit again.</li>
+                        <li><strong>Miss:</strong> the roles switch. Now you put a tile down and your opponent hits.</li>
+                        <li><strong>End:</strong> take all of your opponent's tiles to win. Tiles you take become yours, so a run of flips can turn a losing game around.</li>
+                    </ul>
+                    <p>Each hit takes two steps. First tap near the tile on the ground to set your aim (tap again to move it). Then press "Hit" or the Space bar: the power gauge swings between 0% and 100%, and the moment you press again sets the power. Past 90% the needle moves more than twice as fast, so stopping it right at the top is hard.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard Decides a Flip</h2>
+                    <p>A real ttakji flips or not depending on how the paper bends, the ground, and the rush of air. A screen can't copy all of that, so Omokboard <strong>turns where and how hard you hit into a flip chance, then settles it with one random number.</strong> The formula and table below are Omokboard's rules, not real physics.</p>
+                    <p>Flip chance = 92% × position score × lifted-side factor × power<sup>1.5</sup></p>
+                    <ul class="rule-list">
+                        <li><strong>Position score:</strong> measuring from the tile's center (0) to its edge (1), the center scores 0.12 and the band just inside the edge (0.85 to 1) scores the most, 1. Hitting just past the edge can still flip it with the air (0.6 at 1.15), but beyond 1.6 the score is 0.</li>
+                        <li><strong>Lifted-side factor:</strong> cut the tile into four triangles along its diagonals. A hit in the triangle on the lifted side (including the area beyond that edge) counts 1; a hit on any of the other three sides counts 0.65. The same spot at the same power flips more than 1.5 times as often on the lifted side.</li>
+                        <li><strong>Power:</strong> the gauge value raised to the power 1.5. Power 50% counts as 0.35 and 75% as 0.65, so a soft hit loses a lot.</li>
+                        <li><strong>92% cap:</strong> even a perfect hit fails about one time in ten.</li>
+                    </ul>
+                    <p>Flip chance by position, power, and side (rounded to whole percent). Stopping the gauge at 90% gives 79% just inside the lifted edge and 51% on the other sides.</p>
+                    <div class="tj-table-wrap"><table class="tj-table">
+                        <thead><tr><th>Where you hit (center to edge = 1)</th><th>Lifted side, power 75%</th><th>Lifted side, 100%</th><th>Other sides, 75%</th><th>Other sides, 100%</th></tr></thead>
+                        <tbody>
+                            <tr><td>Near the center (0)</td><td>7%</td><td>11%</td><td>5%</td><td>7%</td></tr>
+                            <tr><td>Halfway to the edge (0.5)</td><td>18%</td><td>28%</td><td>12%</td><td>18%</td></tr>
+                            <tr><td>Just inside the edge (0.85 to 1)</td><td>60%</td><td>92%</td><td>39%</td><td>60%</td></tr>
+                            <tr><td>Just past the edge (1.15)</td><td>36%</td><td>55%</td><td>23%</td><td>36%</td></tr>
+                            <tr><td>A bit further out (1.3)</td><td>24%</td><td>37%</td><td>16%</td><td>24%</td></tr>
+                            <tr><td>Far outside (1.6 or more)</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>Each tile lands at a slight angle (between -18° and 18°). The edge is measured along the tile's own four sides, not the screen's, so line up your aim with the way the tile is turned. The lifted side changes with every new tile, too.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Tips for Flipping</h2>
+                    <ul class="rule-list">
+                        <li><strong>Read the shadow first:</strong> the three sides flat on the ground cast a thin shadow, and only the lifted side casts a wide, dark one. Its edge also catches a little light. Just inside the edge at full power, the lifted side flips 92% of the time and the other sides 60%.</li>
+                        <li><strong>Skip the middle:</strong> the dead center tops out at 11% however hard you hit. Aim for the band just inside an edge, the outer 7 to 8% of the tile's width. On Easy, a dashed line marks that band, in yellow on the lifted side.</li>
+                        <li><strong>Middle of the side, not the corner:</strong> a corner is where the lifted side meets its neighbor, so the smallest slip either crosses onto the neighboring side (0.65 times the chance) or drifts off the tile.</li>
+                        <li><strong>Stop just before 90%:</strong> stopping at 90% gives 79% on the edge, which is steadier than chasing 100% through the fast zone and catching the needle on its way back.</li>
+                        <li><strong>Miss wide, not deep:</strong> on the lifted side, just past the edge (1.15) still gives 55%, while slipping halfway in (0.5) drops you to 28%. When in doubt, aim a little outward.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>How It Differs from Traditional Ttakji</h2>
+                    <p>The Encyclopedia of Korean Culture describes ttakjichigi as a children's game: a paper ttakji is placed on the ground and another is slammed down beside it, and if the tile on the ground flips over or is knocked past a drawn line, the hitter takes it. The loser of rock-paper-scissors puts a tile down first, and a hitter who flips a tile with the rush of air takes it and keeps hitting. Some ttakji are folded from thick paper on all four sides, others are cut from printed paper, and some regions call the game ttaegichigi or pyochigi. (Source: <a href="https://encykorea.aks.ac.kr/Article/E0017175" rel="noopener" target="_blank">Encyclopedia of Korean Culture, "Ttakjichigi"</a>, in Korean)</p>
+                    <p>The same entry notes regional rules such as knocking the tile past a line, winning when your tile slides underneath, and losing yours when it lands on top. Omokboard uses <strong>only the flip</strong>, the best-known rule, and instead of rock-paper-scissors the first hitter alternates every game against the AI and every rematch online. The lifted-side rule adds the feel of hunting for a tile that isn't lying flat.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard's AI Hits</h2>
+                    <p>The AI uses exactly the same flip formula as you. Difficulty comes down to whether it spots the lifted side and how steady its aim and power are. <strong>Easy</strong> ignores the lifted side and hits anywhere on the tile at 42 to 92% power. <strong>Normal</strong> goes for the lifted side about half the time, with a shaky hand and power around 86%. <strong>Hard</strong> always aims just inside the lifted edge, with a steady hand and power around 92%. On its turn the AI shows its aim and gauge, then hits about a second later.</p>
+                    <p>Real flip rates over 10,000 hits per level, and 1,000 AI-vs-AI games per pairing (remeasured October 31, 2026 with the lifted-side rule, first hitter alternating every game):</p>
+                    <div class="tj-table-wrap"><table class="tj-table">
+                        <thead><tr><th>Level</th><th>Flip rate</th></tr></thead>
+                        <tbody>
+                            <tr><td>Easy</td><td>25.1%</td></tr>
+                            <tr><td>Normal</td><td>51.3%</td></tr>
+                            <tr><td>Hard</td><td>73.6%</td></tr>
+                        </tbody>
+                    </table></div>
+                    <div class="tj-table-wrap"><table class="tj-table">
+                        <thead><tr><th>Matchup</th><th>Result</th><th>Hits per game (avg)</th></tr></thead>
+                        <tbody>
+                            <tr><td>Hard vs Normal</td><td>900 wins, 100 losses</td><td>15.0</td></tr>
+                            <tr><td>Normal vs Easy</td><td>979 wins, 21 losses</td><td>23.7</td></tr>
+                            <tr><td>Hard vs Easy</td><td>994 wins, 6 losses</td><td>11.1</td></tr>
+                            <tr><td>Normal vs Normal</td><td>first hitter 557 wins, 443 losses</td><td>28.8</td></tr>
+                        </tbody>
+                    </table></div>
+                    <p>With equal skill, hitting first is a small edge (557 of 1,000 games). Because a flip lets you keep hitting, a slightly better flip rate turns into a much bigger win rate. A person who finds the lifted side every time and stops the gauge just before 90% flips 79% of the time, better than the Hard AI. Measurements for the other games are in <a href="ai-benchmarks">AI Difficulty Benchmarks</a>.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Online Play</h2>
+                    <p>Create a room and send the 6-character room code or link to play a friend in real time. The room creator (red) hits first in the first game, and the first hitter switches with every rematch.</p>
+                    <p>Online, <strong>the server draws the random number that decides each hit.</strong> Your aim and power go to the server, which attaches a random number and sends the same thing back to both browsers. Each browser then runs the formula above and gets the same result. The tile's angle and lifted side are fixed by its place in the order, so both screens match. Neither browser can pick the number, so the luck is fair and both screens show the same play. It works the same way as Yut Nori, where the server only throws the sticks.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>I hit the center hard. Why didn't it flip?</strong> In Omokboard's rules the dead center tops out at 11%. Just as real players hit beside the tile so the air flips it, you need to hit just inside the edge.</li>
+                        <li><strong>Can a hit outside the tile flip it?</strong> Just past the edge, yes, with the air (at full power up to 55% on the lifted side, 36% on the others). Beyond 1.6 times the center-to-edge distance it is a clean miss.</li>
+                        <li><strong>Why isn't the best chance 100%?</strong> It is capped at 92%. Even the best hit has to fail sometimes, or the player who is behind would never get a chance.</li>
+                        <li><strong>How do I spot the lifted side?</strong> Look at the shadow under the tile. The three sides flat on the ground cast a thin shadow, and only the lifted side casts a wide, dark one. Its edge also looks a little brighter. The lifted side changes with every new tile.</li>
+                        <li><strong>Why does the dashed line only show on Easy?</strong> It is a practice aid that marks the band where tiles flip best, with the lifted side in yellow. On Normal, Hard, 2-player, and online you find it yourself from the shadow.</li>
+                        <li><strong>Can I play on a phone?</strong> Yes. Tap to aim and press the Hit button twice. With a keyboard you can also use the Space bar.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <footer>
+            <nav class="footer-nav">
+                <a href="/" data-i18n="footer.home">홈</a>
+                <span class="footer-sep">·</span>
+                <a href="about" data-i18n="footer.about">게임 소개</a>
+                <span class="footer-sep">·</span>
+                <a href="guides" data-i18n="footer.guides">공략 모음</a>
+                <span class="footer-sep">·</span>
+                <a href="contact" data-i18n="footer.contact">문의</a>
+                <span class="footer-sep">·</span>
+                <a href="privacy" data-i18n="footer.privacy">개인정보처리방침</a>
+            </nav>
+            <p class="footer-copy" data-i18n="footer.copy">&copy; 2026 오목보드. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Win Overlay -->
+    <div id="tj-win-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="tj-win-title"></h2>
+            <p id="tj-win-desc"></p>
+            <button id="tj-modal-reset" class="btn primary large" data-i18n="btn.replay">다시 하기</button>
+            <div id="online-endgame" class="hidden">
+                <div class="online-endgame-actions" style="display:flex;gap:0.6rem;justify-content:center;">
+                    <button id="online-leave-btn" class="btn secondary large">
+                        <span class="ko-only">나가기</span><span class="en-only" style="display:none;">Leave</span>
+                    </button>
+                    <button id="online-rematch-btn" class="btn primary large">
+                        <span class="ko-only">다시하기</span><span class="en-only" style="display:none;">Rematch</span>
+                    </button>
+                </div>
+                <p id="online-endgame-status" style="margin-top:0.8rem;color:var(--text-muted);font-size:0.9rem;min-height:1.3em;"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="room-panel" class="overlay hidden">
+        <div class="modal" style="max-width:420px;padding:2.25rem 2rem;">
+            <h2 style="font-size:1.05rem;font-weight:700;background:none;-webkit-text-fill-color:var(--text-muted);letter-spacing:0.02em;">
+                <span class="ko-only">온라인 대전</span><span class="en-only" style="display:none;">Online Match</span>
+            </h2>
+            <p id="room-status" style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.25rem;"></p>
+            <div id="room-code-row" class="hidden" style="margin-bottom:1.25rem;display:flex;flex-direction:column;align-items:center;gap:0.6rem;">
+                <span style="font-size:0.8rem;color:var(--text-muted);"><span class="ko-only">방 코드</span><span class="en-only" style="display:none;">Room code</span></span>
+                <strong id="room-code" style="font-size:2.25rem;letter-spacing:0.15em;line-height:1;"></strong>
+                <button id="room-copy" class="btn secondary" style="min-height:44px;padding:0 0.9rem;">
+                    <span class="ko-only">링크 복사</span><span class="en-only" style="display:none;">Copy Link</span>
+                </button>
+            </div>
+            <div id="room-count" style="font-weight:700;font-size:1.15rem;color:var(--accent-blue);"></div>
+            <p style="margin-top:1.5rem;">
+                <a href="/" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">
+                    <span class="ko-only">← 홈으로</span><span class="en-only" style="display:none;">← Home</span>
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script src="lang.js?v=13"></script>
+    <script src="ttakji.js?v=1"></script>
+    <script src="/adapters/ttakji.js?v=1"></script>
+    <script src="/multiplayer.js?v=5"></script>
+    <script>
+    // 온라인 대전 진입점. 난수는 서버가, 뒤집힘 판정은 양쪽 브라우저가 같은 식으로 한다(adapters/ttakji.js).
+    (function () {
+      const game = window.ttakjiGame;
+      const panel = document.getElementById("room-panel");
+      const statusEl = document.getElementById("room-status");
+      const codeRow = document.getElementById("room-code-row");
+      const codeEl = document.getElementById("room-code");
+      const countEl = document.getElementById("room-count");
+      const onlineEndgame = document.getElementById("online-endgame");
+      const modalResetBtn = document.getElementById("tj-modal-reset");
+      const rematchBtn = document.getElementById("online-rematch-btn");
+      const endgameStatusEl = document.getElementById("online-endgame-status");
+      const winOverlay = document.getElementById("tj-win-overlay");
+
+      const t = window.i18n.t;
+      const TEXT = {
+        waiting: t("online.waiting"),
+        paused: t("online.paused"),
+        finished: t("online.finished"),
+        connected: t("online.connected"),
+        reconnecting: t("online.reconnecting"),
+        opponent_left: t("online.opponentLeft"),
+        opponent_back: t("online.opponentBack"),
+      };
+      const ERR = {
+        ROOM_FULL: t("online.err.roomFull"),
+        ROOM_NOT_FOUND: t("online.err.roomNotFound"),
+        WRONG_GAME: t("online.err.wrongGame"),
+        NOT_YOUR_TURN: t("online.err.notYourTurn"),
+        SEQ_MISMATCH: t("online.err.seqMismatch"),
+        CREATE_FAILED: t("online.err.createFailed"),
+        REPLACED: t("online.err.replaced"),
+      };
+
+      let shareLink = "";
+      let mpSession = null;
+
+      const ui = {
+        onStatus(status) {
+          if (status === "playing") {
+            countEl.textContent = "2 / 2";
+            statusEl.textContent = t("online.starting");
+            setTimeout(() => panel.classList.add("hidden"), 700);
+            return;
+          }
+          if (status === "waiting") {
+            countEl.textContent = "1 / 2";
+            panel.classList.remove("hidden");
+            winOverlay.classList.add("hidden");
+          }
+          statusEl.textContent = TEXT[status] || status;
+        },
+        onCode(code, url) {
+          shareLink = url;
+          codeEl.textContent = code;
+          codeRow.classList.remove("hidden");
+          countEl.textContent = "1 / 2";
+        },
+        onError(code) {
+          statusEl.textContent = ERR[code] || code;
+          document.getElementById("join-code-error").textContent = ERR[code] || code;
+        },
+        onRematchWait() {
+          endgameStatusEl.textContent = t("online.rematchWait");
+        },
+        onRematchStart() {
+          rematchBtn.disabled = false;
+          endgameStatusEl.textContent = "";
+          winOverlay.classList.add("hidden");
+        },
+        onColor(seatColor) {
+          game.setColor(seatColor);
+        },
+      };
+
+      function doLeave() {
+        if (mpSession) mpSession.leave();
+        location.href = "/";
+      }
+
+      function begin() {
+        panel.classList.remove("hidden");
+        statusEl.textContent = TEXT.waiting;
+        game.startGame("online");
+        game.inputLocked = true;
+        document.getElementById("tj-reset-btn").classList.add("hidden");
+        document.getElementById("tj-local-leave-btn").classList.add("hidden");
+        document.getElementById("online-leave-mid-btn").classList.remove("hidden");
+        mpSession = window.Multiplayer.start({
+          gameId: "ttakji",
+          game,
+          adapter: window.OmokboardAdapters.ttakji,
+          ui,
+        });
+        game.hooks.sendHit = (x, y, power) => mpSession.send("hit", { x, y, power }, true);
+      }
+      game.hooks.onlineCreate = begin;
+
+      game.onGameOver = () => {
+        modalResetBtn.classList.add("hidden");
+        onlineEndgame.classList.remove("hidden");
+        endgameStatusEl.textContent = "";
+        rematchBtn.disabled = false;
+      };
+
+      document.getElementById("join-code-confirm").addEventListener("click", () => {
+        const code = document.getElementById("join-code-input").value.trim().toUpperCase();
+        const errEl = document.getElementById("join-code-error");
+        if (code.length !== 6) {
+          errEl.textContent = t("online.err.codeLength");
+          return;
+        }
+        location.search = "?room=" + code;
+      });
+
+      document.getElementById("room-copy").addEventListener("click", () => {
+        if (shareLink) navigator.clipboard.writeText(shareLink);
+      });
+
+      document.getElementById("online-leave-btn").addEventListener("click", doLeave);
+
+      document.getElementById("online-leave-mid-btn").addEventListener("click", () => {
+        if (!confirm(t("online.confirmLeaveMidGame"))) return;
+        doLeave();
+      });
+
+      document.getElementById("online-rematch-btn").addEventListener("click", () => {
+        if (!mpSession) return;
+        mpSession.rematch();
+        rematchBtn.disabled = true;
+        endgameStatusEl.textContent = t("online.rematchWaitingSelf");
+      });
+
+      // 링크로 들어온 경우, 실제 게임 종류를 확인한 뒤 입장한다.
+      const roomParam = new URLSearchParams(location.search).get("room");
+      if (roomParam) {
+        panel.classList.remove("hidden");
+        statusEl.textContent = TEXT.waiting;
+        fetch("/api/room/" + roomParam + "/info")
+          .then((res) => (res.ok ? res.json() : Promise.reject()))
+          .then((data) => (data.gameId === "ttakji" ? begin() : ui.onError("WRONG_GAME")))
+          .catch(() => ui.onError("ROOM_NOT_FOUND"));
+      }
+    })();
+    </script>
+    <script src="/analytics.js?v=1" defer></script>
+</body>
+</html>

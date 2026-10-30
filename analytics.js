@@ -70,7 +70,7 @@
   var GAMES = {
     omok: { ko: '오목', en: 'Omok' }, connect4: { ko: '사목', en: 'Connect 4' },
     reversi: { ko: '리버시', en: 'Reversi' }, dots: { ko: '점잇기', en: 'Dots & Boxes' },
-    chess: { ko: '체스', en: 'Chess' }, alkkagi: { ko: '알까기', en: 'Alkkagi' },
+    chess: { ko: '체스', en: 'Chess' }, alkkagi: { ko: '알까기', en: 'Alkkagi' }, ttakji: { ko: '딱지치기', en: 'Ttakji' },
     yut: { ko: '윷놀이', en: 'Yut Nori' }, sudoku: { ko: '스도쿠', en: 'Sudoku' }, 'number-baseball': { ko: '숫자야구', en: 'Number Baseball' },
     tictactoe: { ko: '틱택토', en: 'Tic-Tac-Toe' }, minesweeper: { ko: '지뢰찾기', en: 'Minesweeper' },
     '2048': { ko: '2048', en: '2048' }, ladder: { ko: '사다리타기', en: 'Ladder' }
