@@ -1,12 +1,27 @@
 :root {
-    /* 차갑고 어디서나 보는 slate+blue 조합 대신, 실제 오목판의 나무·먹 톤에서
-       끌어온 팔레트. 배경은 먹빛에 가까운 따뜻한 흑갈색, 강조색은 단청·인주
-       느낌의 주홍 — 보드의 금빛 나무색과 톤은 맞추되 색상은 겹치지 않게 갈라둠. */
-    --bg-dark: #1b1512;
+    /* 놀이판 팝: 먹빛 흑갈색 바탕 위에 굵은 먹 테두리·각진 그림자와 빨강·파랑·노랑 분류 색.
+       설계: docs/superpowers/specs/2026-11-02-pop-redesign-design.md
+       대비는 scripts/design-check.mjs가 검사한다(모두 4.5:1 이상). */
+    --bg-dark: #191310;
     --bg-darker: #100c0a;
-    --surface: #2b2118;
-    --text-main: #f3ece2;
-    --text-muted: #a99a89;
+    --surface: #2a201a;
+    --surface-2: #352820;
+    --text-main: #f6efe3;
+    --text-muted: #b8a893;
+    --ink: #000;
+    --pop-red: #d63526;
+    --pop-blue: #2f6fe5;
+    --pop-yellow: #ffcf3f;
+    --on-yellow: #1a1208;   /* 노랑 위 글자 */
+    /* 분류 색(게임 페이지 <body data-cat>가 바꾼다). --cat-ink는 그 위 글자색 */
+    --cat: var(--pop-red);
+    --cat-ink: #fff;
+    --line: 2.5px solid var(--ink);
+    --drop: 4px 4px 0 var(--ink);
+    --ease-pop: cubic-bezier(.3, 1.5, .5, 1);
+    --font-display: 'Black Han Sans', 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    --font-body: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+
     --board-wood: #deae6c;
     --board-wood-dark: #b4854b;
     --board-shadow: rgba(0, 0, 0, 0.4);
@@ -17,16 +32,20 @@
     --stone-white: #f5f5f5;
     --stone-white-edge: #d4d4d4;
 
-    --accent: #bd4c20; /* 흰 글자 버튼 배경 기준 4.5:1 대비를 넘기는 선까지 낮춘 채도 */
-    --accent-hover: #a03e19;
-    --accent-soft: #f2a97e;
-    /* 다른 11개 게임 페이지의 인라인 스타일이 아직 이 이름을 참조한다 */
-    --accent-blue: var(--accent);
-    --accent-blue-hover: var(--accent-hover);
+    --accent: #d63526;        /* 배경으로 쓸 때(흰 글자 4.8:1) */
+    --accent-hover: #b82c1f;
+    --accent-soft: #ffcf3f;   /* 키보드 포커스 테두리 */
+    /* 게임 페이지 인라인 스타일이 주로 링크 글자색으로 쓰는 이름(약 200곳) → 노랑.
+       배경으로 쓰는 곳은 글자를 --on-yellow로 맞춘다 */
+    --accent-blue: #ffcf3f;
+    --accent-blue-hover: #f0bc1f;
 
     --board-size: min(90vw, 600px);
     --cell-size: calc(var(--board-size) / 15);
 }
+
+body[data-cat="brain"] { --cat: var(--pop-blue); }
+body[data-cat="solo"] { --cat: var(--pop-yellow); --cat-ink: var(--on-yellow); }
 
 * {
     margin: 0;
@@ -39,7 +58,7 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-body);
     background: radial-gradient(circle at center, var(--bg-dark), var(--bg-darker));
     color: var(--text-main);
     min-height: 100vh;
@@ -438,7 +457,7 @@ h1 {
     align-items: center;
     gap: 0.5rem;
     cursor: pointer;
-    font-family: 'Outfit', sans-serif;
+    font-family: inherit;
     transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
@@ -565,7 +584,7 @@ h1 {
     background: none;
     border: none;
     color: var(--text-muted);
-    font-family: 'Outfit', sans-serif;
+    font-family: inherit;
     font-size: 0.9rem;
     cursor: pointer;
     transition: color 0.2s;

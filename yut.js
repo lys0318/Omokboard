@@ -637,7 +637,7 @@ class YutGame {
             ctx.strokeStyle = 'rgba(90,60,30,0.7)'; ctx.lineWidth = 2; ctx.stroke();
         }
         const s0 = this.nodePos(0);
-        ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = `${Math.floor(this.W*0.03)}px Outfit, sans-serif`;
+        ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.font = `${Math.floor(this.W*0.03)}px 'Pretendard Variable', sans-serif`;
         ctx.textAlign='center'; ctx.fillText(this.en?'START':'출발', s0.x, s0.y - this.W*0.06);
 
         // 말
@@ -658,7 +658,7 @@ class YutGame {
             ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
             const cnt = this.tokensAt(pk, +node).length;
             if (cnt > 1) {
-                ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.floor(this.W*0.035)}px Outfit, sans-serif`;
+                ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.floor(this.W*0.035)}px 'Pretendard Variable', sans-serif`;
                 ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(cnt, x, y); ctx.textBaseline='alphabetic';
             }
         });
@@ -698,7 +698,7 @@ class YutGame {
                 ctx.beginPath(); ctx.arc(opt.x, opt.y, this.W*0.04, 0, Math.PI*2);
                 ctx.fillStyle = `rgba(34,197,94,${0.25 + 0.25*this.glow})`; ctx.fill();
                 ctx.strokeStyle = `rgba(74,222,128,${a})`; ctx.lineWidth = 3; ctx.stroke();
-                ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.floor(this.W*0.03)}px Outfit, sans-serif`;
+                ctx.fillStyle = '#fff'; ctx.font = `bold ${Math.floor(this.W*0.03)}px 'Pretendard Variable', sans-serif`;
                 ctx.textAlign='center'; ctx.textBaseline='middle';
                 ctx.fillText(this.en ? this.engName(opt.name)[0] : opt.name, opt.x, opt.y);
                 ctx.textBaseline='alphabetic';

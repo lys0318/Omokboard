@@ -576,7 +576,7 @@ class DotsGame {
                 ctx.restore();
 
                 ctx.fillStyle = owner === 'red' ? 'rgba(127,29,29,0.55)' : 'rgba(30,64,175,0.55)';
-                ctx.font = `800 ${Math.floor(cs * 0.3)}px Outfit, sans-serif`;
+                ctx.font = `800 ${Math.floor(cs * 0.3)}px 'Pretendard Variable', sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(owner === 'red' ? 'R' : 'B', p.x + cs / 2, p.y + cs / 2);
