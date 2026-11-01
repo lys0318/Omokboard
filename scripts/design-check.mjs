@@ -48,6 +48,9 @@ const PAIRS = [
   ['--text-main', '--bg-dark'], ['--text-main', '--surface'], ['--text-muted', '--surface'], ['--text-muted', '--bg-dark'],
   ['#fff', '--pop-red'], ['#fff', '--pop-blue'], ['--on-yellow', '--pop-yellow'], ['--accent-blue', '--bg-dark'],
   ['--on-yellow', '--accent-blue-hover'], ['#fff', '--accent-hover'],
+  // 부품(Task 3): 모드 버튼 글자·설명, 부제 스티커, 보조 버튼(평소·올림)
+  ['--bg-dark', '--text-main'], ['#5a4a3a', '--text-main'], ['#5a4a3a', '#ffffff'],
+  ['--text-main', '--surface-2'], ['--text-main', '#42332a'],
 ];
 for (const [a, b] of PAIRS) {
   const ca = color(a.startsWith('#') ? a : `var(${a})`), cb = color(b.startsWith('#') ? b : `var(${b})`);
