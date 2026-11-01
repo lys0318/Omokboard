@@ -50,7 +50,7 @@
             text-align: center; font-size: 0.75rem; padding: 0;
             transition: background 0.15s, transform 0.15s;
         }
-        .ladder-top-btn:hover { background: var(--accent-blue); }
+        .ladder-top-btn:hover { background: var(--accent-blue); color: var(--on-yellow); }
         .ladder-top-btn.done { background: rgba(255,255,255,0.03); color: var(--text-muted); }
         .ladder-result-input {
             position: absolute; top: 0; transform: translateX(-50%);
@@ -93,7 +93,7 @@
     }
     </script>
 </head>
-<body>
+<body data-cat="solo">
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>

@@ -62,5 +62,35 @@ for (const k of ['--font-display', '--font-body']) {
   check(`${k} 대체 글꼴`, v.includes("'Malgun Gothic'") && /sans-serif\s*$/.test(v), v || '없음');
 }
 
+// 4) 게임 페이지 분류 표시 <body data-cat>
+for (const [cat, games] of Object.entries(GAMES)) {
+  for (const g of games) {
+    const body = (read(`${g}.html`).match(/<body[^>]*>/) || [''])[0];
+    check(`${g}.html: data-cat="${cat}"`, body.includes(`data-cat="${cat}"`), body);
+  }
+}
+
+// 5) 노랑(--accent-blue) 배경 위 밝은 글자 금지 — 규칙·인라인 style 하나하나 검사
+const LIGHT = /^(#fff|#ffffff|white|var\(--text-main\))$/i;
+const BG_YELLOW = /background(?:-color)?\s*:[^;]*var\(--accent-blue(?:-hover)?\)/;
+const colorOf = (decl) => ((decl.match(/(?:^|[;\s{])color\s*:\s*([^;]+)/) || [])[1] || '').trim();
+for (const f of pages) {
+  const h = read(f);
+  const rules = [];
+  for (const [, block] of h.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
+    for (const [, sel, decl] of block.matchAll(/([^{}]+)\{([^{}]*)\}/g)) rules.push({ sel: sel.trim(), decl });
+  }
+  const base = Object.fromEntries(rules.map((r) => [r.sel, r.decl]));
+  for (const r of rules) {
+    if (!BG_YELLOW.test(r.decl)) continue;
+    let c = colorOf(r.decl);
+    if (!c && r.sel.includes(':hover')) c = colorOf(base[r.sel.replace(/:hover/g, '')] || '');
+    check(`${f}: 노랑 배경 위 밝은 글자 (${r.sel})`, !LIGHT.test(c), c);
+  }
+  for (const [, decl] of h.matchAll(/style="([^"]*)"/g)) {
+    if (BG_YELLOW.test(decl)) check(`${f}: 노랑 배경 위 밝은 글자 (인라인)`, !LIGHT.test(colorOf(decl)), decl.slice(0, 80));
+  }
+}
+
 if (failed) { console.log(`${failed}개 실패`); process.exit(1); }
 console.log('OK');

@@ -57,7 +57,7 @@
             transition: background 0.15s, border-color 0.15s;
         }
         .yut-chip:hover { background: rgba(59,130,246,0.2); }
-        .yut-chip.sel { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
+        .yut-chip.sel { background: var(--accent-blue); border-color: var(--accent-blue); color: var(--on-yellow); }
         .yut-scores { display: flex; gap: 1.2rem; font-weight: 700; font-size: 0.9rem; }
         #yut-p1-info { color: #ef4444; }
         #yut-p2-info { color: #3b82f6; }
@@ -138,7 +138,7 @@
 }
     </script>
 </head>
-<body>
+<body data-cat="trad">
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok" class="game-nav-item" data-i18n="nav.omok">오목</a>
@@ -241,7 +241,7 @@
                 <div class="player active" id="yut-player-p1">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ff7070,#b91c1c);"></div>
                     <span class="player-name" id="yut-p1-info"><span class="ko-only">나 0/4</span><span class="en-only" style="display:none;">You 0/4</span></span>
-                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:var(--on-yellow);font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
                 </div>
@@ -251,7 +251,7 @@
                 <div class="player" id="yut-player-p2">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);"></div>
                     <span class="player-name" id="yut-p2-info"><span class="ko-only">상대 0/4</span><span class="en-only" style="display:none;">AI 0/4</span></span>
-                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:var(--on-yellow);font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
                 </div>
