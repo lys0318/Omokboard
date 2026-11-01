@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(.3, 1.5, .5, 1)",
+        "createdAt": "2026-11-01T16:03:32.480Z",
+        "reason": "User approved 'slight bounce' pop motion (놀이판 팝 direction A, motion level 2) in spec 2026-11-02 §6"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-01T16:04:24.984Z",
+        "reason": "Home card .game-card-visual frames hold full-bleed mini board pictures (no text); inset would shrink the artwork"
+      }
+    ]
+  }
+}

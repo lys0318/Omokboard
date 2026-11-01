@@ -859,9 +859,8 @@ footer {
 }
 
 .footer-copy {
-    color: var(--text-muted);
+    color: var(--text-muted); /* 투명도를 주면 대비가 3.6:1로 떨어진다 */
     font-size: 0.8rem;
-    opacity: 0.6;
 }
 
 
