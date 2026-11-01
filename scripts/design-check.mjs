@@ -95,5 +95,12 @@ for (const f of pages) {
   }
 }
 
+// 6) 연출 스크립트 fx.js: 14개 게임 페이지에만
+const gameFiles = new Set(Object.values(GAMES).flat().map((g) => `${g}.html`));
+for (const f of pages) {
+  const has = read(f).includes('<script src="/fx.js?v=1" defer></script>');
+  check(`${f}: fx.js ${gameFiles.has(f) ? '포함' : '없음'}`, has === gameFiles.has(f));
+}
+
 if (failed) { console.log(`${failed}개 실패`); process.exit(1); }
 console.log('OK');
