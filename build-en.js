@@ -13,6 +13,7 @@ const DATES_FILE = path.join(DIR, 'page-dates.json');
 const DATES = JSON.parse(fs.readFileSync(DATES_FILE, 'utf8'));
 const TODAY = new Date().toLocaleDateString('sv-SE'); // 로컬(KST) YYYY-MM-DD
 const bodyText = h => (h.split('<body')[1] || '')
+  .replace(/^[^>]*>/, '>') // <body data-cat="…"> 같은 속성은 본문이 아니다(맨 앞 '>'는 예전 해시와 같게 남김)
   .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<nav[\s\S]*?<\/nav>|<footer[\s\S]*?<\/footer>/g, '')
   .replace(/<p class="article-meta"[\s\S]*?<\/p>/g, '')
   .replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/g, ' ').replace(/\s+/g, ' ').trim();

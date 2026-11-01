@@ -33,8 +33,10 @@
     <meta name="twitter:description" content="Play free online Ttakji, the Korean paper-flipping game: slam your tile beside your opponent's to flip it and take it. vs AI (easy/normal/hard), 2-player, or online by room code. No install.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v=15">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+    <link rel="stylesheet" href="/style.css?v=16">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -59,7 +61,7 @@
         .tj-gauge-fill { height: 100%; width: 0; background: linear-gradient(90deg, #f2a97e, #bd4c20); }
         #tj-hit-btn { width: 100%; min-height: 3rem; font-size: 1.1rem; }
         #tj-hit-btn:disabled { opacity: 0.45; cursor: default; }
-        #tj-hit-btn.armed { background: #c0392b; }
+        #tj-hit-btn.armed { background: #c0392b; color: #fff; }
         #tj-info { color: var(--text-muted); font-size: 0.95rem; text-align: center; min-height: 1.4em; }
         .tj-table-wrap { overflow-x: auto; margin: 0.6rem 0; }
         .tj-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
@@ -151,7 +153,7 @@
 }
     </script>
 </head>
-<body>
+<body data-cat="trad">
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok" class="game-nav-item" data-i18n="nav.omok">Omok</a>
@@ -690,6 +692,7 @@
       }
     })();
     </script>
+    <script src="/fx.js?v=1" defer></script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>

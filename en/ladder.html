@@ -33,8 +33,10 @@
     <meta name="twitter:description" content="Play a free online ladder game (Amidakuji). 2–6 players, type your own results, and let a random ladder decide. No install.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v=15">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+    <link rel="stylesheet" href="/style.css?v=16">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -49,7 +51,7 @@
             text-align: center; font-size: 0.75rem; padding: 0;
             transition: background 0.15s, transform 0.15s;
         }
-        .ladder-top-btn:hover { background: var(--accent-blue); }
+        .ladder-top-btn:hover { background: var(--accent-blue); color: var(--on-yellow); }
         .ladder-top-btn.done { background: rgba(255,255,255,0.03); color: var(--text-muted); }
         .ladder-result-input {
             position: absolute; top: 0; transform: translateX(-50%);
@@ -92,7 +94,7 @@
     }
     </script>
 </head>
-<body>
+<body data-cat="solo">
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok" class="game-nav-item" data-i18n="nav.omok">Omok</a>
@@ -199,6 +201,7 @@
 
     <script src="/lang.js?v=13"></script>
     <script src="/ladder.js?v=6"></script>
+    <script src="/fx.js?v=1" defer></script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>

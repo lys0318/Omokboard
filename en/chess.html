@@ -33,8 +33,10 @@
     <meta name="twitter:description" content="Play free online Chess with full rules, including castling, en passant, and promotion. Play vs AI or 2-player, no install.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v=15">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+    <link rel="stylesheet" href="/style.css?v=16">
     <!-- chess.js for move validation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <style>
@@ -150,7 +152,7 @@
     }
     </script>
 </head>
-<body>
+<body data-cat="brain">
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok" class="game-nav-item" data-i18n="nav.omok">Omok</a>
@@ -252,7 +254,7 @@
                 <div class="player black active" id="chess-player-white">
                     <div class="stone-preview" style="background:#f0d9b5;border-radius:4px;width:20px;height:20px;border:1px solid rgba(255,255,255,0.3);"></div>
                     <span class="player-name" id="chess-white-label" data-i18n="chess.white">White</span>
-                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:var(--on-yellow);font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
                 </div>
@@ -262,7 +264,7 @@
                 <div class="player white" id="chess-player-black">
                     <div class="stone-preview" style="background:#1e1e1e;border-radius:4px;width:20px;height:20px;border:1px solid rgba(255,255,255,0.3);"></div>
                     <span class="player-name" id="chess-black-label" data-i18n="chess.black">Black</span>
-                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:var(--on-yellow);font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
                 </div>
@@ -538,6 +540,7 @@
       }
     })();
     </script>
+    <script src="/fx.js?v=1" defer></script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>

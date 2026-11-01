@@ -33,8 +33,10 @@
     <meta name="twitter:description" content="Play free online Yut Nori. Throw the yut sticks and race all four mal home first. Play vs AI or 2-player, no install.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css?v=15">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+    <link rel="stylesheet" href="/style.css?v=16">
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8051681065734198"
      crossorigin="anonymous"></script>
@@ -56,7 +58,7 @@
             transition: background 0.15s, border-color 0.15s;
         }
         .yut-chip:hover { background: rgba(59,130,246,0.2); }
-        .yut-chip.sel { background: var(--accent-blue); border-color: var(--accent-blue); color: #fff; }
+        .yut-chip.sel { background: var(--accent-blue); border-color: var(--accent-blue); color: var(--on-yellow); }
         .yut-scores { display: flex; gap: 1.2rem; font-weight: 700; font-size: 0.9rem; }
         #yut-p1-info { color: #ef4444; }
         #yut-p2-info { color: #3b82f6; }
@@ -137,7 +139,7 @@
 }
     </script>
 </head>
-<body>
+<body data-cat="trad">
     <div class="app-container">
         <nav class="game-nav">
             <a href="omok" class="game-nav-item" data-i18n="nav.omok">Omok</a>
@@ -240,7 +242,7 @@
                 <div class="player active" id="yut-player-p1">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#ff7070,#b91c1c);"></div>
                     <span class="player-name" id="yut-p1-info"><span class="ko-only">나 0/4</span><span class="en-only" style="display:none;">You 0/4</span></span>
-                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                    <span id="me-black" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:var(--on-yellow);font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
                 </div>
@@ -250,7 +252,7 @@
                 <div class="player" id="yut-player-p2">
                     <div class="stone-preview" style="background:radial-gradient(circle at 35% 35%,#70b0ff,#1d4ed8);"></div>
                     <span class="player-name" id="yut-p2-info"><span class="ko-only">상대 0/4</span><span class="en-only" style="display:none;">AI 0/4</span></span>
-                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:#fff;font-size:0.75rem;font-weight:700;">
+                    <span id="me-white" class="hidden" style="margin-left:0.4rem;padding:0.1rem 0.5rem;border-radius:1rem;background:var(--accent-blue);color:var(--on-yellow);font-size:0.75rem;font-weight:700;">
                         <span class="ko-only">나</span><span class="en-only" style="display:none;">Me</span>
                     </span>
                 </div>
@@ -683,6 +685,7 @@
       }
     })();
     </script>
+    <script src="/fx.js?v=1" defer></script>
     <script src="/analytics.js?v=1" defer></script>
 </body>
 </html>
