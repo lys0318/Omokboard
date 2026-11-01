@@ -49,48 +49,120 @@
             align-items: center;
             gap: 2.5rem;
         }
-        .hub-header { width: 100%; text-align: center; animation: fadeInDown 0.8s ease-out; }
-        .hub-header h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: 0.15em;
-            color: var(--text-main);
+        /* 첫머리: 큰 제목 + 붙여 놓은 스티커 + 알약, 둘레에 바둑돌·딱지 장식 */
+        .hub-header {
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.85rem;
+            text-align: center;
+            padding-top: 0.5rem;
+            animation: popIn 0.45s var(--ease-pop) both;
         }
-        .hub-header p { color: var(--text-muted); font-size: 1.05rem; margin-top: 0.4rem; }
+        .hub-header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.8rem, 9vw, 4.2rem);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            color: var(--text-main);
+            text-shadow: 5px 5px 0 var(--ink);
+        }
+        .hub-header h1 .hl { color: var(--pop-yellow); }
+        .hero-tag {
+            font-weight: 800;
+            font-size: 1rem;
+            background: var(--text-main);
+            color: var(--bg-dark);
+            border: var(--line);
+            border-radius: 8px;
+            padding: 0.35rem 0.95rem;
+            box-shadow: 3px 3px 0 var(--ink);
+            transform: rotate(-1.5deg);
+        }
+        .hub-header p { color: var(--text-muted); font-size: 1rem; }
+        .hero-facts { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.45rem; }
+        .hero-facts li {
+            font-size: 0.82rem;
+            font-weight: 800;
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            padding: 0.2rem 0.75rem;
+        }
+        .hero-deco { position: absolute; border: var(--line); box-shadow: 3px 3px 0 var(--ink); pointer-events: none; }
+        .hero-deco.d1 { width: 34px; height: 34px; border-radius: 4px; background: var(--pop-red); left: 6%; top: 18px; transform: rotate(-14deg); }
+        .hero-deco.d2 { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #555, #111); left: 13%; top: 92px; }
+        .hero-deco.d3 { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff, #d4d4d4); right: 13%; top: 30px; }
+        .hero-deco.d4 { width: 30px; height: 30px; border-radius: 4px; background: var(--pop-blue); right: 6%; top: 96px; transform: rotate(18deg); }
 
-        .game-groups { width: 100%; display: flex; flex-direction: column; gap: 1.75rem; }
-        .game-group-title { font-size: 1.05rem; font-weight: 700; color: var(--text-muted); letter-spacing: 0.02em; margin-bottom: 0.75rem; }
+        /* 묶음: 분류 색 스티커 제목 + 카드마다 분류 색 그림자 (--c: 분류 색, --c-ink: 그 위 글자) */
+        .game-groups { width: 100%; display: flex; flex-direction: column; gap: 2rem; }
+        .game-group:nth-child(1) { --c: var(--pop-red); --c-ink: #fff; }
+        .game-group:nth-child(2) { --c: var(--pop-blue); --c-ink: #fff; --g: 0.12s; }
+        .game-group:nth-child(3) { --c: var(--pop-yellow); --c-ink: var(--on-yellow); --g: 0.24s; }
+        .game-group-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--c-ink);
+            background: var(--c);
+            border: var(--line);
+            border-radius: 8px;
+            padding: 0.3rem 0.9rem 0.2rem;
+            box-shadow: 3px 3px 0 var(--ink);
+            transform: rotate(-1.5deg);
+            margin-bottom: 1rem;
+        }
+        .game-group-title .count {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 800;
+            background: var(--ink);
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.1rem 0.5rem;
+        }
         .game-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 1rem;
+            gap: 1.1rem;
             width: 100%;
         }
         .game-card {
             min-width: 0;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1rem;
-            padding: 0.9rem;
+            background: var(--surface);
+            border: var(--line);
+            border-radius: 14px;
+            padding: 0.8rem;
+            box-shadow: 5px 5px 0 var(--c);
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.7rem;
-            transition: all 0.25s;
-            animation: fadeIn 0.8s ease-out;
+            gap: 0.65rem;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            animation: cardIn 0.45s var(--ease-pop) backwards;
+            animation-delay: var(--g, 0s);
         }
-        .game-card:hover {
-            background: rgba(189, 76, 32,0.08);
-            border-color: rgba(189, 76, 32,0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.45);
-        }
+        .game-card:nth-child(2) { animation-delay: calc(var(--g, 0s) + 0.04s); }
+        .game-card:nth-child(3) { animation-delay: calc(var(--g, 0s) + 0.08s); }
+        .game-card:nth-child(4) { animation-delay: calc(var(--g, 0s) + 0.12s); }
+        .game-card:nth-child(5) { animation-delay: calc(var(--g, 0s) + 0.16s); }
+        .game-card:nth-child(6) { animation-delay: calc(var(--g, 0s) + 0.2s); }
+        .game-card:hover { transform: translate(-2px, -3px) rotate(-1deg); box-shadow: 7px 8px 0 var(--c); }
+        .game-card:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--c); transition-duration: 0.08s; }
         .game-card-visual {
             width: 100%;
             aspect-ratio: 16/9;
-            border-radius: 0.75rem;
+            border: 2px solid var(--ink);
+            border-radius: 10px;
             overflow: hidden;
             position: relative;
         }
@@ -229,8 +301,9 @@
 
         .game-card-info { text-align: center; }
         .game-card-name {
-            font-size: 1.15rem;
-            font-weight: 800;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 400;
             color: var(--text-main);
             margin-bottom: 0.3rem;
         }
@@ -238,29 +311,35 @@
         .game-card-desc br, .game-card-desc br ~ span { display: none; }
         .play-badge {
             display: inline-block;
-            background: var(--accent-blue);
+            background: var(--pop-yellow);
             color: var(--on-yellow);
-            padding: 0.4rem 1.4rem;
+            font-family: var(--font-display);
+            font-size: 0.92rem;
+            font-weight: 400;
+            padding: 0.35rem 1.3rem 0.25rem;
+            border: 2px solid var(--ink);
             border-radius: 999px;
-            font-size: 0.88rem;
-            font-weight: 600;
+            box-shadow: 2px 2px 0 var(--ink);
             margin-top: 0.5rem;
-            transition: background 0.2s;
+            transition: background-color 0.15s;
         }
         .game-card:hover .play-badge { background: var(--accent-blue-hover); }
         .guide-strip {
             width: 100%;
-            background: rgba(255,255,255,0.035);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 1rem;
-            padding: 1.25rem 1.5rem;
-            animation: fadeIn 1s ease-out;
+            background: var(--surface);
+            border: var(--line);
+            border-radius: 14px;
+            box-shadow: var(--drop);
+            padding: 1.4rem 1.5rem;
+            animation: fadeIn 0.6s ease-out;
         }
         .guide-strip h2 {
-            font-size: 1rem;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 400;
             color: var(--text-main);
-            margin-bottom: 0.45rem;
-            letter-spacing: 0;
+            margin-bottom: 0.6rem;
+            letter-spacing: 0.01em;
         }
         .guide-strip p {
             color: var(--text-muted);
@@ -281,16 +360,21 @@
             gap: 0.75rem;
             margin-top: 0.8rem;
         }
+        /* 읽을거리: 왼쪽 굵은 색 띠 (파랑·빨강·노랑 반복) */
         .guide-strip .home-read {
             display: block;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 0.75rem;
-            padding: 0.9rem 1rem;
+            background: var(--surface-2);
+            border: 2px solid var(--ink);
+            border-left: 8px solid var(--rc, var(--pop-blue));
+            border-radius: 10px;
+            box-shadow: 3px 3px 0 var(--ink);
+            padding: 0.85rem 1rem;
             font-weight: 400;
-            transition: border-color 0.2s;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
-        .guide-strip .home-read:hover { border-color: rgba(255,255,255,0.22); }
+        .guide-strip .home-read:nth-child(3n+2) { --rc: var(--pop-red); }
+        .guide-strip .home-read:nth-child(3n) { --rc: var(--pop-yellow); }
+        .guide-strip .home-read:hover { transform: translate(-1px, -2px); box-shadow: 4px 5px 0 var(--ink); }
         .home-read strong {
             display: block;
             color: var(--text-main);
@@ -308,13 +392,25 @@
         @media (max-width: 720px) {
             .hub-header { padding-top: 2.4rem; }
             .hub-header .hub-lang-btn { top: 0; }
+            /* 장식은 작게, 제목·언어 버튼과 겹치지 않는 안쪽으로 */
+            .hero-deco { scale: 0.75; }
+            .hero-deco.d1 { left: 2%; top: 52px; }
+            .hero-deco.d2 { left: 5%; top: 118px; }
+            .hero-deco.d3 { right: 4%; top: 58px; }
+            .hero-deco.d4 { right: 3%; top: 124px; }
+        }
+        /* 아주 좁으면 위쪽 두 장식은 제목 줄 위(언어 버튼 왼편)로 비킨다 — 영어 제목은 더 넓다 */
+        @media (max-width: 480px) {
+            .hub-header { padding-top: 3rem; }
+            .hero-deco.d1 { left: 3%; top: 0; }
+            .hero-deco.d3 { left: 16%; right: auto; top: 10px; }
         }
 
         @media (max-width: 500px) {
-            .game-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; } /* minmax(0,…): 고정 폭 미니 그림이 칸을 밀어내지 않게 */
-            .game-card { padding: 0.7rem; }
-            .play-badge { padding: 0.3rem 0.9rem; font-size: 0.8rem; }
-            .hub-header h1 { font-size: 2.5rem; }
+            .game-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; } /* minmax(0,…): 고정 폭 미니 그림이 칸을 밀어내지 않게 */
+            .game-card { padding: 0.65rem; box-shadow: 4px 4px 0 var(--c); }
+            .play-badge { padding: 0.3rem 0.9rem 0.2rem; font-size: 0.82rem; }
+            .hero-tag { font-size: 0.9rem; }
         }
     </style>
     <!-- Google AdSense -->
@@ -361,13 +457,24 @@
     <div class="hub-container">
         <header class="hub-header" style="position:relative;">
             <button id="lang-toggle" class="hub-lang-btn" onclick="window.toggleLang()">EN</button>
-            <h1><span class="ko-only">오목보드</span><span class="en-only" style="display:none;">Omokboard</span></h1>
+            <i class="hero-deco d1" aria-hidden="true"></i>
+            <i class="hero-deco d2" aria-hidden="true"></i>
+            <i class="hero-deco d3" aria-hidden="true"></i>
+            <i class="hero-deco d4" aria-hidden="true"></i>
+            <h1><span class="ko-only">오목<span class="hl">보드</span></span><span class="en-only" style="display:none;">Omok<span class="hl">board</span></span></h1>
+            <div class="hero-tag"><span class="ko-only">설치 없이, 가입 없이, 바로 한 판!</span><span class="en-only" style="display:none;">No install, no sign-up, just play!</span></div>
             <p data-i18n="index.subtitle">설치 없이 브라우저에서 바로 즐기는 무료 온라인 보드게임</p>
+            <ul class="hero-facts">
+                <li><span class="ko-only">게임 14종</span><span class="en-only" style="display:none;">14 games</span></li>
+                <li><span class="ko-only">AI 대전</span><span class="en-only" style="display:none;">vs AI</span></li>
+                <li><span class="ko-only">온라인 대전 10종</span><span class="en-only" style="display:none;">10 online</span></li>
+                <li><span class="ko-only">한국어 · English</span><span class="en-only" style="display:none;">Korean &amp; English</span></li>
+            </ul>
         </header>
 
         <div class="game-groups">
             <section class="game-group">
-                <h2 class="game-group-title"><span class="ko-only">한국 전통 놀이</span><span class="en-only" style="display:none;">Korean Traditional Games</span></h2>
+                <h2 class="game-group-title"><span class="ko-only">한국 전통 놀이</span><span class="en-only" style="display:none;">Korean Traditional Games</span> <span class="count">3</span></h2>
                 <div class="game-cards">
                 <!-- 윷놀이 -->
                 <a href="yut" class="game-card">
@@ -427,7 +534,7 @@
                 </div>
             </section>
             <section class="game-group">
-                <h2 class="game-group-title"><span class="ko-only">두뇌 대결</span><span class="en-only" style="display:none;">Head-to-Head Strategy</span></h2>
+                <h2 class="game-group-title"><span class="ko-only">두뇌 대결</span><span class="en-only" style="display:none;">Head-to-Head Strategy</span> <span class="count">6</span></h2>
                 <div class="game-cards">
                 <!-- 오목 -->
                 <a href="omok" class="game-card">
@@ -535,7 +642,7 @@
                 </div>
             </section>
             <section class="game-group">
-                <h2 class="game-group-title"><span class="ko-only">혼자 하는 퍼즐·도구</span><span class="en-only" style="display:none;">Solo Puzzles &amp; Tools</span></h2>
+                <h2 class="game-group-title"><span class="ko-only">혼자 하는 퍼즐·도구</span><span class="en-only" style="display:none;">Solo Puzzles &amp; Tools</span> <span class="count">5</span></h2>
                 <div class="game-cards">
                 <!-- 숫자야구 -->
                 <a href="number-baseball" class="game-card">
@@ -634,7 +741,7 @@
             </div>
             <div class="en-only" style="display:none;">
                 <h2>What Omokboard Is</h2>
-                <p>Omokboard is a free site that gathers 12 long-loved board games, like Omok, Chess, and Yut Nori, so you can play them right in your browser. There is no app to install and no account to create, and it works the same on a PC or a phone.</p>
+                <p>Omokboard is a free site that gathers 14 long-loved board games, like Omok, Chess, and Yut Nori, so you can play them right in your browser. There is no app to install and no account to create, and it works the same on a PC or a phone.</p>
                 <p>On your own, you can play against the AI or work through puzzles like Sudoku, Minesweeper, and 2048. With a friend next to you, pick 2-player mode and take turns on one device. With a friend somewhere else, use online play and connect with a 6-character room code. Online play works in Omok, Connect 4, Reversi, Dots and Boxes, Chess, Tic-Tac-Toe, Alkkagi, Ttakji, Yut Nori, and Number Baseball.</p>
                 <p>All 14 games have a guide covering the rules and beginner strategy. If a game is new to you, give it a quick read before your first round. Knowing where people usually get stuck saves you a lot of fumbling.</p>
                 <a href="guides">Browse all guides →</a>
