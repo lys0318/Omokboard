@@ -21,18 +21,18 @@
 
 ## 공략 가이드 (한국어)
 
-- [오목 공략](https://omokboard.com/omok-guide)
-- [사목 공략](https://omokboard.com/connect4-guide)
-- [리버시 공략](https://omokboard.com/reversi-guide)
-- [점잇기 공략](https://omokboard.com/dots-guide)
-- [체스 공략](https://omokboard.com/chess-guide)
+- [오목 규칙과 공략](https://omokboard.com/omok): 게임 페이지 아래에 규칙·전략·실측 포함
+- [사목 규칙과 공략](https://omokboard.com/connect4): 게임 페이지 아래에 규칙·전략·실측 포함
+- [리버시 규칙과 공략](https://omokboard.com/reversi): 게임 페이지 아래에 규칙·전략·실측 포함
+- [점잇기 규칙과 공략](https://omokboard.com/dots): 게임 페이지 아래에 규칙·전략·실측 포함
+- [체스 규칙과 공략](https://omokboard.com/chess): 게임 페이지 아래에 규칙·전략·실측 포함
 - [알까기 규칙과 공략](https://omokboard.com/alkkagi): 게임 페이지 아래에 규칙·요령·AI 설명 포함
 - [윷놀이 규칙과 공략](https://omokboard.com/yut): 게임 페이지 아래에 규칙·윷 확률·전략·AI 설명 포함
-- [스도쿠 공략](https://omokboard.com/sudoku-guide)
-- [틱택토 공략](https://omokboard.com/tictactoe-guide)
-- [지뢰찾기 공략](https://omokboard.com/minesweeper-guide)
-- [2048 공략](https://omokboard.com/2048-guide)
-- [사다리타기 공략](https://omokboard.com/ladder-guide)
+- [스도쿠 규칙과 공략](https://omokboard.com/sudoku): 게임 페이지 아래에 규칙·전략·실측 포함
+- [틱택토 규칙과 공략](https://omokboard.com/tictactoe): 게임 페이지 아래에 규칙·전략·실측 포함
+- [지뢰찾기 규칙과 공략](https://omokboard.com/minesweeper): 게임 페이지 아래에 규칙·전략·실측 포함
+- [2048 규칙과 공략](https://omokboard.com/2048): 게임 페이지 아래에 규칙·전략·실측 포함
+- [사다리타기 규칙과 공략](https://omokboard.com/ladder): 게임 페이지 아래에 규칙·전략·실측 포함
 
 ## Games (English)
 

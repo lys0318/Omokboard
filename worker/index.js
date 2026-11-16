@@ -9,8 +9,19 @@ const MOVED = {
   '/game-recommendations': '/free-board-games',
   '/board-games-for-kids': '/free-board-games',
   '/brain-training': '/free-board-games',
-  '/ladder-uses': '/ladder-guide',
-  '/chess-openings': '/chess-guide',
+  '/ladder-uses': '/ladder',
+  '/chess-openings': '/chess',
+  // 공략 본문을 게임 페이지 아래로 합침 (2026-11-17)
+  '/omok-guide': '/omok',
+  '/connect4-guide': '/connect4',
+  '/reversi-guide': '/reversi',
+  '/dots-guide': '/dots',
+  '/chess-guide': '/chess',
+  '/tictactoe-guide': '/tictactoe',
+  '/sudoku-guide': '/sudoku',
+  '/minesweeper-guide': '/minesweeper',
+  '/2048-guide': '/2048',
+  '/ladder-guide': '/ladder',
 };
 
 export default {

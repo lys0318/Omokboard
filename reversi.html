@@ -35,7 +35,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="style.css?v=17">
     <style>
         .reversi-game-area { display:flex; flex-direction:column; align-items:center; gap:0.3rem; }
         #reversi-canvas { border-radius:0.75rem; cursor:pointer; display:block; touch-action:none; box-shadow:0 16px 40px rgba(0,0,0,0.45); }
@@ -69,6 +69,46 @@
         }
       ]
     }
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "리버시와 오델로는 같나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "거의 같은 게임입니다. 오델로는 초기 배치와 규칙을 표준화한 상표명입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "중간에 한참 지고 있는데 뒤집을 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네. 모서리와 막판 계산으로 한두 수에 크게 역전되는 일이 흔합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "둘 곳이 없으면요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "자동으로 패스되고 상대가 계속 둡니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI는 얼마나 멀리 내다보나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "쉬움은 무작위로 두고, 보통은 한 수 앞만 봅니다. 어려움은 네 수 앞까지 읽고, 빈칸이 8개 이하로 남으면 끝까지 모두 읽습니다. 낮은 난이도로 먼저 모서리·X·C칸 감각을 익히는 걸 추천합니다."
+      }
+    }
+  ]
+}
     </script>
 </head>
 <body data-cat="brain">
@@ -215,20 +255,217 @@
             </ul>
         </section>
 
-        <section style="width:100%;max-width:var(--board-size);background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:1rem;padding:1.25rem 1.5rem;color:var(--text-muted);line-height:1.7;font-size:0.9rem;animation:fadeIn 1s ease-out;">
+        <div class="game-article">
             <div class="ko-only">
-                <h2 style="font-size:1.25rem;color:var(--text-main);margin-bottom:0.6rem;letter-spacing:0;">리버시, 이렇게 즐기세요</h2>
-                <p>리버시는 8×8 판에서 상대 돌을 양쪽으로 감싸 뒤집어, 마지막에 자기 색이 더 많은 쪽이 이기는 게임입니다. 한 수로 형세가 크게 뒤집히는 역전의 묘미가 있습니다.</p>
-                <p style="margin-top:0.6rem;">핵심은 <strong style="color:var(--text-main);">절대 뒤집히지 않는 모서리(코너)를 차지하는 것</strong>입니다. 모서리 옆 X·C칸은 코너를 내주기 쉬우니 피하세요. 초반엔 많이 뒤집기보다 적게 뒤집어 선택지를 남기는 편이 유리합니다.</p>
-                <p style="margin-top:0.7rem;"><a href="reversi-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">리버시 전체 공략 보기 →</a></p>
+                <section class="info-section">
+                    <h2>리버시, 마지막 수를 두기 전까진 아무도 모른다</h2>
+                    <p>리버시의 매력은 역전 그 자체에 있습니다. 판 전체가 내 색으로 뒤덮여 있어도 상대가 모서리 하나만 제대로 차지하면 다음 몇 수 만에 순식간에 뒤집힙니다. 8×8 판에서 흑·백을 번갈아 놓아 상대 돌을 양쪽에서 감싸 뒤집고 마지막에 더 많은 색을 가진 쪽이 이깁니다. 이 게임은 1883년 영국에서 만들어진 것으로 알려져 있고, 1970년대 초 일본에서 '오델로(Othello)'라는 이름으로 다시 나왔습니다. <a href="https://en.wikipedia.org/wiki/Reversi" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);font-size:0.85em;">[출처: 위키백과]</a></p>
+                    <p>초보와 고수를 가르는 기준은 딱 하나입니다. 많이 뒤집는 사람이 아니라 좋은 자리를 차지하는 사람이 이깁니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>게임의 목표와 규칙</h2>
+                    <ul class="rule-list">
+                        <li>중앙 4칸에 흑 2개·백 2개가 대각선으로 놓인 상태에서 흑부터 시작합니다.</li>
+                        <li>내 돌과 기존 내 돌 사이에 상대 돌이 일직선으로 끼어 있는 자리에만 둘 수 있습니다. 그 사이 상대 돌은 전부 내 색으로 뒤집힙니다.</li>
+                        <li>최소 한 개 이상 뒤집을 수 있는 칸에만 둘 수 있고 둘 곳이 없으면 자동으로 차례가 넘어갑니다. 양쪽 모두 둘 수 없으면 게임이 끝납니다.</li>
+                        <li>판이 끝났을 때 자기 색 돌이 더 많은 쪽이 이깁니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>모서리: 절대 뒤집히지 않는 유일한 자리</h2>
+                    <p>모서리 4칸은 한 번 차지하면 어떤 수를 써도 뒤집을 수 없는 완전한 안정석입니다. 그래서 모서리 하나의 가치는 보통 다른 칸 여러 개를 합친 것보다 큽니다. 게다가 모서리를 차지하면 거기서 뻗어 나가는 가장자리 돌들까지 덩달아 안정적으로 굳어지기 때문에 리버시 한 판의 큰 줄기는 결국 "누가 먼저, 누가 더 많이 모서리를 차지하느냐"로 요약됩니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>위험한 칸: 모서리를 스스로 헌납하는 자리</h2>
+                    <ul class="rule-list">
+                        <li><strong>X칸:</strong> 모서리에서 대각선으로 안쪽에 있는 칸. 여기 먼저 두면 상대가 그 자리를 뒤집으면서 자연스럽게 모서리까지 가져가기 쉬워서 초보가 가장 자주 저지르는 실수 자리입니다.</li>
+                        <li><strong>C칸:</strong> 모서리 바로 옆 가장자리 칸. X칸만큼은 아니어도 역시 모서리를 내주기 쉬운 자리입니다.</li>
+                        <li>모서리가 비어 있는 동안은 그 옆의 X·C칸을 건드리지 않는 것이 기본 원칙입니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>기동성: 적게 뒤집을수록 유리하다는 역설</h2>
+                    <p>초보는 한 수에 많이 뒤집는 걸 좋아하지만 정작 리버시를 잘 두는 사람은 반대로 움직입니다. 많이 뒤집을수록 내 돌이 판 안쪽 여기저기 노출되고 그만큼 상대가 둘 수 있는 자리(기동력)도 함께 늘어나기 때문입니다. 반대로 적게 뒤집으면 내 노출은 줄고 상대의 선택지도 줄어드니, 결국 나는 더 많은 자리 중에서 유리한 곳을 고를 여유가 생깁니다. "기동력을 넓히고 상대의 선택지를 좁힌다"는 이 감각이 중반 전략의 거의 전부입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>초반·중반·후반, 국면마다 다른 목표</h2>
+                    <ul class="rule-list">
+                        <li><strong>초반</strong>에는 욕심내지 말고 중앙 근처에서 적게 뒤집으며 안정적인 모양을 유지하는 데 집중하세요.</li>
+                        <li><strong>중반</strong>에는 모서리로 가는 길목을 계산하고 X·C칸은 피하면서 상대를 스스로 위험한 자리에 두게끔 유도합니다.</li>
+                        <li><strong>후반</strong>에는 남은 빈칸 개수를 세어 마지막 몇 수의 뒤집기를 정확히 계산해야 합니다. 막판 한 수로 수십 개가 한꺼번에 뒤집히는 일도 드물지 않습니다.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>오목보드 리버시 AI는 어떻게 두나</h2>
+                    <p>AI 대전에서는 사람이 흑으로 먼저 두고 AI가 백을 잡습니다.</p>
+                    <ul class="rule-list">
+                        <li><strong>쉬움</strong>은 둘 수 있는 칸 중 하나를 완전히 무작위로 고릅니다. 비어 있는 모서리를 그냥 지나치는 일도 많아서, 모서리와 X칸·C칸의 위치를 눈에 익히기 좋은 상대입니다.</li>
+                        <li><strong>보통</strong>은 한 수 앞만 봅니다. 둘 수 있는 칸마다 위치 점수, 뒤집는 돌 수, 그 수를 둔 뒤의 기동력(자기가 둘 수 있는 칸 수에서 내가 둘 수 있는 칸 수를 뺀 값)을 더해 점수를 매기고, 상위 세 곳 중 하나를 무작위로 고릅니다.</li>
+                        <li><strong>어려움</strong>은 자기 수와 내 응수를 번갈아 네 수 앞까지 읽습니다. 빈칸이 8개 이하로 남으면 끝까지 전부 읽어서, 마지막에 돌이 가장 많이 남는 수를 정확히 찾아 둡니다.</li>
+                    </ul>
+                    <p>AI가 판을 평가하는 위치 점수표에는 이 가이드의 원칙이 그대로 숫자로 들어 있습니다. 모서리는 +120점, X칸은 -45점, C칸은 -25점이고, 모서리에서 두 칸 떨어진 가장자리는 +20점입니다. 어려움 AI는 여기에 한 가지를 더 따집니다. 모서리가 이미 차 있으면 그 옆 X칸·C칸의 감점을 빼고 계산합니다. 모서리를 누가 가져간 뒤에는 그 옆 칸이 더 이상 모서리를 내주는 자리가 아니기 때문입니다.</p>
+                    <p>AI끼리 200판씩 붙여 보면 어려움이 보통과 쉬움을 99% 넘게 이겼고, 보통은 쉬움을 약 87% 이겼습니다. 보통 AI는 한 수 앞만 보기 때문에, 평범한 자리에 두면서 나에게 모서리로 가는 길을 열어주는 실수를 자주 합니다. AI가 둘 때마다 모서리에 둘 수 있게 됐는지 확인하는 습관을 들이면 보통 AI는 충분히 이길 수 있습니다. 어려움 AI는 그런 실수가 훨씬 적습니다. 다만 평가 기준이 위치 점수와 기동력뿐이라, 절대 뒤집히지 않는 돌(안정석)이 몇 개인지는 따로 세지 않습니다. 네 수보다 멀리서 갈리는 가장자리 싸움이 어려움 AI를 상대할 때 노려볼 만한 곳입니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 하는 실수</h2>
+                    <ul class="rule-list">
+                        <li>초반부터 욕심을 부려 많이 뒤집다가 돌을 판 여기저기 노출시키는 경우</li>
+                        <li>모서리가 비어 있는데 그 옆 X·C칸에 둬서 스스로 모서리를 헌납하는 경우</li>
+                        <li>중간 점수가 앞서거나 뒤진다고 일희일비하는 경우(리버시는 막판 역전이 흔한 게임입니다)</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>실력별 전략</h2>
+                    <p><strong>막 시작했다면</strong> 모서리와 X·C칸의 위치부터 눈에 익히세요. 다른 건 몰라도 이 원칙 하나만 지켜도 어이없이 지는 일은 크게 줄어듭니다.</p>
+                    <p><strong>어느 정도 손에 익었다면</strong> 뒤집는 개수를 의식적으로 줄여보세요. 당장은 손해처럼 느껴져도 기동력 싸움에서 유리해지는 게 눈에 보일 겁니다.</p>
+                    <p><strong>더 잘하고 싶다면</strong> 후반 빈칸 계산을 연습하세요. 남은 칸이 10개 안팎으로 줄어들면, 감에 맡기지 않고 실제로 몇 수까지 미리 그려보고 두는 습관이 승률을 크게 바꿉니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>난이도별 AI 실측</h2>
+                    <p>오목보드 AI끼리 직접 대국시켜 잰 결과입니다(2026년 10월 18일, 선공은 판마다 번갈아). 왼쪽 난이도가 오른쪽 난이도를 상대로 거둔 승률이고, 무승부는 반 판 승리로 셉니다.</p>
+                    <div class="table-wrap"><table>
+                        <thead><tr><th>대결</th><th>승률</th><th>판 수</th></tr></thead>
+                        <tbody>
+                            <tr><td>어려움 vs 보통</td><td>100%</td><td>200판</td></tr>
+                            <tr><td>보통 vs 쉬움</td><td>86.0%</td><td>200판</td></tr>
+                            <tr><td>어려움 vs 쉬움</td><td>99.5%</td><td>200판</td></tr>
+                        </tbody>
+                    </table></div>
+                    <ul class="rule-list">
+                        <li><strong>쉬움:</strong> 둘 수 있는 곳 중 무작위</li>
+                        <li><strong>보통:</strong> 한 수 앞 점수 상위 3곳 중 무작위</li>
+                        <li><strong>어려움:</strong> 4수 앞 탐색, 빈칸 8개 이하면 끝까지 계산</li>
+                    </ul>
+                    <p>어려움은 보통에게 200판 동안 한 판도 지지 않았습니다. 막판에 빈칸이 8개 이하로 줄면 끝까지 계산해서, 마지막 몇 수의 뒤집기 싸움에서 실수가 없습니다.</p>
+                    <p>어려움 AI의 한 수 계산 시간은 평균 20ms, 가장 길 때 258ms였습니다.</p>
+                    <p>다른 게임과의 비교와 측정 방법은 <a href="ai-benchmarks">AI 난이도 실측 기록</a>에 있습니다.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>자주 묻는 질문</h2>
+                    <ul class="rule-list">
+                        <li><strong>리버시와 오델로는 같나요?</strong> 거의 같은 게임입니다. 오델로는 초기 배치와 규칙을 표준화한 상표명입니다.</li>
+                        <li><strong>중간에 한참 지고 있는데 뒤집을 수 있나요?</strong> 네. 모서리와 막판 계산으로 한두 수에 크게 역전되는 일이 흔합니다.</li>
+                        <li><strong>둘 곳이 없으면요?</strong> 자동으로 패스되고 상대가 계속 둡니다.</li>
+                        <li><strong>AI는 얼마나 멀리 내다보나요?</strong> 쉬움은 무작위로 두고, 보통은 한 수 앞만 봅니다. 어려움은 네 수 앞까지 읽고, 빈칸이 8개 이하로 남으면 끝까지 모두 읽습니다. 낮은 난이도로 먼저 모서리·X·C칸 감각을 익히는 걸 추천합니다.</li>
+                    </ul>
+                </section>
             </div>
+
             <div class="en-only" style="display:none;">
-                <h2 style="font-size:1.25rem;color:var(--text-main);margin-bottom:0.6rem;letter-spacing:0;">How to Enjoy Reversi</h2>
-                <p>Reversi is played on an 8×8 board, flipping sandwiched discs; the player with more discs at the end wins. A single move can swing the whole board.</p>
-                <p style="margin-top:0.6rem;">The key is <strong style="color:var(--text-main);">capturing the corners</strong>, which can never be flipped. Avoid the X/C squares next to empty corners, and flip fewer discs early to keep your options open.</p>
-                <p style="margin-top:0.7rem;"><a href="reversi-guide" style="color:var(--accent-blue);font-weight:700;text-decoration:none;">Read the full Reversi guide →</a></p>
+                <section class="info-section">
+                    <h2>Reversi: Nobody Knows Until the Last Move Lands</h2>
+                    <p>Reversi's whole appeal is the comeback. Even if the board looks completely covered in your color, your opponent taking just one corner properly can flip the entire game within a few moves. Players alternate placing discs on an 8×8 board, flipping any opponent discs sandwiched in a line between two of their own, and whoever has more discs at the end wins. It dates to 1883 England, and in the early 1970s it came back in Japan under the trademarked name "Othello." <a href="https://en.wikipedia.org/wiki/Reversi" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted);font-size:0.85em;">[Source: Wikipedia]</a></p>
+                    <p>There's exactly one thing separating beginners from strong players: it's not who flips the most discs, it's who claims the right squares.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Objective &amp; Rules</h2>
+                    <ul class="rule-list">
+                        <li>Four discs start diagonally placed in the center (2 black, 2 white), and Black moves first.</li>
+                        <li>You may only play where opponent discs are sandwiched in a straight line between your new disc and an existing one of yours, and every sandwiched disc flips to your color.</li>
+                        <li>A legal move must flip at least one disc. If you have no legal move, your turn passes automatically. If neither player can move, the game ends.</li>
+                        <li>Whoever has more discs when the board is finished wins.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Corners: The Only Squares That Never Flip</h2>
+                    <p>The four corner squares, once claimed, can never be flipped by any sequence of moves. They're permanently stable. A single corner is usually worth more than several ordinary squares combined, and claiming one also helps stabilize the edge discs extending from it. Much of a Reversi game boils down to a simple question: who claims the corners, and how many.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Dangerous Squares: Handing Away a Corner for Free</h2>
+                    <ul class="rule-list">
+                        <li><strong>X-squares:</strong> diagonally adjacent to a corner. Playing here first often lets your opponent flip it and take the corner along with it. It's the single most common beginner mistake.</li>
+                        <li><strong>C-squares:</strong> edge squares next to a corner. Not quite as risky as X-squares, but they still tend to give the corner away.</li>
+                        <li>The basic rule: while a corner is still empty, leave its neighboring X and C squares alone.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Mobility: The Paradox of Flipping Less</h2>
+                    <p>Beginners love flipping as many discs as possible in one move. Strong players do the opposite. Flipping more exposes more of your discs across the board, which in turn gives your opponent more legal moves, in other words more mobility. Flip less, and your exposure shrinks while your opponent's options shrink too, leaving you with more squares to choose from and more freedom to pick a favorable one. Expanding your own mobility while narrowing your opponent's is essentially the entire midgame.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Opening, Middle, Endgame: Different Goals at Each Stage</h2>
+                    <ul class="rule-list">
+                        <li><strong>Opening:</strong> don't get greedy. Stay near the center, flip as little as possible, and keep a tidy, stable shape.</li>
+                        <li><strong>Middle:</strong> calculate your route to the corners, avoid X and C squares, and steer your opponent into taking the bad ones instead.</li>
+                        <li><strong>Endgame:</strong> count the remaining empty squares and calculate the final flips precisely, because a single late move can flip dozens of discs at once.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>How Omokboard's Reversi AI Plays</h2>
+                    <p>In AI games you play Black and move first, and the AI plays White.</p>
+                    <ul class="rule-list">
+                        <li><strong>Easy</strong> picks one of its legal moves completely at random. It often walks right past an open corner, which makes it a good partner for learning where the corners, X-squares, and C-squares are.</li>
+                        <li><strong>Normal</strong> looks only one move ahead. It scores each legal move by adding the square's position value, the number of discs flipped, and mobility after the move (how many moves it would have minus how many you would have), then picks at random from the top three.</li>
+                        <li><strong>Hard</strong> reads four moves ahead, alternating its moves and yours. Once 8 or fewer empty squares remain, it reads all the way to the end and finds the move that leaves it with the most discs.</li>
+                    </ul>
+                    <p>The position table the AI uses to evaluate the board puts this guide's principles into numbers. A corner is worth +120, an X-square -45, a C-square -25, and the edge square two steps from a corner +20. Hard also checks one more thing: once a corner is occupied, it drops the penalty for the X- and C-squares next to it. After someone owns that corner, those squares no longer hand it away.</p>
+                    <p>In 200-game AI-vs-AI matches, Hard beat both Normal and Easy in over 99% of games, and Normal beat Easy about 87% of the time. Because Normal looks only one move ahead, it often plays an ordinary square that still opens a path to a corner for you. Check whether a corner has opened up after every AI move, and Normal is very beatable. Hard makes that mistake far less often. Its evaluation only covers position values and mobility, though, so it never counts stable discs, the ones that can never be flipped. Edge battles that are decided more than four moves out are the place to look for an edge against Hard.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>Common Mistakes</h2>
+                    <ul class="rule-list">
+                        <li>Getting greedy early and flipping too much, leaving discs overexposed across the board.</li>
+                        <li>Playing an X or C square while the corner next to it is still empty, effectively handing it over.</li>
+                        <li>Reacting emotionally to the mid-game score, when comebacks in Reversi are common, not rare.</li>
+                    </ul>
+                </section>
+
+                <section class="info-section">
+                    <h2>Strategy by Skill Level</h2>
+                    <p><strong>Just starting out?</strong> Memorize where the corners and X/C squares sit. That one habit alone eliminates most of the embarrassing losses beginners run into.</p>
+                    <p><strong>Getting comfortable?</strong> Consciously flip fewer discs per move. It can feel like giving something up in the moment, but you'll start to notice the mobility advantage pay off.</p>
+                    <p><strong>Want to go further?</strong> Practice counting the endgame. Once fewer than about ten squares remain, actually calculating several moves ahead, instead of relying on feel, makes a real difference to your win rate.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>AI Difficulty, Measured</h2>
+                    <p>We had Omokboard's AI levels play each other (measured October 18, 2026, alternating who moves first). Each figure is the win rate of the first level against the second, with draws counted as half a win.</p>
+                    <div class="table-wrap"><table>
+                        <thead><tr><th>Matchup</th><th>Win rate</th><th>Games</th></tr></thead>
+                        <tbody>
+                            <tr><td>Hard vs Normal</td><td>100%</td><td>200</td></tr>
+                            <tr><td>Normal vs Easy</td><td>86.0%</td><td>200</td></tr>
+                            <tr><td>Hard vs Easy</td><td>99.5%</td><td>200</td></tr>
+                        </tbody>
+                    </table></div>
+                    <ul class="rule-list">
+                        <li><strong>Easy:</strong> Random legal move</li>
+                        <li><strong>Normal:</strong> Random pick from the top 3 one-move scores</li>
+                        <li><strong>Hard:</strong> Searches 4 moves ahead, to the end with 8 or fewer empty squares</li>
+                    </ul>
+                    <p>Hard did not lose a single one of 200 games to Normal. With 8 or fewer empty squares it calculates to the end, so it makes no mistakes in the last flipping battles.</p>
+                    <p>Hard spends 20 ms per move on average and 258 ms at most.</p>
+                    <p>For other games and the full method, see <a href="ai-benchmarks">AI Difficulty Benchmarks</a>.</p>
+                </section>
+
+                <section class="info-section">
+                    <h2>FAQ</h2>
+                    <ul class="rule-list">
+                        <li><strong>Are Reversi and Othello the same game?</strong> Nearly identical. Othello is a trademarked name for a standardized starting position and rule set.</li>
+                        <li><strong>Can I come back from way behind?</strong> Yes. Corners and precise endgame counting frequently flip the result dramatically in just one or two moves.</li>
+                        <li><strong>What if I have no legal move?</strong> You pass automatically and your opponent continues.</li>
+                        <li><strong>How far ahead does the AI think?</strong> Easy plays at random and Normal looks just one move ahead. Hard reads four moves ahead, and once 8 or fewer empty squares remain, it reads all the way to the end. Start on a lower difficulty to build a feel for corners and X/C squares first.</li>
+                    </ul>
+                </section>
             </div>
-        </section>
+        </div>
 
         <footer>
             <nav class="footer-nav">

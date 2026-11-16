@@ -20,15 +20,18 @@ describe('라우팅', () => {
   });
 
   it('www 주소는 경로·쿼리를 유지한 채 정본 주소로 301', async () => {
-    const res = await SELF.fetch('https://www.omokboard.com/omok-guide?x=1', { redirect: 'manual' });
+    const res = await SELF.fetch('https://www.omokboard.com/omok?x=1', { redirect: 'manual' });
     expect(res.status).toBe(301);
-    expect(res.headers.get('location')).toBe('https://omokboard.com/omok-guide?x=1');
+    expect(res.headers.get('location')).toBe('https://omokboard.com/omok?x=1');
   });
 
   it('합친 글의 옛 주소는 옮겨 간 곳으로 301 (영어판·.html 포함)', async () => {
     for (const [from, to] of [
       ['/yut-guide', '/yut'], ['/en/alkkagi-guide', '/en/alkkagi'], ['/korean-games.html', '/yut'],
-      ['/brain-training', '/free-board-games'], ['/en/chess-openings', '/en/chess-guide'], ['/ladder-uses', '/ladder-guide'],
+      ['/brain-training', '/free-board-games'],
+      // 공략을 게임 페이지로 합친 10종(2026-11-17), 예전에 공략으로 보내던 주소도 한 번에 게임으로
+      ['/omok-guide', '/omok'], ['/en/ladder-guide', '/en/ladder'], ['/2048-guide.html', '/2048'], ['/en/tictactoe-guide', '/en/tictactoe'],
+      ['/en/chess-openings', '/en/chess'], ['/ladder-uses', '/ladder'],
     ]) {
       const res = await SELF.fetch('https://omokboard.com' + from + '?x=1', { redirect: 'manual' });
       expect(res.status).toBe(301);
@@ -37,7 +40,7 @@ describe('라우팅', () => {
   });
 
   it('정본 주소의 페이지는 리다이렉트 없이 그대로', async () => {
-    const res = await SELF.fetch('https://omokboard.com/omok-guide', { redirect: 'manual' });
+    const res = await SELF.fetch('https://omokboard.com/omok', { redirect: 'manual' });
     expect(res.status).toBe(200);
   });
 });

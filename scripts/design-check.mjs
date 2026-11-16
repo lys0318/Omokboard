@@ -23,7 +23,7 @@ for (const f of pages) {
   check(`${f}: Black Han Sans 링크`, h.includes('fonts.googleapis.com/css2?family=Black+Han+Sans'));
   check(`${f}: Pretendard 링크`, h.includes('pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css'));
   check(`${f}: jsDelivr preconnect`, h.includes('rel="preconnect" href="https://cdn.jsdelivr.net"'));
-  check(`${f}: style.css?v=16`, h.includes('style.css?v=16'));
+  check(`${f}: style.css?v=17`, h.includes('style.css?v=17'));
 }
 for (const f of ['style.css', 'dots.js', 'yut.js']) check(`${f}: Outfit 없음`, !read(f).includes('Outfit'));
 

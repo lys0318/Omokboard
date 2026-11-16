@@ -719,7 +719,10 @@ body[data-cat="solo"] .mode-btn:hover .mode-icon { color: #b8860b; } /* 노랑�
 .game-article a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .game-article .rule-list { list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.4rem; }
 .game-article .rule-list li { position: relative; padding-left: 1.4rem; }
-.game-article table { border: 2px solid var(--ink); border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; }
+.game-article .table-wrap { overflow-x: auto; margin: 0.7rem 0; }
+.game-article table { width: 100%; font-size: 0.9rem; border: 2px solid var(--ink); border-collapse: separate; border-spacing: 0; border-radius: 10px; overflow: hidden; }
+.game-article th, .game-article td { text-align: left; padding: 0.45rem 0.6rem; }
+.game-article td { border-top: 1px solid #3d2f25; }
 .game-article th { background: var(--bg-dark); color: var(--text-main); }
 .game-article tbody tr:nth-child(even) td { background: #2f241d; }
 

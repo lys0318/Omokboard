@@ -98,17 +98,40 @@ class Ladder {
         }
     }
 
+    // 공정한 사다리: 가로줄을 무작위로만 그으면 9단으로는 섞임이 모자라 자기 자리 근처로 떨어지기 쉽다
+    // (6명이면 1번이 1번 결과 30%, 6번 결과 4%로 실측). 그래서 결과 배정을 균등한 무작위 순열로 먼저 정하고,
+    // 그 순열이 나오도록 가로줄을 놓는다(홀짝 정렬은 n단이면 충분). 남는 단에는 같은 줄을 두 번 연달아
+    // 넣어(서로 상쇄) 사다리 모양을 채운다. 검사: scripts/solo-stats.mjs ladder
     generateRungs(n) {
-        const rungs = [];
-        for (let r = 0; r < this.ROWS; r++) {
+        const randomRow = () => {
             const row = new Array(n - 1).fill(false);
             let i = 0;
             while (i < n - 1) {
                 if (Math.random() < 0.5) { row[i] = true; i += 2; }
                 else i += 1;
             }
-            rungs.push(row);
+            return row;
+        };
+        // 아래쪽 열 배치(order[열] = 그 열에 도착할 출발 번호)를 균등 무작위로
+        const order = [...Array(n).keys()];
+        for (let i = n - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [order[i], order[j]] = [order[j], order[i]];
         }
+        // order를 홀짝 교환으로 정렬하는 단들을 거꾸로 쌓으면 위(0,1,…)에서 order로 가는 사다리가 된다
+        const rungs = [];
+        for (let r = 0; r < n; r++) {
+            const row = new Array(n - 1).fill(false);
+            for (let i = r % 2; i < n - 1; i += 2) {
+                if (order[i] > order[i + 1]) { [order[i], order[i + 1]] = [order[i + 1], order[i]]; row[i] = true; }
+            }
+            rungs.unshift(row);
+        }
+        while (rungs.length + 2 <= this.ROWS) {
+            const row = randomRow(), at = Math.floor(Math.random() * (rungs.length + 1));
+            rungs.splice(at, 0, row, row.slice());
+        }
+        while (rungs.length < this.ROWS) rungs.splice(Math.floor(Math.random() * (rungs.length + 1)), 0, new Array(n - 1).fill(false));
         return rungs;
     }
 

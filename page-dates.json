@@ -1,8 +1,8 @@
 {
   "2048": {
     "published": "2026-07-06",
-    "modified": "2026-09-23",
-    "hash": "20c616d4cf7a08b39892f37babffb4d446eeef52"
+    "modified": "2026-11-17",
+    "hash": "337c051b8d5f4eaf5e7dc16279163fe7cbb86a00"
   },
   "index": {
     "published": "2026-03-17",
@@ -11,28 +11,28 @@
   },
   "omok": {
     "published": "2026-04-21",
-    "modified": "2026-09-24",
-    "hash": "441901d1f7a13137117d4c03c70a0832b004a0eb"
+    "modified": "2026-11-17",
+    "hash": "80259db902c0c42327a6d3ced5bf8e3654ee6f93"
   },
   "connect4": {
     "published": "2026-04-21",
-    "modified": "2026-09-24",
-    "hash": "2f6ab086ebea88a93587ea198db759fa5079357a"
+    "modified": "2026-11-17",
+    "hash": "4d3a187aa28f6167dc15e37a4d2a88e759239e31"
   },
   "reversi": {
     "published": "2026-04-25",
-    "modified": "2026-09-24",
-    "hash": "a86a3b971bea486ebd892ba9c9d0bc0ea112c5c0"
+    "modified": "2026-11-17",
+    "hash": "71ab3d44c9f309904ec4aeb329007ed84c4c915b"
   },
   "dots": {
     "published": "2026-04-26",
-    "modified": "2026-09-24",
-    "hash": "9862a748df5ffea6830e45995ce959819ade6fd9"
+    "modified": "2026-11-17",
+    "hash": "e9b5cdeedae6d56a80b24a388d9c739a74c8352e"
   },
   "chess": {
     "published": "2026-04-21",
-    "modified": "2026-09-24",
-    "hash": "5dc90ec0744dbe05c68d47fde006bafeb43d8486"
+    "modified": "2026-11-17",
+    "hash": "6c614958e65cb5f225918c14b6cb19c332071f31"
   },
   "alkkagi": {
     "published": "2026-04-21",
@@ -46,78 +46,28 @@
   },
   "sudoku": {
     "published": "2026-06-17",
-    "modified": "2026-09-24",
-    "hash": "5d3d22d4de4b2cb84457c0ed6e7a45bf9b35b42f"
+    "modified": "2026-11-17",
+    "hash": "b18175a58d3525723ac343b20c60791669cd82de"
   },
   "tictactoe": {
     "published": "2026-06-17",
-    "modified": "2026-09-24",
-    "hash": "20de7b3e6c842270a313673725ee4eba043bf67d"
+    "modified": "2026-11-17",
+    "hash": "6d81714a0681b186eb751ec01f5f9cadeb81d0fc"
   },
   "guides": {
     "published": "2026-04-26",
-    "modified": "2026-10-31",
-    "hash": "bc640b6502ac7b00a21a5f3a199c8ab6f3a971d2"
-  },
-  "omok-guide": {
-    "published": "2026-04-26",
-    "modified": "2026-09-23",
-    "hash": "a275eda521f7150acdaf2facef22bc8ad1953afe"
-  },
-  "connect4-guide": {
-    "published": "2026-04-26",
-    "modified": "2026-10-18",
-    "hash": "c6441efdcd5e01ed4841d0625770e3d030cff413"
-  },
-  "reversi-guide": {
-    "published": "2026-04-26",
-    "modified": "2026-10-18",
-    "hash": "2ac45da9b7ec9630f7ab65f6aa222dc0c1df6513"
-  },
-  "dots-guide": {
-    "published": "2026-04-26",
-    "modified": "2026-09-24",
-    "hash": "cf56218e1fd01e89b732c7c80a981ed26e546637"
-  },
-  "chess-guide": {
-    "published": "2026-04-26",
-    "modified": "2026-10-23",
-    "hash": "6611a83fafc6e29439eee936e74ecb7aa1a00553"
-  },
-  "sudoku-guide": {
-    "published": "2026-06-17",
-    "modified": "2026-10-18",
-    "hash": "29a6acac6fbbcc9a3ded8e1a459a4f26c3b67322"
-  },
-  "tictactoe-guide": {
-    "published": "2026-06-17",
-    "modified": "2026-09-23",
-    "hash": "d488d82222fe5fa7b7cd61a2f556c76745fd2238"
+    "modified": "2026-11-17",
+    "hash": "a0789ed13673505e09045c906cdfcd7dd57a99d9"
   },
   "minesweeper": {
     "published": "2026-07-06",
-    "modified": "2026-09-24",
-    "hash": "0959b2ad9053267bb2357d59df82f3bef5e763cd"
+    "modified": "2026-11-17",
+    "hash": "10c928fd7cf43f3960d9735c18380f9a332d9fb1"
   },
   "ladder": {
     "published": "2026-07-06",
-    "modified": "2026-09-23",
-    "hash": "acff30e69a563b8b94133ca429b65c56880aeb2f"
-  },
-  "minesweeper-guide": {
-    "published": "2026-07-07",
-    "modified": "2026-09-23",
-    "hash": "30276e8d51a4725e27ea90ede9029c9dab066eff"
-  },
-  "2048-guide": {
-    "published": "2026-07-07",
-    "modified": "2026-09-23",
-    "hash": "8d2cff30439bcc274e54ae5cf21c41d398ae24fd"
-  },
-  "ladder-guide": {
-    "published": "2026-07-07",
-    "modified": "2026-10-23",
-    "hash": "eabdcdf765924b4e9495d8ce077ba5d1677d35fd"
+    "modified": "2026-11-17",
+    "hash": "0c4ba7cbd9ed0f898541088f32a31f90090a080e"
   },
   "free-board-games": {
     "published": "2026-07-16",
