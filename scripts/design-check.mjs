@@ -102,5 +102,8 @@ for (const f of pages) {
   check(`${f}: fx.js ${gameFiles.has(f) ? '포함' : '없음'}`, has === gameFiles.has(f));
 }
 
+// 7) 후원 계좌 자리표시가 그대로 배포되지 않게
+check('about.html: 후원 계좌 자리표시가 남음', !read('about.html').includes('[계좌번호]'));
+
 if (failed) { console.log(`${failed}개 실패`); process.exit(1); }
 console.log('OK');
